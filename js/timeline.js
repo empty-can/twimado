@@ -8,10 +8,10 @@ var wait_time = 1000;
  * @returns
  */
 setInterval( function() {
-	if(document.getElementById("bottom") != null) {
-		var bottom = document.getElementById("bottom")
+	var bottom = document.getElementById("bottom");
+	
+	if(bottom != null) {
 		var rect =bottom.getBoundingClientRect().top;
-		var bh = document.getElementById("timeline").clientHeight ;
 
 		var mutterQueueLength = mutterQueue.length;
 		

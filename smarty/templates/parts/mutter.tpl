@@ -18,7 +18,9 @@
 		{/if}
 		{if count($mutter.mediaURLs) gt 1}
 	    <div class="scroll">
-		◀　◀　▶　▶
+		{for $var=1 to count($mutter.mediaURLs)}
+		　◀
+		{/for}
 		</div>
 		{/if}
 	    <div class="info">
@@ -39,7 +41,7 @@
 	    		</div>
 	    		<div class="text">
 			    	{$mutter.text}<br>
-			   		<a href="{$mutter.mutterURL}">投稿元</a>
+			   		<a href="{$mutter.mutterURL}" target="_blank">投稿元</a>
 	    		</div>
 	    	</div>
 	    	<div class="clear"></div>
