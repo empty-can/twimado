@@ -1,0 +1,116 @@
+.mutter {
+    width: 98vw;
+	margin: auto;
+}
+
+.scroll {
+	width: 100%;
+	font-size: large;
+	text-align: center;
+}
+
+.info {
+    width: 98vw;
+    max-width: 1024px;
+	margin: 2vh auto auto auto;
+}
+
+.sensitive {
+	width: 100%;
+	text-align: center;
+	color: red;
+	font-size:5em;
+}
+
+.tweet_media {
+    width: 98vw;
+	max-height: 85vh;
+
+	margin: 1vh 0 auto auto;
+}
+
+.media_box{
+	display: flex;
+	align-items: baseline;
+
+    width: 98vw;
+	height: auto;
+	max-height: 90vh;
+	
+	margin: 1vh 1vw auto auto;
+}
+.imgs_wrapper {
+	display: flex;
+	direction: rtl;
+
+	max-width: 97vw;
+	max-height: 90vh;
+
+	overflow: auto;
+
+	margin: 0 auto auto auto;
+}
+
+.img_wrapper {
+	display: block;
+	
+	width: auto;
+	height: auto;
+	max-width: 96vw;
+	max-height: 90vh;
+	border: solid 1px lightgray;
+	
+	margin: 0 0 0 0.5vh;
+}
+
+.img_wrapper img {
+	display: block;
+	
+	width: auto;
+	height: auto;
+	max-width: 96vw;
+	max-height: 85vh;
+}
+
+.icon {
+	width: 52px;
+	padding-top: 8px;
+}
+
+.icon img {
+	width: 48px;
+	margin: auto;
+	border-radius: 50%;
+}
+.profile {
+	width : -webkit-calc(100% - 52px);
+	width : -moz-calc(100% - 52px);
+	width : calc(100% - 52px);
+}
+
+.account {
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.account .name {
+	max-width: 70%;
+}
+.account .date {
+	background-color: white;
+	font-size: small;
+	max-width: 30%;
+}
+.account_name{
+	color: gray;
+	font-size: small;
+}
+
+.text{
+	width: 100%;
+	overflow-x: hidden;
+}
+
+#bottom {
+	margin: auto auto 25vh auto;
+}

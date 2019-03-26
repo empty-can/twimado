@@ -1,0 +1,46 @@
+<?php
+require_once ("init.php");
+
+class Toot extends StandardMutter implements Mutter {
+    
+    public function __construct($toot) {
+        if(is_array($toot))
+            $toot = (object)$toot;
+
+        $this->id = $toot->id;
+        $this->time = strtotime($toot->created_at);
+        $this->date = $this->date();
+
+        // リツイートだった場合、ツイートID以外の情報をリツイート元に差し替える処理を入れる
+        if (isset($toot->reblog)) {
+            $toot = $toot->reblog;
+            
+            if (is_array($toot))
+                $toot = (object) $toot;
+        }
+        
+        $this->originalId = $toot->id;
+        $this->originalTime = strtotime($toot->created_at);
+        $this->originalDate = $this->originalDate();
+        
+        $this->text = $toot->content;
+        
+        $this->mutterURL = $this->mutterBase.$this->id;
+        
+        $this->account = new MastodonAccount($toot->account);
+        
+        $this->comCount = "";
+        $this->favCount = $toot->favourites_count;
+        $this->reCount = $toot->reblogs_count;
+        
+        $this->sensitive = $toot->sensitive;
+        
+        // メディアURLを取得
+        if(isset($toot->media_attachments)) {
+            $this->mediaURLs = array();
+            foreach($toot->media_attachments as $media) {
+                $this->mediaURLs[] = (is_array($media)) ? ((object)$media)->url : $media->url;
+            }
+        }
+    }
+}

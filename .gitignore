@@ -1,0 +1,10 @@
+/init/twimado.ini
+/smarty/templates_c
+/.settings
+/*.project
+/*.buildpath
+/searchGoodAccount.php
+/test.php
+/tweets.php
+/helloworld.php
+/lists.php
