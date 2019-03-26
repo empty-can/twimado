@@ -17,7 +17,7 @@ $params = array(
     "hidden_sensitive" => $hidden_sensitive
     ,"domain" => $domain
     ,"id" => $id
-    ,"count" => 10
+    ,"count" => $count
 );
 
 $response = json_decode(getRequest($api, $params));

@@ -28,6 +28,7 @@ function array_last(array $array) {
  */
 function getRequest(string $url, array $params = array()) {
     $data = http_build_query($params, '', '&');
+//     myVarDump($url.'?'.$data);
     return file_get_contents($url.'?'.$data);
 }
 

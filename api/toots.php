@@ -9,10 +9,10 @@ if(empty($api)) {
     exit();
 }
 
-$domain = getPostParam('domain', 'pawoo.net');
-$local = getPostParam('local', 'true');
-$limit = getPostParam('limit', '40');
-$max_id = getPostParam('max_id', '');
+$domain = getGetParam('domain', 'pawoo.net');
+$local = getGetParam('local', 'true');
+$limit = getGetParam('limit', '40');
+$max_id = getGetParam('max_id', '');
 
 $params = array(
     "local" => $local,

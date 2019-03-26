@@ -68,7 +68,7 @@ function getMutter() {
 			console.log(textStatus);
 			console.log(errorThrown);
 			
-			alert("ajax通信に失敗しました\r\ntextStatus:"+textStatus+"\r\nerrorThrown:"+errorThrown);
+			alert("ajax通信に失敗しました\r\ntextStatus:"+textStatus+"\r\nerrorThrown:"+errorThrown+"\r\nXMLHttpRequest:"+XMLHttpRequest);
 			
 			bottom.innerHTML = '';
 			wait = true;
@@ -99,13 +99,21 @@ function getMutter() {
 			if(mutters_num<=0) {
 //				bottom.style.fontSize = '1em';
 //				bottom.innerHTML = '最後まで来ました。';
-				console.log("最後まで来ました");
-				wait = true;
+//				console.log("最後まで来ました");
+//				wait = true;
+				wait = false;
 			} else {
 
 //				var timeline = response['timeline'];
 //				var tweetNum = timeline.length;
 				keys = Object.keys(response['mutters']);
+				
+				keys.sort(function(a,b){
+					if( a > b ) return -1;
+					if( a < b ) return 1;
+					return 0;
+				});
+				
 				console.log(keys);
 				for (var i = 0; i < mutters_num; i++) {
 					tmp = response['mutters'][keys[i]];

@@ -8,6 +8,15 @@ $hidden_sensitive = getGetParam('hidden_sensitive', 'true');
 $max_id = getGetParam('oldest_id', '');
 $count = getGetParam('count', '');
 
+$response = array();
+$response['mutters'] = array();
+
+if($max_id==-1){
+    $response['oldest_id'] = -1;
+    echo json_encode($response);
+    exit();
+}
+
 if(empty($domain)) {
     echo "ドメインの指定がありません。";
     exit();
@@ -18,7 +27,6 @@ $params = array(
 );
 
 $api =  "";
-$response = null;
 
 if($domain=="twitter") {
     $api = AppURL . 'api/twitter/user_timeline.php';
@@ -40,9 +48,9 @@ if($domain=="twitter") {
         $params["max_id"] = $max_id;
     }
     if(empty($count)) {
-        $params['count'] = "40";
+        $params['limit'] = "40";
     } else {
-        $params['count'] = "$count";
+        $params['limit'] = "$count";
     }
     
     $response = getRequest($api, $params);
@@ -50,32 +58,41 @@ if($domain=="twitter") {
     echo "対応するAPIがありません。";
     exit();
 }
+// myVarDump($response);
 
 if(empty($response)) {
     echo "APIからのデータ取得に失敗しました。";
     exit();
 } else {
     $response = json_decode($response);
-    $oldest_id = $response->oldest_mutter->id;
+    
+    if(isset($response->oldest_mutter) && !empty($response->oldest_mutter))
+        $oldest_id = $response->oldest_mutter->id;
+    else
+        $oldest_id = -1;
 }
+
 
 $mutters = $response->mutters;
 
-$response = array();
-$response['mutters'] = array();
+$mutters = array_unique(obj_to_array($mutters), SORT_REGULAR);
+usort($mutters, "sort_mutter_by_time");
 
 // テンプレートを表示する
 $hidden_sensitive = ($hidden_sensitive=='true') ? true : false;
 $smarty->assign("hidden_sensitive", $hidden_sensitive);
 $smarty->assign("app_url", AppURL);
 
+$response = array();
+$response['mutters'] = array();
 foreach ($mutters as $mutter) {
-    $arrayed_mutter = obj_to_array($mutter);
-    $smarty->assign("mutter", $arrayed_mutter);
-    $response['mutters'][$arrayed_mutter['id']] = $smarty->fetch("parts/mutter.tpl");
+    $smarty->assign("mutter", $mutter);
+    $response['mutters'][$mutter['id']] = $smarty->fetch("parts/mutter.tpl");
 //     $response['mutters'][$mutter['id']] = htmlspecialchars($smarty->fetch("parts/mutter.tpl"));
 }
+// myVarDump($response['mutters']);
 
 $response['oldest_id'] = $oldest_id;
 
+// myVarDump(json_encode($response));
 echo json_encode($response);

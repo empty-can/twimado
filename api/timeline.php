@@ -10,8 +10,11 @@ $count = getGetParam('count', '');
 
 $mutters = array();
 
+$response = array();
+$response['mutters'] = array();
+
 // pawooの自分TL取得
-if(contains($mode, 'pawoo')) {
+if(contains($mode, 'pawoo') && ($pawoo_oldest_id!=-1)) {
     
     do {
         $params = array(
@@ -30,7 +33,8 @@ if(contains($mode, 'pawoo')) {
             $params['max_id'] = $pawoo_oldest_id;
         }
         
-        $response = json_decode(postRequest(AppURL . '/api/toots.php', $params), true);
+        $response = json_decode(getRequest(AppURL . '/api/toots.php', $params), true);
+        
         
         if(!is_array($response))
             break;
@@ -40,10 +44,13 @@ if(contains($mode, 'pawoo')) {
         //         myVarDump(array_last($pawoos));
         
         $mutters = array_merge($mutters, $response['mutters']);
-        //         myVarDump($oldest_id);
-        //         myVarDump(count($mutters));
-        
-        $pawoo_oldest_id = $pawoo_oldest['id'];
+            // myVarDump($oldest_id);
+            // myVarDump(count($mutters));
+            
+        if (isset($pawoo_oldest['id']))
+            $pawoo_oldest_id = $pawoo_oldest['id'];
+        else
+            $pawoo_oldest_id = - 1;
     }while(count($mutters)<1);
 }
 
@@ -67,14 +74,17 @@ if(contains($mode, 'pawoo')) {
 //         if(!is_array($response))
 //             break;
         
-//         $twitter_oldest = $response['oldest_mutter'];
-//         $mutters = array_merge($mutters, $response['mutters']);
-//         $twitter_oldest_id = $twitter_oldest['id'];
+
+// if (isset($twitter_oldest['id']))
+//     $twitter_oldest_id = $twitter_oldest['id'];
+// else
+//     $twitter_oldest_id = - 1;
 //     } while (count($mutters) < 30);
 // }
 
 // 自分のイラストリストTL取得
-if(contains($mode, 'twitter')) {
+if(contains($mode, 'twitter') && ($twitter_oldest_id!=-1)) {
+    
     do {
         $params = array(
             "list_id" => "1076465411418255360"
@@ -90,8 +100,8 @@ if(contains($mode, 'twitter')) {
             $params['max_id'] = $twitter_oldest_id;
         }
         
-        $response = json_decode(postRequest(AppURL . '/api/twitter/list.php', $params), true);
-
+        $response = json_decode(getRequest(AppURL . '/api/twitter/list.php', $params), true);
+        
         if(!is_array($response))
             break;
             
@@ -99,7 +109,12 @@ if(contains($mode, 'twitter')) {
         $twitter_oldest = $response['oldest_mutter'];
         
         $mutters = array_merge($mutters, $response['mutters']);
-        $twitter_oldest_id = $twitter_oldest['id'];
+        
+        if (isset($twitter_oldest['id']))
+            $twitter_oldest_id = $twitter_oldest['id'];
+        else
+            $twitter_oldest_id = - 1;
+        
     } while (count($mutters) < 1);
 }
 
@@ -108,17 +123,16 @@ if(contains($mode, 'twitter')) {
 $mutters = array_unique($mutters, SORT_REGULAR);
 usort($mutters, "sort_mutter_by_time");
 
-$response = array();
-$response['mutters'] = array();
-
 // テンプレートを表示する
 $hidden_sensitive = ($hidden_sensitive=='true') ? true : false;
 $smarty->assign("hidden_sensitive", $hidden_sensitive);
 $smarty->assign("app_url", AppURL);
 
+$response['mutters'] = array();
 foreach ($mutters as $mutter) {
     $smarty->assign("mutter", $mutter);
-    $response['mutters'][$mutter['id']] = $smarty->fetch("parts/mutter.tpl");
+    $html = $smarty->fetch("parts/mutter.tpl");
+    $response['mutters'][$mutter['id']] = $html;
 //     $response['mutters'][$mutter['id']] = htmlspecialchars($smarty->fetch("parts/mutter.tpl"));
 }
 

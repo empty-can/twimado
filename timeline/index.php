@@ -1,5 +1,4 @@
 <?php
-
 require_once ("init.php");
 
 $mode = getGetParam('mode', 'twitterpawoo');
@@ -8,9 +7,9 @@ $count = getGetParam('count', '10');
 $api = AppURL . 'api/timeline.php';
 
 $params = array(
-    "mode" => $mode,
-    "hidden_sensitive" => $hidden_sensitive,
-    "count" => 10
+    "mode" => $mode
+    ,"hidden_sensitive" => $hidden_sensitive
+    ,"count" => $count
 );
 
 $response = json_decode(getRequest($api, $params));
@@ -57,6 +56,8 @@ $embedded_js_int = [
 ];
 $smarty->assign("embedded_js_params", build_embededd_js_params($embedded_js_params_string, $embedded_js_params_int));
 $smarty->assign("embedded_js", build_embededd_js($embedded_js_string, $embedded_js_int));
+
+// myVarDump($response->mutters);
 
 $smarty->assign("mutters", $response->mutters);
 

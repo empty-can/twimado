@@ -90,6 +90,7 @@ final class HttpRequest
      */
     public function Get($path = "", $parameters = array(), $headers = array()){
         //Sen the request and return response
+        
         return self::http_request(
             "GET", 
             self::$base_url.self::$base_path.$path, 
@@ -164,7 +165,8 @@ final class HttpRequest
          * @version 1.1 Updated method
          */
         $response = @file_get_contents($url, null, $context);
-
+        
+//         myVarDump($http_response_header);
         //If we have an error or not
         if ($response === FALSE) {
             $error = "<pre>" . print_r(error_get_last(), true) . "</pre>";
@@ -194,6 +196,7 @@ final class HttpRequest
      */
     private static function debug_response($url, $context){
         //Get and debug headers
+//         myVarDump($url);
         if(self::$debug){
             //Get meta data for debugging
             $fp = @fopen($url, "r", false, $context);
