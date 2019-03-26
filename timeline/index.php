@@ -51,8 +51,6 @@ $embedded_js_params_int = [
 
 $embedded_js_string = [
     "api" => $api
-    ,"twitter_oldest_id" => $twitter_oldest_id
-    ,"pawoo_oldest_id" => $pawoo_oldest_id
 ];
 $embedded_js_int = [
     "count" => $count

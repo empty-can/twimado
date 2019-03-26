@@ -56,7 +56,6 @@ $embedded_js_params_int = [
 
 $embedded_js_string = [
     "api" => $api
-    ,"oldest_id" => $oldest_id
 ];
 $embedded_js_int = [
     "count" => $count
