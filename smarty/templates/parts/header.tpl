@@ -14,6 +14,7 @@
     </head>
   <body>
 	<script type="text/javascript">
-{$embedded_js}
+	{$embedded_js}
+	{$embedded_js_params}
 	</script>
   

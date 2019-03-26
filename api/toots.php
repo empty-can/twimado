@@ -15,7 +15,6 @@ $limit = getPostParam('limit', '40');
 $max_id = getPostParam('max_id', '');
 
 $params = array(
-    "screen_name" => $domain,
     "local" => $local,
     "count" => $limit
 );

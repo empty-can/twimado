@@ -1,6 +1,21 @@
 <?php
 require_once ("init.php");
 
+/**
+ * オブジェクトを配列に変換する関数
+ * 
+ * @param $object
+ * @return mixed
+ */
+function obj_to_array($object) {
+    return json_decode(json_encode($object), true);
+}
+/**
+ * 配列の最後の要素を取得する関数
+ * 
+ * @param array $array
+ * @return mixed
+ */
 function array_last(array $array) {
     return end($array);
 }

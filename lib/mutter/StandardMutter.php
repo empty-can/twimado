@@ -23,6 +23,7 @@ abstract class StandardMutter implements Mutter {
     public $mediaURLs = null;
     
     public $providerIcon = "初期値";
+    public $domain = "初期値";
     public $mutterBase = "初期値";
     public $mutterURL = "初期値";
     
@@ -97,6 +98,6 @@ abstract class StandardMutter implements Mutter {
     }
     
     public function convertArray() {
-        return json_decode(json_encode($this), true);
+        return obj_to_array($this);
     }
 }

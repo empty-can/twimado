@@ -43,12 +43,22 @@ function getMutter() {
 	if(wait==true)
 		return;
 
-	if(count<0)
+	if(count<=0)
 		return;
+	
+	url=api+'?';
+	
+	for (key in params) {
+		url = url+key+'=' + params[key]+'&';
+	}
+	
+	url = url.slice( 0, -1) ;
+	
+	console.log(url);
 
 	wait = true;
 	$.ajax({
-		url : api+"?hidden_sensitive="+hidden_sensitive+"&pawoo_oldest_id="+pawoo_oldest_id+"&twitter_oldest_id="+twitter_oldest_id,
+		url : url,
 		type : "GET",
 		dataType:"json",
 //		data : {'params' : params},
@@ -71,11 +81,13 @@ function getMutter() {
 			console.log('pawoo_oldest_id:'+pawoo_oldest_id);
 			twitter_oldest_id = response['twitter_oldest_id'];
 			console.log('twitter_oldest_id:'+twitter_oldest_id);
+			oldest_id = response['oldest_id'];
+			console.log('oldest_id:'+oldest_id);
 //			$('#timeline').after('<p>'+response['max_id']+'</p>');
 			
 			mutters_num = Object.keys(response['mutters']).length;
 
-			if(mutters_num<0) {
+			if(mutters_num<=0) {
 //				bottom.style.fontSize = '1em';
 //				bottom.innerHTML = '最後まで来ました。';
 				console.log("最後まで来ました");
@@ -92,8 +104,8 @@ function getMutter() {
 				}
 				
 				console.log("取得できました");
+				wait = false;
 			}
-			wait = false;
 		}
 	});
 }

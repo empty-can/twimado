@@ -28,11 +28,14 @@
 	    		<img src="{$mutter.account.profileImage}" style="width:32px">
 	    		<img src="{$mutter.providerIcon}" style="width:32px">
 	    	</div>
+	    	
 	    	<div class="profile left">
 	    		<div class="account">
 	    			<div class="name left">
-	    				{$mutter.account.displayName}
-	    				<span class="account_name">@{$mutter.account.accountName}</span>
+	    				<a href="{$app_url}user_timeline/?domain={$mutter.domain}&id={$mutter.account.id}&hidden_sensitive={var_export($hidden_sensitive)}" target="_blank">
+		    				{$mutter.account.displayName}
+		    				<span class="account_name">@{$mutter.account.accountName}</span>
+	    				</a>
 	    			</div>
 	    			<div class="date left">
 	    				{$mutter.originalDate}

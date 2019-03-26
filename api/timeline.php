@@ -54,7 +54,7 @@ if(contains($mode, 'pawoo')) {
 // if(contains($mode, 'twitter')) {
 //     do {
 //         $params = array(
-//             "screen_name" => "orenoyome",
+//             "user_id" => "766219679631183872",
 //             "count" => "20"
 //         );
         
@@ -114,6 +114,7 @@ $response['mutters'] = array();
 // テンプレートを表示する
 $hidden_sensitive = ($hidden_sensitive=='true') ? true : false;
 $smarty->assign("hidden_sensitive", $hidden_sensitive);
+$smarty->assign("app_url", AppURL);
 
 foreach ($mutters as $mutter) {
     $smarty->assign("mutter", $mutter);

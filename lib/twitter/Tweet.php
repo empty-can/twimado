@@ -5,11 +5,12 @@ class Tweet extends StandardMutter implements Mutter {
     
     public $providerIcon = 'https://abs.twimg.com/responsive-web/web/icon-default.604e2486a34a2f6e1.png';
     public $mutterBase = "https://twitter.com/tyanmiaisiteru/status/";
+    public $domain = "twitter";
     
     public function __construct($tweet) {
         if(is_array($tweet))
             $tweet = (object)$tweet;
-        
+            
         $this->id = $tweet->id;
         $this->time = strtotime($tweet->created_at);
         $this->date = $this->date();
