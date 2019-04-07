@@ -72,6 +72,15 @@
 	max-height: 85vh;
 }
 
+.img_wrapper video {
+	display: block;
+	
+	width: auto;
+	height: auto;
+	max-width: 96vw;
+	max-height: 85vh;
+}
+
 .icon {
 	width: 52px;
 	padding-top: 8px;
@@ -100,6 +109,14 @@
 	background-color: white;
 	font-size: small;
 	max-width: 30%;
+}
+.account .rt {
+	background-color: white;
+	font-size: 12px;
+}
+.account .rt img {
+	height: 16px;
+	width: auto;
 }
 .account_name{
 	color: gray;

@@ -2,14 +2,46 @@
 require_once ("init.php");
 
 /**
- * オブジェクトを配列に変換する関数
+ * 文字列内のhttp文字列を<a>タグに。
  * 
+ * @param string $target
+ * @return string
+ */
+function decorateLinkTag(string $text, string $target="_blank") {
+    $pattern = '(https?://[-_.!~*\'()a-zA-Z0-9;/?:@&=+$,%#]+)';
+    $replacement = '<a href="\1" target="$target">\1</a>';
+    return mb_ereg_replace($pattern, $replacement, htmlspecialchars($text));
+}
+
+/**
+ *
+ * @param string $filename
+ * @param string $new_prefix
+ * @return mixed
+ */
+function replace_suffix(string $filename, string $new_prefix) {
+    return substr($filename, 0, strrpos($filename, '.')).$new_prefix;
+}
+/**
+ *
+ * @param string $filename
+ * @param string $new_prefix
+ * @return mixed
+ */
+function get_suffix(string $filename) {
+    return substr($filename, strrpos($filename, '.') + 1);
+}
+
+/**
+ * オブジェクトを配列に変換する関数
+ *
  * @param $object
  * @return mixed
  */
 function obj_to_array($object) {
     return json_decode(json_encode($object), true);
 }
+
 /**
  * 配列の最後の要素を取得する関数
  * 

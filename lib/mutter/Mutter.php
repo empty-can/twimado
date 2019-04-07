@@ -34,4 +34,6 @@ interface Mutter {
     public function mutterURL();
     
     public function convertArray();
+    
+    public function thumbnailURLs();
 }

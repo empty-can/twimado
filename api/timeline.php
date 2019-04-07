@@ -2,8 +2,8 @@
 
 require_once ("init.php");
 
-$mode = getGetParam('mode', 'twitterpawoo');
-$hidden_sensitive = getGetParam('hidden_sensitive', 'true');
+$domain = getGetParam('domain', 'twitterpawoo');
+$hs = getGetParam('hs', 'true');
 $pawoo_oldest_id = getGetParam('pawoo_oldest_id', '');
 $twitter_oldest_id = getGetParam('twitter_oldest_id', '');
 $count = getGetParam('count', '');
@@ -14,7 +14,7 @@ $response = array();
 $response['mutters'] = array();
 
 // pawooの自分TL取得
-if(contains($mode, 'pawoo') && ($pawoo_oldest_id!=-1)) {
+if(contains($domain, 'pawoo') && ($pawoo_oldest_id!=-1)) {
     
     do {
         $params = array(
@@ -24,9 +24,9 @@ if(contains($mode, 'pawoo') && ($pawoo_oldest_id!=-1)) {
         );
         
         if(empty($count)) {
-            $params['count'] = "40";
+            $params['limit'] = "40";
         } else {
-            $params['count'] = "$count";
+            $params['limit'] = "$count";
         }
         
         if(!empty($pawoo_oldest_id)) {
@@ -58,7 +58,7 @@ if(contains($mode, 'pawoo') && ($pawoo_oldest_id!=-1)) {
 // // myVarDump(count($mutters));
 
 // 横島ボットTL取得
-// if(contains($mode, 'twitter')) {
+// if(contains($domain, 'twitter')) {
 //     do {
 //         $params = array(
 //             "user_id" => "766219679631183872",
@@ -83,7 +83,7 @@ if(contains($mode, 'pawoo') && ($pawoo_oldest_id!=-1)) {
 // }
 
 // 自分のイラストリストTL取得
-if(contains($mode, 'twitter') && ($twitter_oldest_id!=-1)) {
+if(contains($domain, 'twitter') && ($twitter_oldest_id!=-1)) {
     
     do {
         $params = array(
@@ -124,15 +124,15 @@ $mutters = array_unique($mutters, SORT_REGULAR);
 usort($mutters, "sort_mutter_by_time");
 
 // テンプレートを表示する
-$hidden_sensitive = ($hidden_sensitive=='true') ? true : false;
-$smarty->assign("hidden_sensitive", $hidden_sensitive);
+$hs = ($hs=='true') ? true : false;
+$smarty->assign("hs", $hs);
 $smarty->assign("app_url", AppURL);
 
 $response['mutters'] = array();
 foreach ($mutters as $mutter) {
     $smarty->assign("mutter", $mutter);
     $html = $smarty->fetch("parts/mutter.tpl");
-    $response['mutters'][$mutter['id']] = $html;
+    $response['mutters'][$mutter['time']] = $html;
 //     $response['mutters'][$mutter['id']] = htmlspecialchars($smarty->fetch("parts/mutter.tpl"));
 }
 

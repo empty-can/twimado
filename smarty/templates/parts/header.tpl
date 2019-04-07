@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{AppContext}/css/common.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M:%S'}" />
 {foreach from=$csss item=css}
     <link rel="stylesheet" type="text/css" href="{AppContext}/css/{$css}.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M:%S'}" />
+    <link rel="stylesheet" type="text/css" href="{AppContext}/css/{$css}_m.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M:%S'}" />
 {/foreach}
     </head>
   <body>

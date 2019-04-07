@@ -4,7 +4,7 @@ require_once ("init.php");
 
 $domain = getGetParam('domain', '');
 $id = getGetParam('id', '');
-$hidden_sensitive = getGetParam('hidden_sensitive', 'true');
+$hs = getGetParam('hs', 'true');
 $max_id = getGetParam('oldest_id', '');
 $count = getGetParam('count', '');
 
@@ -23,7 +23,7 @@ if(empty($domain)) {
 }
 
 $params = array(
-    "hidden_sensitive" => $hidden_sensitive
+    "hs" => $hs
 );
 
 $api =  "";
@@ -79,15 +79,15 @@ $mutters = array_unique(obj_to_array($mutters), SORT_REGULAR);
 usort($mutters, "sort_mutter_by_time");
 
 // テンプレートを表示する
-$hidden_sensitive = ($hidden_sensitive=='true') ? true : false;
-$smarty->assign("hidden_sensitive", $hidden_sensitive);
+$hs = ($hs=='true') ? true : false;
+$smarty->assign("hs", $hs);
 $smarty->assign("app_url", AppURL);
 
 $response = array();
 $response['mutters'] = array();
 foreach ($mutters as $mutter) {
     $smarty->assign("mutter", $mutter);
-    $response['mutters'][$mutter['id']] = $smarty->fetch("parts/mutter.tpl");
+    $response['mutters'][$mutter['time']] = $smarty->fetch("parts/mutter.tpl");
 //     $response['mutters'][$mutter['id']] = htmlspecialchars($smarty->fetch("parts/mutter.tpl"));
 }
 // myVarDump($response['mutters']);

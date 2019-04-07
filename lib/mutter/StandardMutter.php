@@ -10,6 +10,7 @@ abstract class StandardMutter implements Mutter {
     public $text = "初期値";
     
     public $account = null;
+    public $retweeter = null;
     
     public $originalId = null;
     public $originalTime = null;
@@ -21,13 +22,12 @@ abstract class StandardMutter implements Mutter {
     public $sensitive = false;
     
     public $mediaURLs = null;
+    public $thumbnailURLs = null;
     
     public $providerIcon = "初期値";
     public $domain = "初期値";
     public $mutterBase = "初期値";
     public $mutterURL = "初期値";
-    
-    static protected $dateformat = "Y/n/d G:i:s";
     
     public function hasMedia() {
         return !empty($this->mediaURLs);
@@ -39,6 +39,10 @@ abstract class StandardMutter implements Mutter {
     
     public function mediaURLs() {
         return $this->mediaURLs;
+    }
+    
+    public function thumbnailURLs() {
+        return $this->thumbnailURLs;
     }
     
     public function comCount() {
@@ -58,11 +62,11 @@ abstract class StandardMutter implements Mutter {
     }
     
     public function date() {
-        return date(StandardMutter::$dateformat, $this->time);
+        return $this->time;
     }
     
     public function originalDate() {
-        return date(StandardMutter::$dateformat, $this->originalTime);
+        return $this->originalTime;
     }
     
     public function id() {
@@ -91,6 +95,10 @@ abstract class StandardMutter implements Mutter {
     
     public function originalTime() {
         return $this->originalTime;
+    }
+    
+    public function retweeter() {
+        return $this->retweeter;
     }
     
     public function mutterURL() {

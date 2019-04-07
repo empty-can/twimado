@@ -1,5 +1,6 @@
-    <div class="mutter">
-		{if $hidden_sensitive && $mutter.sensitive}
+	<div class="mutter">
+ 		{if !$mutter.isRe}{/if}
+		{if $hs && $mutter.sensitive}
 		<div class="sensitive">
 		 	🔞
 		</div>
@@ -7,9 +8,9 @@
 		<div id="tweet_media{$mutter.id}" class="tweet_media">
 			<div class="media_box">
 				<div id="imgs_wrapper{$mutter.id}" class="imgs_wrapper">
-		{foreach from=$mutter.mediaURLs item=mediaURL}
+		{foreach from=$mutter.thumbnailURLs item=mediaURL}
 		        	<div class="img_wrapper">
-		                <img src="{$mediaURL}">
+		        		{generateMediaLinkTag($mediaURL)}
 					</div>
 		{/foreach}
 				</div>
@@ -26,25 +27,33 @@
 	    <div class="info">
 	    	<div class="icon left">
 	    		<img src="{$mutter.account.profileImage}" style="width:32px">
-	    		<img src="{$mutter.providerIcon}" style="width:32px">
+	    		<a href="{$mutter.mutterURL}" target="_blank"><img src="{$mutter.providerIcon}" style="width:32px"></a>
 	    	</div>
 	    	
 	    	<div class="profile left">
 	    		<div class="account">
-	    			<div class="name left">
-	    				<a href="{$app_url}user_timeline/?domain={$mutter.domain}&id={$mutter.account.id}&hidden_sensitive={var_export($hidden_sensitive)}" target="_blank">
+	    			<div class="name">
+	    				<a href="{$app_url}user_timeline/?domain={$mutter.domain}&id={$mutter.account.id}&hs={var_export($hs)}" target="_blank">
 		    				{$mutter.account.displayName}
-		    				<span class="account_name">@{$mutter.account.accountName}</span>
 	    				</a>
+		    			<span class="account_name">@{$mutter.account.accountName}</span>
 	    			</div>
-	    			<div class="date left">
-	    				{$mutter.originalDate}
+	    			<div class="date">
+	    				{date4timeline($mutter.originalDate)}
+	    			</div>
+	    			<div class="rt">
+	    			{if $mutter.isRe}
+	    				<img src="{$app_url}imgs/repeat-64.png">
+	    				<a href="{$app_url}user_timeline/?domain={$mutter.domain}&id={$mutter.retweeter.id}&hs={var_export($hs)}" target="_blank">
+		    				{$mutter.retweeter.displayName}
+	    				</a>
+	    				({date4timeline($mutter.date)})<br>
+	    			{/if}
 	    			</div>
 	    			<div class="clear"></div>
 	    		</div>
 	    		<div class="text">
-			    	{$mutter.text}<br>
-			   		<a href="{$mutter.mutterURL}" target="_blank">投稿元</a>
+			    	{$mutter.text}
 	    		</div>
 	    	</div>
 	    	<div class="clear"></div>

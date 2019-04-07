@@ -17,6 +17,7 @@ class Tweet extends StandardMutter implements Mutter {
         
         // リツイートだった場合、ツイートID以外の情報をリツイート元に差し替える
         if(isset($tweet->retweeted_status)) {
+            $this->retweeter = new TwitterAccount($tweet->user);
             $tweet = $tweet->retweeted_status;
             $this->isRe = true;
             
@@ -28,7 +29,7 @@ class Tweet extends StandardMutter implements Mutter {
         $this->originalTime = strtotime($tweet->created_at);
         $this->originalDate = $this->originalDate();
         
-        $this->text = $tweet->text;
+        $this->text = nl2br(decorateLinkTag($tweet->text));
         $this->mutterURL = $this->mutterBase.$this->id;
         
         $this->account = new TwitterAccount($tweet->user);
@@ -43,7 +44,20 @@ class Tweet extends StandardMutter implements Mutter {
         if(isset($tweet->extended_entities) && isset($tweet->extended_entities->media)) {
             $this->mediaURLs = array();
             foreach($tweet->extended_entities->media as $media) {
-                $this->mediaURLs[] = $media->media_url;
+                if(isset($media->type) && (($media->type=='video') || ($media->type=='animated_gif'))) {
+//                     $size = count($media->video_info->variants);
+                    $size = 1;
+                    // $this->thumbnailURLs[] = $media->media_url;
+                    $this->thumbnailURLs[] = $media->video_info->variants[$size-1]->url;
+                    $this->mediaURLs[] = $media->video_info->variants[$size-1]->url;
+                } else {
+//                     $this->mediaURLs[] = replace_suffix($media->media_url, '.jpg');
+                    $this->mediaURLs[] = $media->media_url;
+                    
+                    $suffix = get_suffix($media->media_url);
+                    $thumbnail = str_replace('.'.$suffix, "?format=$suffix&name=small", $media->media_url);
+                    $this->thumbnailURLs[] = $thumbnail;
+                }
             }
         }
     }

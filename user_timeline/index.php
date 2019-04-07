@@ -1,12 +1,12 @@
 <?php
-
 require_once ("init.php");
 
 $domain = getGetParam('domain', '');
-$id = getGetParam('id', '');
-$hidden_sensitive = getGetParam('hidden_sensitive', 'true');
-$count = getGetParam('count', '10');
 $api = AppURL . 'api/user_timeline.php';
+$hs = getGetParam('hs', 'true');
+$count = getGetParam('count', '20');
+$id = getGetParam('id', '');
+$max_id = getGetParam('max_id', '');
 
 if(empty($domain)) {
     echo "ドメインの指定がありません。";
@@ -14,11 +14,15 @@ if(empty($domain)) {
 }
 
 $params = array(
-    "hidden_sensitive" => $hidden_sensitive
+    "hs" => $hs
     ,"domain" => $domain
     ,"id" => $id
     ,"count" => $count
 );
+
+if(!empty($max_id)) {
+    $params['oldest_id'] = $max_id;
+}
 
 $response = json_decode(getRequest($api, $params));
 
@@ -30,9 +34,9 @@ if(empty($response)) {
 $oldest_id = $response->oldest_id;
 
 // assignメソッドを使ってテンプレートに渡す値を設定
-$smarty->assign("title", "テストタイムライン");
+$smarty->assign("title", "ユーザータイムライン");
 $smarty->assign("AppContext", AppContext);
-$smarty->assign("hidden_sensitive", $hidden_sensitive);
+$smarty->assign("hs", $hs);
 
 $csss=array();
 $csss[] = "timeline";
@@ -47,7 +51,7 @@ $smarty->assign("jss", $jss);
 $embedded_js_params_string = [
     "domain" => $domain
     ,"id" => $id
-    ,"hidden_sensitive" => $hidden_sensitive
+    ,"hs" => $hs
     ,"oldest_id" => $oldest_id
 ];
 

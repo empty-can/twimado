@@ -2,6 +2,29 @@
 require_once ("init.php");
 
 /**
+ * 連想配列を埋め込みJavaScriptにするための関数
+ * 
+ * @param array $js_string_params
+ * @param array $js_assocarray
+ * @return string
+ */
+function build_embededd_js_assocarray(array $js_string_params) {
+    //     $result = "var mutterQueue = [];\r\n";
+    $result = "";
+    
+    foreach ($js_string_params as $key => $value) {
+        $result .= "var $key = [];\r\n";
+        
+        foreach ($value as $tmp_key => $tmp_value) {
+            $result .= $key."['".$tmp_key."'] = '".preg_replace("/[\r\n]/", "", $tmp_value)."'\r\n";
+        }
+        $result .= ";";
+    }
+    
+    return $result;
+}
+
+/**
  * 埋め込み用JavaScript を生成するための関数
  * 
  * @param string $api
@@ -10,6 +33,7 @@ require_once ("init.php");
  * @return mixed
  */
 function build_embededd_js(array $js_string_params, array $js_int_params) {
+    //     $result = "var mutterQueue = [];\r\n";
     $result = "";
     
     foreach(array_keys($js_string_params) as $param_key) {

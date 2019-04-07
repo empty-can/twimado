@@ -13,6 +13,8 @@ class Toot extends StandardMutter implements Mutter {
 
         // リツイートだった場合、ツイートID以外の情報をリツイート元に差し替える処理を入れる
         if (isset($toot->reblog)) {
+            $this->retweeter = new MastodonAccount($toot->account);
+            $this->isRe = true;
             $toot = $toot->reblog;
             
             if (is_array($toot))
@@ -40,6 +42,7 @@ class Toot extends StandardMutter implements Mutter {
             $this->mediaURLs = array();
             foreach($toot->media_attachments as $media) {
                 $this->mediaURLs[] = (is_array($media)) ? ((object)$media)->url : $media->url;
+                $this->thumbnailURLs[] = (is_array($media)) ? ((object)$media)->url : $media->url;
             }
         }
     }

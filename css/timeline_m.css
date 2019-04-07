@@ -1,0 +1,61 @@
+@media screen and (max-width:1280px) {
+	.mutter {
+		width: 100vw;
+		margin: auto;
+	}
+	
+	.tweet_media {
+		width: 100vw;
+		max-height: 85vh;
+		margin: 1vh auto auto auto;
+	}
+	
+	.media_box {
+		display: flex;
+		align-items: baseline;
+		width: 100vw;
+		height: auto;
+		max-height: 90vh;
+		margin: 1vh 0px auto auto;
+	}
+	
+	.imgs_wrapper {
+		display: flex;
+		direction: rtl;
+		width: 100vw;
+		max-width: 100vw;
+		max-height: 90vh;
+		overflow: auto;
+		margin: auto;
+	}
+	
+	.img_wrapper {
+		display: block;
+		width: auto;
+		height: auto;
+		max-width: 99vw;
+		max-height: 90vh;
+		border: solid 1px lightgray;
+		margin: 0 auto auto auto;
+	}
+	
+	.img_wrapper img {
+		display: block;
+		width: auto;
+		height: auto;
+		max-width: 99vw;
+		max-height: 85vh;
+	}
+	
+	.img_wrapper video {
+		display: block;
+		width: auto;
+		height: auto;
+		max-width: 99vw;
+		max-height: 85vh;
+	}
+	
+	.text {
+		font-size: small;
+	}
+}

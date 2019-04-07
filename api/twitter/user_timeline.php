@@ -5,7 +5,7 @@ require_once ("init.php");
 $api = 'statuses/user_timeline';
 
 $user_id = getGetParam('id', '766219679631183872');
-$count = getGetParam('count', '200');
+$count = getGetParam('count', '20');
 $max_id = getGetParam('max_id', '');
 
 $params = array(

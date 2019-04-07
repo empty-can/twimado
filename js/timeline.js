@@ -16,6 +16,8 @@ setInterval( function() {
 		var mutterQueueLength = mutterQueue.length;
 		
 		if(window_height*4>rect) {
+//			console.log('in');
+//			console.log(mutterQueueLength);
 			if(mutterQueueLength <= 0)
 				getMutter();
 
