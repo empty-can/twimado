@@ -3,13 +3,15 @@ require_once ("init.php");
 
 interface Mutter {
     
-    public function account();
-    
     public function hasMedia();
     
     public function isRe();
     
-    public function mediaURLs();
+    public function isImg();
+    
+    public function isVideo();
+    
+    public function isObject();
     
     public function comCount();
     
@@ -17,9 +19,17 @@ interface Mutter {
     
     public function reCount();
     
-    public function text();
+    public function time();
+    
+    public function date();
+    
+    public function originalDate();
     
     public function id();
+    
+    public function account();
+    
+    public function text();
     
     public function providerIcon();
     
@@ -29,11 +39,9 @@ interface Mutter {
     
     public function originalTime();
     
-    public function originalDate();
+    public function retweeter();
     
     public function mutterURL();
     
     public function convertArray();
-    
-    public function thumbnailURLs();
 }

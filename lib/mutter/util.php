@@ -34,6 +34,48 @@ function sort_mutter_by_time($a, $b)
     return ($a['time'] > $b['time']) ? -1 : 1;
 }
 
+function isImg(string $url) {
+    return (getMediaType($url)=="img");
+}
+
+function isVideo(string $url) {
+    return (getMediaType($url)=="video");
+}
+
+function isObject(string $url) {
+    return (getMediaType($url)=="obj");
+}
+
+/**
+ * URLが指すメディアのタイプを返す
+ * 
+ * @param string $url
+ * @return string
+ */
+function getMediaType(string $url) {
+    $type = "";
+    
+    if(contains($url, "png")) {
+        $type = "img";
+    } else if(contains($url, "jpg")) {
+        $type = "img";
+    } else if(contains($url, "mp4")) {
+        $type = "video";
+    } else if(contains($url, "m3u8")) {
+        $type = "video";
+    } else if(contains($url, "gif")) {
+        $type = "img";
+    } else if(contains($url, "jpeg")) {
+        $type = "img";
+    } else if(contains($url, "ping")) {
+        $type = "img";
+    } else {
+        $type = "obj";
+    }
+    
+    return $type;
+}
+
 /**
  * URLの拡張子に従ってタグを生成。
  * 
@@ -57,12 +99,16 @@ function generateMediaLinkTag(string $url) {
         $type = "img";
     } else if(contains($url, "ping")) {
         $type = "img";
+    } else {
+        $type = "obj";
     }
     
     if ($type=="img"){
         $result = '<img src="'.$url.'" />';
     } else if ($type=="video"){
         $result = '<video src="'.$url.'" preload="metadata" controls />';
+    } else if ($type=="obj"){
+        $result = '<object data="'.$url.'" type="image/png"></object>';
     }
     
     return $result;    

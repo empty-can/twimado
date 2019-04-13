@@ -21,8 +21,10 @@ abstract class StandardMutter implements Mutter {
     
     public $sensitive = false;
     
-    public $mediaURLs = null;
-    public $thumbnailURLs = null;
+    public $isImg = false;
+    public $isVideo = false;
+    public $isObject = false;
+    public $media = array();
     
     public $providerIcon = "初期値";
     public $domain = "初期値";
@@ -30,19 +32,23 @@ abstract class StandardMutter implements Mutter {
     public $mutterURL = "初期値";
     
     public function hasMedia() {
-        return !empty($this->mediaURLs);
+        return !empty($this->media);
     }
     
     public function isRe() {
         return $this->isRe;
     }
     
-    public function mediaURLs() {
-        return $this->mediaURLs;
+    public function isImg() {
+        return $this->isImg;
     }
     
-    public function thumbnailURLs() {
-        return $this->thumbnailURLs;
+    public function isVideo() {
+        return $this->isVideo;
+    }
+    
+    public function isObject() {
+        return $this->isObject;
     }
     
     public function comCount() {

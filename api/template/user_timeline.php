@@ -7,6 +7,7 @@ $id = getGetParam('id', '');
 $hs = getGetParam('hs', 'true');
 $max_id = getGetParam('oldest_id', '');
 $count = getGetParam('count', '');
+$thumb = getGetParam('thumb', 'true');
 
 $response = array();
 $response['mutters'] = array();
@@ -18,7 +19,9 @@ if($max_id==-1){
 }
 
 if(empty($domain)) {
-    echo "ドメインの指定がありません。";
+    $response['oldest_id'] = -1;
+    $response['error'] = "ドメインの指定がありません。";
+    echo json_encode($response);
     exit();
 }
 
@@ -28,8 +31,10 @@ $params = array(
 
 $api =  "";
 
+ob_start();
+
 if($domain=="twitter") {
-    $api = AppURL . 'api/twitter/user_timeline.php';
+    $api = AppURL . '/api/twitter/user_timeline.php';
     $params["id"] = $id;
     if(!empty($max_id)) {
         $params["max_id"] = $max_id;
@@ -42,7 +47,7 @@ if($domain=="twitter") {
     
     $response = getRequest($api, $params);
 } else if($domain=="pawoo") {
-    $api = AppURL . 'api/pawoo/user_timeline.php';
+    $api = AppURL . '/api/pawoo/user_timeline.php';
     $params["id"] = $id;
     if(!empty($max_id)) {
         $params["max_id"] = $max_id;
@@ -58,11 +63,12 @@ if($domain=="twitter") {
     echo "対応するAPIがありません。";
     exit();
 }
-// myVarDump($response);
+// var_dump($response);
+// var_dump(json_decode($response));
+// var_dump(empty($response));
 
 if(empty($response)) {
     echo "APIからのデータ取得に失敗しました。";
-    exit();
 } else {
     $response = json_decode($response);
     
@@ -72,7 +78,6 @@ if(empty($response)) {
         $oldest_id = -1;
 }
 
-
 $mutters = $response->mutters;
 
 $mutters = array_unique(obj_to_array($mutters), SORT_REGULAR);
@@ -80,7 +85,9 @@ usort($mutters, "sort_mutter_by_time");
 
 // テンプレートを表示する
 $hs = ($hs=='true') ? true : false;
+$thumb = ($thumb=='true') ? true : false;
 $smarty->assign("hs", $hs);
+$smarty->assign("thumb", $thumb);
 $smarty->assign("app_url", AppURL);
 
 $response = array();
@@ -93,6 +100,9 @@ foreach ($mutters as $mutter) {
 // myVarDump($response['mutters']);
 
 $response['oldest_id'] = $oldest_id;
+
+$response['error'] = ob_get_contents(); 
+ob_end_clean();
 
 // myVarDump(json_encode($response));
 echo json_encode($response);

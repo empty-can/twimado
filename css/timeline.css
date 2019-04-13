@@ -63,18 +63,8 @@
 	margin: 0 0 0 0.5vh;
 }
 
-.img_wrapper img {
+.img_wrapper img, video, object {
 	display: block;
-	
-	width: auto;
-	height: auto;
-	max-width: 96vw;
-	max-height: 85vh;
-}
-
-.img_wrapper video {
-	display: block;
-	
 	width: auto;
 	height: auto;
 	max-width: 96vw;

@@ -78,7 +78,7 @@ function getMutter() {
 		success : function(response) {
 			console.log("ajax通信に成功しました");
 			console.log(response);
-			console.log(response['mutters']);
+//			console.log(response['mutters']);
 
 			if(params['pawoo_oldest_id'] !== undefined) {
 				params['pawoo_oldest_id'] = response['pawoo_oldest_id'];
@@ -93,6 +93,14 @@ function getMutter() {
 			if(params['oldest_id'] !== undefined) {
 				params['oldest_id'] = response['oldest_id'];
 				console.log('oldest_id:'+response['oldest_id']);
+			}
+
+			console.log('error:'+response['error']);
+			
+			if(response['error'] !== undefined && response['error'] != '') {
+				alert("エラーが発生しました");
+				wait = true;
+				return;
 			}
 //			$('#timeline').after('<p>'+response['max_id']+'</p>');
 			

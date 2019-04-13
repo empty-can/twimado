@@ -16,6 +16,9 @@ $params = array(
 if(!empty($max_id)) {
     $params['max_id'] = $max_id;
 }
+
+ob_start();
+
 $tweets = getTwitterConnection("", "")->get($api, $params);
 
 $mutters = array();
@@ -34,5 +37,8 @@ foreach ($tweets as $tweet) {
 $response = array();
 $response['mutters'] = $mutters;
 $response['oldest_mutter'] = $oldest;
+
+$response['error'] = ob_get_contents();
+ob_end_clean();
 
 echo json_encode($response);

@@ -45,18 +45,15 @@ class Tweet extends StandardMutter implements Mutter {
             $this->mediaURLs = array();
             foreach($tweet->extended_entities->media as $media) {
                 if(isset($media->type) && (($media->type=='video') || ($media->type=='animated_gif'))) {
-//                     $size = count($media->video_info->variants);
-                    $size = 1;
-                    // $this->thumbnailURLs[] = $media->media_url;
-                    $this->thumbnailURLs[] = $media->video_info->variants[$size-1]->url;
-                    $this->mediaURLs[] = $media->video_info->variants[$size-1]->url;
+                    var_dump($media);
+                    $this->media[] = new Media($media->video_info->variants[0]->url, $media->media_url);
+                    $this->isVideo = true;
                 } else {
-//                     $this->mediaURLs[] = replace_suffix($media->media_url, '.jpg');
-                    $this->mediaURLs[] = $media->media_url;
-                    
                     $suffix = get_suffix($media->media_url);
                     $thumbnail = str_replace('.'.$suffix, "?format=$suffix&name=small", $media->media_url);
-                    $this->thumbnailURLs[] = $thumbnail;
+                    
+                    $this->media[] = new Media($media->media_url, $thumbnail);
+                    $this->isImg = true;
                 }
             }
         }

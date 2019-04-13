@@ -2,10 +2,11 @@
 require_once ("init.php");
 
 $domain = getGetParam('domain', '');
-$api = AppURL . 'api/user_timeline.php';
+$api = AppURL . '/api/template/user_timeline.php';
 $hs = getGetParam('hs', 'true');
 $count = getGetParam('count', '20');
 $id = getGetParam('id', '');
+$thumb = getGetParam('thumb', 'true');
 $max_id = getGetParam('max_id', '');
 
 if(empty($domain)) {
@@ -18,6 +19,7 @@ $params = array(
     ,"domain" => $domain
     ,"id" => $id
     ,"count" => $count
+    ,"thumb" => $thumb
 );
 
 if(!empty($max_id)) {
@@ -25,6 +27,8 @@ if(!empty($max_id)) {
 }
 
 $response = json_decode(getRequest($api, $params));
+
+// myVarDump($response);
 
 if(empty($response)) {
     echo "APIからのデータ取得に失敗しました。";

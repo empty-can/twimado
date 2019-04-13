@@ -7,6 +7,7 @@ $hs = getGetParam('hs', 'true');
 $pawoo_oldest_id = getGetParam('pawoo_oldest_id', '');
 $twitter_oldest_id = getGetParam('twitter_oldest_id', '');
 $count = getGetParam('count', '');
+$thumb = getGetParam('thumb', 'true');
 
 $mutters = array();
 
@@ -125,7 +126,9 @@ usort($mutters, "sort_mutter_by_time");
 
 // テンプレートを表示する
 $hs = ($hs=='true') ? true : false;
+$thumb = ($thumb=='true') ? true : false;
 $smarty->assign("hs", $hs);
+$smarty->assign("thumb", $thumb);
 $smarty->assign("app_url", AppURL);
 
 $response['mutters'] = array();

@@ -17,11 +17,12 @@ class Pawoo extends Toot {
         // pixivカードがあれば取得
         if (isset($toot->pixiv_cards)) {
             foreach ($toot->pixiv_cards as $card) {
-//                 myVarDump($card);
+                //                 myVarDump($card)
                 if (isset($card['image_url'])) {
-                    $this->mediaURLs[] = $card['image_url'];
+                    $this->media = new PixivCards($card);
+                    $this->isObject = true;
                 }
-//                 var_dump($this->mediaURLs);
+//                 var_dump($this->thumbnailURLs);
             }
         }
     }

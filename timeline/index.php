@@ -2,9 +2,10 @@
 require_once ("init.php");
 
 $domain = getGetParam('domain', 'twitterpawoo');
-$api = AppURL . 'api/timeline.php';
+$api = AppURL . '/api/template/timeline.php';
 $hs = getGetParam('hs', 'true');
 $count = getGetParam('count', '20');
+$thumb = getGetParam('thumb', 'true');
 $mutters = array();
 
 $twitter_oldest_id = "";
@@ -14,6 +15,7 @@ $params = array(
     "domain" => $domain
     ,"hs" => $hs
     ,"count" => $count
+    ,"thumb" => $thumb
 );
 
 $response = json_decode(getRequest($api, $params));

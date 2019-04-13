@@ -22,7 +22,6 @@
 	.imgs_wrapper {
 		display: flex;
 		direction: rtl;
-		width: 100vw;
 		max-width: 100vw;
 		max-height: 90vh;
 		overflow: auto;
@@ -33,25 +32,17 @@
 		display: block;
 		width: auto;
 		height: auto;
-		max-width: 99vw;
+		max-width: 100vw;
 		max-height: 90vh;
 		border: solid 1px lightgray;
 		margin: 0 auto auto auto;
 	}
 	
-	.img_wrapper img {
+	.img_wrapper img, video, object {
 		display: block;
 		width: auto;
 		height: auto;
-		max-width: 99vw;
-		max-height: 85vh;
-	}
-	
-	.img_wrapper video {
-		display: block;
-		width: auto;
-		height: auto;
-		max-width: 99vw;
+		max-width: 98vw;
 		max-height: 85vh;
 	}
 	
