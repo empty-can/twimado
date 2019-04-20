@@ -88,7 +88,6 @@ $hs = ($hs=='true') ? true : false;
 $thumb = ($thumb=='true') ? true : false;
 $smarty->assign("hs", $hs);
 $smarty->assign("thumb", $thumb);
-$smarty->assign("app_url", AppURL);
 
 $response = array();
 $response['mutters'] = array();

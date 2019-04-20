@@ -4,9 +4,8 @@ require_once ("init.php");
 
 $api = 'lists/statuses';
 
-$list_id = getGetParam('list_id', '');
-$list_id = '1076465411418255360';
-$count = getGetParam('count', '20');
+$list_id = getGetParam('list_id', TwitterList);
+$count = getGetParam('count', '200');
 $max_id = getGetParam('max_id', '');
 
 if(empty($list_id)) {
@@ -22,9 +21,9 @@ if(!empty($max_id)) {
     $params['max_id'] = $max_id;
 }
 
-$tweets = getTwitterConnection("", "")->get($api, $params);
+ob_start();
 
-// myVarDump($tweets);
+$tweets = getTwitterConnection("", "")->get($api, $params);
 
 $mutters = array();
 $oldest = "";
@@ -34,8 +33,16 @@ foreach ($tweets as $tweet) {
     
     $oldest = $tmp;
     
-    if ($tmp->hasMedia())
-        $mutters[$tmp->originalId()] = $tmp;
+    if ($tmp->hasMedia()) {
+        if(isset($tmp->originalId)) {
+            if(!isset($mutters[$tmp->originalId])) {
+                $mutters[$tmp->originalId] = $tmp;
+                //                 $mutters[$tmp->id] = $tmp;
+            }
+        } else {
+            $mutters[$tmp->id] = $tmp;
+        }
+    }
 }
 
 // var_dump($mutters);
@@ -43,5 +50,10 @@ foreach ($tweets as $tweet) {
 $response = array();
 $response['mutters'] = $mutters;
 $response['oldest_mutter'] = $oldest;
+
+$response['error'] = ob_get_contents();
+ob_end_clean();
+
+// myVarDump($response['error']);
 
 echo json_encode($response);

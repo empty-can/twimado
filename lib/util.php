@@ -1,6 +1,12 @@
 <?php
 require_once ("init.php");
 
+function searchTag(string $text, string $target="_blank") {
+    $pattern = '([#＃][^ \r\n]+)';
+    $replacement = '<a href="'.AppURL.'/search/?q=\1" target="$target">\1</a>';
+    return str_replace('=#', '=%23', mb_ereg_replace($pattern, $replacement, $text));
+}
+
 /**
  * 文字列内のhttp文字列を<a>タグに。
  * 

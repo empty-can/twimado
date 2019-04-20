@@ -1,52 +1,84 @@
-@media screen and (max-width:1280px) {
+@media screen and (min-width: 0px) and (max-device-width:1024px) {
 	.mutter {
 		width: 100vw;
 		margin: auto;
 	}
+	.info {
+		width: 96vw;
+		margin: 0 2vw;
+	}
 	
 	.tweet_media {
-		width: 100vw;
-		max-height: 85vh;
-		margin: 1vh auto auto auto;
+		width: 99vw;
+	}
+	
+	.tweet_media_vertical {
+		width: 99vw;
 	}
 	
 	.media_box {
-		display: flex;
-		align-items: baseline;
-		width: 100vw;
-		height: auto;
+		width: 99vw;
 		max-height: 90vh;
 		margin: 1vh 0px auto auto;
 	}
 	
+	.media_box_vertical {
+		width: 99vw;
+		margin: 1vh 0px auto auto;
+	}
+	
 	.imgs_wrapper {
-		display: flex;
-		direction: rtl;
-		max-width: 100vw;
+		max-width: 99vw;
 		max-height: 90vh;
-		overflow: auto;
-		margin: auto;
+	}
+	
+	.imgs_wrapper_vertical {
+		width: 99vw;
 	}
 	
 	.img_wrapper {
-		display: block;
-		width: auto;
-		height: auto;
-		max-width: 100vw;
+		max-width: 99vw;
 		max-height: 90vh;
-		border: solid 1px lightgray;
 		margin: 0 auto auto auto;
+	}
+	
+	.img_wrapper_vertical {
+		max-width: 99vw;
+		margin-bottom: 1vh;
 	}
 	
 	.img_wrapper img, video, object {
 		display: block;
 		width: auto;
 		height: auto;
-		max-width: 98vw;
+		max-width: 99vw;
 		max-height: 85vh;
+	}
+	.img_wrapper_vertical img, video, object {
+		width: 99vw;
 	}
 	
 	.text {
 		font-size: small;
 	}
+	
+	#timeline_menu {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		width: 100vw;
+		height: 46px;
+		padding-bottom: 0px;
+	}
+	#timeline_menu div {
+		width: 34px;
+		height: 34px;
+	}
+	
+	#timeline_menu div img {
+		width: 32px;
+		height: 32px;
+	}
+	
+		
 }

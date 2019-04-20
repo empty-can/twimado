@@ -29,7 +29,7 @@ class Tweet extends StandardMutter implements Mutter {
         $this->originalTime = strtotime($tweet->created_at);
         $this->originalDate = $this->originalDate();
         
-        $this->text = nl2br(decorateLinkTag($tweet->text));
+        $this->text = nl2br(searchTag(decorateLinkTag($tweet->text)));
         $this->mutterURL = $this->mutterBase.$this->id;
         
         $this->account = new TwitterAccount($tweet->user);
@@ -45,7 +45,7 @@ class Tweet extends StandardMutter implements Mutter {
             $this->mediaURLs = array();
             foreach($tweet->extended_entities->media as $media) {
                 if(isset($media->type) && (($media->type=='video') || ($media->type=='animated_gif'))) {
-                    var_dump($media);
+//                     var_dump($media);
                     $this->media[] = new Media($media->video_info->variants[0]->url, $media->media_url);
                     $this->isVideo = true;
                 } else {

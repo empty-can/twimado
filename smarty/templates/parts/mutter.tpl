@@ -1,5 +1,8 @@
-	<div class="mutter">
- 		{if !$mutter.isRe}{/if}
+{if $mutter.isRe}
+ 	<div class="mutter retweet">
+{else}
+ 	<div class="mutter">
+{/if}
 		{if $hs && $mutter.sensitive}
 		<div class="sensitive">
 		 	🔞
@@ -12,7 +15,7 @@
 			{foreach from=$mutter.media item=medium}
 		        	<div class="img_wrapper">
 		        	    {if $mutter.isImg}
-		            	<img src="{$medium.thumb}" />
+		            	<img src="{$medium.thumb}" alt="{$medium.url}"/>
 		        	    {else if $mutter.isVideo}
 		        	    <video src="{$medium.url}" poster="{$medium.thumb}" preload="metadata" controls ></video>
 		        	    {else if $mutter.isObject}
@@ -37,11 +40,9 @@
 			</div>
 		</div>
 		{/if}
-		{if count($mutter.mediaURLs) gt 1}
+		{if count($mutter.media) gt 1}
 	    <div class="scroll">
-		{for $var=1 to count($mutter.mediaURLs)}
-		　◀
-		{/for}
+		{for $var=1 to count($mutter.media)}　◀{/for}
 		</div>
 		{/if}
 	    <div class="info">
@@ -53,7 +54,7 @@
 	    	<div class="profile left">
 	    		<div class="account">
 	    			<div class="name">
-	    				<a href="{$app_url}/user_timeline/?domain={$mutter.domain}&id={$mutter.account.id}&hs={var_export($hs)}" target="_blank">
+	    				<a href="{$app_url}/user_timeline/?domain={$mutter.domain}&id={$mutter.account.id}&hs={var_export($hs)}&thumb={var_export($thumb)}" target="_blank">
 		    				{$mutter.account.displayName}
 	    				</a>
 		    			<span class="account_name">@{$mutter.account.accountName}</span>
@@ -63,13 +64,17 @@
 	    			</div>
 	    			<div class="rt">
 	    			{if $mutter.isRe}
-	    				<img src="{$app_url}/imgs/repeat-64.png">
-	    				<a href="{$app_url}/user_timeline/?domain={$mutter.domain}&id={$mutter.retweeter.id}&hs={var_export($hs)}" target="_blank">
+	    				<img class="repeat" src="{$app_url}/imgs/retwieet.svg">
+	    				<a href="{$app_url}/user_timeline/?domain={$mutter.domain}&id={$mutter.retweeter.id}&hs={var_export($hs)}&thumb={var_export($thumb)}" target="_blank">
 		    				{$mutter.retweeter.displayName}
 	    				</a>
 	    				({date4timeline($mutter.date)})<br>
 	    			{/if}
 	    			</div>
+	    			<!--
+	    			{$mutter.id}<br>
+	    			{$mutter.originalId}
+	    			 -->
 	    			<div class="clear"></div>
 	    		</div>
 	    		<div class="text">

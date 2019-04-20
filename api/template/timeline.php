@@ -52,7 +52,7 @@ if(contains($domain, 'pawoo') && ($pawoo_oldest_id!=-1)) {
             $pawoo_oldest_id = $pawoo_oldest['id'];
         else
             $pawoo_oldest_id = - 1;
-    }while(count($mutters)<1);
+    }while(count($mutters)<1 && $pawoo_oldest_id>0);
 }
 
 // // myVarDump($oldest_id);
@@ -88,7 +88,7 @@ if(contains($domain, 'twitter') && ($twitter_oldest_id!=-1)) {
     
     do {
         $params = array(
-            "list_id" => "1076465411418255360"
+            "list_id" => TwitterList
         );
         
         if(empty($count)) {
@@ -101,7 +101,9 @@ if(contains($domain, 'twitter') && ($twitter_oldest_id!=-1)) {
             $params['max_id'] = $twitter_oldest_id;
         }
         
-        $response = json_decode(getRequest(AppURL . '/api/twitter/list.php', $params), true);
+        $tmp = getRequest(AppURL . '/api/twitter/list.php', $params);
+//         myVarDump($tmp);
+        $response = json_decode($tmp, true);
         
         if(!is_array($response))
             break;
@@ -116,7 +118,7 @@ if(contains($domain, 'twitter') && ($twitter_oldest_id!=-1)) {
         else
             $twitter_oldest_id = - 1;
         
-    } while (count($mutters) < 1);
+    } while (count($mutters) < 1 && $twitter_oldest_id>0); 
 }
 
 // myVarDump(json_decode($response, true));
@@ -129,7 +131,6 @@ $hs = ($hs=='true') ? true : false;
 $thumb = ($thumb=='true') ? true : false;
 $smarty->assign("hs", $hs);
 $smarty->assign("thumb", $thumb);
-$smarty->assign("app_url", AppURL);
 
 $response['mutters'] = array();
 foreach ($mutters as $mutter) {

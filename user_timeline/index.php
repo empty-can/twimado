@@ -56,6 +56,7 @@ $embedded_js_params_string = [
     "domain" => $domain
     ,"id" => $id
     ,"hs" => $hs
+    ,"thumb" => $thumb
     ,"oldest_id" => $oldest_id
 ];
 

@@ -1,3 +1,8 @@
+
+#title {
+	margin-top: 50px;
+}
+
 .mutter {
     width: 98vw;
 	margin: auto;
@@ -7,10 +12,11 @@
 	width: 100%;
 	font-size: large;
 	text-align: center;
+	margin-top: 1vh;
 }
 
 .info {
-    width: 98vw;
+    width: 100%;
     max-width: 1024px;
 	margin: 2vh auto auto auto;
 }
@@ -25,20 +31,27 @@
 .tweet_media {
     width: 98vw;
 	max-height: 85vh;
+	margin: 1vh auto auto auto;
+}
 
-	margin: 1vh 0 auto auto;
+.tweet_media_vertical {
+    width: 98vw;
+	margin: 1vh auto auto auto;
 }
 
 .media_box{
 	display: flex;
 	align-items: baseline;
+	height: auto;
+}
 
+.media_box_vertical{
     width: 98vw;
 	height: auto;
-	max-height: 90vh;
 	
 	margin: 1vh 1vw auto auto;
 }
+
 .imgs_wrapper {
 	display: flex;
 	direction: rtl;
@@ -47,8 +60,11 @@
 	max-height: 90vh;
 
 	overflow: auto;
+	margin: auto;
+}
 
-	margin: 0 auto auto auto;
+.imgs_wrapper_vertical {
+	margin: auto;
 }
 
 .img_wrapper {
@@ -63,12 +79,28 @@
 	margin: 0 0 0 0.5vh;
 }
 
+.img_wrapper_vertical {
+	display: block;
+	
+	width: auto;
+	height: auto;
+	max-width: 96vw;
+}
+
 .img_wrapper img, video, object {
 	display: block;
 	width: auto;
 	height: auto;
 	max-width: 96vw;
 	max-height: 85vh;
+}
+
+.img_wrapper_vertical img, video, object {
+	display: block;
+	width: auto;
+	height: auto;
+	border: solid 1px lightgray;
+	margin: auto;
 }
 
 .icon {
@@ -85,6 +117,10 @@
 	width : -webkit-calc(100% - 52px);
 	width : -moz-calc(100% - 52px);
 	width : calc(100% - 52px);
+}
+.repeat {
+	border-radius: 25%;
+	background-color: lightgreen;
 }
 
 .account {
@@ -120,4 +156,25 @@
 
 #bottom {
 	margin: auto auto 25vh auto;
+}
+	
+#timeline_menu {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	width: 100vw;
+	max-width: 1024px;
+	background-color: skyblue;
+	height: 46px;
+	padding-bottom: 0px;
+	margin: auto;
+}
+#timeline_menu div {
+	width: 34px;
+	height: 34px;
+}
+
+#timeline_menu div img {
+	width: 32px;
+	height: 32px;
 }

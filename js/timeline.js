@@ -1,6 +1,9 @@
 var mutterQueue = [];	// APIから取得したツイート情報を一旦バッファする変数
+var hist = new Array(0);
 var wait = false;
 var wait_time = 1000;
+var showRT = true;
+var horizontalScroll = true;
 
 /**
  * 画面の下まで来たらツイートを表示する関数
@@ -31,6 +34,15 @@ setInterval( function() {
 //				}
 
 				console.log(mutterQueue.length);
+			}
+			
+			console.log(showRT);
+
+			if(!showRT) {
+				hideReTweet();
+			}
+			if(!horizontalScroll) {
+				switch2Vertical();
 			}
 		}
 	}
@@ -123,11 +135,18 @@ function getMutter() {
 					if( a < b ) return 1;
 					return 0;
 				});
-				
-				console.log(keys);
+
+//				console.log(keys);
+//				console.log(hist);
 				for (var i = 0; i < mutters_num; i++) {
 					tmp = response['mutters'][keys[i]];
 					mutterQueue.push(tmp);
+//					console.log(keys[i]);
+//					if(hist.indexOf(keys[i])==-1) {
+//						hist.push(keys[i]);
+//					} else {
+//						console.log('ちょうふく');
+//					}
 				}
 				
 				console.log("取得できました");
@@ -135,4 +154,110 @@ function getMutter() {
 			}
 		}
 	});
+}
+
+/**
+ * リツイートの表示非表示を切り替える
+ * 
+ * @returns
+ */
+function switchShowTweet() {
+	if(showRT) {
+		hideReTweet();
+		showRT = false;
+		$("#toggleRetweet").css("opacity", "0.5");
+	} else {
+		showReTweet();
+		showRT = true;
+		$("#toggleRetweet").css("opacity", "1.0");
+	}
+	
+}
+
+function showReTweet() {
+	var all_retweets = document.getElementsByClassName('retweet');
+
+	for (var i = 0; i < all_retweets.length; i++) {
+		var tmp = all_retweets[i];
+		tmp.style.display = 'block';
+	}
+}
+
+function hideReTweet() {
+	var all_retweets = document.getElementsByClassName('retweet');
+
+	for (var i = 0; i < all_retweets.length; i++) {
+		var tmp = all_retweets[i];
+		tmp.style.display = 'none';
+	}
+}
+
+/**
+ * ツイートの横スクロールとかを切り替える
+ * 
+ * @returns
+ */
+function switchScroll() {
+	if(horizontalScroll) {
+		switch2Vertical();
+		horizontalScroll = false;
+		
+		var all_scrolls = document.getElementsByClassName('scroll');
+		for (var i = 0; i < all_scrolls.length; i++) {
+			var tmp = all_scrolls[i];
+			tmp.style.display = 'none';
+		}
+		
+		$('#horizontal').css('display','block');
+		$('#vertical').css('display','none');
+	} else {
+		switch2Horizontal();
+		horizontalScroll = true;
+
+		var all_scrolls = document.getElementsByClassName('scroll');
+		for (var i = 0; i < all_scrolls.length; i++) {
+			var tmp = all_scrolls[i];
+			tmp.style.display = 'block';
+		}
+		
+		$('#vertical').css('display','block');
+		$('#horizontal').css('display','none');
+	}
+	
+}
+
+function switch2Horizontal() {
+	var all_tweet_medias = $('.tweet_media_vertical');
+	all_tweet_medias.removeClass('tweet_media_vertical');
+	all_tweet_medias.addClass('tweet_media');
+
+	var all_media_box = $('.media_box_vertical');
+	all_media_box.removeClass('media_box_vertical');
+	all_media_box.addClass('media_box');
+
+	var all_imgs_wrapper = $('.imgs_wrapper_vertical');
+	all_imgs_wrapper.removeClass('imgs_wrapper_vertical');
+	all_imgs_wrapper.addClass('imgs_wrapper');
+
+	var all_img_wrapper = $('.img_wrapper_vertical');
+	all_img_wrapper.removeClass('img_wrapper_vertical');
+	all_img_wrapper.addClass('img_wrapper');
+}
+
+function switch2Vertical() {
+	var all_tweet_medias = $('.tweet_media');
+	all_tweet_medias.removeClass('tweet_media');
+	all_tweet_medias.addClass('tweet_media_vertical');
+
+	var all_media_box = $('.media_box');
+	all_media_box.removeClass('media_box');
+	all_media_box.addClass('media_box_vertical');
+
+	var all_imgs_wrapper = $('.imgs_wrapper');
+	all_imgs_wrapper.removeClass('imgs_wrapper');
+	all_imgs_wrapper.addClass('imgs_wrapper_vertical');
+
+	var all_img_wrapper = $('.img_wrapper');
+	all_img_wrapper.removeClass('img_wrapper');
+	all_img_wrapper.addClass('img_wrapper_vertical');
 }

@@ -33,9 +33,13 @@ define("AppURL", $ini_array["protocol"].':'.$ini_array["app_url"]);
 define("AppContext", $ini_array["app_context"]);
 define("ErrorMessage", $ini_array["error_message"]);
 
+define("TwitterList", $ini_array["twitter_list"]);
 
 /* Smartyのロード */
 $smarty = new Smarty();
+
+$smarty->assign("app_url", AppURL);
+$smarty->assign("app_context", AppContext);
 
 // テンプレートディレクトリとコンパイルディレクトリを読み込む
 $smarty->template_dir = $ini_array["template_dir"];
