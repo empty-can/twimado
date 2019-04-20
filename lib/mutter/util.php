@@ -81,35 +81,35 @@ function getMediaType(string $url) {
  * 
  * @param string $url
  */
-function generateMediaLinkTag(string $url) {
-    $result = "";
-    $type = "";
+// function generateMediaLinkTag(string $url) {
+//     $result = "";
+//     $type = "";
     
-    if(contains($url, "png")) {
-        $type = "img";
-    } else if(contains($url, "jpg")) {
-        $type = "img";
-    } else if(contains($url, "mp4")) {
-        $type = "video";
-    } else if(contains($url, "m3u8")) {
-        $type = "video";
-    } else if(contains($url, "gif")) {
-        $type = "img";
-    } else if(contains($url, "jpeg")) {
-        $type = "img";
-    } else if(contains($url, "ping")) {
-        $type = "img";
-    } else {
-        $type = "obj";
-    }
+//     if(contains($url, "png")) {
+//         $type = "img";
+//     } else if(contains($url, "jpg")) {
+//         $type = "img";
+//     } else if(contains($url, "mp4")) {
+//         $type = "video";
+//     } else if(contains($url, "m3u8")) {
+//         $type = "video";
+//     } else if(contains($url, "gif")) {
+//         $type = "img";
+//     } else if(contains($url, "jpeg")) {
+//         $type = "img";
+//     } else if(contains($url, "ping")) {
+//         $type = "img";
+//     } else {
+//         $type = "obj";
+//     }
     
-    if ($type=="img"){
-        $result = '<img src="'.$url.'" />';
-    } else if ($type=="video"){
-        $result = '<video src="'.$url.'" preload="metadata" controls />';
-    } else if ($type=="obj"){
-        $result = '<object data="'.$url.'" type="image/png"></object>';
-    }
+//     if ($type=="img"){
+//         $result = '<img src="'.$url.'" />';
+//     } else if ($type=="video"){
+//         $result = '<video src="'.$url.'" preload="metadata" controls />';
+//     } else if ($type=="obj"){
+//         $result = '<object data="'.$url.'" type="image/png"></object>';
+//     }
     
-    return $result;    
-}
+//     return $result;    
+// }

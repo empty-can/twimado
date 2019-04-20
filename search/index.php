@@ -1,9 +1,9 @@
 <?php
 require_once ("init.php");
 
-$domain = getGetParam('domain', 'twitter');
+$domain = getGetParam('domain', 'twitterpawoo');
 $api = AppURL . '/api/template/search.php';
-$q = urlencode(getGetParam('q', ''));
+$q = getGetParam('q', '');
 $hs = getGetParam('hs', 'true');
 $count = getGetParam('count', '20');
 $thumb = getGetParam('thumb', 'true');
@@ -27,15 +27,14 @@ $params = array(
     ,"count" => $count
     ,"thumb" => $thumb
 );
-
+// myVarDump($params);
 if(!empty($max_id)) {
     $params['oldest_id'] = $max_id;
 }
 
 $tmp = getRequest($api, $params);
-// myVarDump($tmp);
+
 $response = json_decode($tmp);
-// myVarDump($response);
 
 if(empty($response)) {
     echo "APIからのデータ取得に失敗しました。";
@@ -63,7 +62,7 @@ $smarty->assign("jss", $jss);
 $embedded_js_params_string = [
     "domain" => $domain
     ,"hs" => $hs
-    ,"q" => $q
+    ,"q" => urlencode($q)
     ,"thumb" => $thumb
     ,"twitter_oldest_id" => $twitter_oldest_id
     ,"pawoo_oldest_id" => $pawoo_oldest_id

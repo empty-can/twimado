@@ -16,7 +16,7 @@ function searchTag(string $text, string $target="_blank") {
 function decorateLinkTag(string $text, string $target="_blank") {
     $pattern = '(https?://[-_.!~*\'()a-zA-Z0-9;/?:@&=+$,%#]+)';
     $replacement = '<a href="\1" target="$target">\1</a>';
-    return mb_ereg_replace($pattern, $replacement, htmlspecialchars($text));
+    return mb_ereg_replace($pattern, $replacement, $text);
 }
 
 /**

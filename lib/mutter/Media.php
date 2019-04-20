@@ -9,5 +9,13 @@ class Media {
         $this->url = $url;
         $this->thumb = $thumb;
     }
+    
+    public function getUrl() {
+        return $this->url;
+    }
+    
+    public function getTumb() {
+        return $this->thumb;
+    }
 }
 

@@ -28,7 +28,7 @@ setInterval( function() {
 			for(var i=0; mutterQueue.length>0 && i<count; i++) {
 				$('#timeline').append(mutterQueue.shift());
 
-//				console.log(mutterQueue.length);
+				console.log(mutterQueue.length);
 			}
 			
 //			console.log(showRT);
@@ -119,7 +119,7 @@ function getMutter() {
 //				console.log("最後まで来ました");
 //				wait = true;
 				$("#bottom_message").html("最後まで来ました");
-				wait = false;
+				wait = true;
 			} else {
 
 //				var timeline = response['timeline'];

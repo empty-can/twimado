@@ -46,6 +46,8 @@ $result = getTwitterConnection("", "")->get($api, $params);
         <input id="q" type="text" name="q" value="" placeholder="検索キーワード"><br>
         <input type="checkbox" name="hs" value="false">センシティブな画像を表示する<br>
         <input type="checkbox" name="thumb" value="false">元画像を表示<br>
+        <input type="radio" name="domain" value="twitter">ツイッターのみ検索
+        <input type="radio" name="domain" value="pawoo">Pawooのみ検索<br>
         <button type="submit">キーワード検索</button>
         <button type="submit" onclick="getElementById('q').value='#'+getElementById('q').value">ハッシュ検索</button>
     </form>

@@ -19,7 +19,7 @@
 		        	    {else if $mutter.isVideo}
 		        	    <video src="{$medium.url}" poster="{$medium.thumb}" preload="metadata" controls ></video>
 		        	    {else if $mutter.isObject}
-		        	    <object data="{$medium.url}" type="image/png"></object>
+		        	    <object data="{$medium}" type="image/png"></object>
 		        	    {/if}
 					</div>
 			{/foreach}
@@ -31,7 +31,7 @@
 		        	    {else if $mutter.isVideo}
 		        	    <video src="{$medium.url}" poster="{$medium.thumb}" poster="" preload="metadata" controls ></video>
 		        	    {else if $mutter.isObject}
-		        	    <object data="{$medium.url}" type="image/png"></object>
+		        	    <object data="{$medium}" type="image/png"></object>
 		        	    {/if}
 					</div>
 			{/foreach}
