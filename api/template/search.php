@@ -17,7 +17,7 @@ $response['mutters'] = array();
 
 ob_start();
 
-// pawooの検索結果取得（未実装）
+// pawooの検索結果取得（pawooはツイートのキーワード検索未対応）
 if(contains($domain, 'pawoo') && ($pawoo_oldest_id>-1)) {
 }
 // Twitterの検索結果取得
@@ -76,7 +76,7 @@ $response['mutters'] = array();
 foreach ($mutters as $mutter) {
     $smarty->assign("mutter", $mutter);
     $html = $smarty->fetch("parts/mutter.tpl");
-    $response['mutters'][$mutter['time']] = $html;
+    $response['mutters'][$mutter['originalId']] = $html;
 //     $response['mutters'][$mutter['id']] = htmlspecialchars($smarty->fetch("parts/mutter.tpl"));
 }
 

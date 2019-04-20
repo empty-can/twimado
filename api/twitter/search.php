@@ -37,18 +37,11 @@ if(isset($tweets->statuses)) {
     foreach ($statuses as $tweet) {
         $tmp = new Tweet($tweet);
         
-        $oldest_mutter = $tmp;
+        $oldest = $tmp;
+        $originalId = $tmp->originalId();
         
-        if ($tmp->hasMedia()) {
-            if(isset($tmp->originalId)) {
-                if(!isset($mutters[$tmp->originalId])) {
-                    $mutters[$tmp->originalId] = $tmp;
-                    //                 $mutters[$tmp->id] = $tmp;
-                }
-            } else {
-                $mutters[$tmp->id] = $tmp;
-            }
-        }
+        if ($tmp->hasMedia() && !isset($mutters[$originalId]))
+            $mutters[$originalId] = $tmp;
     }
 }
 
@@ -59,13 +52,13 @@ $response['oldest_mutter'] = null;
 $response['error'] = ob_get_contents();
 ob_end_clean();
 
-if(!empty($max_id) && $oldest_mutter->id >= $max_id) {
+if(!empty($max_id) && $oldest->id >= $max_id) {
     $response['error'] .= "no result";
 } else if(empty($mutters)) {
     $response['error'] .= "no result";
 } else {
     $response['mutters'] = $mutters;
-    $response['oldest_mutter'] = $oldest_mutter;
+    $response['oldest_mutter'] = $oldest;
 }
 
 

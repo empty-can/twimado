@@ -36,6 +36,9 @@ $result = getTwitterConnection("", "")->get($api, $params);
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
   	<a href="//www.yaruox.jp/twimado/timeline/?hs=false&thumb=false" target="$target">Twitter＆Pawoo</a>
   </li>
+  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  	<a href="//www.yaruox.jp/twimado/search/?q=%23FGO&hs=false&thumb=false" target="$target">FGO</a>
+  </li>
 </ul>
 <h3>Twitterトレンド</h3>
 <ul class="trend">

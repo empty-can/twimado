@@ -93,7 +93,7 @@ $response = array();
 $response['mutters'] = array();
 foreach ($mutters as $mutter) {
     $smarty->assign("mutter", $mutter);
-    $response['mutters'][$mutter['time']] = $smarty->fetch("parts/mutter.tpl");
+    $response['mutters'][$mutter['originalId']] = $smarty->fetch("parts/mutter.tpl");
 //     $response['mutters'][$mutter['id']] = htmlspecialchars($smarty->fetch("parts/mutter.tpl"));
 }
 // myVarDump($response['mutters']);

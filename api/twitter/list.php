@@ -32,17 +32,10 @@ foreach ($tweets as $tweet) {
     $tmp = new Tweet($tweet);
     
     $oldest = $tmp;
+    $originalId = $tmp->originalId();
     
-    if ($tmp->hasMedia()) {
-        if(isset($tmp->originalId)) {
-            if(!isset($mutters[$tmp->originalId])) {
-                $mutters[$tmp->originalId] = $tmp;
-                //                 $mutters[$tmp->id] = $tmp;
-            }
-        } else {
-            $mutters[$tmp->id] = $tmp;
-        }
-    }
+    if ($tmp->hasMedia() && !isset($mutters[$originalId]))
+        $mutters[$originalId] = $tmp;
 }
 
 // var_dump($mutters);

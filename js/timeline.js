@@ -1,4 +1,5 @@
 var mutterQueue = [];	// APIから取得したツイート情報を一旦バッファする変数
+var mutterIds = [];		// APIから取得したツイートのID一覧
 var hist = new Array(0);
 var wait = false;
 var wait_time = 1000;
@@ -27,16 +28,10 @@ setInterval( function() {
 			for(var i=0; mutterQueue.length>0 && i<count; i++) {
 				$('#timeline').append(mutterQueue.shift());
 
-//				if(showRT) {
-//				showReTweet();
-//				} else {
-//				hideReTweet();
-//				}
-
-				console.log(mutterQueue.length);
+//				console.log(mutterQueue.length);
 			}
 			
-			console.log(showRT);
+//			console.log(showRT);
 
 			if(!showRT) {
 				hideReTweet();
@@ -89,7 +84,7 @@ function getMutter() {
 		},
 		success : function(response) {
 			console.log("ajax通信に成功しました");
-			console.log(response);
+//			console.log(response);
 //			console.log(response['mutters']);
 
 			if(params['pawoo_oldest_id'] !== undefined) {
@@ -140,7 +135,13 @@ function getMutter() {
 //				console.log(hist);
 				for (var i = 0; i < mutters_num; i++) {
 					tmp = response['mutters'][keys[i]];
-					mutterQueue.push(tmp);
+					
+					if(!mutterIds.includes(keys[i])) {
+						mutterIds.push(keys[i]);
+						mutterQueue.push(tmp);
+					} else {
+						console.log('ちょうふく');
+					}
 //					console.log(keys[i]);
 //					if(hist.indexOf(keys[i])==-1) {
 //						hist.push(keys[i]);
