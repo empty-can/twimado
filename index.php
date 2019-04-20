@@ -40,6 +40,16 @@ $result = getTwitterConnection("", "")->get($api, $params);
   	<a href="//www.yaruox.jp/twimado/search/?q=%23FGO&hs=false&thumb=false" target="$target">FGO</a>
   </li>
 </ul>
+<h3>検索</h3>
+<div style="width:50%;margin:auto;">
+    <form target="_blank" action="//www.yaruox.jp/twimado/search/" method="GET">
+        <input id="q" type="text" name="q" value="" placeholder="検索キーワード"><br>
+        <input type="checkbox" name="hs" value="false">センシティブな画像を表示する<br>
+        <input type="checkbox" name="thumb" value="false">元画像を表示<br>
+        <button type="submit">キーワード検索</button>
+        <button type="submit" onclick="getElementById('q').value='#'+getElementById('q').value">ハッシュ検索</button>
+    </form>
+</div>
 <h3>Twitterトレンド</h3>
 <ul class="trend">
 <?php 

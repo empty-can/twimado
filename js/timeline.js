@@ -105,7 +105,7 @@ function getMutter() {
 			console.log('error:'+response['error']);
 			
 			if(response['error'] !== undefined && response['error'] != '') {
-				alert("エラーが発生しました");
+				$("#bottom_message").html("エラーが発生しました");
 				wait = true;
 				return;
 			}
@@ -118,6 +118,7 @@ function getMutter() {
 //				bottom.innerHTML = '最後まで来ました。';
 //				console.log("最後まで来ました");
 //				wait = true;
+				$("#bottom_message").html("最後まで来ました");
 				wait = false;
 			} else {
 
@@ -203,23 +204,11 @@ function switchScroll() {
 		switch2Vertical();
 		horizontalScroll = false;
 		
-		var all_scrolls = document.getElementsByClassName('scroll');
-		for (var i = 0; i < all_scrolls.length; i++) {
-			var tmp = all_scrolls[i];
-			tmp.style.display = 'none';
-		}
-		
 		$('#horizontal').css('display','block');
 		$('#vertical').css('display','none');
 	} else {
 		switch2Horizontal();
 		horizontalScroll = true;
-
-		var all_scrolls = document.getElementsByClassName('scroll');
-		for (var i = 0; i < all_scrolls.length; i++) {
-			var tmp = all_scrolls[i];
-			tmp.style.display = 'block';
-		}
 		
 		$('#vertical').css('display','block');
 		$('#horizontal').css('display','none');
@@ -243,6 +232,8 @@ function switch2Horizontal() {
 	var all_img_wrapper = $('.img_wrapper_vertical');
 	all_img_wrapper.removeClass('img_wrapper_vertical');
 	all_img_wrapper.addClass('img_wrapper');
+
+	$('.scroll').css('display','block');
 }
 
 function switch2Vertical() {
@@ -261,4 +252,6 @@ function switch2Vertical() {
 	var all_img_wrapper = $('.img_wrapper');
 	all_img_wrapper.removeClass('img_wrapper');
 	all_img_wrapper.addClass('img_wrapper_vertical');
+	
+	$('.scroll').css('display','none');
 }
