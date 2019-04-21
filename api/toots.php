@@ -23,7 +23,7 @@ if(!empty($max_id)) {
     $params['max_id'] = $max_id;
 }
 
-$connection = getMastodonConnection($domain);
+$connection = getMastodonConnection($domain, $access_token);
 $toots = $connection->executeGetAPI($api.'?'.http_build_query($params));
 
 $mutters = array();

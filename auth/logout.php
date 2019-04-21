@@ -13,4 +13,4 @@ if (isset($_COOKIE["login_cookie_id"])) {
 
 //セッションを破棄する
 session_destroy();
-header('Location: http://www.yaruox.jp/twimado/');
+header('Location: '.AppURL);

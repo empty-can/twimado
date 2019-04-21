@@ -84,7 +84,7 @@ function getMutter() {
 		},
 		success : function(response) {
 			console.log("ajax通信に成功しました");
-//			console.log(response);
+			console.log(response);
 //			console.log(response['mutters']);
 
 			if(params['pawoo_oldest_id'] !== undefined) {

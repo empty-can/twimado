@@ -1,13 +1,15 @@
 <?php
 require_once ("init.php");
 
-$domain = getGetParam('domain', 'twitter');
+$domain = getGetParam('domain', 'pawoo');
 $api = AppURL . '/api/template/home_timeline.php';
 $hs = getGetParam('hs', 'true');
 $count = getGetParam('count', '20');
 $id = getGetParam('id', '');
 $thumb = getGetParam('thumb', 'true');
 $max_id = getGetParam('max_id', '');
+$pawoo_id = getSessionParam("pawoo_id", "");
+$twitter_id = getSessionParam("twitter_id", "");
 
 if(empty($domain)) {
     echo "ドメインの指定がありません。";
@@ -20,6 +22,8 @@ $params = array(
     ,"id" => $id
     ,"count" => $count
     ,"thumb" => $thumb
+    , "pawoo_id" => $pawoo_id
+    , "twitter_id" => $twitter_id
 );
 
 if(!empty($max_id)) {
@@ -35,10 +39,11 @@ if(empty($response)) {
     exit();
 }
 
-$oldest_id = $response->oldest_id;
+$twitter_oldest_id = $response->twitter_oldest_id;
+$pawoo_oldest_id = $response->pawoo_oldest_id;
 
 // assignメソッドを使ってテンプレートに渡す値を設定
-$smarty->assign("title", "ユーザータイムライン");
+$smarty->assign("title", "ホームタイムライン");
 $smarty->assign("AppContext", AppContext);
 $smarty->assign("hs", $hs);
 
@@ -57,7 +62,10 @@ $embedded_js_params_string = [
     ,"id" => $id
     ,"hs" => $hs
     ,"thumb" => $thumb
-    ,"oldest_id" => $oldest_id
+    ,"twitter_oldest_id" => $twitter_oldest_id
+    ,"pawoo_oldest_id" => $pawoo_oldest_id
+    ,"pawoo_id" => $pawoo_id
+    ,"twitter_id" => $twitter_id
 ];
 
 $embedded_js_params_int = [

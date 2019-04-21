@@ -2,11 +2,13 @@
 
 require_once ("init.php");
 
-$id = getGetParam('id', '');
 $limit = getGetParam('limit', '40');
 $max_id = getGetParam('max_id', '');
+$id = getGetParam('id', PawooID);
 
-$api = "api/v1/accounts/$id/statuses";
+$access_token = getTokens($id)[1];
+
+$api = "api/v1/timelines/home";
 
 $params = array(
     "limit" => $limit
@@ -16,22 +18,23 @@ if(!empty($max_id)) {
     $params['max_id'] = $max_id;
 }
 
-// myVarDump(http_build_query($params));
+ob_start();
 
-$connection = getMastodonConnection(PawooDomain);
+$connection = getMastodonConnection(PawooDomain, $access_token);
+// myVarDump($connection);
 $toots = $connection->executeGetAPI($api.'?'.http_build_query($params));
-
 // myVarDump($toots);
+// var_dump($toots);
 
 $mutters = array();
 
 $oldest = "";
 
+$response = array();
+
 if(empty($toots)) {
-    $response = array();
     $response['mutters'] = array();
     $response['oldest_mutter'] = null;
-    echo json_encode($response);
 } else {
     foreach ($toots as $toot) {
         $tmp = new Pawoo($toot);
@@ -45,11 +48,11 @@ if(empty($toots)) {
             $mutters[$originalId] = $tmp;
     }
     
-    $response = array();
     $response['mutters'] = $mutters;
     $response['oldest_mutter'] = $oldest;
-    
-//     myVarDump($mutters);
-    
-    echo json_encode($response);
 }
+
+$response['error'] = ob_get_contents();
+ob_end_clean();
+
+echo json_encode($response);

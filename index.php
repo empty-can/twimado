@@ -7,26 +7,54 @@ $api = 'trends/place';
 $params = array(
     "id" => $woeid
 );
+$domain = "";
 
-$result = getTwitterConnection("", "")->get($api, $params);
-
-// myVarDump($result[0]->trends);
-// echo "twitter_access_token:".getSessionParam("twitter_access_token", "")."<br>\r\n";
-// echo "twitter_access_token_secret:".getSessionParam("twitter_access_token_secret", "")."<br>\r\n";
+$trends = getTwitterConnection("", "")->get($api, $params);
 
 $userInfo = getSessionParam("twitter_user_info", "");
+// myVarDump($userInfo);
 
 $twitterLogin = (!empty(getSessionParam("twitter_access_token", ""))
     && !empty(getSessionParam("twitter_access_token_secret", "")));
 
 $lists = array();
 if($twitterLogin) {
+    $domain .= "twitter";
     $api = 'lists/list';
     $params = array(
         "screen_name" => $userInfo->screen_name
     );
-    $lists = getTwitterConnection("", "")->get($api, $params);
+    setSessionParam("twitter_id", $userInfo->id);
+    
+    $twitter_access_token = getSessionParam("twitter_access_token", "");
+    $twitter_access_token_secret = getSessionParam("twitter_access_token_secret", "");
+    //  echo "twitter_access_token:".$twitter_access_token."<br>\r\n";
+    //  echo "twitter_access_token_secret:".$twitter_access_token_secret."<br>\r\n";
+    
+    setTokens($userInfo->id, $twitter_access_token, $twitter_access_token_secret);
+    $lists = getTwitterConnection($twitter_access_token, $twitter_access_token_secret)->get($api, $params);
 }
+
+$pawooLogin = false;
+$pawooAccessToken = getSessionParam("pawoo_access_token", "");
+$pawooAccount = getSessionParam("pawoo_account", "");
+
+if(!empty($pawooAccessToken)) {
+    if(empty($pawooAccount)) {
+        $connection = getMastodonConnection(PawooDomain, $pawooAccessToken);
+        $pawooAccount = $connection->executeGetAPI('api/v1/accounts/verify_credentials');
+        setSessionParam("pawoo_account", $pawooAccount);
+        setSessionParam("pawoo_id", $pawooAccount["id"]);
+    }
+    
+    $pawooLogin = true;
+}
+if($pawooLogin) {
+    $domain .= "pawoo";
+//     echo $pawooAccount["id"];
+    setTokens($pawooAccount["id"], $pawooAccessToken, "");
+}
+
 ?>
 <html>
   <head>
@@ -42,38 +70,46 @@ if($twitterLogin) {
   <body>
   <?php 
   if(isset($userInfo->name))
-      echo "ログインしてます:$userInfo->name<br>\r\n";
+      echo "Twitterログインしてます:$userInfo->name<br>\r\n";
+      
+  if(!empty($pawooAccessToken))
+      echo "Pawooログインしてます:".$pawooAccount['display_name']."@".$pawooAccount['username']."<br>\r\n";
   ?>
 <h3>アプリ連携</h3>
 <ul class="breadcrumb">
 <?php if(!$twitterLogin) { ?>
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/auth/twitter.php">Twitterと連携する</a>
+  	<a href="//www.yaruox.jp/twimado/auth/auth_twitter.php">Twitterと連携する</a>
   </li>
-<?php } else { ?>
+<?php }
+
+    if(empty($pawooAccessToken)) { ?>
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/auth/logout.php">Twitterと連携解除</a>
+  	<a href="//www.yaruox.jp/twimado/auth/auth_pawoo.php">Pawooと連携する</a>
   </li>
 <?php }?>
-  <!-- li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/auth/pawoo.php">Pawoo</a>
-  </li -->
+
+<?php if($twitterLogin || !empty($pawooAccessToken)) { ?>
+  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  	<a href="//www.yaruox.jp/twimado/auth/logout.php">アプリと連携解除</a>
+  </li>
+<?php }?>
 </ul>
 <h3>タイムライン</h3>
 <ul class="breadcrumb">
-  <?php if($twitterLogin) { ?>
+  <?php if($twitterLogin || $pawooLogin) { ?>
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/timeline/home.php?hs=false&thumb=false" target="$target"><img src="<?php echo AppURL; ?>/imgs/home_64.svg" style="width:24px;"> TwitterホームTL</a>
+  	<a href="//www.yaruox.jp/twimado/timeline/home.php?domain=<?php echo $domain;?>&hs=false&thumb=false" target="$target"><img src="<?php echo AppURL; ?>/imgs/home_64.svg" style="width:24px;"> ホームTL</a>
   </li>
   <?php } ?>
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/timeline/?domain=twitter&hs=true&thumb=false" target="$target">Twitter（安全）</a>
+  	<a href="//www.yaruox.jp/twimado/timeline/?domain=twitter&hs=true&thumb=false" target="$target">公式TL（Twitter）</a>
   </li>
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/timeline/?domain=pawoo&hs=false&thumb=false" target="$target">Pawoo</a>
+  	<a href="//www.yaruox.jp/twimado/timeline/?domain=pawoo&hs=false&thumb=false" target="$target">公式TL（Pawoo）</a>
   </li>
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/timeline/?hs=false&thumb=false" target="$target">Twitter＆Pawoo</a>
+  	<a href="//www.yaruox.jp/twimado/timeline/?hs=false&thumb=false" target="$target">公式TL（Twitter＆Pawoo）</a>
   </li>
 </ul>
 <h3>検索</h3>
@@ -122,7 +158,7 @@ if($twitterLogin) {
 		</form>
 	</div>
 <?php 
-if(!empty($lists)) {
+if(!empty($lists) && !isset($lists->errors)) {
     ?>
 <h3>マイリスト</h3>
 <ul class="mylist">
@@ -140,7 +176,7 @@ if(!empty($lists)) {
 <h3>Twitterトレンド</h3>
 <ul class="trend">
 <?php 
-foreach ($result[0]->trends as $word) {
+foreach ($trends[0]->trends as $word) {
     ?>
     <li><a href="http://www.yaruox.jp/twimado/timeline/search.php?q=<?php echo $word->query;?>&=<?php echo $word->query;?>&なめhs=false&thumb=false" target="$target"><?php echo $word->name;?></a></li>
     <?php 

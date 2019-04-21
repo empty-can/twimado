@@ -6,6 +6,10 @@ $api = 'statuses/home_timeline';
 
 $count = getGetParam('count', '20');
 $max_id = getGetParam('max_id', '');
+$id = getGetParam('id', '');
+$tokens = getTokens($id);
+$access_token = $tokens[1];
+$access_token_secret = $tokens[2];
 
 $params = array(
     "count" => $count
@@ -17,7 +21,7 @@ if(!empty($max_id)) {
 
 ob_start();
 
-$tweets = getTwitterConnection("", "")->get($api, $params);
+$tweets = getTwitterConnection($access_token, $access_token_secret)->get($api, $params);
 
 $mutters = array();
 $oldest = "";

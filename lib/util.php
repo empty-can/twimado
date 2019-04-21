@@ -3,7 +3,7 @@ require_once ("init.php");
 
 function searchTag(string $text, string $target="_blank") {
     $pattern = '([#＃][^』」】 \r\n]+)';
-    $replacement = '<a href="'.AppURL.'/search/?q=\1" target="$target">\1</a>';
+    $replacement = '<a href="'.AppURL.'/timeline/search.php?q=\1" target="$target">\1</a>';
     return str_replace('=#', '=%23', mb_ereg_replace($pattern, $replacement, $text));
 }
 
@@ -65,8 +65,10 @@ function array_last(array $array) {
  * @return string
  */
 function getRequest(string $url, array $params = array()) {
+//     $params["mySessionID"] = session_id();
     $data = http_build_query($params, '', '&');
 //     myVarDump($url.'?'.$data);
+
     return file_get_contents($url.'?'.$data);
 }
 

@@ -18,7 +18,7 @@ if(!empty($max_id)) {
     $params['max_id'] = $max_id;
 }
 
-$connection = getMastodonConnection('pawoo.net');
+$connection = getMastodonConnection(PawooDomain);
 $toots = $connection->executeGetAPI($api.'?'.http_build_query($params));
 
 
@@ -29,7 +29,7 @@ $oldest = "";
 if(empty($toots)) {
     $response = array();
     $response['mutters'] = array();
-    $response['oldest_mutter'] = array();
+    $response['oldest_mutter'] = null;
     echo json_encode($response);
 } else {
     foreach ($toots as $toot) {

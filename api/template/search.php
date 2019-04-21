@@ -31,6 +31,10 @@ if(contains($domain, 'pawoo') && ($pawoo_oldest_id>-1)) {
             $params['max_id'] = $pawoo_oldest_id;
         }
         
+        if (! empty($pawoo_access_token)) {
+            $params['access_token'] = $pawoo_access_token;
+        }
+        
         $tmpResponse = getRequest(AppURL . '/api/pawoo/tag_timelines.php', $params);
         
 //                          var_dump($tmpResponse);

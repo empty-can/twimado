@@ -37,7 +37,7 @@ $twitter_oldest_id = $response->twitter_oldest_id;
 $pawoo_oldest_id = $response->pawoo_oldest_id;
 
 // assignメソッドを使ってテンプレートに渡す値を設定
-$smarty->assign("title", "テストタイムライン");
+$smarty->assign("title", "公式タイムライン");
 $smarty->assign("AppContext", AppContext);
 $smarty->assign("hs", $hs);
 

@@ -20,9 +20,7 @@ if(contains($domain, 'pawoo') && ($pawoo_oldest_id!=-1)) {
     
     do {
         $params = array(
-            "domain" => "pawoo.net",
-            "api" => "api/v1/timelines/home",
-            "local" => "true"
+            "id" => PawooID
         );
         
         if(empty($count)) {
@@ -35,7 +33,7 @@ if(contains($domain, 'pawoo') && ($pawoo_oldest_id!=-1)) {
             $params['max_id'] = $pawoo_oldest_id;
         }
         
-        $response = json_decode(getRequest(AppURL . '/api/toots.php', $params), true);
+        $response = json_decode(getRequest(AppURL . '/api/pawoo/home_timeline.php', $params), true);
         
         
         if(!is_array($response))
@@ -59,34 +57,6 @@ if(contains($domain, 'pawoo') && ($pawoo_oldest_id!=-1)) {
 $mutters = array_merge($mutters, $tmp_mutters);
 
 $tmp_mutters = array();
-
-// // myVarDump($oldest_id);
-// // myVarDump(count($mutters));
-
-// 横島ボットTL取得
-// if(contains($domain, 'twitter')) {
-//     do {
-//         $params = array(
-//             "user_id" => "766219679631183872",
-//             "count" => "20"
-//         );
-        
-//         if (! empty($twitter_oldest_id)) {
-//             $params['max_id'] = $twitter_oldest_id;
-//         }
-        
-//         $response = json_decode(postRequest(AppURL . '/api/twitter/user_timeline.php', $params), true);
-        
-//         if(!is_array($response))
-//             break;
-        
-
-// if (isset($twitter_oldest['id']))
-//     $twitter_oldest_id = $twitter_oldest['id'];
-// else
-//     $twitter_oldest_id = - 1;
-//     } while (count($mutters) < 30);
-// }
 
 // 自分のイラストリストTL取得
 if(contains($domain, 'twitter') && ($twitter_oldest_id!=-1)) {

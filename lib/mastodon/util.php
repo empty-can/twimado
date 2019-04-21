@@ -10,14 +10,20 @@ use theCodingCompany\Mastodon;
  * @param string $user_token
  * @return theCodingCompany\Mastodon
  */
-function getMastodonConnection(string $mastodon_url, string $user_token = "") {
+function getMastodonConnection(string $mastodon_domain, string $user_token = "") {
     if (empty($user_token)) {
-        $user_token = PawooAccessToken;
+        $user_token = getSessionParam("pawoo_access_token", PawooAccessToken);
     }
     
-    $connection = new Mastodon();
+    $connection = new Mastodon($mastodon_domain);
     
-    $connection->setMastodonDomain($mastodon_url);
+    $connection->setMastodonDomain($mastodon_domain);
+    $connection->setAppConfig([
+        "client_name"   => AppName,
+        "redirect_uris" => AppURL."/auth/pawoo_redirect.php",
+        "scopes"    => "read write",
+        "website"   => AppURL
+    ]);
     $connection->setCredentials([
         "client_id" => PawooClientID,
         "client_secret" => PawooClientSecret,
