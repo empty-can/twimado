@@ -8,11 +8,22 @@ $count = getGetParam('count', '20');
 $id = getGetParam('id', '');
 $thumb = getGetParam('thumb', 'true');
 $max_id = getGetParam('max_id', '');
-$pawoo_access_token = getSessionParam("pawoo_access_token", "");
+$access_token = "";
 
 if(empty($domain)) {
     echo "ドメインの指定がありません。";
     exit();
+} else if(contains($domain, "twitter")) {
+    $params = array(
+        "user_id" => $id
+    );
+    $account = getTwitterConnection("", "")->get("users/show", $params);
+    $title = $account->name;
+} else if(contains($domain, "pawoo")) {
+    $access_token = getSessionParam("pawoo_access_token", "");
+    $connection = getMastodonConnection(PawooDomain, $access_token);
+    $account = $connection->executeGetAPI("api/v1/accounts/$id");
+    $title = $account["display_name"]."@".$account["username"];
 }
 
 $params = array(
@@ -21,7 +32,6 @@ $params = array(
     ,"id" => $id
     ,"count" => $count
     ,"thumb" => $thumb
-    , "pawoo_access_token" => $pawoo_access_token
 );
 
 if(!empty($max_id)) {
@@ -40,7 +50,7 @@ if(empty($response)) {
 $oldest_id = $response->oldest_id;
 
 // assignメソッドを使ってテンプレートに渡す値を設定
-$smarty->assign("title", "ユーザータイムライン");
+$smarty->assign("title", $title);
 $smarty->assign("AppContext", AppContext);
 $smarty->assign("hs", $hs);
 
@@ -60,7 +70,6 @@ $embedded_js_params_string = [
     ,"hs" => $hs
     ,"thumb" => $thumb
     ,"oldest_id" => $oldest_id
-    , "pawoo_access_token" => $pawoo_access_token
 ];
 
 $embedded_js_params_int = [
