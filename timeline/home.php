@@ -1,51 +1,44 @@
 <?php
 require_once ("init.php");
 
-$domain = getGetParam('domain', 'twitterpawoo');
-$api = AppURL . '/api/template/search.php';
-$q = getGetParam('q', '');
+$domain = getGetParam('domain', 'twitter');
+$api = AppURL . '/api/template/home_timeline.php';
 $hs = getGetParam('hs', 'true');
 $count = getGetParam('count', '20');
+$id = getGetParam('id', '');
 $thumb = getGetParam('thumb', 'true');
 $max_id = getGetParam('max_id', '');
-
 
 if(empty($domain)) {
     echo "ドメインの指定がありません。";
     exit();
 }
 
-if(empty($q)) {
-    echo "検索キーワードがありません。";
-    exit();
-}
-
 $params = array(
     "hs" => $hs
     ,"domain" => $domain
-    ,"q" => $q
+    ,"id" => $id
     ,"count" => $count
     ,"thumb" => $thumb
 );
-// myVarDump($params);
+
 if(!empty($max_id)) {
     $params['oldest_id'] = $max_id;
 }
 
-$tmp = getRequest($api, $params);
+$response = json_decode(getRequest($api, $params));
 
-$response = json_decode($tmp);
+// myVarDump($response);
 
 if(empty($response)) {
     echo "APIからのデータ取得に失敗しました。";
     exit();
 }
 
-$twitter_oldest_id = $response->twitter_oldest_id;
-$pawoo_oldest_id = $response->pawoo_oldest_id;
+$oldest_id = $response->oldest_id;
 
 // assignメソッドを使ってテンプレートに渡す値を設定
-$smarty->assign("title", "検索：".urldecode($q));
+$smarty->assign("title", "ユーザータイムライン");
 $smarty->assign("AppContext", AppContext);
 $smarty->assign("hs", $hs);
 
@@ -61,11 +54,10 @@ $smarty->assign("jss", $jss);
 
 $embedded_js_params_string = [
     "domain" => $domain
+    ,"id" => $id
     ,"hs" => $hs
-    ,"q" => urlencode($q)
     ,"thumb" => $thumb
-    ,"twitter_oldest_id" => $twitter_oldest_id
-    ,"pawoo_oldest_id" => $pawoo_oldest_id
+    ,"oldest_id" => $oldest_id
 ];
 
 $embedded_js_params_int = [

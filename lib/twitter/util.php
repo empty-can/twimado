@@ -12,10 +12,10 @@ use Abraham\TwitterOAuth\TwitterOAuth;
  */
 function getTwitterConnection(string $user_token, string $user_token_secret) {
     if (empty($user_token)) {
-        $user_token = TwitterAccessToken;
+        $user_token = getSessionParam("twitter_access_token", TwitterAccessToken);
     }
     if (empty($user_token_secret)) {
-        $user_token_secret = TwitterAccessTokenSecret;
+        $user_token_secret = getSessionParam("twitter_access_token_secret", TwitterAccessTokenSecret);
     }
     
     return new TwitterOAuth(TwitterAppToken, TwitterAppTokenSecret, $user_token, $user_token_secret);

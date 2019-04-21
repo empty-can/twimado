@@ -1,6 +1,7 @@
 body {
-	width: 50vw;
+	width: 80vw;
 	min-width: 256px;
+	max-width: 1024px;
 	margin: auto;
 }
 
@@ -21,6 +22,30 @@ ul, ol {
 }
 
 .trend li:before{ 
+  display:inline-block; 
+  vertical-align: middle;
+  /*以下白丸つくる*/
+  content:'';
+  width:1em;
+  height: 1em;
+  background: #fff;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.mylist li {
+  position: relative;
+  list-style-type: none!important;/*ポチ消す*/
+  padding: 0.5em 0.5em 0.5em 0.5em;
+  margin-bottom: 5px;
+  line-height: 1.5;
+  background: #dbcbf8;
+  vertical-align: middle;
+  color: #505050;
+  border-radius: 15px 0px 0px 15px;/*左側の角丸く*/
+}
+
+.mylist li:before{ 
   display:inline-block; 
   vertical-align: middle;
   /*以下白丸つくる*/
@@ -99,4 +124,203 @@ h3:before {
 
 .breadcrumb li a:hover {
   color: #FFF;
+}
+
+
+/*--------------------------------------
+テキスト
+---------------------------------------*/
+
+.msr_text_05 {
+  padding-bottom: 20px;
+  width: 100%;
+}
+.msr_text_05 label {
+  display: block;
+  font-size: 14px;
+  padding-bottom: 5px;
+}
+.msr_text_05 input[type=text] {
+  background: #fff;
+  border: 1px solid #999999;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  font-size: 14px;
+  padding: 10px;
+  height: 40px;
+  width: 50vw;
+}
+
+/*--------------------------------------
+チェックボックス
+---------------------------------------*/
+
+.msr_chack_05 {
+  padding-bottom: 20px;
+}
+.msr_chack_05 p {
+  font-size: 14px;
+  padding-bottom: 5px;
+}
+.msr_chack_05 input[type=checkbox] {
+  display: none;
+  margin: 0;
+}
+.msr_chack_05 input[type=checkbox] + label {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1.5px;
+  margin-right: 12px;
+  padding: 0 0 0 24px;
+  position: relative;
+}
+.msr_chack_05 input[type=checkbox] + label::before {
+  border: 1px solid #999999;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  content: "";
+  display: block;
+  margin-top: -9px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 16px;
+  width: 16px;
+}
+.msr_chack_05 input[type=checkbox]:checked + label::after {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+}
+.msr_chack_05 input[type=checkbox]:checked + label::after {
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #333333;
+  left: 3px;
+  margin-top: -6px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  height: 6px;
+  width: 10px;
+}
+
+/*--------------------------------------
+プルダウン
+---------------------------------------*/
+
+.msr_pulldown_05 {
+  padding-bottom: 20px;
+  position: relative;
+  width: 230px;
+}
+.msr_pulldown_05 p {
+  font-size: 14px;
+  padding-bottom: 5px;
+}
+.msr_pulldown_05 select {
+  appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -webkit-appearance: none;
+  background:#FFFFFF;
+  border: 1px solid #999999;
+  border-radius: 0;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  cursor: pointer;
+  padding: 10px;
+  position:relative;
+  height: 40px;
+  width: 230px;
+}
+.msr_pulldown_05 label{
+  position:relative;
+}
+.msr_pulldown_05 label::after {
+  content:"";
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #333333;
+  right: 16px;
+  height: 8px;
+  margin-top: -5px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  position:absolute;
+  top:50%;
+  width: 8px;
+}
+
+
+/*--------------------------------------
+テキストエリア
+---------------------------------------*/
+
+.msr_textarea_05 {
+  padding-bottom: 10px;
+  width: 460px;
+}
+.msr_textarea_05 label {
+  display: block;
+  font-size: 14px;
+  padding-bottom: 5px;
+}
+.msr_textarea_05 textarea {
+  border: 1px solid #999999;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  font-size: 13px;
+  padding: 10px;
+  height: 210px;
+  width: 460px;
+}
+
+/*--------------------------------------
+送信ボタン
+---------------------------------------*/
+.msr_sendbtn_05{
+  margin:0 0 10px 10px;
+}
+
+.msr_sendbtn_05 input[type=submit] {
+  background-color: #FFFFFF;
+  border:1px solid #999999;
+  border-radius: 2px;
+  color: #333333;
+  cursor:pointer;
+  display: block;
+  font-size: 14px;
+  padding: 14px;
+  text-align: center;
+  text-decoration: none;
+  transition: 0.2s ease-in-out;
+  -o-transition: 0.2s ease-in-out;
+  -moz-transition: 0.2s ease-in-out;
+  -webkit-transition: 0.2s ease-in-out;
+  width: 180px;
+}
+.msr_sendbtn_05 input[type=submit]:hover {
+  background-color: #999999;
+  color: #FFFFFF;
+}
+.msr_sendbtn_05 input[disabled=disabled] {
+  cursor:default;
+  opacity: 0.5;
+}
+.msr_sendbtn_05 input[disabled=disabled]:hover {
+  background-color: #FFFFFF;
+  color: #333333;
+}
+
+.form_parts {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
 }
