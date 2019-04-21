@@ -4,6 +4,8 @@ require_once ("init.php");
 $woeid = "1118370"; // Tokyo
 $api = 'trends/place';
 
+$target = "_blank";
+
 $params = array(
     "id" => $woeid
 );
@@ -63,7 +65,7 @@ if($pawooLogin) {
 	<!--[if IE]>
 	    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-	<title>二次絵絶対拡散するサイト</title>
+	<title>Happy Musica</title>
     <link rel="stylesheet" type="text/css" href="/twimado/css/common.css?2019-04-14_22:35:35" />
     <link rel="stylesheet" type="text/css" href="/twimado/css/top.css?2019-04-14_22:35:35" />
   </head>
@@ -99,17 +101,17 @@ if($pawooLogin) {
 <ul class="breadcrumb">
   <?php if($twitterLogin || $pawooLogin) { ?>
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/timeline/home.php?domain=<?php echo $domain;?>&hs=false&thumb=false" target="$target"><img src="<?php echo AppURL; ?>/imgs/home_64.svg" style="width:24px;"> ホームTL</a>
+  	<a href="//www.yaruox.jp/twimado/timeline/home.php?domain=<?php echo $domain;?>&hs=false&thumb=false" target="<?php echo $target;?>"><img src="<?php echo AppURL; ?>/imgs/home_64.svg" style="width:24px;"> ホームTL</a>
   </li>
   <?php } ?>
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/timeline/?domain=twitter&hs=true&thumb=false" target="$target">公式TL（Twitter）</a>
+  	<a href="//www.yaruox.jp/twimado/timeline/?domain=twitter&hs=true&thumb=false" target="<?php echo $target;?>">公式TL（Twitter）</a>
   </li>
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/timeline/?domain=pawoo&hs=false&thumb=false" target="$target">公式TL（Pawoo）</a>
+  	<a href="//www.yaruox.jp/twimado/timeline/?domain=pawoo&hs=false&thumb=false" target="<?php echo $target;?>">公式TL（Pawoo）</a>
   </li>
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/timeline/?hs=false&thumb=false" target="$target">公式TL（Twitter＆Pawoo）</a>
+  	<a href="//www.yaruox.jp/twimado/timeline/?hs=false&thumb=false" target="<?php echo $target;?>">公式TL（Twitter＆Pawoo）</a>
   </li>
 </ul>
 <h3>検索</h3>
@@ -165,7 +167,7 @@ if(!empty($lists) && !isset($lists->errors)) {
     <?php
     foreach ($lists as $list) {
     ?>
-    <li><a href="http://www.yaruox.jp/twimado/timeline/list.php?domain=twitter&id=<?php echo $list->id;?>&name=<?php echo $list->name;?>&hs=false&thumb=false" target="$target"><?php echo $list->name;?></a></li>
+    <li><a href="http://www.yaruox.jp/twimado/timeline/list.php?domain=twitter&id=<?php echo $list->id;?>&name=<?php echo $list->name;?>&hs=false&thumb=false" target="<?php echo $target;?>"><?php echo $list->name;?></a></li>
     <?php 
     }
     ?>
@@ -178,7 +180,7 @@ if(!empty($lists) && !isset($lists->errors)) {
 <?php 
 foreach ($trends[0]->trends as $word) {
     ?>
-    <li><a href="http://www.yaruox.jp/twimado/timeline/search.php?q=<?php echo $word->query;?>&=<?php echo $word->query;?>&なめhs=false&thumb=false" target="$target"><?php echo $word->name;?></a></li>
+    <li><a href="http://www.yaruox.jp/twimado/timeline/search.php?q=<?php echo $word->query;?>&=<?php echo $word->query;?>&なめhs=false&thumb=false" target="<?php echo $target;?>"><?php echo $word->name;?></a></li>
     <?php 
 }
 ?>
