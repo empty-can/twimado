@@ -113,7 +113,7 @@ function getMutter() {
 			
 			mutters_num = Object.keys(response['mutters']).length;
 
-			if(isEnd(params['pawoo_oldest_id']) && isEnd(params['twitter_oldest_id'])) {
+			if(isEnd(params['pawoo_oldest_id']) && isEnd(params['twitter_oldest_id']) && isEnd(params['oldest_id'])) {
 //				bottom.style.fontSize = '1em';
 //				bottom.innerHTML = '最後まで来ました。';
 //				console.log("最後まで来ました");
