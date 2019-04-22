@@ -8,8 +8,8 @@ $count = getGetParam('count', '20');
 $max_id = getGetParam('max_id', '');
 $id = getGetParam('id', '');
 $tokens = getTokens($id);
-$access_token = $tokens[1];
-$access_token_secret = $tokens[2];
+$access_token = $tokens[2];
+$access_token_secret = $tokens[3];
 
 $params = array(
     "count" => $count

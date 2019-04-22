@@ -33,7 +33,7 @@ if($twitterLogin) {
     //  echo "twitter_access_token:".$twitter_access_token."<br>\r\n";
     //  echo "twitter_access_token_secret:".$twitter_access_token_secret."<br>\r\n";
     
-    setTokens($userInfo->id, $twitter_access_token, $twitter_access_token_secret);
+    setTokens($userInfo->id, $userInfo->name."@".$userInfo->screen_name, $twitter_access_token, $twitter_access_token_secret);
     $lists = getTwitterConnection($twitter_access_token, $twitter_access_token_secret)->get($api, $params);
 }
 
@@ -53,8 +53,7 @@ if(!empty($pawooAccessToken)) {
 }
 if($pawooLogin) {
     $domain .= "pawoo";
-//     echo $pawooAccount["id"];
-    setTokens($pawooAccount["id"], $pawooAccessToken, "");
+    setTokens($pawooAccount["id"], $pawooAccount["display_name"]."@".$pawooAccount["username"], $pawooAccessToken, "");
 }
 
 ?>
@@ -70,33 +69,19 @@ if($pawooLogin) {
     <link rel="stylesheet" type="text/css" href="/twimado/css/top.css?2019-04-14_22:35:35" />
   </head>
   <body>
+  <br>
   <?php 
-  if(isset($userInfo->name))
-      echo "Twitterログインしてます:$userInfo->name<br>\r\n";
-      
-  if(!empty($pawooAccessToken))
-      echo "Pawooログインしてます:".$pawooAccount['display_name']."@".$pawooAccount['username']."<br>\r\n";
+  if(isset($userInfo->name)) {
+      ?>
+  <img src="<?php echo $userInfo->profile_image_url_https; ?>" style="width:30px;">:<?php echo $userInfo->name; ?><br>
+  <?php 
+  }
+  if(!empty($pawooAccessToken)) {
+      ?>
+  <img src="<?php echo $pawooAccount['avatar']; ?>" style="width:30px;">:<?php echo $pawooAccount['display_name']."@".$pawooAccount['username']; ?><br>
+  <?php 
+  }
   ?>
-<h3>アプリ連携</h3>
-<ul class="breadcrumb">
-<?php if(!$twitterLogin) { ?>
-  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/auth/auth_twitter.php">Twitterと連携する</a>
-  </li>
-<?php }
-
-    if(empty($pawooAccessToken)) { ?>
-  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/auth/auth_pawoo.php">Pawooと連携する</a>
-  </li>
-<?php }?>
-
-<?php if($twitterLogin || !empty($pawooAccessToken)) { ?>
-  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/auth/logout.php">アプリと連携解除</a>
-  </li>
-<?php }?>
-</ul>
 <h3>タイムライン</h3>
 <ul class="breadcrumb">
   <?php if($twitterLogin || $pawooLogin) { ?>
@@ -106,6 +91,9 @@ if($pawooLogin) {
   <?php } ?>
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
   	<a href="//www.yaruox.jp/twimado/timeline/?domain=twitter&hs=true&thumb=false" target="<?php echo $target;?>">公式TL（Twitter）</a>
+  </li>
+  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  	<a href="//www.yaruox.jp/twimado/timeline/?domain=twitter&hs=true&thumb=false&twitter_list=1120163652441481217" target="<?php echo $target;?>">公式TL（マンガ家）</a>
   </li>
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
   	<a href="//www.yaruox.jp/twimado/timeline/?domain=pawoo&hs=false&thumb=false" target="<?php echo $target;?>">公式TL（Pawoo）</a>
@@ -159,6 +147,26 @@ if($pawooLogin) {
 			</div>
 		</form>
 	</div>
+<h3>アプリ連携</h3>
+<ul class="breadcrumb">
+<?php if(!$twitterLogin) { ?>
+  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  	<a href="//www.yaruox.jp/twimado/auth/auth_twitter.php"><img src="<?php echo AppURL; ?>/imgs/link.svg" style="width:24px;"> Twitterと連携する</a>
+  </li>
+<?php }
+
+    if(empty($pawooAccessToken)) { ?>
+  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  	<a href="//www.yaruox.jp/twimado/auth/auth_pawoo.php"><img src="<?php echo AppURL; ?>/imgs/link.svg" style="width:24px;"> Pawooと連携する</a>
+  </li>
+<?php }?>
+
+<?php if($twitterLogin || !empty($pawooAccessToken)) { ?>
+  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  	<a href="//www.yaruox.jp/twimado/auth/logout.php"><img src="<?php echo AppURL; ?>/imgs/release.svg" style="width:24px;"> アプリと連携解除</a>
+  </li>
+<?php }?>
+</ul>
 <?php 
 if(!empty($lists) && !isset($lists->errors)) {
     ?>

@@ -7,6 +7,7 @@ $hs = getGetParam('hs', 'true');
 $pawoo_oldest_id = getGetParam('pawoo_oldest_id', '');
 $twitter_oldest_id = getGetParam('twitter_oldest_id', '');
 $count = getGetParam('count', '');
+$twitter_list = getGetParam('twitter_list', TwitterList);
 $thumb = getGetParam('thumb', 'true');
 
 $mutters = array();
@@ -63,7 +64,7 @@ if(contains($domain, 'twitter') && ($twitter_oldest_id!=-1)) {
     
     do {
         $params = array(
-            "list_id" => TwitterList
+            "list_id" => $twitter_list
         );
         
         if(empty($count)) {

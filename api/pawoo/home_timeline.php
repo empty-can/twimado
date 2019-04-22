@@ -6,7 +6,7 @@ $limit = getGetParam('limit', '40');
 $max_id = getGetParam('max_id', '');
 $id = getGetParam('id', PawooID);
 
-$access_token = getTokens($id)[1];
+$access_token = getTokens($id)[2];
 
 $api = "api/v1/timelines/home";
 

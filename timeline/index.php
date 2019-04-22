@@ -5,6 +5,7 @@ $domain = getGetParam('domain', 'twitterpawoo');
 $api = AppURL . '/api/template/timeline.php';
 $hs = getGetParam('hs', 'true');
 $count = getGetParam('count', '20');
+$twitter_list = getGetParam('twitter_list', TwitterList);
 $thumb = getGetParam('thumb', 'true');
 $mutters = array();
 
@@ -16,6 +17,7 @@ $params = array(
     ,"hs" => $hs
     ,"count" => $count
     ,"thumb" => $thumb
+    ,"twitter_list" => $twitter_list
 );
 
 $response = json_decode(getRequest($api, $params));
@@ -57,6 +59,7 @@ $embedded_js_params_string = [
     ,"thumb" => $thumb
     ,"twitter_oldest_id" => $twitter_oldest_id
     ,"pawoo_oldest_id" => $pawoo_oldest_id
+    ,"twitter_list" => $twitter_list
 ];
 
 $embedded_js_params_int = [
