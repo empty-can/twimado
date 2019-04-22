@@ -2,13 +2,16 @@
 
 require_once ("init.php");
 
-$limit = getGetParam('limit', '40');
+$limit = getGetParam('limit', MastodonTootsLimit);
 $max_id = getGetParam('max_id', '');
 $id = getGetParam('id', PawooID);
 
 $access_token = getTokens($id)[2];
 
 $api = "api/v1/timelines/home";
+
+if($limit>MastodonTootsLimit)
+    $limit=MastodonTootsLimit;
 
 $params = array(
     "limit" => $limit

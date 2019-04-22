@@ -27,6 +27,7 @@ session_start();
 
 /* ミニブログサーバの情報 */
 define("PawooDomain", $ini_array["pawoo_domain"]);
+define("MastodonTootsLimit", $ini_array["mastodon_toots_limit"]);
 
 
 /* Twitterトークン情報の設定 */

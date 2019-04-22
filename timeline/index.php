@@ -69,7 +69,7 @@ $embedded_js_string = [
     "api" => $api
 ];
 $embedded_js_int = [
-    "count" => $count
+    "count" => 200
 ];
 // $embededd_js_assocarray = [
 //     "mutterQueue" => $mutters

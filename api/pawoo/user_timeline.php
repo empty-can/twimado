@@ -3,10 +3,13 @@
 require_once ("init.php");
 
 $id = getGetParam('id', '');
-$limit = getGetParam('limit', '40');
+$limit = getGetParam('limit', MastodonTootsLimit);
 $max_id = getGetParam('max_id', '');
 
 $api = "api/v1/accounts/$id/statuses";
+
+if($limit>MastodonTootsLimit)
+    $limit=MastodonTootsLimit;
 
 $params = array(
     "limit" => $limit

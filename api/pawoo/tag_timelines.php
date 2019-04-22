@@ -3,12 +3,15 @@
 require_once ("init.php");
 
 $hashtag = getGetParam('tag', '');
-$limit = getGetParam('limit', '40');
+$limit = getGetParam('limit', MastodonTootsLimit);
 $max_id = getGetParam('max_id', '');
 
 $api = "/api/v1/timelines/tag/$hashtag";
 
 // var_dump($api);
+
+if($limit>MastodonTootsLimit)
+    $limit=MastodonTootsLimit;
 
 $params = array(
     "limit" => $limit
