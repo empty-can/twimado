@@ -113,7 +113,7 @@ function getMutter() {
 			
 			mutters_num = Object.keys(response['mutters']).length;
 
-			if(mutters_num<=0) {
+			if(isEnd(params['pawoo_oldest_id']) && isEnd(params['twitter_oldest_id'])) {
 //				bottom.style.fontSize = '1em';
 //				bottom.innerHTML = '最後まで来ました。';
 //				console.log("最後まで来ました");
@@ -254,4 +254,8 @@ function switch2Vertical() {
 	all_img_wrapper.addClass('img_wrapper_vertical');
 	
 	$('.scroll').css('display','none');
+}
+
+function isEnd(params) {
+	return (params == undefined || params == -1)
 }

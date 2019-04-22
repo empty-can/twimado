@@ -8,7 +8,7 @@ $id = getGetParam('id', PawooID);
 
 $access_token = getTokens($id)[2];
 
-$api = "api/v1/timelines/home";
+$api = "api/v1/timelines/public";
 
 if($limit>MastodonTootsLimit)
     $limit=MastodonTootsLimit;
@@ -16,6 +16,7 @@ if($limit>MastodonTootsLimit)
 $params = array(
     "limit" => $limit
     , "only_media" => true
+    , "local" => true
 );
 
 if(!empty($max_id)) {

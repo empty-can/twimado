@@ -9,7 +9,6 @@ $target = "_blank";
 $params = array(
     "id" => $woeid
 );
-$domain = "";
 
 $trends = getTwitterConnection("", "")->get($api, $params);
 
@@ -21,7 +20,6 @@ $twitterLogin = (!empty(getSessionParam("twitter_access_token", ""))
 
 $lists = getSessionParam("twitter_mylists", "");
 if($twitterLogin) {
-    $domain .= "twitter";
     $api = 'lists/list';
     $params = array(
         "screen_name" => $userInfo->screen_name
@@ -56,7 +54,6 @@ if(!empty($pawooAccessToken)) {
     $pawooLogin = true;
 }
 if($pawooLogin) {
-    $domain .= "pawoo";
     setTokens($pawooAccount["id"], $pawooAccount["display_name"]."@".$pawooAccount["username"], $pawooAccessToken, "");
 }
 
@@ -88,11 +85,27 @@ if($pawooLogin) {
   ?>
 <h3>タイムライン</h3>
 <ul class="breadcrumb">
-  <?php if($twitterLogin || $pawooLogin) { ?>
+  <?php if($twitterLogin && $pawooLogin) { ?>
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/timeline/home.php?domain=<?php echo $domain;?>&hs=false&thumb=false" target="<?php echo $target;?>"><img src="<?php echo AppURL; ?>/imgs/home_64.svg" style="width:24px;"> ホームTL</a>
+  	<a href="//www.yaruox.jp/twimado/timeline/home.php?domain=twitterpawoo&hs=false&thumb=false" target="<?php echo $target;?>"><img src="<?php echo AppURL; ?>/imgs/home_64.svg" style="width:24px;"> ホームTL</a>
+  </li>
+  <?php } 
+  if($twitterLogin) { ?>
+  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  	<a href="//www.yaruox.jp/twimado/timeline/home.php?domain=twitter&hs=false&thumb=false" target="<?php echo $target;?>"><img src="<?php echo AppURL; ?>/imgs/home_64.svg" style="width:24px;"> ホームTL(Twitter)</a>
+  </li>
+  <?php } 
+  if($pawooLogin) { ?>
+  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  	<a href="//www.yaruox.jp/twimado/timeline/home.php?domain=pawoo&hs=false&thumb=false" target="<?php echo $target;?>"><img src="<?php echo AppURL; ?>/imgs/home_64.svg" style="width:24px;"> ホームTL(Pawoo)</a>
+  </li>
+  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  	<a href="//www.yaruox.jp/twimado/timeline/local.php?domain=pawoo&hs=false&thumb=false" target="<?php echo $target;?>">ローカルTL(Pawoo)</a>
   </li>
   <?php } ?>
+</ul>
+<br>
+<ul class="breadcrumb">
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
   	<a href="//www.yaruox.jp/twimado/timeline/?domain=twitter&hs=false&thumb=false&twitter_list=1120163652441481217" target="<?php echo $target;?>">公式TL（マンガ家）</a>
   </li>
@@ -106,6 +119,27 @@ if($pawooLogin) {
   	<a href="//www.yaruox.jp/twimado/timeline/?hs=false&thumb=false" target="<?php echo $target;?>">Twitter＆Pawoo TL🔞</a>
   </li>
 </ul>
+<h3>アプリ連携</h3>
+<ul class="breadcrumb">
+<?php if(!$twitterLogin) { ?>
+  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  	<a href="//www.yaruox.jp/twimado/auth/auth_twitter.php"><img src="<?php echo AppURL; ?>/imgs/link.svg" style="width:24px;"> Twitterと連携する</a>
+  </li>
+<?php }
+
+    if(empty($pawooAccessToken)) { ?>
+  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  	<a href="//www.yaruox.jp/twimado/auth/auth_pawoo.php"><img src="<?php echo AppURL; ?>/imgs/link.svg" style="width:24px;"> Pawooと連携する</a>
+  </li>
+<?php }?>
+
+<?php if($twitterLogin || !empty($pawooAccessToken)) { ?>
+  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  	<a href="//www.yaruox.jp/twimado/auth/logout.php"><img src="<?php echo AppURL; ?>/imgs/release.svg" style="width:24px;"> アプリと連携解除</a>
+  </li>
+<?php }?>
+</ul>
+
 <h3>検索</h3>
 <div style="width:75vw;max-width:1024px;margin:auto;">
 		<form target="_blank"
@@ -151,26 +185,6 @@ if($pawooLogin) {
 			</div>
 		</form>
 	</div>
-<h3>アプリ連携</h3>
-<ul class="breadcrumb">
-<?php if(!$twitterLogin) { ?>
-  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/auth/auth_twitter.php"><img src="<?php echo AppURL; ?>/imgs/link.svg" style="width:24px;"> Twitterと連携する</a>
-  </li>
-<?php }
-
-    if(empty($pawooAccessToken)) { ?>
-  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/auth/auth_pawoo.php"><img src="<?php echo AppURL; ?>/imgs/link.svg" style="width:24px;"> Pawooと連携する</a>
-  </li>
-<?php }?>
-
-<?php if($twitterLogin || !empty($pawooAccessToken)) { ?>
-  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="//www.yaruox.jp/twimado/auth/logout.php"><img src="<?php echo AppURL; ?>/imgs/release.svg" style="width:24px;"> アプリと連携解除</a>
-  </li>
-<?php }?>
-</ul>
 <?php 
 if(!empty($lists) && !isset($lists->errors)) {
     ?>

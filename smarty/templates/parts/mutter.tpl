@@ -29,7 +29,7 @@
 		        	    {if $mutter.isImg}
 		            	<img src="{$medium.url}" />
 		        	    {else if $mutter.isVideo}
-		        	    <video src="{$medium.url}" poster="{$medium.thumb}" poster="" preload="metadata" controls ></video>
+		        	    <video src="{$medium.url}" poster="{$medium.thumb}" preload="metadata" controls ></video>
 		        	    {else if $mutter.isObject}
 		        	    <object data="{$medium}" type="image/png"></object>
 		        	    {/if}

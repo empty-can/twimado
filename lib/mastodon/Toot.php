@@ -42,8 +42,8 @@ class Toot extends StandardMutter implements Mutter {
             $this->media = array();
             
             foreach($toot->media_attachments as $media) {
-                $mediaURL = (is_array($media)) ? ((object)$media)->url : $media->url;
-                $thumbnailURL = (is_array($media)) ? ((object)$media)->url : $media->url;
+                $mediaURL = (is_array($media)) ? $media["url"] : $media->url;
+                $thumbnailURL = (is_array($media)) ? $media["url"] : $media->url;
                 $this->media[] = new Media($mediaURL, $thumbnailURL);
                 
                 if (isImg($mediaURL))

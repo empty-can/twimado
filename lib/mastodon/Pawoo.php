@@ -19,7 +19,7 @@ class Pawoo extends Toot {
             foreach ($toot->pixiv_cards as $card) {
                 //                 myVarDump($card)
                 if (isset($card['image_url'])) {
-                    $this->media = new PixivCards($card);
+                    $this->media[] = new PixivCards($card);
                     $this->isObject = true;
                 }
 //                 var_dump($this->thumbnailURLs);

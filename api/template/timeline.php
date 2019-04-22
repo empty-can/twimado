@@ -25,7 +25,7 @@ if(contains($domain, 'pawoo') && ($pawoo_oldest_id!=-1)) {
         );
         
         if(empty($count)) {
-            $params['limit'] = "40";
+            $params['limit'] = MastodonTootsLimit;
         } else {
             $params['limit'] = "$count";
         }

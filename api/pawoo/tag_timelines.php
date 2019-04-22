@@ -15,6 +15,7 @@ if($limit>MastodonTootsLimit)
 
 $params = array(
     "limit" => $limit
+    , "only_media" => true
 );
 
 if(!empty($max_id)) {
