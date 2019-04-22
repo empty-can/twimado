@@ -65,7 +65,7 @@ if($pawooLogin) {
 	<!--[if IE]>
 	    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-	<title>Happy Musica</title>
+	<title>ツイ窓</title>
     <link rel="stylesheet" type="text/css" href="/twimado/css/common.css?2019-04-14_22:35:35" />
     <link rel="stylesheet" type="text/css" href="/twimado/css/top.css?2019-04-14_22:35:35" />
   </head>
@@ -74,12 +74,12 @@ if($pawooLogin) {
   <?php 
   if(isset($userInfo->name)) {
       ?>
-  <img src="<?php echo $userInfo->profile_image_url_https; ?>" style="width:30px;">:<?php echo $userInfo->name; ?><br>
+  <img src="<?php echo $userInfo->profile_image_url_https; ?>" style="width:30px;">:<a href="https://twitter.com/" target="_balnk"><?php echo $userInfo->name; ?></a><br>
   <?php 
   }
   if(!empty($pawooAccessToken)) {
       ?>
-  <img src="<?php echo $pawooAccount['avatar']; ?>" style="width:30px;">:<?php echo $pawooAccount['display_name']."@".$pawooAccount['username']; ?><br>
+  <img src="<?php echo $pawooAccount['avatar']; ?>" style="width:30px;">:<a href="https://pawoo.net/" target="_balnk"><?php echo $pawooAccount['display_name']."@".$pawooAccount['username']; ?></a><br>
   <?php 
   }
   ?>
