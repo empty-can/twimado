@@ -7,7 +7,7 @@ $hs = getGetParam('hs', 'true');
 $q = urlencode(getGetParam('q', ''));
 $pawoo_oldest_id = getGetParam('pawoo_oldest_id', '');
 $twitter_oldest_id = getGetParam('twitter_oldest_id', '');
-$count = getGetParam('count', '100');
+$count = getGetParam('count', '');
 $thumb = getGetParam('thumb', 'true');
 
 $mutters = array();
@@ -20,19 +20,21 @@ ob_start();
 
 // pawooの検索結果取得（pawooはツイートのキーワード検索未対応）
 if(contains($domain, 'pawoo') && ($pawoo_oldest_id>-1)) {
+    $params = array();
     
     do {
         $params = array(
             "tag" => mb_ereg_replace('%23', '', $q)
-            , "limit" => $count
-        );
+            );
+        
+        if (!empty($count)) {
+            $params['limit'] = $count;
+        } else {
+            $params['limit'] = 80;
+        }
         
         if (! empty($pawoo_oldest_id)) {
             $params['max_id'] = $pawoo_oldest_id;
-        }
-        
-        if (! empty($pawoo_access_token)) {
-            $params['access_token'] = $pawoo_access_token;
         }
         
         $tmpResponse = getRequest(AppURL . '/api/pawoo/tag_timelines.php', $params);
@@ -70,8 +72,12 @@ if(contains($domain, 'twitter') && ($twitter_oldest_id>-1)) {
     do {
         $params = array(
             "q" => $q
-            , "count" => $count
         );
+        if (!empty($count)) {
+            $params['count'] = $count;
+        } else {
+            $params['count'] = 200;
+        }
         
         if (! empty($twitter_oldest_id)) {
             $params['max_id'] = $twitter_oldest_id;

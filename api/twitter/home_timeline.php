@@ -1,5 +1,4 @@
 <?php
-
 require_once ("init.php");
 
 $api = 'statuses/home_timeline';
@@ -12,7 +11,7 @@ $access_token = $tokens[2];
 $access_token_secret = $tokens[3];
 
 $params = array(
-    "count" => $count
+    "count" => 200
 );
 
 if(!empty($max_id)) {
@@ -25,6 +24,7 @@ $tweets = getTwitterConnection($access_token, $access_token_secret)->get($api, $
 
 $mutters = array();
 $oldest = "";
+$i = (int)0;
 
 foreach ($tweets as $tweet) {
     $tmp = new Tweet($tweet);
@@ -34,6 +34,10 @@ foreach ($tweets as $tweet) {
     
     if ($tmp->hasMedia() && !isset($mutters[$originalId]))
         $mutters[$originalId] = $tmp;
+    
+    $i++;
+    
+    if($i>$count) break;
 }
 
 $response = array();

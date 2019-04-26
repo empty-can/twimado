@@ -80,8 +80,15 @@
 	    		<div class="text">
 			    	{$mutter.text}
 	    		</div>
+	    	<div class="mutter_menu" style="display:flex;justify-content:space-around;align-items:center;widht:100%;height:32px;">
+	    		<div onclick="confirm('RT機能は未実装です');">&#x1f501;{$mutter.reCount}</div>
+	    		<div onclick="confirm('お気に入り機能は未実装です');">&#x2661;{$mutter.favCount}</div>
+	    		<!-- div onclick="showMyList();">&#x2b50;</div>
+	    		<div onclick="confirm('しおり機能は未実装です');">&#x1f516;</div -->
+	    	</div>
 	    	</div>
 	    	<div class="clear"></div>
 	    </div>
-			<hr>
+	    <br>
+		<hr>
     </div>

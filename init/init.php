@@ -1,5 +1,8 @@
 <?php
 $ini_array = parse_ini_file('twimado.ini');
+ini_set( 'session.gc_maxlifetime', 604800 );
+ini_set( 'session.cookie_lifetime', 604800 );
+ini_set( 'session.cache_expire', 604800 );
 
 date_default_timezone_set('Asia/Tokyo');
 
@@ -18,7 +21,7 @@ require_once($lib_path."/vendor/thecodingcompany/php-mastodon/autoload.php"); //
 require_once($lib_path."/load.php"); // 自作ライブラリをロード
 
 /* セッション関連の設定 */
-session_save_path('C:\xampp\htdocs\tmp');
+session_save_path('C:\xampp\htdocs\tmp\twimado');
 $sessionID = getGetParam("mySessionID",'');
 // if(!empty($sessionID)) {
 //     session_id($sessionID);

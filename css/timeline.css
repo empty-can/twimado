@@ -167,6 +167,7 @@
 	background-color: skyblue;
 	height: 46px;
 	padding-bottom: 0px;
+	border-bottom: solid 2px white;
 	margin: auto;
 }
 #timeline_menu div {
@@ -177,4 +178,16 @@
 #timeline_menu div img {
 	width: 32px;
 	height: 32px;
+}
+
+#mylist {
+  position: fixed;
+  top: 0;
+  right: -340px; /* メニューのwidth + padding */
+  width: 40vwpx; /* メニューのwidth */
+  height: 100%;
+  padding: 20px;
+  transition: left .5s, right .5s; /* アニメーション */
+  background-color: rgba(173, 216, 230, .9);
+  overflow: auto;
 }

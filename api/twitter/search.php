@@ -1,16 +1,15 @@
 <?php
-
 require_once ("init.php");
 
 $api = 'search/tweets';
 
 $q = getGetParam('q', '');
-$count = getGetParam('count', '100');
+$count = getGetParam('count', '200');
 $max_id = getGetParam('max_id', '');
 
 $params = array(
     "q" => $q
-    , "count" => $count
+    , "count" => 100
 );
 
 if(!empty($max_id)) {
@@ -34,6 +33,8 @@ if(isset($tweets->statuses)) {
         return $a->id > $b->id ? -1 : 1;
     });
     
+    $i = (int)0;
+    
     foreach ($statuses as $tweet) {
         $tmp = new Tweet($tweet);
         
@@ -42,6 +43,10 @@ if(isset($tweets->statuses)) {
         
         if ($tmp->hasMedia() && !isset($mutters[$originalId]))
             $mutters[$originalId] = $tmp;
+    
+        $i++;
+        
+        if($i>$count) break;
     }
 }
 

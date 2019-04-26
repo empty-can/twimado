@@ -56,20 +56,3 @@ if(!empty($pawooAccessToken)) {
 if($pawooLogin) {
     setTokens($pawooAccount["id"], $pawooAccount["display_name"]."@".$pawooAccount["username"], $pawooAccessToken, "");
 }
-$csss=["top"];
-$smarty->assign("csss", $csss);
-
-$smarty->assign("jss", array());
-
-$smarty->assign("title", "ツイ窓");
-$smarty->assign("AppURL", AppURL);
-$smarty->assign("userInfo", $userInfo);
-$smarty->assign("pawooAccount", $pawooAccount);
-$smarty->assign("pawooAccessToken", $pawooAccessToken);
-$smarty->assign("twitterLogin", $twitterLogin);
-$smarty->assign("pawooLogin", $pawooLogin);
-$smarty->assign("target", $target);
-$smarty->assign("trends", $trends);
-
-// テンプレートを表示する
-$smarty->display("index.tpl");

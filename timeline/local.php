@@ -78,6 +78,7 @@ $smarty->assign("embedded_js", build_embededd_js($embedded_js_string, $embedded_
 // myVarDump($response->mutters);
 
 $smarty->assign("mutters", $mutters);
+$smarty->assign("mylists", getSessionParam("twitter_mylists", array()));
 
 // テンプレートを表示する
 $smarty->display("timeline.tpl");

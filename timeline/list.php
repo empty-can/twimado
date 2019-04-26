@@ -45,6 +45,7 @@ $pawoo_oldest_id = $response->pawoo_oldest_id;
 $smarty->assign("title", "マイリスト：$name");
 $smarty->assign("AppContext", AppContext);
 $smarty->assign("hs", $hs);
+$smarty->assign("mylists", getSessionParam("twitter_mylists", array()));
 
 $csss=array();
 $csss[] = "timeline";
@@ -59,7 +60,7 @@ $smarty->assign("jss", $jss);
 $embedded_js_params_string = [
     "domain" => $domain
     ,"hs" => $hs
-    ,"id" => $id
+    ,"id" => (is_array($id)) ? http_build_query($id) : $id
     ,"thumb" => $thumb
     ,"twitter_oldest_id" => $twitter_oldest_id
     ,"pawoo_oldest_id" => $pawoo_oldest_id

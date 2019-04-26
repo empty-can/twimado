@@ -42,6 +42,7 @@ $pawoo_oldest_id = $response->pawoo_oldest_id;
 $smarty->assign("title", "公式タイムライン");
 $smarty->assign("AppContext", AppContext);
 $smarty->assign("hs", $hs);
+$smarty->assign("mylists", getSessionParam("twitter_mylists", array()));
 
 $csss=array();
 $csss[] = "timeline";

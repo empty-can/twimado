@@ -53,6 +53,7 @@ $oldest_id = $response->oldest_id;
 $smarty->assign("title", $title);
 $smarty->assign("AppContext", AppContext);
 $smarty->assign("hs", $hs);
+$smarty->assign("mylists", getSessionParam("twitter_mylists", array()));
 
 $csss=array();
 $csss[] = "timeline";

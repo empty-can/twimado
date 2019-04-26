@@ -8,7 +8,7 @@ if (isset($_COOKIE["PHPSESSID"])) {
     setcookie("PHPSESSID", '', time() - 1800, '/');
 }
 if (isset($_COOKIE["login_cookie_id"])) {
-    setcookie("login_cookie_id", '', time() - 1800, '/osaisen/', 'www.yaruox.jp', false, false);
+    setcookie("login_cookie_id", '', time() - 1800, '/twimado/', 'www.suki.pics', false, false);
 }
 
 //セッションを破棄する

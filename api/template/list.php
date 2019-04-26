@@ -18,6 +18,34 @@ $response['mutters'] = array();
 
 // pawooの自分TL取得
 if(contains($domain, 'pawoo') && ($pawoo_oldest_id!=-1)) {
+    
+    do {
+        $params = array(
+            "id" => $id
+        );
+        
+        if (! empty($pawoo_oldest_id)) {
+            $params['max_id'] = $pawoo_oldest_id;
+        }
+        
+        $tmp = getRequest(AppURL . '/api/pawoo/list_timeline.php', $params);
+        //         myVarDump($tmp);
+        $response = json_decode($tmp, true);
+        
+        if(!is_array($response))
+            break;
+
+            // myVarDump($response);
+        $pawoo_oldest = $response['oldest_mutter'];
+
+        $tmp_mutters = array_merge($tmp_mutters, $response['mutters']);
+
+        if (isset($pawoo_oldest['id']))
+            $pawoo_oldest = $pawoo_oldest['id'];
+        else
+            $pawoo_oldest_id = - 1;
+                    
+    } while (count($tmp_mutters) < 1 && $pawoo_oldest_id>0); 
 }
 
 // $mutters = array_merge($mutters, $tmp_mutters);

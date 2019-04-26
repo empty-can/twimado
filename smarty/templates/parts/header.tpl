@@ -13,10 +13,22 @@
     <link rel="stylesheet" type="text/css" href="{AppContext}/css/{$css}_m.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M'}" />
     <link rel="stylesheet" type="text/css" href="{AppContext}/css/{$css}_pc.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M'}" />
 {/foreach}
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139119333-1"></script>
+	<script>
+	{literal}
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	
+	  gtag('config', 'UA-139119333-1');
+	{/literal}
+	</script>
     </head>
   <body>
 	<script type="text/javascript">
 	{$embedded_js}
 	{$embedded_js_params}
 	</script>
+	
   

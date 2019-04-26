@@ -16,4 +16,13 @@
 		</div>
 	</div>
 </div>
+<div id="mylist" class="myList">
+<form>
+{foreach from=$mylists item=list}
+	<input type="checkbox" name="mylist[]" value="{$list->id}">{$list->name}<br>
+{/foreach}
+  <br>
+  <input type="button" onclick="hideMyList()" value="登録">
+</form>
+</div>
 {include file='parts/footer.tpl'}

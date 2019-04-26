@@ -26,7 +26,7 @@ function date4timeline(int $date) {
     return $result;
 }
 
-function sort_mutter_by_time($a, $b)
+function sort_mutter_by_time(array $a, array $b)
 {
     if ($a['time'] == $b['time']) {
         return 0;

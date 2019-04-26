@@ -25,7 +25,7 @@ setInterval( function() {
 			if(mutterQueueLength <= 0)
 				getMutter();
 
-			for(var i=0; mutterQueue.length>0 && i<count; i++) {
+			for(var i=0; mutterQueue.length>0 && i<20; i++) {
 				$('#timeline').append(mutterQueue.shift());
 
 				console.log(mutterQueue.length);
@@ -258,4 +258,11 @@ function switch2Vertical() {
 
 function isEnd(params) {
 	return (params == undefined || params == -1)
+}
+
+function showMyList() {
+	$('#mylist').css('right','0');
+}
+function hideMyList() {
+	$('#mylist').css('right','-340px');
 }

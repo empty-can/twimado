@@ -1,7 +1,7 @@
 <?php
-require_once ("init.php");
+require_once ("common.php");
 
-$domain = getGetParam('domain', 'pawoo');
+$domain = getGetParam('domain', 'twitterpawoo');
 $api = AppURL . '/api/template/home_timeline.php';
 $hs = getGetParam('hs', 'true');
 $count = getGetParam('count', '20');
@@ -42,41 +42,27 @@ if(empty($response)) {
 $twitter_oldest_id = $response->twitter_oldest_id;
 $pawoo_oldest_id = $response->pawoo_oldest_id;
 
+
+$jss[] = "timeline";
+
 // assignメソッドを使ってテンプレートに渡す値を設定
 $smarty->assign("title", "ホームタイムライン");
-$smarty->assign("AppContext", AppContext);
-$smarty->assign("hs", $hs);
-
-$csss=array();
-$csss[] = "timeline";
 $smarty->assign("csss", $csss);
-
-$jss=array();
-$jss[] = "jquery-3.3.1.min";
-$jss[] = "common";
-$jss[] = "timeline";
 $smarty->assign("jss", $jss);
 
-$embedded_js_params_string = [
+$embedded_js_params_string = array_merge($embedded_js_params_string
+    , array(
     "domain" => $domain
     ,"id" => $id
-    ,"hs" => $hs
-    ,"thumb" => $thumb
     ,"twitter_oldest_id" => $twitter_oldest_id
     ,"pawoo_oldest_id" => $pawoo_oldest_id
     ,"pawoo_id" => $pawoo_id
     ,"twitter_id" => $twitter_id
-];
+));
 
-$embedded_js_params_int = [
-];
-
-$embedded_js_string = [
-    "api" => $api
-];
-$embedded_js_int = [
-    "count" => $count
-];
+$embedded_js_params_int = array_merge($embedded_js_params_int, array());
+$embedded_js_string = array_merge($embedded_js_params_int, array("api" => $api));
+$embedded_js_int = array_merge($embedded_js_int, array());
 
 $smarty->assign("embedded_js_params", build_embededd_js_params($embedded_js_params_string, $embedded_js_params_int));
 $smarty->assign("embedded_js", build_embededd_js($embedded_js_string, $embedded_js_int));

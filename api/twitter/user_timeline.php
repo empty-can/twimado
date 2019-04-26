@@ -1,5 +1,4 @@
 <?php
-
 require_once ("init.php");
 
 $api = 'statuses/user_timeline';
@@ -23,6 +22,7 @@ $tweets = getTwitterConnection("", "")->get($api, $params);
 
 $mutters = array();
 $oldest = "";
+$i = (int)0;
 
 foreach ($tweets as $tweet) {
     $tmp = new Tweet($tweet);
@@ -32,6 +32,10 @@ foreach ($tweets as $tweet) {
     
     if ($tmp->hasMedia() && !isset($mutters[$originalId]))
         $mutters[$originalId] = $tmp;
+        
+    $i++;
+    
+    if($i>$count) break;
 }
 
 $response = array();
