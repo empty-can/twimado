@@ -25,7 +25,8 @@
 	width: 100%;
 	text-align: center;
 	color: red;
-	font-size:5em;
+	background-color: azure;
+	color: gray;
 }
 
 .tweet_media {

@@ -32,11 +32,11 @@ if($twitterLogin) {
     //  echo "twitter_access_token_secret:".$twitter_access_token_secret."<br>\r\n";
     
     setTokens($userInfo->id, $userInfo->name."@".$userInfo->screen_name, $twitter_access_token, $twitter_access_token_secret);
-    
-    if(empty($lists)) {
-        $lists = getTwitterConnection($twitter_access_token, $twitter_access_token_secret)->get($api, $params);
-        setSessionParam("twitter_mylists", $lists);
-    }
+}
+
+if(empty($lists)) {
+    $lists = getTwitterConnection($twitter_access_token, $twitter_access_token_secret)->get($api, $params);
+    setSessionParam("twitter_mylists", $lists);
 }
 
 $pawooLogin = false;
@@ -70,6 +70,7 @@ $smarty->assign("twitterLogin", $twitterLogin);
 $smarty->assign("pawooLogin", $pawooLogin);
 $smarty->assign("target", $target);
 $smarty->assign("trends", $trends);
+$smarty->assign("lists", $lists);
 
 // テンプレートを表示する
 $smarty->display("index.tpl");

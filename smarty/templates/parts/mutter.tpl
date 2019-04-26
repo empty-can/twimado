@@ -5,7 +5,9 @@
 {/if}
 		{if $hs && $mutter.sensitive}
 		<div class="sensitive">
-		 	🔞
+		 	<br>
+		 	このメディアにはセンシティブな内容が含まれている可能性があり云々<br>
+		 	<br>
 		</div>
 		{else}
 		<div id="tweet_media{$mutter.id}" class="tweet_media">
