@@ -7,7 +7,7 @@ class TwitterAccount extends StandardAccount implements Account {
         $this->id = $account->id;
         $this->displayName = $account->name;
         $this->accountName = $account->screen_name;
-        $this->profileImage = $account->profile_image_url;
+        $this->profileImage = $account->profile_image_url_https;
     }
     
     public function id() {

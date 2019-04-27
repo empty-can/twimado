@@ -10,7 +10,7 @@ class MastodonAccount extends StandardAccount implements Account {
         $this->id = $account->id;
         $this->displayName = $account->display_name;
         $this->accountName = $account->acct;
-        $this->profileImage = $account->avatar;
+        $this->profileImage = $account->avatar_static;
         $this->followingCount = $account->following_count;
         $this->followersCount = $account->followers_count;
     }

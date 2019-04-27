@@ -49,7 +49,7 @@ class Tweet extends StandardMutter implements Mutter {
                     $tmp = null;
                     foreach($media->video_info->variants as $video) {
                         if($video->content_type == "video/mp4") {
-                            $tmp = new Media($video->url, $media->media_url);
+                            $tmp = new Media($video->url, $media->media_url_https);
                             $this->isVideo = true;
                         }
                     }
@@ -58,9 +58,9 @@ class Tweet extends StandardMutter implements Mutter {
                         $this->media[] = $tmp;
                 } else {
                     $suffix = get_suffix($media->media_url);
-                    $thumbnail = str_replace('.'.$suffix, "?format=$suffix&name=small", $media->media_url);
+                    $thumbnail = str_replace('.'.$suffix, "?format=$suffix&name=small", $media->media_url_https);
                     
-                    $this->media[] = new Media($media->media_url, $thumbnail);
+                    $this->media[] = new Media($media->media_url_https, $thumbnail);
                     $this->isImg = true;
                 }
             }
