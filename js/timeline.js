@@ -5,6 +5,8 @@ var wait = false;
 var wait_time = 1000;
 var showRT = true;
 var horizontalScroll = true;
+var index = 0;
+
 
 /**
  * 画面の下まで来たらツイートを表示する関数
@@ -20,7 +22,8 @@ setInterval( function() {
 		var mutterQueueLength = mutterQueue.length;
 		
 		if(window_height*4>rect) {
-//			console.log('in');
+			console.log('in');
+			
 //			console.log(mutterQueueLength);
 			if(mutterQueueLength <= 0)
 				getMutter();
@@ -49,6 +52,7 @@ setInterval( function() {
  * @returns
  */
 function getMutter() {
+	
 	if(wait==true)
 		return;
 
@@ -56,14 +60,25 @@ function getMutter() {
 		return;
 	
 	url=api+'?';
-	
+
 	for (key in params) {
 		url = url+key+'=' + params[key]+'&';
 	}
 	
-	url = url.slice( 0, -1) ;
+	//if(ids!==undefined) {
+	//	id = ids[index++]
+	//	url += 'id='+id
+		
+	//	if(index>=ids.length)
+	//		index=0;
+	//} else {
+		url = url.slice( 0, -1) ;
+	//}
+	
 	
 	console.log(url);
+	
+	$("#bottom_message").html('<br><img src="/twimado/imgs/reload.svg" width="48px">');
 
 	wait = true;
 	$.ajax({
@@ -119,6 +134,7 @@ function getMutter() {
 //				console.log("最後まで来ました");
 //				wait = true;
 				$("#bottom_message").html("最後まで来ました");
+				
 				wait = true;
 			} else {
 
@@ -134,25 +150,30 @@ function getMutter() {
 
 //				console.log(keys);
 //				console.log(hist);
-				for (var i = 0; i < mutters_num; i++) {
-					tmp = response['mutters'][keys[i]];
-					
-					if(!mutterIds.includes(keys[i])) {
-						mutterIds.push(keys[i]);
-						mutterQueue.push(tmp);
-					} else {
-						console.log('ちょうふく');
+				if(mutters_num==0) {
+					$("#bottom_message").html("最後まで来ました");
+					wait = true;
+				} else {
+					for (var i = 0; i < mutters_num; i++) {
+						tmp = response['mutters'][keys[i]];
+						
+						if(!mutterIds.includes(keys[i])) {
+							mutterIds.push(keys[i]);
+							mutterQueue.push(tmp);
+						} else {
+							console.log('ちょうふく');
+						}
+	//					console.log(keys[i]);
+	//					if(hist.indexOf(keys[i])==-1) {
+	//						hist.push(keys[i]);
+	//					} else {
+	//						console.log('ちょうふく');
+	//					}
 					}
-//					console.log(keys[i]);
-//					if(hist.indexOf(keys[i])==-1) {
-//						hist.push(keys[i]);
-//					} else {
-//						console.log('ちょうふく');
-//					}
+					
+					console.log("取得できました");
+					wait = false;
 				}
-				
-				console.log("取得できました");
-				wait = false;
 			}
 		}
 	});

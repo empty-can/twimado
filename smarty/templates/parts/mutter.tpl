@@ -1,4 +1,4 @@
-{if $mutter.isRe}
+{if $mutter.isRe && ($mutter.account.id != $mutter.retweeter.id)}
  	<div class="mutter retweet">
 {else}
  	<div class="mutter">

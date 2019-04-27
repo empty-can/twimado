@@ -9,11 +9,22 @@ $hs = getGetParam('hs', 'true');
 $count = getGetParam('count', '20');
 $thumb = getGetParam('thumb', 'true');
 $max_id = getGetParam('max_id', '');
-$pawoo_access_token = getSessionParam("pawoo_access_token", "");
+$access_token = getSessionParam("pawoo_access_token", "");
 
 if(empty($domain)) {
     echo "ドメインの指定がありません。";
     exit();
+} else if($domain=='pawoo') {
+    $connection = getMastodonConnection(PawooDomain, $access_token);
+    
+    $members = $connection->executeGetAPI("api/v1/lists/$id/accounts");
+    $ids = array();
+    
+    foreach($members as $member) {
+        $ids[]  = $member["id"];
+    }
+    
+    asort($ids);
 }
 
 $params = array(
@@ -22,7 +33,6 @@ $params = array(
     ,"id" => $id
     ,"count" => $count
     ,"thumb" => $thumb
-    , "pawoo_access_token" => $pawoo_access_token
 );
 // myVarDump($params);
 if(!empty($max_id)) {
@@ -37,7 +47,7 @@ if(empty($response)) {
     echo "APIからのデータ取得に失敗しました。";
     exit();
 }
-
+// myVarDump($response);
 $twitter_oldest_id = $response->twitter_oldest_id;
 $pawoo_oldest_id = $response->pawoo_oldest_id;
 
@@ -60,11 +70,10 @@ $smarty->assign("jss", $jss);
 $embedded_js_params_string = [
     "domain" => $domain
     ,"hs" => $hs
-    ,"id" => (is_array($id)) ? http_build_query($id) : $id
+    ,"id" => $id
     ,"thumb" => $thumb
     ,"twitter_oldest_id" => $twitter_oldest_id
     ,"pawoo_oldest_id" => $pawoo_oldest_id
-    , "pawoo_access_token" => $pawoo_access_token
 ];
 
 $embedded_js_params_int = [
@@ -76,6 +85,9 @@ $embedded_js_string = [
 $embedded_js_int = [
     "count" => $count
 ];
+if(!empty($ids)) {
+    $embedded_js_int["ids"] = "[".implode(",", $ids)."]";
+}
 
 $smarty->assign("embedded_js_params", build_embededd_js_params($embedded_js_params_string, $embedded_js_params_int));
 $smarty->assign("embedded_js", build_embededd_js($embedded_js_string, $embedded_js_int));

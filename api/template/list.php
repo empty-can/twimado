@@ -20,16 +20,20 @@ $response['mutters'] = array();
 if(contains($domain, 'pawoo') && ($pawoo_oldest_id!=-1)) {
     
     do {
+        $api = AppURL . '/api/pawoo/user_timeline.php';
+        
         $params = array(
             "id" => $id
+            , "limit" => MastodonTootsLimit
+            , "only_media" => true
         );
         
-        if (! empty($pawoo_oldest_id)) {
-            $params['max_id'] = $pawoo_oldest_id;
+        if(!empty($pawoo_oldest_id)) {
+            $params["max_id"] = $pawoo_oldest_id;
         }
         
-        $tmp = getRequest(AppURL . '/api/pawoo/list_timeline.php', $params);
-        //         myVarDump($tmp);
+        $tmp = getRequest($api, $params);
+        
         $response = json_decode($tmp, true);
         
         if(!is_array($response))
@@ -47,6 +51,8 @@ if(contains($domain, 'pawoo') && ($pawoo_oldest_id!=-1)) {
                     
     } while (count($tmp_mutters) < 1 && $pawoo_oldest_id>0); 
 }
+
+// myVarDump($pawoo_oldest_id);
 
 // $mutters = array_merge($mutters, $tmp_mutters);
 

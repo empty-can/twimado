@@ -8,11 +8,8 @@ $max_id = getGetParam('max_id', '');
 
 $api = "api/v1/accounts/$id/statuses";
 
-if($limit>MastodonTootsLimit)
-    $limit=MastodonTootsLimit;
-
 $params = array(
-    "limit" => $limit
+    "limit" => ($limit>MastodonTootsLimit) ? MastodonTootsLimit : $limit
     , "only_media" => true
 );
 

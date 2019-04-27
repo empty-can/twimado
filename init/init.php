@@ -1,5 +1,16 @@
 <?php
+if(empty($_SERVER["HTTPS"])) {
+    header('Location: https://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+    exit();
+}
+
 $ini_array = parse_ini_file('twimado.ini');
+
+if ($_SERVER['REMOTE_ADDR'] === $ini_array["admin_host"])
+    error_reporting(E_ALL);
+else
+    error_reporting(0);
+
 ini_set( 'session.gc_maxlifetime', 604800 );
 ini_set( 'session.cookie_lifetime', 604800 );
 ini_set( 'session.cache_expire', 604800 );

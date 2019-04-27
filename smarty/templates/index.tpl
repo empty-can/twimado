@@ -1,5 +1,21 @@
 {include file='parts/header.tpl'}
-<h3 id="title" style="width:100%;text-align:center;">ログインアカウント</h3>
+<!-- div class="form-wrapper">
+  <h1>アカウント作成フォーム</h1>
+  <form method="POST" action="/twimado/auth/auth.php">
+    <div class="form-item">
+      <label for="account name"></label>
+      <input type="text" name="name" required="required" placeholder="お好きな名前"></input>
+    </div>
+    <div class="form-item">
+      <label for="password"></label>
+      <input type="password" name="password" required="required" placeholder="パスワード"></input>
+    </div>
+    <div class="button-panel">
+      <input type="submit" class="button" title="Sign In" value="Sign In"></input>
+    </div>
+  </form>
+</div -->
+<h3 id="title" style="width:100%;text-align:center;">ログイン済アカウント</h3>
   <br>
   {if isset($userInfo->name)}
   <img src="{$userInfo->profile_image_url_https}" style="width:30px;">:<a href="https://twitter.com/" target="{$target}">{$userInfo->name}</a><br>
@@ -11,36 +27,36 @@
 <ul class="breadcrumb">
   {if $twitterLogin && $pawooLogin}
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="{$AppURL}/timeline/home.php?domain=twitterpawoo&hs=false&thumb=false" target="{$target}"><img src="{$AppURL}/imgs/home_64.svg" style="width:24px;"> ホームTL</a>
+  	<a href="{$AppURL}/timeline/home.php?domain=twitterpawoo&hs=false&thumb=true" target="{$target}"><img src="{$AppURL}/imgs/home_64.svg" style="width:24px;"> ホームTL</a>
   </li>
   {/if}
   {if $twitterLogin}
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="{$AppURL}/timeline/home.php?domain=twitter&hs=false&thumb=false" target="{$target}"><img src="{$AppURL}/imgs/home_64.svg" style="width:24px;"> ホームTL(Twitter)</a>
+  	<a href="{$AppURL}/timeline/home.php?domain=twitter&hs=false&thumb=true" target="{$target}"><img src="{$AppURL}/imgs/home_64.svg" style="width:24px;"> ホームTL(Twitter)</a>
   </li>
   {/if}
   {if $pawooLogin}
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="{$AppURL}/timeline/home.php?domain=pawoo&hs=false&thumb=false" target="{$target}"><img src="{$AppURL}/imgs/home_64.svg" style="width:24px;"> ホームTL(Pawoo)</a>
+  	<a href="{$AppURL}/timeline/home.php?domain=pawoo&hs=false&thumb=true" target="{$target}"><img src="{$AppURL}/imgs/home_64.svg" style="width:24px;"> ホームTL(Pawoo)</a>
   </li>
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="{$AppURL}/timeline/local.php?domain=pawoo&hs=false&thumb=false" target="{$target}">ローカルTL(Pawoo)</a>
+  	<a href="{$AppURL}/timeline/local.php?domain=pawoo&hs=false&thumb=true" target="{$target}">ローカルTL(Pawoo)</a>
   </li>
   {/if}
 </ul>
 <br>
 <ul class="breadcrumb">
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="{$AppURL}/timeline/?domain=twitter&hs=false&thumb=false&twitter_list=1120163652441481217" target="{$target}">マンガ家TL</a>
+  	<a href="{$AppURL}/timeline/?domain=twitter&hs=false&thumb=true&twitter_list=1120163652441481217" target="{$target}">マンガ家TL</a>
   </li>
   <!-- li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="{$AppURL}/timeline/user.php?domain=twitter&id=2656042465&hs=true&thumb=false" target="{$target}"><img src="https://pbs.twimg.com/profile_images/751972552789020672/1Ml7URFU_normal.jpg" style="width:30px;"> 横島botTL </a>
+  	<a href="{$AppURL}/timeline/user.php?domain=twitter&id=2656042465&hs=true&thumb=true" target="{$target}"><img src="https://pbs.twimg.com/profile_images/751972552789020672/1Ml7URFU_normal.jpg" style="width:30px;"> 横島botTL </a>
   </li>
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="{$AppURL}/timeline/?domain=pawoo&hs=true&thumb=false" target="{$target}">Pawoo TL </a>
+  	<a href="{$AppURL}/timeline/?domain=pawoo&hs=true&thumb=true" target="{$target}">Pawoo TL </a>
   </li>
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="{$AppURL}/timeline/?hs=true&thumb=false" target="{$target}">Twitter＆Pawoo TL</a>
+  	<a href="{$AppURL}/timeline/?hs=true&thumb=true" target="{$target}">Twitter＆Pawoo TL</a>
   </li -->
 </ul>
 <h3>アプリ連携</h3>
@@ -111,14 +127,14 @@
 <h3>マイリスト</h3>
 <ul class="mylist">
     {foreach from=$lists item=list}
-    <li><a href="{$AppURL}/timeline/list.php?domain=twitter&id={$list->id}&name={$list->name}&hs=false&thumb=false" target="{$target}">{$list->name}</a></li>
+    <li><a href="{$AppURL}/timeline/list.php?domain=twitter&id={$list->id}&name={$list->name}&hs=false&thumb=true" target="{$target}">{$list->name}</a></li>
 	{/foreach}
 </ul>
   {/if}
 <h3>Twitterトレンド</h3>
 <ul class="trend">
     {foreach from=$trends[0]->trends item=word}
-    <li><a href="{$AppURL}/timeline/search.php?q={$word->query}&hs=false&thumb=false" target="{$target}">{$word->name}</a></li>
+    <li><a href="{$AppURL}/timeline/search.php?q={$word->query}&hs=false&thumb=true" target="{$target}">{$word->name}</a></li>
 	{/foreach}
 </ul>
 {include file='parts/footer.tpl'}

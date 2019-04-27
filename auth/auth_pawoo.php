@@ -21,3 +21,4 @@ $pawoo->setCredentials([
 $auth_url = $pawoo->getAuthUrl();
 
 header('Location: '.$auth_url);
+exit();

@@ -8,7 +8,6 @@ $hs = getGetParam('hs', 'true');
 $count = getGetParam('count', '20');
 $thumb = getGetParam('thumb', 'true');
 $max_id = getGetParam('max_id', '');
-$pawoo_access_token = getSessionParam("pawoo_access_token", "");
 
 if(empty($domain)) {
     echo "ドメインの指定がありません。";
@@ -26,7 +25,6 @@ $params = array(
     ,"q" => $q
     ,"count" => $count
     ,"thumb" => $thumb
-    , "pawoo_access_token" => $pawoo_access_token
 );
 // myVarDump($params);
 if(!empty($max_id)) {
@@ -68,7 +66,6 @@ $embedded_js_params_string = [
     ,"thumb" => $thumb
     ,"twitter_oldest_id" => $twitter_oldest_id
     ,"pawoo_oldest_id" => $pawoo_oldest_id
-    , "pawoo_access_token" => $pawoo_access_token
 ];
 
 $embedded_js_params_int = [

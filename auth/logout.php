@@ -14,3 +14,4 @@ if (isset($_COOKIE["login_cookie_id"])) {
 //セッションを破棄する
 session_destroy();
 header('Location: '.AppURL);
+exit();

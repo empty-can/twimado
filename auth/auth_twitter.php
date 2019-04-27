@@ -2,7 +2,7 @@
 require_once ("init.php");
 
 //Callback URL
-define('Callback', 'http://www.suki.pics/osaisen/auth/callback.php');
+define('Callback', 'https://www.suki.pics/osaisen/auth/callback.php');
 
 //ライブラリを読み込む
 use Abraham\TwitterOAuth\TwitterOAuth;
@@ -18,3 +18,4 @@ $_SESSION['oauth_token_secret'] = $request_token['oauth_token_secret'];
 // Twitterの認証画面へリダイレクト
 $url = $connection->url("oauth/authorize", array("oauth_token" => $request_token['oauth_token']));
 header('Location: ' . $url);
+exit();

@@ -3,6 +3,12 @@
   <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	
+	<meta content="//www.suki.pics/twimado/favicon.png" itemprop="image">
+	<link rel="shortcut icon" href="//www.suki.pics/twimado/favicon.ico" type="image/vnd.microsoft.icon">
+	<link rel="icon" href="//www.suki.pics/twimado/favicon.ico" type="image/vnd.microsoft.icon">
+	<link rel="apple-touch-icon" href="//www.suki.pics/twimado/favicon.ico" type="image/vnd.microsoft.icon">
+	
 	<!--[if IE]>
 	    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
@@ -27,8 +33,12 @@
     </head>
   <body>
 	<script type="text/javascript">
+	{if isset($embedded_js)}
 	{$embedded_js}
+	{/if}
+	{if isset($embedded_js_params)}
 	{$embedded_js_params}
+	{/if}
 	</script>
 	
   

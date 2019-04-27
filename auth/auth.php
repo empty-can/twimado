@@ -1,16 +1,17 @@
 <?php
 require_once ("init.php");
+require_once ("init.php");
 
-$woeid = "1118370"; // Tokyo
-$api = 'trends/place';
+$name = getPostParam("name");
+$password = getPostParam("password");
 
-$target = "_blank";
+setSessionParam("name", $name);
 
-$params = array(
-    "id" => $woeid
-);
-
-$trends = getTwitterConnection("", "")->get($api, $params);
+if(!isUsers($name)) {
+    addUsers($name, $password);
+} else {
+    
+}
 
 $userInfo = getSessionParam("twitter_user_info", "");
 // myVarDump($userInfo);
@@ -39,6 +40,7 @@ if($twitterLogin) {
     }
 }
 
+// Pawoo認証チェック
 $pawooLogin = false;
 $pawooAccessToken = getSessionParam("pawoo_access_token", "");
 $pawooAccount = getSessionParam("pawoo_account", "");
@@ -56,11 +58,11 @@ if(!empty($pawooAccessToken)) {
 if($pawooLogin) {
     setTokens($pawooAccount["id"], $pawooAccount["display_name"]."@".$pawooAccount["username"], $pawooAccessToken, "");
 }
+
 $csss=["top"];
 $smarty->assign("csss", $csss);
 
 $smarty->assign("jss", array());
-
 $smarty->assign("title", "ツイ窓");
 $smarty->assign("AppURL", AppURL);
 $smarty->assign("userInfo", $userInfo);
@@ -68,9 +70,7 @@ $smarty->assign("pawooAccount", $pawooAccount);
 $smarty->assign("pawooAccessToken", $pawooAccessToken);
 $smarty->assign("twitterLogin", $twitterLogin);
 $smarty->assign("pawooLogin", $pawooLogin);
-$smarty->assign("target", $target);
-$smarty->assign("trends", $trends);
 $smarty->assign("lists", $lists);
 
 // テンプレートを表示する
-$smarty->display("index.tpl");
+$smarty->display("auth.tpl");

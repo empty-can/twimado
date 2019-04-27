@@ -51,12 +51,14 @@ foreach ($ids as $id) {
                 $mutters[$originalId] = $tmp;
         }
 
-        $oldests[] = $oldest;
+        $oldests[] = obj_to_array($oldest);
 
         $response['mutters'] = array_merge($response['mutters'], $mutters);
     }
 }
 
-$response['oldest_mutter'] = $oldests;
+usort($oldests, "sort_mutter_by_time");
+
+$response['oldest_mutter'] = $oldests[count($oldests)-1];
 
 echo json_encode($response);
