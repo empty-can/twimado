@@ -2,7 +2,7 @@
 require_once ("init.php");
 
 //Callback URL
-define('Callback', 'https://www.suki.pics/osaisen/auth/callback.php');
+define('Callback', 'https://www.suki.pics/auth/twitter_callback.php');
 
 //ライブラリを読み込む
 use Abraham\TwitterOAuth\TwitterOAuth;

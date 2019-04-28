@@ -4,20 +4,21 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
 	
-	<meta content="//www.suki.pics/twimado/favicon.png" itemprop="image">
-	<link rel="shortcut icon" href="//www.suki.pics/twimado/favicon.ico" type="image/vnd.microsoft.icon">
-	<link rel="icon" href="//www.suki.pics/twimado/favicon.ico" type="image/vnd.microsoft.icon">
-	<link rel="apple-touch-icon" href="//www.suki.pics/twimado/favicon.ico" type="image/vnd.microsoft.icon">
+	<meta content="//www.suki.pics/favicon.png" itemprop="image">
+	<link rel="shortcut icon" href="//www.suki.pics/favicon.ico" type="image/vnd.microsoft.icon">
+	<link rel="icon" href="//www.suki.pics/favicon.ico" type="image/vnd.microsoft.icon">
+	<link rel="apple-touch-icon" href="//www.suki.pics/favicon.ico" type="image/vnd.microsoft.icon">
 	
 	<!--[if IE]>
-	    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	    <script src="/js/old_ie/3.7.2/html5shiv.min.js"></script>
+	    <script src="/js/old_ie/1.4.2/respond.min.js"></script>
 	<![endif]-->
     <title>{$title}</title>
-    <link rel="stylesheet" type="text/css" href="{AppContext}/css/common.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M'}" />
+    <link rel="stylesheet" type="text/css" href="/css/common.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M'}" />
 {foreach from=$csss item=css}
-    <link rel="stylesheet" type="text/css" href="{AppContext}/css/{$css}.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M'}" />
-    <link rel="stylesheet" type="text/css" href="{AppContext}/css/{$css}_m.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M'}" />
-    <link rel="stylesheet" type="text/css" href="{AppContext}/css/{$css}_pc.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M'}" />
+    <link rel="stylesheet" type="text/css" href="/css/{$css}.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M'}" />
+    <link rel="stylesheet" type="text/css" href="/css/{$css}_m.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M'}" />
+    <link rel="stylesheet" type="text/css" href="/css/{$css}_pc.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M'}" />
 {/foreach}
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139119333-1"></script>

@@ -24,7 +24,7 @@ if(!empty($code)) {
     $pawoo->setCredentials($credentials);
     $token = $pawoo->getAccessToken($code);
     setSessionParam("pawoo_access_token", $token);
-    header('Location: '.AppURL);
+    header('Location: /');
     //     header('Location: '.AppURL."/auth/auth.php");
     exit();
 }

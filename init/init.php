@@ -4,7 +4,7 @@ if(empty($_SERVER["HTTPS"])) {
     exit();
 }
 
-$ini_array = parse_ini_file('twimado.ini');
+$ini_array = parse_ini_file('/xampp/app/conf/sukipic.ini');
 
 if ($_SERVER['REMOTE_ADDR'] === $ini_array["admin_host"])
     error_reporting(E_ALL);
@@ -16,8 +16,6 @@ ini_set( 'session.cookie_lifetime', 604800 );
 ini_set( 'session.cache_expire', 604800 );
 
 date_default_timezone_set('Asia/Tokyo');
-
-// var_dump($ini_array);
 
 define("DbHost", $ini_array["db_host"]);
 define("DbName", $ini_array["db_name"]);
@@ -32,7 +30,7 @@ require_once($lib_path."/vendor/thecodingcompany/php-mastodon/autoload.php"); //
 require_once($lib_path."/load.php"); // 自作ライブラリをロード
 
 /* セッション関連の設定 */
-session_save_path('C:\xampp\htdocs\tmp\twimado');
+session_save_path('C:\xampp\session_tmp\sukipic');
 $sessionID = getGetParam("mySessionID",'');
 // if(!empty($sessionID)) {
 //     session_id($sessionID);

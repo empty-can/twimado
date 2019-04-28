@@ -1,7 +1,7 @@
 {include file='parts/header.tpl'}
 <!-- div class="form-wrapper">
   <h1>アカウント作成フォーム</h1>
-  <form method="POST" action="/twimado/auth/auth.php">
+  <form method="POST" action="/auth/auth.php">
     <div class="form-item">
       <label for="account name"></label>
       <input type="text" name="name" required="required" placeholder="お好きな名前"></input>
@@ -15,14 +15,15 @@
     </div>
   </form>
 </div -->
-<h3 id="title" style="width:100%;text-align:center;">ログイン済アカウント</h3>
-  <br>
+<h4 id="title" style="width:100%;text-align:right;">ログイン中アカウント</h4>
+<div style="width:100%;text-align:right;">
   {if isset($userInfo->name)}
-  <img src="{$userInfo->profile_image_url_https}" style="width:30px;">:<a href="https://twitter.com/" target="{$target}">{$userInfo->name}</a><br>
+  <a href="https://twitter.com/" target="{$target}">{$userInfo->name}</a><img src="{$userInfo->profile_image_url_https}" style="width:30px;"><br>
   {/if}
   {if !empty($pawooAccessToken)}
-  <img src="{$pawooAccount.avatar}" style="width:30px;">:<a href="https://pawoo.net/" target="{$target}">{$pawooAccount.display_name}@{$pawooAccount.username}</a><br>
+  <a href="https://pawoo.net/" target="{$target}">{$pawooAccount.display_name}@{$pawooAccount.username}</a><img src="{$pawooAccount.avatar}" style="width:30px;"><br>
   {/if}
+</div>
 <h3>タイムライン</h3>
 <ul class="breadcrumb">
   {if $twitterLogin && $pawooLogin}
@@ -79,12 +80,12 @@
 </ul>
 
 <h3>検索</h3>
-<div style="width:75vw;max-width:1024px;margin:auto;">
+<div style="width:80%;margin:auto;">
 		<form target="_blank"
 			action="{$AppURL}/timeline/search.php" method="GET">
 			<div class="msr_text_05">
 				<label>検索キーワード</label>
-				<input id="q" type="text" name="q" value="" placeholder="FGO" style="width:75vw;max-width:1024px;">
+				<input id="q" type="text" name="q" value="" placeholder="FGO" style="width:100%;">
 			</div>
 			<p>検索対象</p>
 			<div class="form_parts">
@@ -104,7 +105,7 @@
 			<div class="form_parts">
     			<div class="msr_chack_05">
     				<input id="msr_05_chack01" type="checkbox" name="hs" value="false">
-    				<label for="msr_05_chack01">センシティブな画像を表示</label>
+    				<label for="msr_05_chack01">大きなお友達</label>
     			</div>
     			<div class="msr_chack_05">
     				<input id="msr_05_chack02" type="checkbox" name="thumb" value="false" checked>
@@ -134,7 +135,7 @@
 <h3>Twitterトレンド</h3>
 <ul class="trend">
     {foreach from=$trends[0]->trends item=word}
-    <li><a href="{$AppURL}/timeline/search.php?q={$word->query}&hs=false&thumb=true" target="{$target}">{$word->name}</a></li>
+    <li><a href="{$AppURL}/timeline/search.php?domain=twitter&q={$word->query}&hs=false&thumb=true" target="{$target}">{$word->name}</a></li>
 	{/foreach}
 </ul>
 {include file='parts/footer.tpl'}

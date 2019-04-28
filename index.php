@@ -61,7 +61,7 @@ $smarty->assign("csss", $csss);
 
 $smarty->assign("jss", array());
 
-$smarty->assign("title", "ツイ窓");
+$smarty->assign("title", AppName);
 $smarty->assign("AppURL", AppURL);
 $smarty->assign("userInfo", $userInfo);
 $smarty->assign("pawooAccount", $pawooAccount);

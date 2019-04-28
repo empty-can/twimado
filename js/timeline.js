@@ -78,7 +78,7 @@ function getMutter() {
 	
 	console.log(url);
 	
-	$("#bottom_message").html('<br><img src="/twimado/imgs/reload.svg" width="48px">');
+	$("#bottom_message").html('<br><img src="/imgs/reload.svg" width="48px">');
 
 	wait = true;
 	$.ajax({
