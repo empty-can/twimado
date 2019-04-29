@@ -14,15 +14,15 @@ function getTwitterConnection(string $user_token="", string $user_token_secret="
     $twitterAccessToken = getSessionParam('twitterAccessToken', "");
     
     if (empty($user_token)) {
-        if (!empty($twitterAccessToken) && isset($twitterAccessToken->token)) {
-            $user_token = $twitterAccessToken->token;
+        if (!empty($twitterAccessToken) && isset($twitterAccessToken->access_token)) {
+            $user_token = $twitterAccessToken->access_token;
         } else {
             $user_token = TwitterAccessToken;
         }
     }
     if (empty($user_token_secret)) {
-        if (!empty($twitterAccessToken) && isset($twitterAccessToken->secret)) {
-            $user_token_secret = $twitterAccessToken->secret;
+        if (!empty($twitterAccessToken) && isset($twitterAccessToken->access_token_secret)) {
+            $user_token_secret = $twitterAccessToken->access_token_secret;
         } else {
             $user_token = TwitterAccessTokenSecret;
         }

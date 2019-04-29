@@ -2,10 +2,10 @@
 
 require_once ("init.php");
 
-$account = getGetParam('account', '');
-$id = getGetParam('id', '');
-$limit = getGetParam('limit', MastodonTootsLimit);
-$max_id = getGetParam('max_id', '');
+$account = getPostParam('account', '');
+$id = getPostParam('id', '');
+$limit = getPostParam('limit', MastodonTootsLimit);
+$max_id = getPostParam('max_id', '');
 
 if(!empty($account)) {
     $pair = get_access_tokens($account, 'pawoo');

@@ -2,17 +2,17 @@
 
 require_once ("init.php");
 
-$account = getGetParam('account', '');
-$id = getGetParam('id', '');
-$domain = getGetParam('domain', 'twitterpawoo');
-$hs = getGetParam('hs', 'true');
-$pawoo_oldest_id = getGetParam('pawoo_oldest_id', '');
-$twitter_oldest_id = getGetParam('twitter_oldest_id', '');
-$count = getGetParam('count', '');
-$twitter_list = getGetParam('twitter_list', TwitterList);
-$thumb = getGetParam('thumb', 'true');
-$pawoo_id = getGetParam('pawoo_id', '');
-$twitter_id = getGetParam('twitter_id', '');
+$account = getPostParam('account', '');
+$id = getPostParam('id', '');
+$domain = getPostParam('domain', 'twitterpawoo');
+$hs = getPostParam('hs', 'true');
+$pawoo_oldest_id = getPostParam('pawoo_oldest_id', '');
+$twitter_oldest_id = getPostParam('twitter_oldest_id', '');
+$count = getPostParam('count', '');
+$twitter_list = getPostParam('twitter_list', TwitterList);
+$thumb = getPostParam('thumb', 'true');
+$pawoo_id = getPostParam('pawoo_id', '');
+$twitter_id = getPostParam('twitter_id', '');
 
 $mutters = array();
 $tmp_mutters = array();

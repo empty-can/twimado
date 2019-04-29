@@ -1,12 +1,12 @@
 <?php
 require_once ("init.php");
 
-$domain = getGetParam('domain', 'twitterpawoo');
+$domain = getPostParam('domain', 'twitterpawoo');
 $api = AppURL . '/api/template/timeline.php';
-$hs = getGetParam('hs', 'true');
-$count = getGetParam('count', '20');
-$twitter_list = getGetParam('twitter_list', TwitterList);
-$thumb = getGetParam('thumb', 'true');
+$hs = getPostParam('hs', 'true');
+$count = getPostParam('count', '20');
+$twitter_list = getPostParam('twitter_list', TwitterList);
+$thumb = getPostParam('thumb', 'true');
 $mutters = array();
 
 $twitter_oldest_id = "";

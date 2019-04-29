@@ -58,12 +58,15 @@ function getMutter() {
 
 	if(count<=0)
 		return;
-	
-	url=api+'?';
 
+	//url=api+'?';
+	url=api;
+	bodyData = {};
 	for (key in params) {
-		url = url+key+'=' + params[key]+'&';
+		bodyData[key] = params[key];
 	}
+
+	// confirm(bodyData);
 	
 	//if(ids!==undefined) {
 	//	id = ids[index++]
@@ -72,7 +75,7 @@ function getMutter() {
 	//	if(index>=ids.length)
 	//		index=0;
 	//} else {
-		url = url.slice( 0, -1) ;
+	//	url = url.slice( 0, -1) ;
 	//}
 	
 	
@@ -83,9 +86,9 @@ function getMutter() {
 	wait = true;
 	$.ajax({
 		url : url,
-		type : "GET",
+		type : "POST",
 		dataType:"json",
-//		data : {'params' : params},
+		data : bodyData,
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log("ajax通信に失敗しました");
 			console.log(XMLHttpRequest);

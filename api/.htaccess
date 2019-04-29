@@ -1,2 +1,2 @@
-Order Allow,Deny
-Allow from 27.134.252.172
+# Order Allow,Deny
+# Allow from 27.134.252.172

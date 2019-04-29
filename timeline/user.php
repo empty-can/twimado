@@ -5,7 +5,7 @@ $domain = getGetParam('domain', '');
 $api = AppURL . '/api/template/user_timeline.php';
 $hs = getGetParam('hs', 'true');
 $count = getGetParam('count', '20');
-$id = getGetParam('id', '');
+$target_id = getGetParam('target_id', '');
 $thumb = getGetParam('thumb', 'true');
 $max_id = getGetParam('max_id', '');
 $access_token = "";
@@ -15,23 +15,24 @@ if(empty($domain)) {
     exit();
 } else if(contains($domain, "twitter")) {
     $params = array(
-        "user_id" => $id
+        "user_id" => $target_id
     );
-    $account = getTwitterConnection("", "")->get("users/show", $params);
+    $account = getTwitterConnection()->get("users/show", $params);
     $title = $account->name;
 } else if(contains($domain, "pawoo")) {
-    $access_token = getSessionParam("pawoo_access_token", "");
     $connection = getMastodonConnection(PawooDomain, $access_token);
-    $account = $connection->executeGetAPI("api/v1/accounts/$id");
+    $account = $connection->executeGetAPI("api/v1/accounts/$target_id");
     $title = $account["display_name"]."@".$account["username"];
 }
 
 $params = array(
     "hs" => $hs
     ,"domain" => $domain
-    ,"id" => $id
+    ,"target_id" => $target_id
     ,"count" => $count
     ,"thumb" => $thumb
+    ,"pawoo_id" => PawooAccountID
+    ,"twitter_id" => TwitterAccountID
 );
 
 if(!empty($max_id)) {
@@ -66,11 +67,14 @@ $jss[] = "timeline";
 $smarty->assign("jss", $jss);
 
 $embedded_js_params_string = [
-    "domain" => $domain
-    ,"id" => $id
+    "account" => Account
+    ,"domain" => $domain
+    ,"target_id" => $target_id
     ,"hs" => $hs
     ,"thumb" => $thumb
     ,"oldest_id" => $oldest_id
+    ,"pawoo_id" => PawooAccountID
+    ,"twitter_id" => TwitterAccountID
 ];
 
 $embedded_js_params_int = [

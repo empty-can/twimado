@@ -1,13 +1,13 @@
 <?php
 require_once ("init.php");
 
-$account = getGetParam('account', '');
-$domain = getGetParam('domain', 'pawoo');
-$hs = getGetParam('hs', 'true');
-$pawoo_oldest_id = getGetParam('pawoo_oldest_id', '');
-$pawoo_id = getGetParam('pawoo_id', '');
-$count = getGetParam('count', '');
-$thumb = getGetParam('thumb', 'true');
+$account = getPostParam('account', '');
+$domain = getPostParam('domain', 'pawoo');
+$hs = getPostParam('hs', 'true');
+$pawoo_oldest_id = getPostParam('pawoo_oldest_id', '');
+$pawoo_id = getPostParam('pawoo_id', '');
+$count = getPostParam('count', '');
+$thumb = getPostParam('thumb', 'true');
 
 $mutters = array();
 $tmp_mutters = array();

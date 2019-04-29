@@ -34,7 +34,7 @@ require_once($lib_path."/load.php"); // 自作ライブラリをロード
 
 /* セッション関連の設定 */
 session_save_path('C:\xampp\session_tmp\sukipic');
-$sessionID = getGetParam("mySessionID",'');
+$sessionID = getPostParam("mySessionID",'');
 // if(!empty($sessionID)) {
 //     session_id($sessionID);
 // }
@@ -62,6 +62,8 @@ define("AppName", $ini_array["app_name"]);
 define("AppURL", $ini_array["protocol"].':'.$ini_array["app_url"]);
 define("AppContext", $ini_array["app_context"]);
 define("ErrorMessage", $ini_array["error_message"]);
+
+// myVarDump($_SESSION);
 
 define("TwitterList", $ini_array["twitter_list"]);
 

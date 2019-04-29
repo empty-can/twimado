@@ -3,10 +3,10 @@ require_once ("init.php");
 
 $api = 'statuses/home_timeline';
 
-$account = getGetParam('account', '');
-$id = getGetParam('id', '');
-$count = getGetParam('count', '20');
-$max_id = getGetParam('max_id', '');
+$account = getPostParam('account', '');
+$id = getPostParam('id', '');
+$count = getPostParam('count', '20');
+$max_id = getPostParam('max_id', '');
 
 
 if(!empty($account)) {

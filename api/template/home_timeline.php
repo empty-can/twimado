@@ -1,15 +1,15 @@
 <?php
 require_once ("init.php");
 
-$account = getGetParam('account', '');
-$domain = getGetParam('domain', 'pawoo');
-$hs = getGetParam('hs', 'true');
-$pawoo_oldest_id = getGetParam('pawoo_oldest_id', '');
-$twitter_oldest_id = getGetParam('twitter_oldest_id', '');
-$count = getGetParam('count', '');
-$thumb = getGetParam('thumb', 'true');
-$pawoo_id = getGetParam('pawoo_id', '');
-$twitter_id = getGetParam('twitter_id', '');
+$account = getPostParam('account', '');
+$domain = getPostParam('domain', 'pawoo');
+$hs = getPostParam('hs', 'true');
+$pawoo_oldest_id = getPostParam('pawoo_oldest_id', '');
+$twitter_oldest_id = getPostParam('twitter_oldest_id', '');
+$count = getPostParam('count', '');
+$thumb = getPostParam('thumb', 'true');
+$pawoo_id = getPostParam('pawoo_id', '');
+$twitter_id = getPostParam('twitter_id', '');
 
 $mutters = array();
 $tmp_mutters = array();
@@ -140,6 +140,7 @@ $response['twitter_oldest_id'] = $twitter_oldest_id;
 $errors[] = array("template"=>ob_get_contents());
 ob_end_clean();
 
-// $response['error'] = $errors;
+// if(!empty($errors))
+//     $response['error'] = json_encode(["template"=>json_encode($errors)]);
 
 echo json_encode($response);

@@ -3,11 +3,11 @@ require_once ("init.php");
 
 $api = 'search/tweets';
 
-$account = getGetParam('account', '');
-$id = getGetParam('id', '');
-$q = getGetParam('q', '');
-$count = getGetParam('count', '200');
-$max_id = getGetParam('max_id', '');
+$account = getPostParam('account', '');
+$id = getPostParam('id', '');
+$q = getPostParam('q', '');
+$count = getPostParam('count', '200');
+$max_id = getPostParam('max_id', '');
 
 if(!empty($account)) {
     $pair = get_access_tokens($account, 'twitter');

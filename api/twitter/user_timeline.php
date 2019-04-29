@@ -3,11 +3,11 @@ require_once ("init.php");
 
 $api = 'statuses/user_timeline';
 
-$account = getGetParam('account', '');
-$id = getGetParam('id', '');
-$user_id = getGetParam('target_id', TwitterAccountID);
-$count = getGetParam('count', '20');
-$max_id = getGetParam('max_id', '');
+$account = getPostParam('account', '');
+$id = getPostParam('id', '');
+$user_id = getPostParam('target_id', TwitterAccountID);
+$count = getPostParam('count', '20');
+$max_id = getPostParam('max_id', '');
 
 if(!empty($account)) {
     $pair = get_access_tokens($account, 'twitter');

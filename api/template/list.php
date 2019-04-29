@@ -1,15 +1,16 @@
 <?php
 require_once ("init.php");
 
-$account = getGetParam('account', '');
-$domain = getGetParam('domain', 'twitter');
-$id = getGetParam('id', '');
-$list_id = getGetParam('list_id', '');
-$hs = getGetParam('hs', 'true');
-$pawoo_oldest_id = getGetParam('pawoo_oldest_id', '');
-$twitter_oldest_id = getGetParam('twitter_oldest_id', '');
-$count = getGetParam('count', '');
-$thumb = getGetParam('thumb', 'true');
+$account = getPostParam('account', '');
+$domain = getPostParam('domain', '');
+$pawoo_id = getPostParam('pawoo_id', '');
+$twitter_id = getPostParam('twitter_id', '');
+$list_id = getPostParam('list_id', '');
+$hs = getPostParam('hs', 'true');
+$pawoo_oldest_id = getPostParam('pawoo_oldest_id', '');
+$twitter_oldest_id = getPostParam('twitter_oldest_id', '');
+$count = getPostParam('count', '');
+$thumb = getPostParam('thumb', 'true');
 
 $mutters = array();
 $tmp_mutters = array();
@@ -17,15 +18,17 @@ $tmp_mutters = array();
 $response = array();
 $response['mutters'] = array();
 
+ob_start();
+
 // pawooの自分TL取得
 if(contains($domain, 'pawoo') && ($pawoo_oldest_id!=-1)) {
     
     do {
-        $api = AppURL . '/api/pawoo/user_timeline.php';
+        $api = AppURL . '/api/pawoo/list_timeline.php';
         
         $params = array(
             "account" => $account
-            , "id" => $id
+            , "id" => $pawoo_id
             , "list_id" => $list_id
             , "limit" => MastodonTootsLimit
             , "only_media" => true
@@ -53,6 +56,9 @@ if(contains($domain, 'pawoo') && ($pawoo_oldest_id!=-1)) {
             $pawoo_oldest_id = - 1;
                     
     } while (count($tmp_mutters) < 1 && $pawoo_oldest_id>0); 
+    
+    if(count($tmp_mutters) <= 1)
+        $pawoo_oldest_id = - 1;
 }
 
 // myVarDump($pawoo_oldest_id);
@@ -67,7 +73,7 @@ if(contains($domain, 'twitter') && ($twitter_oldest_id!=-1)) {
     do {
         $params = array(
             "account" => $account
-            , "id" => $id
+            , "id" => $twitter_id
             , "list_id" => $list_id
         );
         
@@ -80,10 +86,11 @@ if(contains($domain, 'twitter') && ($twitter_oldest_id!=-1)) {
         if (! empty($twitter_oldest_id)) {
             $params['max_id'] = $twitter_oldest_id;
         }
-        
+//         echo var_dump($params);
         $tmp = getRequest(AppURL . '/api/twitter/list.php', $params);
-//         myVarDump($tmp);
         $response = json_decode($tmp, true);
+        
+        echo $response['error'];
         
         if(!is_array($response))
             break;
@@ -98,7 +105,10 @@ if(contains($domain, 'twitter') && ($twitter_oldest_id!=-1)) {
         else
             $twitter_oldest_id = - 1;
         
-    } while (count($tmp_mutters) < 1 && $twitter_oldest_id>0); 
+    } while (count($tmp_mutters) < 1 && $twitter_oldest_id>0);
+    
+    if(count($tmp_mutters) <= 1)
+        $twitter_oldest_id = - 1;
 }
 
 $mutters = array_merge($mutters, $tmp_mutters);
@@ -124,5 +134,8 @@ foreach ($mutters as $mutter) {
 
 $response['pawoo_oldest_id'] = $pawoo_oldest_id;
 $response['twitter_oldest_id'] = $twitter_oldest_id;
+
+$response['error'] = ob_get_contents();
+ob_end_clean();
 
 echo json_encode($response);

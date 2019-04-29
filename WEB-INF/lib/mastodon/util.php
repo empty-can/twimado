@@ -11,6 +11,16 @@ use theCodingCompany\Mastodon;
  * @return theCodingCompany\Mastodon
  */
 function getMastodonConnection(string $mastodon_domain, string $user_token = "") {
+    $twitterAccessToken = getSessionParam('pawooAccessToken', "");
+    
+    if (empty($user_token)) {
+        if (!empty($twitterAccessToken) && isset($twitterAccessToken->access_token)) {
+            $user_token = $twitterAccessToken->access_token;
+        } else {
+            $user_token = TwitterAccessToken;
+        }
+    }
+    
     if (empty($user_token)) {
         $user_token = getSessionParam("pawoo_access_token", PawooAccessToken);
     }

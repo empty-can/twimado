@@ -1,15 +1,16 @@
 <?php
 require_once ("init.php");
 
-$account = getGetParam('account', '');
-$domain = getGetParam('domain', 'twitterpawoo');
-$id = getGetParam('id', '');
-$hs = getGetParam('hs', 'true');
-$q = urlencode(getGetParam('q', ''));
-$pawoo_oldest_id = getGetParam('pawoo_oldest_id', '');
-$twitter_oldest_id = getGetParam('twitter_oldest_id', '');
-$count = getGetParam('count', '');
-$thumb = getGetParam('thumb', 'true');
+$account = getPostParam('account', '');
+$domain = getPostParam('domain', 'twitterpawoo');
+$pawoo_id = getPostParam('pawoo_id', '');
+$twitter_id = getPostParam('twitter_id', '');
+$hs = getPostParam('hs', 'true');
+$q = urlencode(getPostParam('q', ''));
+$pawoo_oldest_id = getPostParam('pawoo_oldest_id', '');
+$twitter_oldest_id = getPostParam('twitter_oldest_id', '');
+$count = getPostParam('count', '');
+$thumb = getPostParam('thumb', 'true');
 
 $mutters = array();
 $tmp_mutters = array();
@@ -26,7 +27,7 @@ if(contains($domain, 'pawoo') && ($pawoo_oldest_id>-1)) {
     do {
         $params = array(
             "account" => $account
-            , "id" => $id
+            , "id" => $pawoo_id
             , "tag" => mb_ereg_replace('%23', '', $q)
             );
         
@@ -40,20 +41,22 @@ if(contains($domain, 'pawoo') && ($pawoo_oldest_id>-1)) {
             $params['max_id'] = $pawoo_oldest_id;
         }
         
+//         var_dump($params);
+        
         $tmpResponse = getRequest(AppURL . '/api/pawoo/tag_timelines.php', $params);
         
 //                          var_dump($tmpResponse);
         
         $tmpResponse = json_decode($tmpResponse);
         
-        //         var_dump($tmpResponse);
+//         var_dump($tmpResponse);
+        
         
         if(!is_array($tmpResponse))
             $tmpResponse = obj_to_array($tmpResponse);
-            
-            //         var_dump($tmpResponse);
-            
-            //             var_dump($tmpResponse['error']);
+        
+//             echo "template:";
+//         var_dump($tmpResponse['error']);
             $pawoo_oldest = $tmpResponse['oldest_mutter'];
             
             $tmp_mutters = array_merge($tmp_mutters, $tmpResponse['mutters']);
@@ -75,7 +78,7 @@ if(contains($domain, 'twitter') && ($twitter_oldest_id>-1)) {
     do {
         $params = array(
             "account" => $account
-            , "id" => $id
+            , "id" => $twitter_id
             , "q" => $q
         );
         if (!empty($count)) {
@@ -87,6 +90,8 @@ if(contains($domain, 'twitter') && ($twitter_oldest_id>-1)) {
         if (! empty($twitter_oldest_id)) {
             $params['max_id'] = $twitter_oldest_id;
         }
+        
+//         var_dump($params);
         
         $tmpResponse = getRequest(AppURL . '/api/twitter/search.php', $params);
         
@@ -113,8 +118,6 @@ if(contains($domain, 'twitter') && ($twitter_oldest_id>-1)) {
             
     } while (count($tmp_mutters) < 1 && $twitter_oldest_id>0);
 }
-
-// var_dump($mutters);
 
 $mutters = array_merge($mutters, $tmp_mutters);
 $mutters = array_unique($mutters, SORT_REGULAR);

@@ -185,7 +185,7 @@ class Mastodon
     }
 
     public function executeGetAPI(string $url = null) {
-//         myVarDump($url);
+//         echo "URL".$url;
         if (! empty($url)) {
             // Create our object
             $http = HttpRequest::Instance($this->getApiURL());

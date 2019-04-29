@@ -1,14 +1,15 @@
 <?php
 require_once ("init.php");
 
-$account = getGetParam('account', '');
-$domain = getGetParam('domain', '');
-$id = getGetParam('id', '');
-$target_id = getGetParam('targetid', '');
-$hs = getGetParam('hs', 'true');
-$max_id = getGetParam('oldest_id', '');
-$count = getGetParam('count', '');
-$thumb = getGetParam('thumb', 'true');
+$account = getPostParam('account', '');
+$domain = getPostParam('domain', '');
+$pawoo_id = getPostParam('pawoo_id', '');
+$twitter_id = getPostParam('twitter_id', '');
+$target_id = getPostParam('target_id', '');
+$hs = getPostParam('hs', 'true');
+$max_id = getPostParam('oldest_id', '');
+$count = getPostParam('count', '');
+$thumb = getPostParam('thumb', 'true');
 
 $response = array();
 $response['mutters'] = array();
@@ -38,7 +39,7 @@ if($domain=="twitter") {
     $api = AppURL . '/api/twitter/user_timeline.php';
     $params = array(
         "account" => $account
-        , "id" => $id
+        , "id" => $twitter_id
         , "target_id" => $target_id
     );
     if(!empty($max_id)) {
@@ -55,7 +56,7 @@ if($domain=="twitter") {
     $api = AppURL . '/api/pawoo/user_timeline.php';
     $params = array(
         "account" => $account
-        , "id" => $id
+        , "id" => $pawoo_id
         , "target_id" => $target_id
     );
     if(!empty($max_id)) {
@@ -72,7 +73,7 @@ if($domain=="twitter") {
     echo "対応するAPIがありません。";
     exit();
 }
-// var_dump($response);
+
 // var_dump(json_decode($response));
 // var_dump(empty($response));
 

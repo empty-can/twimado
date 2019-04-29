@@ -1,11 +1,13 @@
 <?php
 require_once ("init.php");
 
-$account = getGetParam('account', '');
-$id = getGetParam('id', '');
-$limit = getGetParam('limit', MastodonTootsLimit);
-$max_id = getGetParam('max_id', '');
-$hashtag = getGetParam('tag', '');
+$account = getPostParam('account', '');
+$id = getPostParam('id', '');
+$limit = getPostParam('limit', MastodonTootsLimit);
+$max_id = getPostParam('max_id', '');
+$hashtag = getPostParam('tag', '');
+
+ob_start();
 
 if(!empty($account)) {
     $pair = get_access_tokens($account, 'pawoo');
@@ -17,8 +19,6 @@ if(!empty($account)) {
 }
 
 $api = "/api/v1/timelines/tag/$hashtag";
-
-// var_dump($api);
 
 if($limit>MastodonTootsLimit)
     $limit=MastodonTootsLimit;
@@ -35,13 +35,15 @@ if(!empty($max_id)) {
 $connection = getMastodonConnection(PawooDomain, $access_token);
 $toots = $connection->executeGetAPI($api.'?'.http_build_query($params));
 
-
 $mutters = array();
 
 $oldest = "";
 
+$response = array();
+$response['error'] = ob_get_contents();
+ob_end_clean();
+
 if(empty($toots)) {
-    $response = array();
     $response['mutters'] = array();
     $response['oldest_mutter'] = null;
     echo json_encode($response);
@@ -58,7 +60,6 @@ if(empty($toots)) {
             $mutters[$originalId] = $tmp;
     }
     
-    $response = array();
     $response['mutters'] = $mutters;
     $response['oldest_mutter'] = $oldest;
     

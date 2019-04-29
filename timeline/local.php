@@ -6,7 +6,7 @@ $api = AppURL . '/api/template/local_timeline.php';
 $hs = getGetParam('hs', 'true');
 $count = getGetParam('count', '20');
 $thumb = getGetParam('thumb', 'true');
-$pawoo_id = getSessionParam("pawoo_id", "");
+$pawoo_id = PawooAccountID;
 $mutters = array();
 
 $pawoo_oldest_id = "";

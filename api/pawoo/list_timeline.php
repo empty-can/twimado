@@ -1,11 +1,11 @@
 <?php
 require_once ("init.php");
 
-$account = getGetParam('account', '');
-$id = getGetParam('id', '');
-$list_id = getGetParam('list_id', '');
-$limit = getGetParam('limit', 40);
-$max_id = getGetParam('max_id', '');
+$account = getPostParam('account', '');
+$id = getPostParam('id', '');
+$list_id = getPostParam('list_id', '');
+$limit = getPostParam('limit', 40);
+$max_id = getPostParam('max_id', '');
 
 if(!empty($account)) {
     $pair = get_access_tokens($account, 'pawoo');

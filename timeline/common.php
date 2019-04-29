@@ -1,9 +1,9 @@
 <?php
 require_once ("init.php");
 
-$hs = getGetParam('hs', 'true');
-$count = getGetParam('count', '20');
-$thumb = getGetParam('thumb', 'true');
+$hs = getPostParam('hs', 'true');
+$count = getPostParam('count', '20');
+$thumb = getPostParam('thumb', 'true');
 
 $csss=array();
 $csss[] = "timeline";

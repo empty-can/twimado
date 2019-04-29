@@ -46,7 +46,7 @@
 <br>
 <ul class="breadcrumb">
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="{$AppURL}/timeline/?domain=twitter&hs=false&thumb=true&twitter_list=1120163652441481217" target="{$target}">マンガ家TL</a>
+  	<a href="{$AppURL}/timeline/list.php?domain=twitter&hs=false&thumb=true&twitter_list=1120163652441481217" target="{$target}">マンガ家TL</a>
   </li>
   <!-- li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
   	<a href="{$AppURL}/timeline/user.php?domain=twitter&id=2656042465&hs=true&thumb=true" target="{$target}"><img src="https://pbs.twimg.com/profile_images/751972552789020672/1Ml7URFU_normal.jpg" style="width:30px;"> 横島botTL </a>

@@ -1,45 +1,46 @@
 <?php
 require_once ("init.php");
 
-$domain = getGetParam('domain', 'twitter');
+$domain = getGetParam('domain', '');
 $api = AppURL . '/api/template/list.php';
-$list_id = getGetParam('list_id', '');
-$name = getGetParam('name', '');
 $hs = getGetParam('hs', 'true');
 $count = getGetParam('count', '20');
 $thumb = getGetParam('thumb', 'true');
 $max_id = getGetParam('max_id', '');
-$access_token = getSessionParam("pawoo_access_token", "");
 
-if(empty($domain)) {
-    echo "ドメインの指定がありません。";
-    exit();
-} else if($domain=='pawoo') {
-    $connection = getMastodonConnection(PawooDomain, $access_token);
-    
-    $members = $connection->executeGetAPI("api/v1/lists/$list_id/accounts");
-    $ids = array();
-    
-    foreach($members as $member) {
-        $ids[]  = $member["id"];
-    }
-    
-    asort($ids);
+$name = getGetParam('name', '');
+
+switch ($domain) {
+    case "twitter" :
+        $list_id = getGetParam('list_id', TwitterList);
+        break;
+    case "pawoo" :
+        $list_id = getGetParam('list_id', "");
+        break;
+    default :
+        echo "ドメインの指定がありません。";
+        exit();
 }
 
 $params = array(
-    "hs" => $hs
+    "account" => Account
+    , "hs" => $hs
     ,"domain" => $domain
     ,"list_id" => $list_id
     ,"count" => $count
     ,"thumb" => $thumb
+    ,"pawoo_id" => PawooAccountID
+    ,"twitter_id" => TwitterAccountID
 );
+
 // myVarDump($params);
 if(!empty($max_id)) {
     $params['oldest_id'] = $max_id;
 }
 
 $tmp = getRequest($api, $params);
+
+// myVarDump($tmp);
 
 $response = json_decode($tmp);
 
@@ -68,12 +69,15 @@ $jss[] = "timeline";
 $smarty->assign("jss", $jss);
 
 $embedded_js_params_string = [
-    "domain" => $domain
+    "account" => Account
+    ,"domain" => $domain
     ,"hs" => $hs
     ,"list_id" => $list_id
     ,"thumb" => $thumb
     ,"twitter_oldest_id" => $twitter_oldest_id
     ,"pawoo_oldest_id" => $pawoo_oldest_id
+    ,"pawoo_id" => PawooAccountID
+    ,"twitter_id" => TwitterAccountID
 ];
 
 $embedded_js_params_int = [

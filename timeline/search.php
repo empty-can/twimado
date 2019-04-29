@@ -20,11 +20,14 @@ if(empty($q)) {
 }
 
 $params = array(
-    "hs" => $hs
+    "account" => Account
+    ,"hs" => $hs
     ,"domain" => $domain
     ,"q" => $q
     ,"count" => $count
     ,"thumb" => $thumb
+    ,"pawoo_id" => PawooAccountID
+    ,"twitter_id" => TwitterAccountID
 );
 // myVarDump($params);
 if(!empty($max_id)) {
@@ -34,6 +37,8 @@ if(!empty($max_id)) {
 $tmp = getRequest($api, $params);
 
 $response = json_decode($tmp);
+
+// myVarDump($response->error);
 
 if(empty($response)) {
     echo "APIからのデータ取得に失敗しました。";
@@ -60,12 +65,15 @@ $jss[] = "timeline";
 $smarty->assign("jss", $jss);
 
 $embedded_js_params_string = [
-    "domain" => $domain
-    ,"q" => urlencode($q)
+    "account" => Account
+    ,"domain" => $domain
+    ,"q" => $q
     ,"hs" => $hs
     ,"thumb" => $thumb
     ,"twitter_oldest_id" => $twitter_oldest_id
     ,"pawoo_oldest_id" => $pawoo_oldest_id
+    , "pawoo_id" => PawooAccountID
+    , "twitter_id" => TwitterAccountID
 ];
 
 $embedded_js_params_int = [

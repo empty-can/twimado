@@ -3,7 +3,7 @@ require_once ("init.php");
 use theCodingCompany\Mastodon;
 
 
-$code = getGetParam('code', '');
+$code = getPostParam('code', '');
 
 if(!empty($code)) {
     $app_config = array(

@@ -111,9 +111,24 @@ function array_last(array $array) {
 function getRequest(string $url, array $params = array()) {
 //     $params["mySessionID"] = session_id();
     $data = http_build_query($params, '', '&');
-//     myVarDump($url.'?'.$data);
+    
+    // header
+    $header = array(
+        "Content-Type: application/x-www-form-urlencoded",
+        "Content-Length: ".strlen($data)
+    );
+    
+    $context = array(
+        "http" => array(
+            "method"  => "POST",
+            "header"  => implode("\r\n", $header),
+            "content" => $data
+        )
+    );
+    
+//     myVarDump($context);
 
-    return file_get_contents($url.'?'.$data);
+    return file_get_contents($url, false, stream_context_create($context));
 }
 
 /**

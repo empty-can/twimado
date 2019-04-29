@@ -3,11 +3,11 @@ require_once ("init.php");
 
 $api = 'lists/statuses';
 
-$account = getGetParam('account', '');
-$id = getGetParam('id', '');
-$list_id = getGetParam('list_id', TwitterList);
-$count = getGetParam('count', '200');
-$max_id = getGetParam('max_id', '');
+$account = getPostParam('account', '');
+$id = getPostParam('id', '');
+$list_id = getPostParam('list_id', TwitterList);
+$count = getPostParam('count', '200');
+$max_id = getPostParam('max_id', '');
 
 if(!empty($account)) {
     $pair = get_access_tokens($account, 'twitter');
@@ -39,6 +39,7 @@ ob_start();
 
 $tweets = getTwitterConnection($access_token, $access_token_secret)->get($api, $params);
 
+
 $mutters = array();
 $oldest = "";
 $i = (int)0;
@@ -56,6 +57,7 @@ foreach ($tweets as $tweet) {
     
     if($i>$count) break;
 }
+    
 
 // var_dump($mutters);
 
@@ -67,5 +69,6 @@ $response['error'] = ob_get_contents();
 ob_end_clean();
 
 // myVarDump($response['error']);
+// $response['error'] = json_encode($_POST);
 
 echo json_encode($response);

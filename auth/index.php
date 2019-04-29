@@ -7,7 +7,7 @@ require_once ("init.php");
 $account = getPostParam("account");
 $password = getPostParam("password");
 $button = getPostParam("button");
-$logout = getGetParam("logout", "");
+$logout = getPostParam("logout", "");
 $message = "";
 
 // ログアウト処理
