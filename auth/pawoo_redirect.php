@@ -2,8 +2,7 @@
 require_once ("init.php");
 use theCodingCompany\Mastodon;
 
-
-$code = getPostParam('code', '');
+$code = getGetParam('code', '');
 
 if(!empty($code)) {
     $app_config = array(
@@ -48,7 +47,7 @@ if(!empty($code)) {
         setPassengerTokens($pawooAccount['id'], 'pawoo', $pawooAccount['username'], $pawooAccount['display_name'], $token,  "");
     }
     
-    header('Location: /auth/');
+    header('Location: /');
     exit();
 }else{
     header('Location: /');

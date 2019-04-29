@@ -9,8 +9,8 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 
 $oauth_token_session = getSessionParam('oauth_token');
 $oauth_token_secret_session = getSessionParam('oauth_token_secret');
-$oauth_verifier = getPostParam('oauth_verifier');
-$oauth_token = getPostParam('oauth_token');
+$oauth_verifier = getGetParam('oauth_verifier');
+$oauth_token = getGetParam('oauth_token');
 
 //oauth_tokenとoauth_verifierを取得
 if($oauth_token_session == $oauth_token and $oauth_verifier){
@@ -47,7 +47,7 @@ if($oauth_token_session == $oauth_token and $oauth_verifier){
         setPassengerTokens($twitterAccount['id'], 'twitter', $twitterAccount['name'], $twitterAccount['screen_name'], $access_token['oauth_token'],  $access_token['oauth_token_secret']);
     }
     
-    header('Location: /auth/');
+    header('Location: /');
     exit();
 }else{
     header('Location: /');
