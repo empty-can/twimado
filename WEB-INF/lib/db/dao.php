@@ -12,7 +12,6 @@ function register_pairing(string $account_id, string $service_name, array $servi
     $results = false;
     
     if(!exist_pair($account_id, $service_name, $service_user_info['id'])) {
-        
         $mydb = new MyDB();
         
         $account_id = $mydb->escape($account_id);
@@ -140,7 +139,7 @@ function login(string $account_id, string $password) {
         
         $decrypted_pass = decrypt($result['password'], $result['enc_key']);
         
-        return ($decrypted_pass==$password);
+        return ($decrypted_pass==$password) ? $result['rand'] : "";
     }
     
     return false;
@@ -157,15 +156,19 @@ function register_account(string $account_id, string $password, string $enc_key)
     $mydb = new MyDB();
     
     $account_id = $mydb->escape($account_id);
+    $rand = md5(time());
     $password = $mydb->escape($password);
     $enc_key = $mydb->escape($enc_key);
     
-    $sql = "INSERT INTO tamikusa (id, password, enc_key)"
-        ." VALUES ('$account_id', '$password', '$enc_key')";
+    $sql = "INSERT INTO tamikusa (id, rand, password, enc_key)"
+        ." VALUES ('$account_id', '$rand', '$password', '$enc_key')";
     
     $results = $mydb->query($sql);
-    
-    return $results;
+
+    if ($results)
+        return $rand;
+    else
+        return "";
 }
 
 /**

@@ -32,7 +32,7 @@ if(!empty($code)) {
     
     
     // アプリにログインしていればDBへ連携情報を登録する
-    $account_id = getSessionParam("loginAccount", "");
+    $account_id = getSessionParam("account", "");
     if(!empty($account_id)) {
         
         $service_user_info = [
@@ -44,7 +44,7 @@ if(!empty($code)) {
         
         register_pairing($account_id, "pawoo", $service_user_info);
     } else {
-        setPassengerTokens($pawooAccount['id'], 'pawoo', $pawooAccount['username'], $pawooAccount['display_name'], $token,  "");
+        setPassengerTokens($pawooAccount['id'], 'pawoo', $pawooAccount['display_name'], $pawooAccount['username'], $token,  "");
     }
     
     header('Location: /');

@@ -1,7 +1,8 @@
 <?php
 require_once ("init.php");
 
-// myVarDump($_SESSION);
+// var_dump($_SESSION);
+// echo getSessionParam("message", "");
 
 $woeid = "1118370"; // Tokyo
 $api = 'trends/place';

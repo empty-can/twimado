@@ -32,7 +32,7 @@ if($oauth_token_session == $oauth_token and $oauth_verifier){
 
     
     // アプリにログインしていればDBへ連携情報を登録する
-    $account_id = getSessionParam("loginAccount", "");
+    $account_id = getSessionParam("account", "");
     if(!empty($account_id)) {
         $service_user_info = [
             'id' => $twitterAccount["id"]
