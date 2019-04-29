@@ -23,8 +23,34 @@ if(!empty($code)) {
     $pawoo->setAppConfig($app_config);
     $pawoo->setCredentials($credentials);
     $token = $pawoo->getAccessToken($code);
-    setSessionParam("pawoo_access_token", $token);
+    
+    $connection = getMastodonConnection(PawooDomain, $token);
+    $pawooAccount = $connection->executeGetAPI('api/v1/accounts/verify_credentials');
+
+    //各値をセッションに入れる
+    setSessionParam("pawooLoginAccount", $pawooAccount);
+    setSessionParam("pawooAccessToken", new AccessToken($token, ""));
+    
+    
+    // アプリにログインしていればDBへ連携情報を登録する
+    $account_id = getSessionParam("loginAccount", "");
+    if(!empty($account_id)) {
+        
+        $service_user_info = [
+            'id' => $pawooAccount["id"]
+            ,'user_name' => $pawooAccount["username"]
+            ,'display_name' => $pawooAccount["display_name"]
+            ,'token' => $token
+        ];
+        
+        register_pairing($account_id, "pawoo", $service_user_info);
+    } else {
+        setPassengerTokens($pawooAccount['id'], 'pawoo', $pawooAccount['username'], $pawooAccount['display_name'], $token,  "");
+    }
+    
+    header('Location: /auth/');
+    exit();
+}else{
     header('Location: /');
-    //     header('Location: '.AppURL."/auth/auth.php");
     exit();
 }

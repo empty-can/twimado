@@ -1,9 +1,20 @@
 <?php
 require_once ("init.php");
 
+$account = getGetParam('account', '');
 $id = getGetParam('id', '');
+$list_id = getGetParam('list_id', '');
 $limit = getGetParam('limit', 40);
 $max_id = getGetParam('max_id', '');
+
+if(!empty($account)) {
+    $pair = get_access_tokens($account, 'pawoo');
+    $access_token = $pair['access_token'];
+} else if(!empty($id)){
+    $access_token = getPassengerTokens($id, 'pawoo')['access_token'];
+} else {
+    $access_token = PawooAccessToken;
+}
 
 if ($limit > 40)
     $limit = 40;
@@ -23,7 +34,7 @@ $oldests = array();
 
 $oldest = "";
 
-$connection = getMastodonConnection(PawooDomain);
+$connection = getMastodonConnection(PawooDomain, $access_token);
 
 $api = "api/v1/lists/$id/accounts";
 $members = $connection->executeGetAPI($api);
@@ -34,7 +45,7 @@ foreach($members as $member) {
 }
 
 foreach ($ids as $id) {
-    $api = "api/v1/accounts/$id/statuses";
+    $api = "api/v1/accounts/$list_id/statuses";
 
     $toots = $connection->executeGetAPI($api . '?' . http_build_query($params));
 

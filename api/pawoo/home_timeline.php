@@ -2,11 +2,21 @@
 
 require_once ("init.php");
 
+$account = getGetParam('account', '');
+$id = getGetParam('id', '');
 $limit = getGetParam('limit', MastodonTootsLimit);
 $max_id = getGetParam('max_id', '');
-$id = getGetParam('id', PawooID);
 
-$access_token = getTokens($id)[2];
+if(!empty($account)) {
+    $pair = get_access_tokens($account, 'pawoo');
+    $access_token = $pair['access_token'];
+} else if(!empty($id)){
+    $access_token = getPassengerTokens($id, 'pawoo')['access_token'];
+} else {
+    echo "error";
+    exit();
+}
+
 
 $api = "api/v1/timelines/home";
 

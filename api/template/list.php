@@ -1,9 +1,10 @@
 <?php
-
 require_once ("init.php");
 
+$account = getGetParam('account', '');
 $domain = getGetParam('domain', 'twitter');
 $id = getGetParam('id', '');
+$list_id = getGetParam('list_id', '');
 $hs = getGetParam('hs', 'true');
 $pawoo_oldest_id = getGetParam('pawoo_oldest_id', '');
 $twitter_oldest_id = getGetParam('twitter_oldest_id', '');
@@ -23,7 +24,9 @@ if(contains($domain, 'pawoo') && ($pawoo_oldest_id!=-1)) {
         $api = AppURL . '/api/pawoo/user_timeline.php';
         
         $params = array(
-            "id" => $id
+            "account" => $account
+            , "id" => $id
+            , "list_id" => $list_id
             , "limit" => MastodonTootsLimit
             , "only_media" => true
         );
@@ -63,7 +66,9 @@ if(contains($domain, 'twitter') && ($twitter_oldest_id!=-1)) {
     
     do {
         $params = array(
-            "list_id" => $id
+            "account" => $account
+            , "id" => $id
+            , "list_id" => $list_id
         );
         
         if(empty($count)) {

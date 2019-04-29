@@ -1,9 +1,10 @@
 <?php
-
 require_once ("init.php");
 
+$account = getGetParam('account', '');
 $domain = getGetParam('domain', '');
 $id = getGetParam('id', '');
+$target_id = getGetParam('targetid', '');
 $hs = getGetParam('hs', 'true');
 $max_id = getGetParam('oldest_id', '');
 $count = getGetParam('count', '');
@@ -35,7 +36,11 @@ ob_start();
 
 if($domain=="twitter") {
     $api = AppURL . '/api/twitter/user_timeline.php';
-    $params["id"] = $id;
+    $params = array(
+        "account" => $account
+        , "id" => $id
+        , "target_id" => $target_id
+    );
     if(!empty($max_id)) {
         $params["max_id"] = $max_id;
     }
@@ -48,7 +53,11 @@ if($domain=="twitter") {
     $response = getRequest($api, $params);
 } else if($domain=="pawoo") {
     $api = AppURL . '/api/pawoo/user_timeline.php';
-    $params["id"] = $id;
+    $params = array(
+        "account" => $account
+        , "id" => $id
+        , "target_id" => $target_id
+    );
     if(!empty($max_id)) {
         $params["max_id"] = $max_id;
     }

@@ -2,6 +2,8 @@
 
 require_once ("init.php");
 
+$account = getGetParam('account', '');
+$id = getGetParam('id', '');
 $domain = getGetParam('domain', 'twitterpawoo');
 $hs = getGetParam('hs', 'true');
 $pawoo_oldest_id = getGetParam('pawoo_oldest_id', '');
@@ -9,6 +11,8 @@ $twitter_oldest_id = getGetParam('twitter_oldest_id', '');
 $count = getGetParam('count', '');
 $twitter_list = getGetParam('twitter_list', TwitterList);
 $thumb = getGetParam('thumb', 'true');
+$pawoo_id = getGetParam('pawoo_id', '');
+$twitter_id = getGetParam('twitter_id', '');
 
 $mutters = array();
 $tmp_mutters = array();
@@ -21,7 +25,7 @@ if(contains($domain, 'pawoo') && ($pawoo_oldest_id!=-1)) {
     
     do {
         $params = array(
-            "id" => PawooID
+            "id" => $pawoo_id
         );
         
         if(empty($count)) {

@@ -11,6 +11,15 @@ class MyDB {
     private $dbname = DbName;
 
     private $dbo;
+    
+    public static function getResult($result) {
+        $rows = array();
+        while($row = $result->fetch_array(MYSQLI_ASSOC)) {
+            $rows[] = $row;
+        }
+        
+        return $rows;
+    }
 
 
     function insert($query) {
@@ -21,41 +30,39 @@ class MyDB {
             printf("Errormessage: %s\n", $this->dbo->error);
             exit();
         }
-
+        
         return $result;
     }
 
 
     function select($query) {
-        $array = array();
-
         $result = $this->dbo->query($query);
 
-        if (!$result) {
-            //       echo $query;
-            //       printf("Errormessage: %s\n", $this->dbo->error);
-            //       exit();
+        if (! $result) {
+            // echo $query;
+            // printf("Errormessage: %s\n", $this->dbo->error);
+            // exit();
         }
 
-        if(!is_object($result))
+        if (! is_object($result))
             return null;
 
-            for ($i=0; $row = $result->fetch_row(); $i++)
-                $array[$i] = $row;
+        $rows = MyDB::getResult($result);
 
-                return $array;
+        $result->free();
+
+        return $rows;
     }
 
     /**
      * 文字列をエスケープ
      * 文字列以外はスルー
-     *
      */
     public function escape($param) {
-        if(is_string($param))
+        if (is_string($param))
             return $this->dbo->real_escape_string($param);
-            else
-                return $param;
+        else
+            return $param;
     }
 
     /**
@@ -66,9 +73,9 @@ class MyDB {
         $result = $this->dbo->query($query);
 
         if (!$result) {
-            //       echo $query;
-            //       printf("Errormessage: %s\n", $this->dbo->error);
-            //       exit();
+          echo $query;
+          printf("Errormessage: %s\n", $this->dbo->error);
+          exit();
         }
 
         return $result;

@@ -2,11 +2,22 @@
 
 require_once ("init.php");
 
+$account = getGetParam('account', '');
 $id = getGetParam('id', '');
+$target_id = getGetParam('target_id', '');
 $limit = getGetParam('limit', MastodonTootsLimit);
 $max_id = getGetParam('max_id', '');
 
-$api = "api/v1/accounts/$id/statuses";
+if(!empty($account)) {
+    $pair = get_access_tokens($account, 'pawoo');
+    $access_token = $pair['access_token'];
+} else if(!empty($id)){
+    $access_token = getPassengerTokens($id, 'pawoo')['access_token'];
+} else {
+    $access_token = PawooAccessToken;
+}
+
+$api = "api/v1/accounts/$target_id/statuses";
 
 $params = array(
     "limit" => ($limit>MastodonTootsLimit) ? MastodonTootsLimit : $limit
@@ -19,7 +30,7 @@ if(!empty($max_id)) {
 
 // myVarDump(http_build_query($params));
 
-$connection = getMastodonConnection(PawooDomain);
+$connection = getMastodonConnection(PawooDomain, $access_token);
 $toots = $connection->executeGetAPI($api.'?'.http_build_query($params));
 
 // myVarDump($toots);

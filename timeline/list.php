@@ -3,7 +3,7 @@ require_once ("init.php");
 
 $domain = getGetParam('domain', 'twitter');
 $api = AppURL . '/api/template/list.php';
-$id = getGetParam('id', '');
+$list_id = getGetParam('list_id', '');
 $name = getGetParam('name', '');
 $hs = getGetParam('hs', 'true');
 $count = getGetParam('count', '20');
@@ -17,7 +17,7 @@ if(empty($domain)) {
 } else if($domain=='pawoo') {
     $connection = getMastodonConnection(PawooDomain, $access_token);
     
-    $members = $connection->executeGetAPI("api/v1/lists/$id/accounts");
+    $members = $connection->executeGetAPI("api/v1/lists/$list_id/accounts");
     $ids = array();
     
     foreach($members as $member) {
@@ -30,7 +30,7 @@ if(empty($domain)) {
 $params = array(
     "hs" => $hs
     ,"domain" => $domain
-    ,"id" => $id
+    ,"list_id" => $list_id
     ,"count" => $count
     ,"thumb" => $thumb
 );
@@ -70,7 +70,7 @@ $smarty->assign("jss", $jss);
 $embedded_js_params_string = [
     "domain" => $domain
     ,"hs" => $hs
-    ,"id" => $id
+    ,"list_id" => $list_id
     ,"thumb" => $thumb
     ,"twitter_oldest_id" => $twitter_oldest_id
     ,"pawoo_oldest_id" => $pawoo_oldest_id

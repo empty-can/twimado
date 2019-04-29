@@ -1,8 +1,9 @@
 <?php
-
 require_once ("init.php");
 
+$account = getGetParam('account', '');
 $domain = getGetParam('domain', 'twitterpawoo');
+$id = getGetParam('id', '');
 $hs = getGetParam('hs', 'true');
 $q = urlencode(getGetParam('q', ''));
 $pawoo_oldest_id = getGetParam('pawoo_oldest_id', '');
@@ -24,7 +25,9 @@ if(contains($domain, 'pawoo') && ($pawoo_oldest_id>-1)) {
     
     do {
         $params = array(
-            "tag" => mb_ereg_replace('%23', '', $q)
+            "account" => $account
+            , "id" => $id
+            , "tag" => mb_ereg_replace('%23', '', $q)
             );
         
         if (!empty($count)) {
@@ -71,7 +74,9 @@ if(contains($domain, 'twitter') && ($twitter_oldest_id>-1)) {
     
     do {
         $params = array(
-            "q" => $q
+            "account" => $account
+            , "id" => $id
+            , "q" => $q
         );
         if (!empty($count)) {
             $params['count'] = $count;

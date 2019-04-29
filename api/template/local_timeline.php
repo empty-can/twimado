@@ -1,6 +1,7 @@
 <?php
 require_once ("init.php");
 
+$account = getGetParam('account', '');
 $domain = getGetParam('domain', 'pawoo');
 $hs = getGetParam('hs', 'true');
 $pawoo_oldest_id = getGetParam('pawoo_oldest_id', '');
@@ -24,7 +25,8 @@ if (contains($domain, 'pawoo') && ($pawoo_oldest_id != - 1)) {
         $api = AppURL . '/api/pawoo/local_timeline.php';
         
         $params = array(
-            "id" => $pawoo_id
+            "account" => $account
+            , "id" => $pawoo_id
             , "hs" => $hs
         );
         

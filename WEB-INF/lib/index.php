@@ -10,7 +10,7 @@ $params = array(
     "id" => $woeid
 );
 
-$trends = getTwitterConnection("", "")->get($api, $params);
+$trends = getTwitterConnection()->get($api, $params);
 
 $userInfo = getSessionParam("twitter_user_info", "");
 // myVarDump($userInfo);
@@ -31,7 +31,7 @@ if($twitterLogin) {
     //  echo "twitter_access_token:".$twitter_access_token."<br>\r\n";
     //  echo "twitter_access_token_secret:".$twitter_access_token_secret."<br>\r\n";
     
-    setTokens($userInfo->id, $userInfo->name."@".$userInfo->screen_name, $twitter_access_token, $twitter_access_token_secret);
+    setPassengerTokens($userInfo->id, $userInfo->name."@".$userInfo->screen_name, $twitter_access_token, $twitter_access_token_secret);
     
     if(empty($lists)) {
         $lists = getTwitterConnection($twitter_access_token, $twitter_access_token_secret)->get($api, $params);
@@ -54,5 +54,5 @@ if(!empty($pawooAccessToken)) {
     $pawooLogin = true;
 }
 if($pawooLogin) {
-    setTokens($pawooAccount["id"], $pawooAccount["display_name"]."@".$pawooAccount["username"], $pawooAccessToken, "");
+    setPassengerTokens($pawooAccount["id"], $pawooAccount["display_name"]."@".$pawooAccount["username"], $pawooAccessToken, "");
 }

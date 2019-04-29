@@ -22,6 +22,9 @@ define("DbName", $ini_array["db_name"]);
 define("DbAccount", $ini_array["db_account"]);
 define("DbPassword", $ini_array["db_password"]);
 
+define("Passphrase", $ini_array["passphrase"]);
+define("EncMethod", $ini_array["enc_method"]);
+
 /* ライブラリのロード */
 $lib_path = $ini_array["lib_path"];
 require_once($ini_array["smarty_class_path"]."/Smarty.class.php"); // Smartyライブラリをロード
@@ -61,6 +64,20 @@ define("AppContext", $ini_array["app_context"]);
 define("ErrorMessage", $ini_array["error_message"]);
 
 define("TwitterList", $ini_array["twitter_list"]);
+
+define("Account", getSessionParam('account', ''));
+
+$twitterLoginAccount = getSessionParam('twitterLoginAccount', '');
+if (isset($twitterLoginAccount['id']))
+    define("TwitterAccountID", $twitterLoginAccount['id']);
+else
+    define("TwitterAccountID", "");
+
+$pawooLoginAccount = getSessionParam('pawooLoginAccount', '');
+if (isset($pawooLoginAccount['id']))
+    define("PawooAccountID", $pawooLoginAccount['id']);
+else
+    define("PawooAccountID", "");
 
 /* Smartyのロード */
 $smarty = new Smarty();

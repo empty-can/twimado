@@ -1,14 +1,15 @@
 <?php
 require_once ("init.php");
 
+$account = getGetParam('account', '');
 $domain = getGetParam('domain', 'pawoo');
 $hs = getGetParam('hs', 'true');
 $pawoo_oldest_id = getGetParam('pawoo_oldest_id', '');
-$pawoo_id = getGetParam('pawoo_id', '');
 $twitter_oldest_id = getGetParam('twitter_oldest_id', '');
-$twitter_id = getGetParam('twitter_id', '');
 $count = getGetParam('count', '');
 $thumb = getGetParam('thumb', 'true');
+$pawoo_id = getGetParam('pawoo_id', '');
+$twitter_id = getGetParam('twitter_id', '');
 
 $mutters = array();
 $tmp_mutters = array();
@@ -26,7 +27,8 @@ if (contains($domain, 'pawoo') && ($pawoo_oldest_id != - 1)) {
         $api = AppURL . '/api/pawoo/home_timeline.php';
         
         $params = array(
-            "id" => $pawoo_id
+            "account" => $account
+            , "id" => $pawoo_id
             , "hs" => $hs
         );
         
@@ -76,7 +78,8 @@ if (contains($domain, 'twitter') && ($twitter_oldest_id != - 1)) {
         $api = AppURL . '/api/twitter/home_timeline.php';
         
         $params = array(
-            "id" => $twitter_id
+            "account" => $account
+            , "id" => $twitter_id
             , "hs" => $hs
         );
 

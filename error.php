@@ -1,3 +1,2 @@
 <?php
-header('Location: /');
-exit();
+echo "Bad Path.";

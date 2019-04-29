@@ -1,6 +1,50 @@
 <?php
 require_once ("init.php");
 
+/**
+ * 暗号化されたキーを復元する
+ * 
+ * @param string $base64_encrypted
+ * @param string $base64_enc_key
+ * @return string
+ */
+function decrypt(string $base64_encrypted, string $base64_enc_key) {
+    $encrypted = base64_decode($base64_encrypted);
+    $iv = base64_decode($base64_enc_key);
+    $options = OPENSSL_RAW_DATA;
+    
+    $decrypted = openssl_decrypt($encrypted, EncMethod, Passphrase, $options, $iv);
+    
+    return $decrypted;
+}
+
+/**
+ * 対象文字列を暗号化する
+ * 
+ * @param string $target
+ * @param string $base64_enc_key    他で作った暗号化キーを使いまわしたい場合指定する
+ * @return string[]
+ */
+function encrypt(string $target, string $base64_enc_key="") {
+    
+    $result = array();
+    
+    if(empty($base64_enc_key)) {
+        $iv_size = openssl_cipher_iv_length(EncMethod);
+        $iv = openssl_random_pseudo_bytes($iv_size);
+        $result['key'] = base64_encode($iv);
+    } else {
+        $iv = base64_decode($base64_enc_key);
+        $result['key'] = $base64_enc_key;
+    }
+    
+    $options = OPENSSL_RAW_DATA;
+    
+    $result['data'] = base64_encode(openssl_encrypt($target, EncMethod, Passphrase, $options, $iv));
+    
+    return $result;
+}
+
 function searchTag(string $text, string $target="_blank") {
     $pattern = '([#＃][^』」】 \r\n]+)';
     $replacement = '<a href="'.AppURL.'/timeline/search.php?q=\1" target="$target">\1</a>';
@@ -263,4 +307,21 @@ function myVarDump($object) {
     var_dump($object);
     ?></pre><?php
     exit();
+}
+
+function logout() {
+    
+    //セッション変数を全て解除
+    $_SESSION = array();
+    
+    //セッションクッキーの削除
+    if (isset($_COOKIE["PHPSESSID"])) {
+        setcookie("PHPSESSID", '', time() - 1800, '/');
+    }
+    if (isset($_COOKIE["login_cookie_id"])) {
+        setcookie("login_cookie_id", '', time() - 1800, '/twimado/', 'www.suki.pics', false, false);
+    }
+    
+    //セッションを破棄する
+    session_destroy();
 }

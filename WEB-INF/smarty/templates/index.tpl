@@ -1,27 +1,25 @@
 {include file='parts/header.tpl'}
-<!-- div class="form-wrapper">
-  <h1>アカウント作成フォーム</h1>
-  <form method="POST" action="/auth/auth.php">
-    <div class="form-item">
-      <label for="account name"></label>
-      <input type="text" name="name" required="required" placeholder="お好きな名前"></input>
-    </div>
-    <div class="form-item">
-      <label for="password"></label>
-      <input type="password" name="password" required="required" placeholder="パスワード"></input>
-    </div>
-    <div class="button-panel">
-      <input type="submit" class="button" title="Sign In" value="Sign In"></input>
-    </div>
-  </form>
-</div -->
-<h4 id="title" style="width:100%;text-align:right;">ログイン中アカウント</h4>
-<div style="width:100%;text-align:right;">
-  {if isset($userInfo->name)}
-  <a href="https://twitter.com/" target="{$target}">{$userInfo->name}</a><img src="{$userInfo->profile_image_url_https}" style="width:30px;"><br>
+<div style="width:100%;text-align:right;margin-top:1vh;">
+  {if empty($account)}
+	<form action="/auth/" method="post">
+		<input type="text" name="account" size="12" maxlength="64" placeholder="アカウント名" value="{$account}" />
+		<input type="password" size="12" name="password" maxlength="64" placeholder="パスワード" />
+		<button type="submit" name="button" value="login">ログイン</button>
+		<button type="submit" name="button" value="register">アカウント登録</button>
+	</form>
+  {else}
+  <h4 id="title" style="width:100%;text-align:right;">ログイン中アカウント:{$account}</h4>
   {/if}
-  {if !empty($pawooAccessToken)}
-  <a href="https://pawoo.net/" target="{$target}">{$pawooAccount.display_name}@{$pawooAccount.username}</a><img src="{$pawooAccount.avatar}" style="width:30px;"><br>
+  <br>
+  {if $twitterLogin}
+  <a href="https://twitter.com/" target="{$target}" alt="Twitter:{$twitterLoginAccount.name}@{$twitterLoginAccount.screen_name}" >
+    <img src="{$twitterLoginAccount.profile_image_url_https}" style="width:30px;">
+  </a>
+  {/if}
+  {if $pawooLogin}
+  <a href="https://pawoo.net/" target="{$target}">
+    <img src="{$pawooLoginAccount.avatar_static}" style="width:30px;" alt="Pawoo:{$pawooLoginAccount.display_name}@{$pawooLoginAccount.username}">
+  </a>
   {/if}
 </div>
 <h3>タイムライン</h3>
@@ -64,18 +62,21 @@
 <ul class="breadcrumb">
 {if !$twitterLogin}
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="{$AppURL}/auth/auth_twitter.php"><img src="{$AppURL}/imgs/link.svg" style="width:24px;"> Twitterと連携する</a>
+  	<a href="{$AppURL}/auth/auth_twitter.php"><img src="{$AppURL}/imgs/link.svg" style="width:24px;"> Twitterと連携</a>
   </li>
 {/if}
-{if empty($pawooAccessToken)}
+{if !$pawooLogin}
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
-  	<a href="{$AppURL}/auth/auth_pawoo.php"><img src="{$AppURL}/imgs/link.svg" style="width:24px;"> Pawooと連携する</a>
+  	<a href="{$AppURL}/auth/auth_pawoo.php"><img src="{$AppURL}/imgs/link.svg" style="width:24px;"> Pawooと連携</a>
   </li>
 {/if}
-{if $twitterLogin || !empty($pawooAccessToken)}
+{if $twitterLogin || $pawooLogin}
   <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  	<a href="{$AppURL}/auth/logout.php"><img src="{$AppURL}/imgs/exit.svg" style="width:24px;"> ログアウト</a>
+  </li>
+  <!-- li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
   	<a href="{$AppURL}/auth/logout.php"><img src="{$AppURL}/imgs/release.svg" style="width:24px;"> アプリと連携解除</a>
-  </li>
+  </li -->
   {/if}
 </ul>
 
@@ -128,7 +129,7 @@
 <h3>マイリスト</h3>
 <ul class="mylist">
     {foreach from=$lists item=list}
-    <li><a href="{$AppURL}/timeline/list.php?domain=twitter&id={$list->id}&name={$list->name}&hs=false&thumb=true" target="{$target}">{$list->name}</a></li>
+    <li><a href="{$AppURL}/timeline/list.php?domain=twitter&list_id={$list->id}&name={$list->name}&hs=false&thumb=true" target="{$target}">{$list->name}</a></li>
 	{/foreach}
 </ul>
   {/if}

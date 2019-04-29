@@ -3,9 +3,24 @@ require_once ("init.php");
 
 $api = 'statuses/user_timeline';
 
-$user_id = getGetParam('id', '766219679631183872');
+$account = getGetParam('account', '');
+$id = getGetParam('id', '');
+$user_id = getGetParam('target_id', TwitterAccountID);
 $count = getGetParam('count', '20');
 $max_id = getGetParam('max_id', '');
+
+if(!empty($account)) {
+    $pair = get_access_tokens($account, 'twitter');
+    $access_token = $pair['access_token'];
+    $access_token_secret = $pair['access_token_secret'];
+} else if(!empty($id)){
+    $tokens = getPassengerTokens($id, 'twitter');
+    $access_token = $tokens['access_token'];
+    $access_token_secret = $tokens['access_token_secret'];
+} else {
+    $access_token = TwitterAccessToken;
+    $access_token_secret = TwitterAccessTokenSecret;
+}
 
 $params = array(
     "user_id" => $user_id,
@@ -18,7 +33,7 @@ if(!empty($max_id)) {
 
 ob_start();
 
-$tweets = getTwitterConnection("", "")->get($api, $params);
+$tweets = getTwitterConnection($access_token, $access_token_secret)->get($api, $params);
 
 $mutters = array();
 $oldest = "";

@@ -3,9 +3,24 @@ require_once ("init.php");
 
 $api = 'lists/statuses';
 
+$account = getGetParam('account', '');
+$id = getGetParam('id', '');
 $list_id = getGetParam('list_id', TwitterList);
 $count = getGetParam('count', '200');
 $max_id = getGetParam('max_id', '');
+
+if(!empty($account)) {
+    $pair = get_access_tokens($account, 'twitter');
+    $access_token = $pair['access_token'];
+    $access_token_secret = $pair['access_token_secret'];
+} else if(!empty($id)){
+    $tokens = getPassengerTokens($id, 'twitter');
+    $access_token = $tokens['access_token'];
+    $access_token_secret = $tokens['access_token_secret'];
+} else {
+    $access_token = TwitterAccessToken;
+    $access_token_secret = TwitterAccessTokenSecret;
+}
 
 if(empty($list_id)) {
     echo "No list id specified.";
@@ -22,7 +37,7 @@ if(!empty($max_id)) {
 
 ob_start();
 
-$tweets = getTwitterConnection("", "")->get($api, $params);
+$tweets = getTwitterConnection($access_token, $access_token_secret)->get($api, $params);
 
 $mutters = array();
 $oldest = "";

@@ -8,8 +8,6 @@ $count = getGetParam('count', '20');
 $id = getGetParam('id', '');
 $thumb = getGetParam('thumb', 'true');
 $max_id = getGetParam('max_id', '');
-$pawoo_id = getSessionParam("pawoo_id", "");
-$twitter_id = getSessionParam("twitter_id", "");
 
 if(empty($domain)) {
     echo "ドメインの指定がありません。";
@@ -17,13 +15,14 @@ if(empty($domain)) {
 }
 
 $params = array(
-    "hs" => $hs
+    "account" => Account
+    ,"hs" => $hs
     ,"domain" => $domain
     ,"id" => $id
     ,"count" => $count
     ,"thumb" => $thumb
-    , "pawoo_id" => $pawoo_id
-    , "twitter_id" => $twitter_id
+    , "pawoo_id" => PawooAccountID
+    , "twitter_id" => TwitterAccountID
 );
 
 if(!empty($max_id)) {
@@ -32,7 +31,6 @@ if(!empty($max_id)) {
 
 $response = json_decode(getRequest($api, $params));
 
-// myVarDump($response);
 
 if(empty($response)) {
     echo "APIからのデータ取得に失敗しました。";
@@ -56,8 +54,8 @@ $embedded_js_params_string = array_merge($embedded_js_params_string
     ,"id" => $id
     ,"twitter_oldest_id" => $twitter_oldest_id
     ,"pawoo_oldest_id" => $pawoo_oldest_id
-    ,"pawoo_id" => $pawoo_id
-    ,"twitter_id" => $twitter_id
+    ,"pawoo_id" => PawooAccountID
+    ,"twitter_id" => TwitterAccountID
 ));
 
 $embedded_js_params_int = array_merge($embedded_js_params_int, array());
