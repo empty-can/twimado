@@ -2,11 +2,11 @@
 require_once ("init.php");
 
 class AccessToken {
-    public $token = "";
-    public $secret = "";
+    public $access_token = "";
+    public $access_token_secret = "";
     
     public function __construct(string $token = "", string $secret = "") {
-        $this->token = $token;
-        $this->secret = $secret;
+        $this->access_token = $token;
+        $this->access_token_secret = $secret;
     }
 }

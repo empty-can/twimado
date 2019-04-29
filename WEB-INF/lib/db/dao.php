@@ -93,7 +93,7 @@ function select_pairs(string $account_id, string $service_name = "") {
 function get_access_tokens(string $account_id, string $service_name = "") {
     $pairs = select_pairs($account_id, $service_name)[0];
     
-    return new AccessToken($pairs['access_token'], $pairs['access_token_secret']);
+    return obj_to_array(new AccessToken($pairs['access_token'], $pairs['access_token_secret']));
 }
 
 /**

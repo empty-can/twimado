@@ -94,7 +94,7 @@ if (contains($domain, 'twitter') && ($twitter_oldest_id != - 1)) {
         }
 
         $tmp = getRequest($api, $params);
-        // myVarDump($tmp);
+//         myVarDump($tmp);
         $response = json_decode($tmp, true);
         $errors[] = array("twitter"=>$response['error']);
 
