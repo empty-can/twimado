@@ -14,11 +14,11 @@
 	    <script src="/js/old_ie/1.4.2/respond.min.js"></script>
 	<![endif]-->
     <title>{$title}</title>
-    <link rel="stylesheet" type="text/css" href="/css/common.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M'}" />
+    <link rel="stylesheet" type="text/css" href="/css/common.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M:%S'}" />
 {foreach from=$csss item=css}
-    <link rel="stylesheet" type="text/css" href="/css/{$css}.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M'}" />
-    <link rel="stylesheet" type="text/css" href="/css/{$css}_m.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M'}" />
-    <link rel="stylesheet" type="text/css" href="/css/{$css}_pc.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M'}" />
+    <link rel="stylesheet" type="text/css" href="/css/{$css}.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M:%S'}" />
+    <link rel="stylesheet" type="text/css" href="/css/{$css}_m.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M:%S'}" />
+    <link rel="stylesheet" type="text/css" href="/css/{$css}_pc.css?{$smarty.now|date_format:'%Y-%m-%d_%H:%M:%S'}" />
 {/foreach}
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139119333-1"></script>

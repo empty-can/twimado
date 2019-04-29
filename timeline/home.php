@@ -50,13 +50,15 @@ $smarty->assign("jss", $jss);
 
 $embedded_js_params_string = array_merge($embedded_js_params_string
     , array(
-    "domain" => $domain
-    ,"id" => $id
-    ,"twitter_oldest_id" => $twitter_oldest_id
-    ,"pawoo_oldest_id" => $pawoo_oldest_id
-    ,"pawoo_id" => PawooAccountID
-    ,"twitter_id" => TwitterAccountID
-));
+        "domain" => $domain,
+        "id" => $id,
+        "hs" => $hs,
+        "thumb" => $thumb,
+        "twitter_oldest_id" => $twitter_oldest_id,
+        "pawoo_oldest_id" => $pawoo_oldest_id,
+        "pawoo_id" => PawooAccountID,
+        "twitter_id" => TwitterAccountID
+    ));
 
 $embedded_js_params_int = array_merge($embedded_js_params_int, array());
 $embedded_js_string = array_merge($embedded_js_params_int, array("api" => $api));

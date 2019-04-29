@@ -54,16 +54,17 @@
 	}
 	
 	.imgs_wrapper_vertical {
+		width: 60%;
 		margin: auto;
 	}
 	
 	.img_wrapper_vertical {
-		max-width: 52vw;
+		width: 100%;
 		margin: 2px;
 	}
 	
 	.img_wrapper_vertical img, video, object {
-		max-width: 50vw;
+		width: 100%;
 		margin:auto;
 	}
 }
