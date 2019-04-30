@@ -15,7 +15,12 @@ $request_token = $connection->oauth("oauth/request_token", array("oauth_callback
 $_SESSION['oauth_token'] = $request_token['oauth_token'];
 $_SESSION['oauth_token_secret'] = $request_token['oauth_token_secret'];
 
+$params = array(
+    "oauth_token" => $request_token['oauth_token']
+);
+
 // Twitterの認証画面へリダイレクト
-$url = $connection->url("oauth/authorize", array("oauth_token" => $request_token['oauth_token']));
+$url = $connection->url("oauth/authenticate", $params);
+
 header('Location: ' . $url);
 exit();
