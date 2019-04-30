@@ -7,7 +7,11 @@
 		<button type="submit" name="button" value="login">ログイン</button>
 		<button type="submit" name="button" value="register">アカウント登録</button>
 	</form>
+  {$message}
   {else}
+	<form action="{$AppURL}/auth/logout.php" method="post">
+		<button type="submit" name="button" value="logout">ログアウト</button>
+	</form>
   <h4 id="title" style="width:100%;text-align:right;">ログイン中アカウント:{$account}</h4>
   {/if}
   <br>

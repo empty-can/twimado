@@ -48,6 +48,7 @@ $smarty->assign("pawooLogin", $pawooLogin);
 $smarty->assign("target", $target);
 $smarty->assign("trends", $trends);
 $smarty->assign("lists", $twitterList);
+$smarty->assign("message", getSessionParam("message", ""));
 
 // テンプレートを表示する
 $smarty->display("index.tpl");

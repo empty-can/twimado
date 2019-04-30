@@ -10,6 +10,8 @@ $button = getPostParam("button");
 $logout = getPostParam("logout", "");
 $message = "";
 
+$logined = false;
+
 // ログアウト処理
 if($logout=="logout") {
     setSessionParam("account", "");
@@ -28,6 +30,7 @@ if($logout=="logout") {
         if (!empty($rand)) {
             $all_pairs = select_all_pairs($account);
             $message = "アカウント $account でログインに成功しました。";
+            $logined = true;
         } else {
             $message = "アカウント $account でログインに失敗しました。";
         }
@@ -43,8 +46,9 @@ if($logout=="logout") {
         if(!empty($result)) {
             $message = "アカウント $account は正常に登録されました。";
             $rand = login($account, $password);
-            if (!$rand) {
+            if (!empty($rand)) {
                 $message = "アカウント $account でログインに成功しました。";
+                $logined = true;
             }
         } else {
             $message = "アカウント $account の登録に失敗しました。";
@@ -58,21 +62,24 @@ if($logout=="logout") {
     header('Location: /');
     exit();
 } else {
+    $message = "不正なリクエストです。";
     $message = "";
     
     header('Location: /');
     exit();
 }
 
-setSessionParam("account", $account);
-setSessionParam("account_rand", $rand);
 setSessionParam("message", $message);
 
-$all_pairs = select_all_pairs($account);
-
-// ペアリング情報から各サービスのアカウント情報を取得
-foreach ($all_pairs as $pair) {
-    loadAccountInfo($pair);
+if($logined) {
+    setSessionParam("account", $account);
+    setSessionParam("account_rand", $rand);
+    $all_pairs = select_all_pairs($account);
+    
+    // ペアリング情報から各サービスのアカウント情報を取得
+    foreach ($all_pairs as $pair) {
+        loadAccountInfo($pair);
+    }
 }
 
 header('Location: /');
