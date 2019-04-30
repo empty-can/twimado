@@ -1,6 +1,9 @@
 <?php
 require_once ("init.php");
 
+header('Location: /');
+exit();
+
 $domain = getPostParam('domain', 'twitterpawoo');
 $api = AppURL . '/api/template/timeline.php';
 $hs = getPostParam('hs', 'true');

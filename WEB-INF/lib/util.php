@@ -317,11 +317,17 @@ function setGlobalParam($key, $value)
  *
  * @param mixed $object
  */
-function myVarDump($object) {
-    ?><pre><?php
-    var_dump($object);
-    ?></pre><?php
-    exit();
+function myVarDump($object, bool $comment=false) {
+    if ($comment) {
+        ?><!-- <?php
+        var_dump($object);
+        ?> --><?php
+    } else {
+        ?><pre><?php
+        var_dump($object);
+        ?></pre><?php
+        exit();
+    }
 }
 
 function logout() {

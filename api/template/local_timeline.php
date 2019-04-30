@@ -1,71 +1,60 @@
 <?php
 require_once ("init.php");
 
-$account = getPostParam('account', '');
-$domain = getPostParam('domain', 'pawoo');
-$hs = getPostParam('hs', 'true');
-$pawoo_oldest_id = getPostParam('pawoo_oldest_id', '');
-$pawoo_id = getPostParam('pawoo_id', '');
-$count = getPostParam('count', '');
-$thumb = getPostParam('thumb', 'true');
+$param = new Parameters();
+$param->constructFromPostParameters();
+
+$param->setInitialValue('hs', 'true');
+$param->setInitialValue('thumb', 'true');
+
+$domain = $param->putValue('domain');
+$thumb = $param->putValue('thumb');
+$hs = $param->putValue('hs');
 
 $mutters = array();
 $tmp_mutters = array();
 
 $response = array();
 $response['mutters'] = array();
-$errors = [];
 
 ob_start();
 
 // pawooの自分TL取得
-if (contains($domain, 'pawoo') && ($pawoo_oldest_id != - 1)) {
+if (contains($domain, 'pawoo')) {
+    $api = AppURL . '/api/pawoo/local_timeline.php';
+    $pawoo_oldest_id = $param->getValue('pawoo_oldest_id');
+    
+    $pawoo_param = clone $param;
+    $pawoo_param->moveValue('pawoo_id', 'id');
+    $pawoo_param->setInitialValue('count', MastodonTootsLimit);
+    $pawoo_param->moveValue('count', 'limit');
+    $pawoo_param->moveValue('pawoo_oldest_id', 'max_id');
 
     do {
-        $api = AppURL . '/api/pawoo/local_timeline.php';
-        
-        $params = array(
-            "account" => $account
-            , "id" => $pawoo_id
-            , "hs" => $hs
-        );
-        
-        if(!empty($pawoo_oldest_id)) {
-            $params["max_id"] = $pawoo_oldest_id;
-        }
-        if(empty($count)) {
-            $params['limit'] = "40";
-        } else {
-            $params['limit'] = "$count";
-        }
-        $params['limit'] = "40";
-//         myVarDump($params);
-        
-        $tmp = getRequest($api, $params);
-        
-        $response = json_decode($tmp, true);
-//         myVarDump($response);
-        $errors[] = array("pawoo"=>$response['error']);
+        $tmp = getRequest($api, $pawoo_param->parameters);
+        $tmp_response = json_decode($tmp, true);
 
         if (! is_array($response))
             break;
 
-        $pawoo_oldest = $response['oldest_mutter'];
-        // usort($pawoos, "sort_mutter_by_time");
-        // myVarDump(array_last($pawoos));
+        $pawoo_oldest = $tmp_response['oldest_mutter'];
 
-        $tmp_mutters = array_merge($tmp_mutters, $response['mutters']);
-        // myVarDump($oldest_id);
-        // myVarDump(count($mutters));
-
+        $tmp_mutters = array_merge($tmp_mutters, $tmp_response['mutters']);
+        
         if (isset($pawoo_oldest['id']))
             $pawoo_oldest_id = $pawoo_oldest['id'];
         else
             $pawoo_oldest_id = - 1;
+        
+        $pawoo_param->setParam('pawoo_oldest_id', $pawoo_oldest_id);
     } while (count($tmp_mutters) < 1 && $pawoo_oldest_id > 0);
+    
+    if($pawoo_oldest_id == $param->getValue('pawoo_oldest_id'))
+        $pawoo_oldest_id = - 1;
 }
 
 $mutters = array_merge($mutters, $tmp_mutters);
+// $tmp_mutters = array();
 
 // myVarDump(json_decode($response, true));
 // myVarDump(json_last_error());
@@ -86,7 +75,7 @@ foreach ($mutters as $mutter) {
     // $response['mutters'][$mutter['id']] = htmlspecialchars($smarty->fetch("parts/mutter.tpl"));
 }
 
-$response['pawoo_oldest_id'] = $pawoo_oldest_id;
+$response['pawoo_oldest_id'] = isset($pawoo_oldest_id) ? $pawoo_oldest_id : "";
 
 $errors[] = array("template"=>ob_get_contents());
 ob_end_clean();

@@ -1,15 +1,24 @@
 <?php
 require_once ("init.php");
 
-$domain = getGetParam('domain', '');
 $api = AppURL . '/api/template/user_timeline.php';
-$hs = getGetParam('hs', 'true');
-$count = getGetParam('count', '20');
-$target_id = getGetParam('target_id', '');
-$thumb = getGetParam('thumb', 'true');
-$max_id = getGetParam('max_id', '');
-$access_token = "";
 
+$param = new Parameters();
+$param->constructFromGetParameters();
+
+$param->setInitialValue('domain', 'twitterpawoo');
+$param->setInitialValue('hs', 'true');
+$param->setInitialValue('count', '20');
+$param->setInitialValue('thumb', 'true');
+
+$domain = $param->getValue('domain');
+$target_id = $param->getValue('target_id');
+
+$param->setParam('account', Account);
+$param->setParam('pawoo_id', PawooAccountID);
+$param->setParam('twitter_id', TwitterAccountID);
+
+// タイムラインのタイトルを作る部分
 if(empty($domain)) {
     echo "ドメインの指定がありません。";
     exit();
@@ -20,62 +29,41 @@ if(empty($domain)) {
     $account = getTwitterConnection()->get("users/show", $params);
     $title = $account->name;
 } else if(contains($domain, "pawoo")) {
-    $connection = getMastodonConnection(PawooDomain, $access_token);
+    $connection = getMastodonConnection(PawooDomain);
     $account = $connection->executeGetAPI("api/v1/accounts/$target_id");
     $title = $account["display_name"]."@".$account["username"];
 }
 
-$params = array(
-    "hs" => $hs
-    ,"domain" => $domain
-    ,"target_id" => $target_id
-    ,"count" => $count
-    ,"thumb" => $thumb
-    ,"pawoo_id" => PawooAccountID
-    ,"twitter_id" => TwitterAccountID
-);
+$tmp = getRequest($api, $param->parameters);
 
-if(!empty($max_id)) {
-    $params['oldest_id'] = $max_id;
-}
+$response = json_decode($tmp);
 
-$response = json_decode(getRequest($api, $params));
-
-// myVarDump($response);
+// myVarDump($response->mutters);
 
 if(empty($response)) {
     echo "APIからのデータ取得に失敗しました。";
     exit();
 }
 
-$oldest_id = $response->oldest_id;
+// 不要になったcountを削除
+$param->unset('count');
+
+// レスポンスから取得したデータをセット
+$param->setParam('pawoo_oldest_id', $response->pawoo_oldest_id);
+$param->setParam('twitter_oldest_id', $response->twitter_oldest_id);
 
 // assignメソッドを使ってテンプレートに渡す値を設定
-$smarty->assign("title", $title);
-$smarty->assign("AppContext", AppContext);
-$smarty->assign("hs", $hs);
-$smarty->assign("mylists", getSessionParam("twitter_mylists", array()));
+$smarty->assign("title", $title." さんのタイムライン");
 
 $csss=array();
 $csss[] = "timeline";
 $smarty->assign("csss", $csss);
 
 $jss=array();
-$jss[] = "jquery-3.3.1.min";
-$jss[] = "common";
 $jss[] = "timeline";
 $smarty->assign("jss", $jss);
 
-$embedded_js_params_string = [
-    "account" => Account
-    ,"domain" => $domain
-    ,"target_id" => $target_id
-    ,"hs" => $hs
-    ,"thumb" => $thumb
-    ,"oldest_id" => $oldest_id
-    ,"pawoo_id" => PawooAccountID
-    ,"twitter_id" => TwitterAccountID
-];
+$embedded_js_params_string = $param->parameters;
 
 $embedded_js_params_int = [
 ];
@@ -84,7 +72,7 @@ $embedded_js_string = [
     "api" => $api
 ];
 $embedded_js_int = [
-    "count" => $count
+    "count" => AsyncCount
 ];
 
 $smarty->assign("embedded_js_params", build_embededd_js_params($embedded_js_params_string, $embedded_js_params_int));

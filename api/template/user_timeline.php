@@ -1,96 +1,103 @@
 <?php
 require_once ("init.php");
 
-$account = getPostParam('account', '');
-$domain = getPostParam('domain', '');
-$pawoo_id = getPostParam('pawoo_id', '');
-$twitter_id = getPostParam('twitter_id', '');
-$target_id = getPostParam('target_id', '');
-$hs = getPostParam('hs', 'true');
-$max_id = getPostParam('oldest_id', '');
-$count = getPostParam('count', '');
-$thumb = getPostParam('thumb', 'true');
+$param = new Parameters();
+$param->constructFromPostParameters();
+
+$param->setInitialValue('hs', 'true');
+$param->setInitialValue('thumb', 'true');
+
+$domain = $param->putValue('domain');
+$thumb = $param->putValue('thumb');
+$hs = $param->putValue('hs');
+
+$mutters = array();
+$tmp_mutters = array();
 
 $response = array();
 $response['mutters'] = array();
 
-if($max_id==-1){
-    $response['oldest_id'] = -1;
-    echo json_encode($response);
-    exit();
-}
-
-if(empty($domain)) {
-    $response['oldest_id'] = -1;
-    $response['error'] = "ドメインの指定がありません。";
-    echo json_encode($response);
-    exit();
-}
-
-$params = array(
-    "hs" => $hs
-);
-
-$api =  "";
-
 ob_start();
 
-if($domain=="twitter") {
-    $api = AppURL . '/api/twitter/user_timeline.php';
-    $params = array(
-        "account" => $account
-        , "id" => $twitter_id
-        , "target_id" => $target_id
-    );
-    if(!empty($max_id)) {
-        $params["max_id"] = $max_id;
-    }
-    if(empty($count)) {
-        $params['count'] = "200";
-    } else {
-        $params['count'] = "$count";
-    }
-    
-    $response = getRequest($api, $params);
-} else if($domain=="pawoo") {
+// pawooの自分TL取得
+if (contains($domain, 'pawoo')) {
     $api = AppURL . '/api/pawoo/user_timeline.php';
-    $params = array(
-        "account" => $account
-        , "id" => $pawoo_id
-        , "target_id" => $target_id
-    );
-    if(!empty($max_id)) {
-        $params["max_id"] = $max_id;
-    }
-    if(empty($count)) {
-        $params['limit'] = "40";
-    } else {
-        $params['limit'] = "$count";
-    }
+    $pawoo_oldest_id = $param->getValue('pawoo_oldest_id');
     
-    $response = getRequest($api, $params);
-} else {
-    echo "対応するAPIがありません。";
-    exit();
+    $pawoo_param = clone $param;
+    $pawoo_param->moveValue('pawoo_id', 'id');
+    $pawoo_param->setInitialValue('count', "40");
+    $pawoo_param->moveValue('count', 'limit');
+    $pawoo_param->moveValue('pawoo_oldest_id', 'max_id');
+    
+    do {
+        
+        $tmp = getRequest($api, $pawoo_param->parameters);
+        
+        $tmp_response = json_decode($tmp, true);
+        if (! is_array($tmp_response))
+            break;
+
+        // myVarDump($response);
+        $pawoo_oldest = $tmp_response['oldest_mutter'];
+
+        $tmp_mutters = array_merge($tmp_mutters, $tmp_response['mutters']);
+
+        if (isset($pawoo_oldest['id']))
+            $pawoo_oldest_id = $pawoo_oldest['id'];
+        else
+            $pawoo_oldest_id = - 1;
+        
+        $pawoo_param->setParam('pawoo_oldest_id', $pawoo_oldest_id);
+    } while (count($tmp_mutters) < 1 && $pawoo_oldest_id>0);
+    
+    if($pawoo_oldest_id == $param->getValue('pawoo_oldest_id'))
+        $pawoo_oldest_id = - 1;
 }
 
-// var_dump(json_decode($response));
-// var_dump(empty($response));
+$mutters = array_merge($mutters, $tmp_mutters);
+$tmp_mutters = array();
 
-if(empty($response)) {
-    echo "APIからのデータ取得に失敗しました。";
-} else {
-    $response = json_decode($response);
+// 自分のイラストリストTL取得
+if (contains($domain, 'twitter')) {
+    $api = AppURL . '/api/twitter/user_timeline.php';
+    $twitter_oldest_id = $param->getValue('twitter_oldest_id');
     
-    if(isset($response->oldest_mutter) && !empty($response->oldest_mutter))
-        $oldest_id = $response->oldest_mutter->id;
-    else
-        $oldest_id = -1;
+    $twitter_param = clone $param;
+    $twitter_param->moveValue('twitter_id', 'id');
+    $twitter_param->setInitialValue('count', '200');
+    $twitter_param->moveValue('twitter_oldest_id', 'max_id');
+    
+    do {
+        
+        $tmp = getRequest($api, $twitter_param->parameters);
+        
+        $tmp_response = json_decode($tmp, true);
+//         myVarDump($tmp_response);
+
+        if (! is_array($tmp_response))
+            break;
+
+        $twitter_oldest = $tmp_response['oldest_mutter'];
+        $tmp_mutters = array_merge($tmp_mutters, $tmp_response['mutters']);
+
+        if (isset($twitter_oldest['id']))
+            $twitter_oldest_id = $twitter_oldest['id'];
+        else
+            $twitter_oldest_id = - 1;
+
+        $twitter_param->setParam('twitter_oldest_id', $twitter_oldest_id);
+    } while (count($tmp_mutters) < 1 && $twitter_oldest_id>0);
+    
+    if($twitter_oldest_id == $param->getValue('twitter_oldest_id'))
+        $twitter_oldest_id = - 1;
 }
 
-$mutters = $response->mutters;
+$mutters = array_merge($mutters, $tmp_mutters);
 
-$mutters = array_unique(obj_to_array($mutters), SORT_REGULAR);
+// myVarDump(json_decode($response, true));
+// myVarDump(json_last_error());
+$mutters = array_unique($mutters, SORT_REGULAR);
 usort($mutters, "sort_mutter_by_time");
 
 // テンプレートを表示する
@@ -103,12 +110,14 @@ $response = array();
 $response['mutters'] = array();
 foreach ($mutters as $mutter) {
     $smarty->assign("mutter", $mutter);
-    $response['mutters'][$mutter['originalId']] = $smarty->fetch("parts/mutter.tpl");
+    $html = $smarty->fetch("parts/mutter.tpl");
+    $response['mutters'][$mutter['originalId']] = $html;
 //     $response['mutters'][$mutter['id']] = htmlspecialchars($smarty->fetch("parts/mutter.tpl"));
 }
 // myVarDump($response['mutters']);
 
-$response['oldest_id'] = $oldest_id;
+$response['pawoo_oldest_id'] = isset($pawoo_oldest_id) ? $pawoo_oldest_id : "";
+$response['twitter_oldest_id'] = isset($twitter_oldest_id) ? $twitter_oldest_id : "";
 
 $response['error'] = ob_get_contents(); 
 ob_end_clean();

@@ -18,21 +18,23 @@ setInterval( function() {
 	
 	if(bottom != null) {
 		var rect =bottom.getBoundingClientRect().top;
-
-		var mutterQueueLength = mutterQueue.length;
 		
 		if(window_height*4>rect) {
 			console.log('in');
-			
-//			console.log(mutterQueueLength);
-			if(mutterQueueLength <= 0)
+
+			if(mutterQueue.length <= 0)
 				getMutter();
 
-			for(var i=0; mutterQueue.length>0 && i<20; i++) {
+			for(var i=0; mutterQueue.length>0 && i<count; i++) {
 				$('#timeline').append(mutterQueue.shift());
 
 				console.log(mutterQueue.length);
+				
+				if(mutterQueue.length <= 0)
+					getMutter();
 			}
+			
+//			console.log(mutterQueueLength);
 			
 //			console.log(showRT);
 
@@ -281,6 +283,7 @@ function switch2Vertical() {
 }
 
 function isEnd(params) {
+	console.log(params);
 	return (params == undefined || params == -1)
 }
 

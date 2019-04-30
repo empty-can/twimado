@@ -47,6 +47,9 @@ if($oauth_token_session == $oauth_token and $oauth_verifier){
         setPassengerTokens($twitterAccount['id'], 'twitter', $twitterAccount['name'], $twitterAccount['screen_name'], $access_token['oauth_token'],  $access_token['oauth_token_secret']);
     }
     
+    $_SESSION['oauth_token'] = "";
+    $_SESSION['oauth_token_secret'] = "";
+    
     header('Location: /');
     exit();
 }else{

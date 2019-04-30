@@ -24,6 +24,7 @@ define("DbPassword", $ini_array["db_password"]);
 
 define("Passphrase", $ini_array["passphrase"]);
 define("EncMethod", $ini_array["enc_method"]);
+define("AsyncCount", $ini_array["async_count"]);
 
 /* ライブラリのロード */
 $lib_path = $ini_array["lib_path"];
@@ -90,3 +91,5 @@ $smarty->assign("app_context", AppContext);
 // テンプレートディレクトリとコンパイルディレクトリを読み込む
 $smarty->template_dir = $ini_array["template_dir"];
 $smarty->compile_dir = $ini_array["compile_dir"];
+
+$smarty->assign("mylists", getSessionParam("twitter_mylists", array()));
