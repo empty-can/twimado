@@ -7,9 +7,9 @@ $param = new Parameters();
 $param->constructFromGetParameters();
 
 $param->setInitialValue('domain', 'twitterpawoo');
-$param->setInitialValue('hs', 'true');
+$param->setInitialValue('hs', getSessionParam('hs', 'true'));
 $param->setInitialValue('count', '20');
-$param->setInitialValue('thumb', 'true');
+$param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
 
 $name = $param->getValue('name');
 

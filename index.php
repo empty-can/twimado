@@ -1,7 +1,11 @@
 <?php
 require_once ("init.php");
 
-// var_dump($_SESSION);
+$hs = getSessionParam('hs', 'true');
+$smarty->assign("hs", $hs);
+
+$thumb = getSessionParam('thumb', 'true');
+$smarty->assign("thumb", $thumb);
 // echo getSessionParam("message", "");
 
 $woeid = "1118370"; // Tokyo

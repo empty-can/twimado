@@ -84,7 +84,6 @@ else
 
 /* Smartyのロード */
 $smarty = new Smarty();
-
 $smarty->assign("app_url", AppURL);
 $smarty->assign("app_context", AppContext);
 

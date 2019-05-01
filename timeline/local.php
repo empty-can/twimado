@@ -13,9 +13,9 @@ $param = new Parameters();
 $param->constructFromGetParameters();
 
 $param->setInitialValue('domain', 'pawoo');
-$param->setInitialValue('hs', 'true');
+$param->setInitialValue('hs', getSessionParam('hs', 'true'));
 $param->setInitialValue('count', '20');
-$param->setInitialValue('thumb', 'true');
+$param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
 
 $param->setParam('account', Account);
 $param->setParam('pawoo_id', PawooAccountID);

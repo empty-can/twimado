@@ -1,8 +1,84 @@
 body {
-	width: 80vw;
+	width: 90vw;
 	min-width: 256px;
 	max-width: 1024px;
 	margin: auto;
+}
+
+.flex_parent{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+h1 {
+  font-size: 1.5em;
+  margin: 1vh 0;
+  padding: 0.4em 0.5em;/*æ–‡å­—ã®ä¸Šä¸‹ å·¦å³ã®ä½™ç™½*/
+  color: #494949;/*æ–‡å­—è‰²*/
+  background: #f4f4f4;/*èƒŒæ™¯è‰²*/
+  border-left: solid 5px #7db4e6;/*å·¦ç·š*/
+  border-bottom: solid 3px #d7d7d7;/*ä¸‹ç·š*/
+}
+.icon {
+	display: block;
+	width:16vw;
+	max-width:90px;
+	margin: 0vw 1vw;
+}
+
+.icon .description {
+	width: 100%;
+	margin: 4px 0px;
+	text-align: center;
+}
+
+.icon .img {
+	display: block;
+}
+
+.icon .img a:active {
+  box-shadow: 0 5px 0 rgba(255,255,255,0.2), 0 5px 5px rgba(0, 0, 0, 0.19);
+}
+
+.icon .img a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+	background-color: skyblue;
+	width:16vw;
+	max-width:90px;
+	height:16vw;
+	max-height:90px;
+	margin: auto;
+	border-radius: 2px;
+	box-shadow: inset 0 5px 0 rgba(255,255,255,0.2), 0 5px 5px rgba(0, 0, 0, 0.19);
+}
+
+.icon .img a img {
+	display: block;
+	width:12vw;
+	max-width:64px;
+	height:12vw;
+	max-height:64px;
+}
+
+.trend_parent {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+}
+.trend {
+	display: block;
+	color: white;
+	background-color: lightsalmon;
+	border: solid 1px indianred;
+	border-radius: 5px;
+	margin: 2px;
+	padding: 1px 2px;
+}
+
+.trend a {
+	color: inherit;
 }
 
 ul, ol {
@@ -11,20 +87,20 @@ ul, ol {
 
 .trend li {
   position: relative;
-  list-style-type: none!important;/*ƒ|ƒ`Á‚·*/
+  list-style-type: none!important;/*ï¿½|ï¿½`ï¿½ï¿½ï¿½ï¿½*/
   padding: 0.5em 0.5em 0.5em 0.5em;
   margin-bottom: 5px;
   line-height: 1.5;
   background: #dbebf8;
   vertical-align: middle;
   color: #505050;
-  border-radius: 15px 0px 0px 15px;/*¶‘¤‚ÌŠpŠÛ‚­*/
+  border-radius: 15px 0px 0px 15px;/*ï¿½ï¿½ï¿½ï¿½ï¿½ÌŠpï¿½Û‚ï¿½*/
 }
 
 .trend li:before{ 
   display:inline-block; 
   vertical-align: middle;
-  /*ˆÈ‰º”’ŠÛ‚Â‚­‚é*/
+  /*ï¿½È‰ï¿½ï¿½ï¿½ï¿½Û‚Â‚ï¿½ï¿½ï¿½*/
   content:'';
   width:1em;
   height: 1em;
@@ -35,20 +111,20 @@ ul, ol {
 
 .mylist li {
   position: relative;
-  list-style-type: none!important;/*ƒ|ƒ`Á‚·*/
+  list-style-type: none!important;/*ï¿½|ï¿½`ï¿½ï¿½ï¿½ï¿½*/
   padding: 0.5em 0.5em 0.5em 0.5em;
   margin-bottom: 5px;
   line-height: 1.5;
   background: #dbcbf8;
   vertical-align: middle;
   color: #505050;
-  border-radius: 15px 0px 0px 15px;/*¶‘¤‚ÌŠpŠÛ‚­*/
+  border-radius: 15px 0px 0px 15px;/*ï¿½ï¿½ï¿½ï¿½ï¿½ÌŠpï¿½Û‚ï¿½*/
 }
 
 .mylist li:before{ 
   display:inline-block; 
   vertical-align: middle;
-  /*ˆÈ‰º”’ŠÛ‚Â‚­‚é*/
+  /*ï¿½È‰ï¿½ï¿½ï¿½ï¿½Û‚Â‚ï¿½ï¿½ï¿½*/
   content:'';
   width:1em;
   height: 1em;
@@ -90,21 +166,21 @@ h3:before {
 
 .breadcrumb li {
   position: relative;
-  display:inline-block;/*‰¡‚É•À‚Ô‚æ‚¤‚É*/
+  display:inline-block;/*ï¿½ï¿½ï¿½É•ï¿½ï¿½Ô‚æ‚¤ï¿½ï¿½*/
   list-style: none;
-  font-weight: bold;/*‘¾š*/
+  font-weight: bold;/*ï¿½ï¿½ï¿½ï¿½*/
   margin-right: 12px;
   margin-bottom: 1vh;
   width: 100%;
 }
-.breadcrumb li:after {/*OŠp‚Ì•”•ª*/
+.breadcrumb li:after {/*ï¿½Oï¿½pï¿½Ì•ï¿½ï¿½ï¿½*/
   content: "";
   position: absolute;
   top: 0;
   left: 100%;
   border-style: solid;
   border-color: transparent;
-  border-left-color: #aedfc6;/*”wŒiF*/
+  border-left-color: #aedfc6;/*ï¿½wï¿½iï¿½F*/
   border-width: 21px 12px;
   width: 0;
   height: 0;
@@ -118,7 +194,7 @@ h3:before {
   line-height: 28px;
   text-decoration: none;
   color: #747772;
-  background: #aedfc6;/*”wŒiF*/
+  background: #aedfc6;/*ï¿½wï¿½iï¿½F*/
   font-size: 18px;
 }
 
@@ -128,7 +204,7 @@ h3:before {
 
 
 /*--------------------------------------
-ƒeƒLƒXƒg
+ï¿½eï¿½Lï¿½Xï¿½g
 ---------------------------------------*/
 
 .msr_text_05 {
@@ -153,7 +229,7 @@ h3:before {
 }
 
 /*--------------------------------------
-ƒ`ƒFƒbƒNƒ{ƒbƒNƒX
+ï¿½`ï¿½Fï¿½bï¿½Nï¿½{ï¿½bï¿½Nï¿½X
 ---------------------------------------*/
 
 .msr_chack_05 {
@@ -211,7 +287,7 @@ h3:before {
 }
 
 /*--------------------------------------
-ƒvƒ‹ƒ_ƒEƒ“
+ï¿½vï¿½ï¿½ï¿½_ï¿½Eï¿½ï¿½
 ---------------------------------------*/
 
 .msr_pulldown_05 {
@@ -259,7 +335,7 @@ h3:before {
 
 
 /*--------------------------------------
-ƒeƒLƒXƒgƒGƒŠƒA
+ï¿½eï¿½Lï¿½Xï¿½gï¿½Gï¿½ï¿½ï¿½A
 ---------------------------------------*/
 
 .msr_textarea_05 {
@@ -283,7 +359,7 @@ h3:before {
 }
 
 /*--------------------------------------
-‘—Mƒ{ƒ^ƒ“
+ï¿½ï¿½ï¿½Mï¿½{ï¿½^ï¿½ï¿½
 ---------------------------------------*/
 .msr_sendbtn_05{
   margin:0 0 10px 10px;
@@ -352,11 +428,6 @@ body {
   margin: 3em auto;
   padding: 0 1em;
   max-width: 370px;
-}
-
-h1 {
-  text-align: center;
-  padding: 1em 0;
 }
 
 form {

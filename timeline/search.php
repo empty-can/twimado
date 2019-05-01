@@ -3,39 +3,20 @@ require_once ("init.php");
 
 $api = AppURL . '/api/template/search.php';
 
-// $domain = getGetParam('domain', 'twitterpawoo');
-// $q = getGetParam('q', '');
-// $hs = getGetParam('hs', 'true');
-// $count = getGetParam('count', '20');
-// $thumb = getGetParam('thumb', 'true');
-// $max_id = getGetParam('max_id', '');
-
 
 $param = new Parameters();
 $param->constructFromGetParameters();
 
 $param->setInitialValue('domain', 'twitterpawoo');
-$param->setInitialValue('hs', 'true');
+$param->setInitialValue('hs', getSessionParam('hs', 'true'));
 $param->setInitialValue('count', '20');
-$param->setInitialValue('thumb', 'true');
+$param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
 
 $q = $param->getValue('q');
 
 $param->setParam('account', Account);
 $param->setParam('pawoo_id', PawooAccountID);
 $param->setParam('twitter_id', TwitterAccountID);
-
-// $params = array(
-//     "account" => Account
-//     ,"hs" => $hs
-//     ,"domain" => $domain
-//     ,"q" => $q
-//     ,"count" => $count
-//     ,"thumb" => $thumb
-//     ,"pawoo_id" => PawooAccountID
-//     ,"twitter_id" => TwitterAccountID
-// );
-// myVarDump($params);
 
 $tmp = getRequest($api, $param->parameters);
 
@@ -63,18 +44,6 @@ $smarty->assign("csss", $csss);
 $jss=array();
 $jss[] = "timeline";
 $smarty->assign("jss", $jss);
-
-// $embedded_js_params_string = [
-//     "account" => Account
-//     ,"domain" => $domain
-//     ,"q" => $q
-//     ,"hs" => $hs
-//     ,"thumb" => $thumb
-//     ,"twitter_oldest_id" => $twitter_oldest_id
-//     ,"pawoo_oldest_id" => $pawoo_oldest_id
-//     , "pawoo_id" => PawooAccountID
-//     , "twitter_id" => TwitterAccountID
-// ];
 
 $embedded_js_params_string = $param->parameters;
 
