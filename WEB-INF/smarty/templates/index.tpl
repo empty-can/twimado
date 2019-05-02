@@ -5,6 +5,7 @@
 		<div>
 			<h4 id="title" style="width: 100%; text-align: left;">ログイン中:{$account}</h4>
 		</div>
+{/if}
 		<div class="flx">
 	{if $twitterLogin}
 			<div style="margin-right: 1vw;">
@@ -18,18 +19,19 @@
 	{if $pawooLogin}
 			<div style="margin-right: 1vw;">
 				 <a href="https://pawoo.net/" target="{$target}"
-					alt="Pawoo:{$pawooLoginAccount.username}@{$pawooLoginAccount.username}">
+					alt="Pawoo:{$pawooLoginAccount.display_name}@{$pawooLoginAccount.username}">
 					<img src="{$pawooLoginAccount.avatar_static}" style="width: 24px;"
 					class="circle">
 				</a>
 			</div>
 	{/if}
 		</div>
-{/if}
 	</div>
 	<div>
-{if empty($account)}
 		<div style="margin-bottom: 10px;">
+		<div class="flx jcfe">
+{if empty($account)}
+		<div>
 			<form action="/auth/" method="post">
 				<input type="text" name="account" size="12" maxlength="64" placeholder="アカウント名" value="{$account}" />
 				<input type="password" size="12" name="password" maxlength="64" placeholder="パスワード" />
@@ -39,13 +41,16 @@
 			</form>
 			<span style="color:red;">{$message}</span>
 		</div>
-{else}
-		<div class="flx jcfe">
+{/if}
+{if ($twitterLogin || $pawooLogin)}
+		<div>
 			<a style="display:block;" href="{$AppURL}/auth/logout.php">
 				<img src="{$AppURL}/imgs/exit.svg" style="background-color: lightgray; width: 30px; padding: 2px;">
-			</a> 
+			</a>
 		</div>
 {/if}
+		</div>
+		</div>
 		<div class="flx jcfe">
 			<div>
 		{if $hs=='true'}
@@ -74,38 +79,16 @@
 <div id="content">
 <h1>検索</h1>
 <div class="flex_parent">
+    {foreach from=$searchList item=list}
 <div class="icon">
 	<div class="img circle">
-		<a href="https://www.suki.pics/timeline/search.php?q=%23FGO" target="{$target}">
-			<img src="https://pbs.twimg.com/profile_images/1034364986041163776/tRqcymzd_400x400.jpg">
+		<a href="{$list.link}" target="{$target}">
+			<img src="{$list.img}">
 		</a>
 	</div>
-	<div class="description">#FGO</div>
+	<div class="description">{$list.desc}</div>
 </div>
-<div class="icon">
-	<div class="img circle">
-		<a href="https://www.suki.pics/timeline/search.php?q=%23艦これ" target="{$target}">
-			<img src="https://pbs.twimg.com/profile_images/1123411827604377601/DOj9K64n_400x400.png">
-		</a>
-	</div>
-	<div class="description">#艦これ</div>
-</div>
-<div class="icon">
-	<div class="img circle">
-		<a href="https://www.suki.pics/timeline/search.php?q=%23アズレン" target="{$target}">
-			<img src="https://pbs.twimg.com/profile_images/864408527640514560/i-1Y1zSK_400x400.jpg">
-		</a>
-	</div>
-	<div class="description">#アズレン</div>
-</div>
-<div class="icon">
-	<div class="img circle">
-		<a href="https://www.suki.pics/timeline/search.php?q=%23アイマス" target="{$target}">
-			<img src="https://pbs.twimg.com/profile_images/980698945797017601/UI0LycLM_400x400.jpg">
-		</a>
-	</div>
-	<div class="description">#アイマス</div>
-</div>
+    {/foreach}
 </div>
 <h2>検索ボックス</h2>
 <div style="width:100%;margin:auto;">
@@ -144,7 +127,7 @@
 {if !$twitterLogin}
 	<div class="img circle">
 		<a href="{$AppURL}/auth/auth_twitter.php">
-			<img src="{$AppURL}/imgs/link.svg">
+			<img src="{$AppURL}/imgs/auth_twitter.png">
 		</a>
 	</div>
 	<div class="description">Twitterと連携</div>
@@ -154,7 +137,7 @@
 {if !$pawooLogin}
 	<div class="img circle">
 		<a href="{$AppURL}/auth/auth_pawoo.php">
-			<img src="{$AppURL}/imgs/link.svg">
+			<img src="https://static-s.aa-cdn.net/img/ios/1229070679/a551f2dfa37f77de3618b058dcd90b0e?v=1">
 		</a>
 	</div>
 	<div class="description">Pawooと連携</div>
@@ -173,7 +156,7 @@
 			<img src="{$AppURL}/imgs/home_64.svg">
 		</a>
 	</div>
-	<div class="description">統合ホームTL</div>
+	<div class="description">全体ホームTL</div>
 </div>
   {/if}
   {if $twitterLogin}
@@ -210,44 +193,32 @@
 
 <h1>公開リスト</h1>
 <div class="flex_parent">
-<div class="icon">
-	<div class="img circle">
+	<div class="lists">
 		<a href="{$AppURL}/timeline/list.php?domain=twitter&twitter_list=1120163652441481217&name=マンガ家" target="{$target}">
-			<img src="{$AppURL}/imgs/list.svg">
+			マンガ家
 		</a>
 	</div>
-	<div class="description">マンガ家</div>
-</div>
-<div class="icon">
-	<div class="img circle">
-		<a href="https://www.suki.pics/timeline/list.php?domain=twitter&list_id=1120163800961826816&name=イラストレーター" target="{$target}">
-			<img src="{$AppURL}/imgs/list.svg">
+	<div class="lists">
+		<a href="{$AppURL}/timeline/list.php?domain=twitter&list_id=1120163800961826816&name=イラストレーター" target="{$target}">
+			イラストレーター
 		</a>
 	</div>
-	<div class="description">イラストレーター</div>
-</div>
-<div class="icon">
-	<div class="img circle">
-		<a href="https://www.suki.pics/timeline/list.php?domain=twitter&list_id=1120165702248198144&name=おもしろ系" target="{$target}">
-			<img src="{$AppURL}/imgs/list.svg">
+	<div class="lists">
+		<a href="{$AppURL}/timeline/list.php?domain=twitter&twitter_list=1120165702248198144&name=おもしろ系" target="{$target}">
+			おもしろ系
 		</a>
 	</div>
-	<div class="description">おもしろ系</div>
-</div>
 </div>
 
 {if !empty($lists) && !isset($lists->errors)}
 <h1>Twitter マイリスト</h1>
 <div class="flex_parent">
     {foreach from=$lists item=list}
-<div class="icon">
-	<div class="img circle">
+	<div class="lists">
 		<a href="{$AppURL}/timeline/list.php?domain=twitter&list_id={$list->id}&name={$list->name}" target="{$target}">
-			<img src="{$AppURL}/imgs/list.svg">
+			{$list->name}
 		</a>
 	</div>
-	<div class="description">{$list->name}</div>
-</div>
 	{/foreach}
 </div>
 {/if}

@@ -92,3 +92,6 @@ $smarty->template_dir = $ini_array["template_dir"];
 $smarty->compile_dir = $ini_array["compile_dir"];
 
 $smarty->assign("mylists", getSessionParam("twitter_mylists", array()));
+
+include('searchList.php');
+$smarty->assign("searchList", $searchList);

@@ -1,5 +1,19 @@
 body {
-	background-color: azure;
+	background-color: azure; /* ページ全体の背景 */
+ 	font-size: 0.8em;
+}
+
+#menu {
+	background-color: #434343; /* ヘッダメニューの背景 */
+	color: lightgray; /* ヘッダメニューの文字色 */
+	padding: 2vw;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 80px;
+	transition: .4s ease-in-out;
+	font-size: small;
 }
 
 #content {
@@ -8,40 +22,85 @@ body {
 	max-width: 800px;
 	margin: 90px auto 0 auto;
 	background-color: azure;
-	color: #5e5e5e;
+	color: #5e5e5e; /* コンテンツ部分の背景 */
 }
+
+h1 {
+  width: 100%;
+  max-width: 90vw;
+  font-size: large;
+  margin: 2vh auto 2vh auto;
+  border-bottom: solid 3px darkblue; /* <h1>の下線色 */
+}
+h2 {
+  width: 100%;
+  max-width: 90vw;
+  font-size: small;
+  margin: 2vh auto 2vh auto;
+  border-bottom: solid 1px gray; /* <h2>の下線色 */
+}
+
+.icon .img a {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width:16vw;
+	max-width:90px;
+	height:16vw;
+	max-height:90px;
+	margin: auto;
+	border-radius: 10px;
+	background-color: lightskyblue; /* アイコンの背景色 */
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2); /* アイコンの影 */
+}
+
+
+.lists {
+	display: block;
+	color: white;
+	background-color: royalblue; /* 公開リストの背景色 */
+	border: solid 1px navy; /* 公開リストの線の色 */
+	border-radius: 5px;
+	margin: 2px;
+	padding: 1px 5px;
+}
+
+.trend {
+	display: block;
+	color: white;
+	background-color: royalblue; /* Twitterトレンドの背景色 */
+	border: solid 1px navy; /* Twitterトレンドの線の色 */
+	border-radius: 5px;
+	margin: 2px;
+	padding: 1px 5px;
+}
+
+
+/****************************************
+* ↑色関係の設定はここまで
+*****************************************/
 
 .flex_parent{
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 }
-h1 {
-	width: 90vw;
-	margin: auto;
-  font-size: large;
-  margin: 2vh;
-  border-bottom: solid 3px darkblue;
-}
-h2 {
-	width: 90vw;
-	margin: auto;
-  font-size: 1.75em;
-  margin: 2vh;
-  border-bottom: solid 1px gray;
-}
 .icon {
 	display: block;
+	width:16vw;
+	min-width:70px;
+	max-width:90px;
 	margin: 0vw 1vw;
 }
 
 .icon .description {
+	width: 100%;
 	margin: 4px 0px;
 	overflow: hidden;
 	text-align: center;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	font-size: small;
+	font-size: 12px;
 }
 
 .icon .img {
@@ -50,33 +109,6 @@ h2 {
 
 .icon .img a:active {
   box-shadow: 0 5px 0 rgba(255,255,255,0.2), 0 5px 5px rgba(0, 0, 0, 0.19);
-}
-
-.icon .img a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-	background-color: lightskyblue;
-	width:16vw;
-	max-width:90px;
-	height:16vw;
-	max-height:90px;
-	margin: auto;
-	border-radius: 10px;
-	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
-}
-
-#menu {
-	background-color: #434343;
-	padding: 5px;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 80px;
-	transition: .4s ease-in-out;
-	color: lightgray;
-	font-size: small;
 }
 
 .flx {
@@ -97,29 +129,27 @@ h2 {
 
 .icon .img a img {
 	display: block;
-	width:12vw;
-	max-width:64px;
-	height:12vw;
-	max-height:64px;
+	width:auto;
+	height:auto;
+	max-width:90%;
+	max-height:90%;
+	border-radius: 7px;
 }
 
 .trend_parent {
+	width:100%;
+	max-width: 90vw;
+	margin: auto;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: flex-start;
 }
-.trend {
-	display: block;
-	color: white;
-	font-size: 1.1rem;
-	background-color: lightsalmon;
-	border: solid 1px indianred;
-	border-radius: 5px;
-	margin: 2px;
-	padding: 1px 5px;
-}
 
 .trend a {
+	color: inherit;
+}
+
+.lists a {
 	color: inherit;
 }
 
@@ -129,7 +159,7 @@ ul, ol {
 
 .trend li {
   position: relative;
-  list-style-type: none!important;/*�|�`����*/
+  list-style-type: none!important;
   padding: 0.5em 0.5em 0.5em 0.5em;
   margin-bottom: 5px;
   line-height: 1.5;
@@ -441,7 +471,6 @@ h3:before {
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
-	font-size: large;
 }
 
 ////////////////////////////////////////////////////////////////////////

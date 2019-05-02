@@ -18,7 +18,7 @@ $params = array(
     "id" => $woeid
 );
 
-myVarDump($_SESSION, true);
+// myVarDump($_SESSION, true);
 
 $account = getSessionParam('account', "");
 $twitterLoginAccount = getSessionParam('twitterLoginAccount', "");

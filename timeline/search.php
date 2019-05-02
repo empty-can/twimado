@@ -19,7 +19,6 @@ $param->setParam('pawoo_id', PawooAccountID);
 $param->setParam('twitter_id', TwitterAccountID);
 
 $tmp = getRequest($api, $param->parameters);
-
 $response = json_decode($tmp);
 
 if(empty($response)) {

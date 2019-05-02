@@ -15,10 +15,6 @@ $q = urlencode($param->getValue('q'));
 
 $mutters = array();
 $tmp_mutters = array();
-
-$response = array();
-$response['mutters'] = array();
-
 ob_start();
 
 // pawooの検索結果取得（pawooはツイートのキーワード検索未対応）
