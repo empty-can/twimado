@@ -5,6 +5,7 @@ $hs = getSessionParam('hs', 'true');
 $smarty->assign("hs", $hs);
 
 $thumb = getSessionParam('thumb', 'true');
+setGetParam('thumb', $thumb);
 $smarty->assign("thumb", $thumb);
 // echo getSessionParam("message", "");
 

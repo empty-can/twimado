@@ -1,8 +1,14 @@
 body {
-	width: 90vw;
+	background-color: azure;
+}
+
+#content {
+	width: 100vw;
 	min-width: 256px;
-	max-width: 1024px;
-	margin: auto;
+	max-width: 800px;
+	margin: 90px auto 0 auto;
+	background-color: azure;
+	color: #5e5e5e;
 }
 
 .flex_parent{
@@ -11,25 +17,31 @@ body {
 	justify-content: center;
 }
 h1 {
-  font-size: 1.5em;
-  margin: 1vh 0;
-  padding: 0.4em 0.5em;/*文字の上下 左右の余白*/
-  color: #494949;/*文字色*/
-  background: #f4f4f4;/*背景色*/
-  border-left: solid 5px #7db4e6;/*左線*/
-  border-bottom: solid 3px #d7d7d7;/*下線*/
+	width: 90vw;
+	margin: auto;
+  font-size: large;
+  margin: 2vh;
+  border-bottom: solid 3px darkblue;
+}
+h2 {
+	width: 90vw;
+	margin: auto;
+  font-size: 1.75em;
+  margin: 2vh;
+  border-bottom: solid 1px gray;
 }
 .icon {
 	display: block;
-	width:16vw;
-	max-width:90px;
 	margin: 0vw 1vw;
 }
 
 .icon .description {
-	width: 100%;
 	margin: 4px 0px;
+	overflow: hidden;
 	text-align: center;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: small;
 }
 
 .icon .img {
@@ -44,14 +56,43 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-	background-color: skyblue;
+	background-color: lightskyblue;
 	width:16vw;
 	max-width:90px;
 	height:16vw;
 	max-height:90px;
 	margin: auto;
-	border-radius: 2px;
-	box-shadow: inset 0 5px 0 rgba(255,255,255,0.2), 0 5px 5px rgba(0, 0, 0, 0.19);
+	border-radius: 10px;
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+#menu {
+	background-color: #434343;
+	padding: 5px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 80px;
+	transition: .4s ease-in-out;
+	color: lightgray;
+	font-size: small;
+}
+
+.flx {
+	display: flex;
+}
+.jcc {
+	justify-content: center;
+}
+.jcsb {
+	justify-content: space-between;
+}
+.jcfe {
+	justify-content: flex-end;
+}
+.aic {
+	align-items: center;
 }
 
 .icon .img a img {
@@ -70,11 +111,12 @@ h1 {
 .trend {
 	display: block;
 	color: white;
+	font-size: 1.1rem;
 	background-color: lightsalmon;
 	border: solid 1px indianred;
 	border-radius: 5px;
 	margin: 2px;
-	padding: 1px 2px;
+	padding: 1px 5px;
 }
 
 .trend a {
@@ -399,6 +441,7 @@ h3:before {
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
+	font-size: large;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -416,11 +459,6 @@ h3:before {
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 /* body */
-body {
-  background: #e9e9e9;
-  color: #5e5e5e;
-  font: 400 87.5%/1.5em 'Open Sans', sans-serif;
-}
 
 /* Form Layout */
 .form-wrapper {
@@ -428,10 +466,6 @@ body {
   margin: 3em auto;
   padding: 0 1em;
   max-width: 370px;
-}
-
-form {
-  padding: 0 1.5em;
 }
 
 .form-item {

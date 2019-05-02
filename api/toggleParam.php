@@ -8,7 +8,7 @@ session_write_close();
 session_start();
 
 if(!empty($key)) {
-    $value = $_SESSION[$key];
+    $value = (isset($_SESSION[$key])) ? $_SESSION[$key] : true;
     var_dump($value);
     var_dump($value=='true');
     var_dump($value=='false');
