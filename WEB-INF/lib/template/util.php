@@ -11,12 +11,21 @@ function getMutters(string $api, array $parameters, $original_oldest_id) {
 	do {
 	    $tmp = getRequest($api, $parameters);
 	    $response = my_json_decode($tmp, true);
-        
-        if (!is_array($response))
-            break;
-        
-        if (isset($response['error'])) {
-            $errors[] = array("pawoo"=>$response['error']);
+	    
+	    if (! is_array($response)) {
+	        $errorMutter = new ErrorMutter();
+	        $errorMutter->addMessage("レスポンスの形式が不正でした。:"+var_export($tmp));
+	        $result['mutters'][] = obj_to_array($errorMutter);
+	        $result['oldest_mutter'] = new EmptyMutter();
+	        return $result;
+        }
+
+        if (isset($response['error']) && ! empty($response['error'])) {
+            $errorMutter = new ErrorMutter();
+            $errorMutter->addError($response['error']);
+            $result['mutters'][] = obj_to_array($errorMutter);
+            $result['oldest_mutter'] = new EmptyMutter();
+            return $result;
         }
 
         $result['mutters'] = array_merge($result['mutters'], $response['mutters']);

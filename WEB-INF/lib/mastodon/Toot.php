@@ -23,7 +23,7 @@ class Toot extends StandardMutter implements Mutter {
         
         $this->originalId = $toot->id;
         $this->originalTime = strtotime($toot->created_at);
-        $this->originalDate = $this->originalDate();
+        $this->originalDate = strtotime($toot->created_at);
         
         $this->text = $toot->content;
         
@@ -34,6 +34,15 @@ class Toot extends StandardMutter implements Mutter {
         $this->comCount = "";
         $this->favCount = $toot->favourites_count;
         $this->reCount = $toot->reblogs_count;
+        
+        if($toot->favourited) {
+            $this->favorited = $toot->favourited;
+            $this->favCount++;
+        }
+        if($toot->reblogged) {
+            $this->retweeted = true;
+            $this->reCount++;
+        }
         
         $this->sensitive = $toot->sensitive;
         

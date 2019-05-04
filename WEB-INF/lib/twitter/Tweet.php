@@ -27,7 +27,7 @@ class Tweet extends StandardMutter implements Mutter {
         
         $this->originalId = $tweet->id;
         $this->originalTime = strtotime($tweet->created_at);
-        $this->originalDate = $this->originalDate();
+        $this->originalDate = strtotime($tweet->created_at);
         
         $this->text = nl2br(searchTag(decorateLinkTag(mb_ereg_replace("http[s]?://t\.co/[a-zA-Z0-9]+", "", $tweet->text))));
         $this->mutterURL = $this->mutterBase.$this->id;

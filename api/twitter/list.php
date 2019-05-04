@@ -25,10 +25,10 @@ if(!empty($account)) {
 
 $response = array();
 $response['mutters'] = array();
-$response['oldest_mutter'] = new EmptyMutter();
+$response['oldest_mutter'] = new EmptyMutter("twitter");
 
 if (empty($list_id)) {
-    $errorMutter = new ErrorMutter();
+    $errorMutter = new ErrorMutter("twitter");
     $errorMutter->addMessage("No list id specified.");
     $response['mutters'][] = obj_to_array($errorMutter);
     echo json_encode($response);
@@ -52,7 +52,7 @@ $mutters = array();
 $oldest = new EmptyMutter();
 
 if(isset($tweets->error)) {
-    $errorMutter = new ErrorMutter();
+    $errorMutter = new ErrorMutter("twitter");
     $errorMutter->addError($tweets->error);
     $response['mutters'][] = obj_to_array($errorMutter);
     echo json_encode($response);
@@ -79,7 +79,7 @@ foreach ($tweets as $tweet) {
 }
 
 if(count($mutters)==0) {
-    $errorMutter = new ErrorMutter();
+    $errorMutter = new ErrorMutter("twitter");
     $errorMutter->addMessage("検索結果".count($mutters)."件");
     $mutters['-1'] = obj_to_array($errorMutter);
 }
@@ -90,15 +90,6 @@ $response['oldest_mutter'] = $oldest;
 
 $response['error'] = ob_get_contents();
 ob_end_clean();
-
-// $response = array();
-// $response['mutters'] = array();
-// $errorMutter = new ErrorMutter();
-// $errorMutter->addMessage("Test.");
-// $response['mutters'][] = obj_to_array($errorMutter);
-// $response['error'] = ob_get_contents();
-// echo json_encode($response);
-// exit();
 
 // myVarDump($response['error']);
 // $response['error'] = json_encode($_POST);

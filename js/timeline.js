@@ -294,17 +294,23 @@ function hideMyList() {
 }
 
 function fav(self, target_id, domain, method) {
-	url = 'https://www.suki.pics/api/post/fav.php?id='+target_id+'&domain='+domain+'&method='+method;
-	toggle(self, url, domain, method, '#fav_icon_'+target_id, '#fav_count_'+target_id, '#fav_'+target_id, '💓', '♡', 'favon', 'favoff');
+	url = 'https://www.suki.pics/api/post/fav.php?id='+target_id+'&domain='+domain;
+	toggle(self, url, domain, '#fav_icon_'+target_id, '#fav_count_'+target_id, '#fav_'+target_id, '💓', '♡', 'favon', 'favoff');
 }
 
 function rt(self, target_id, domain, method) {
-	url = 'https://www.suki.pics/api/post/rt.php?id='+target_id+'&domain='+domain+'&method='+method;
-	toggle(self, url, domain, method, '#rt_icon_'+target_id, '#rt_count_'+target_id, '#rt_'+target_id, '🔂', '🔁', 'rton', 'rtoff');
+	url = 'https://www.suki.pics/api/post/rt.php?id='+target_id+'&domain='+domain;
+	toggle(self, url, domain, '#rt_icon_'+target_id, '#rt_count_'+target_id, '#rt_'+target_id, '🔂', '🔁', 'rton', 'rtoff');
 }
 
-function toggle(self, target_url, domain, method, icon_id, counter_id,toggle_id, on_char, off_char, on_class, off_class) {
-
+function toggle(self, target_url, domain, icon_id, counter_id,toggle_id, on_char, off_char, on_class, off_class) {
+	
+	if($(toggle_id).val()=='on') {
+		target_url = target_url+'&method=undo';
+	} else if($(toggle_id).val()=='off') {
+		target_url = target_url+'&method=do';
+	}
+	
 	$.ajax({
 		url : target_url,
 		type : "GET",
@@ -319,6 +325,12 @@ function toggle(self, target_url, domain, method, icon_id, counter_id,toggle_id,
 		success : function(response) {
 			console.log("ajax通信に成功しました");
 			console.log(response);
+			
+			if(response==false) {
+				alert('操作が失敗しました。');
+				break;
+			}
+			
 			target_count = parseInt($(counter_id).html(), 10);
 			if($(toggle_id).val()=='on') {
 				$(toggle_id).val('off');

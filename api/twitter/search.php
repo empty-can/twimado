@@ -8,6 +8,7 @@ $id = getPostParam('id', '');
 $q = getPostParam('q', '');
 $count = getPostParam('count', '200');
 $max_id = getPostParam('max_id', '');
+$mo = getPostParam('mo', 'true');
 
 if(!empty($account)) {
     $pair = get_access_tokens($account, 'twitter');
@@ -24,7 +25,7 @@ if(!empty($account)) {
 
 $response = array();
 $response['mutters'] = array();
-$response['oldest_mutter'] = new EmptyMutter();
+$response['oldest_mutter'] = new EmptyMutter("twitter");
 
 $params = array(
     "q" => $q
@@ -44,7 +45,7 @@ if(!empty($q)) {
 }
 
 if(isset($tweets->error)) {
-    $errorMutter = new ErrorMutter();
+    $errorMutter = new ErrorMutter("twitter");
     $errorMutter->addError($tweets->error);
     $response['mutters'][] = $errorMutter;
     echo json_encode($response);
@@ -68,8 +69,11 @@ if(isset($tweets->statuses)) {
         $oldest = $tmp;
         $originalId = $tmp->originalId();
         
-        if ($tmp->hasMedia() && !isset($mutters[$originalId]))
+        if($mo=='false') {
             $mutters[$originalId] = $tmp;
+        } else if ($tmp->hasMedia() && !isset($mutters[$originalId])) {
+            $mutters[$originalId] = $tmp;
+        }
     
         $i++;
         
@@ -78,7 +82,7 @@ if(isset($tweets->statuses)) {
 }
 
 if(count($mutters)==0) {
-    $errorMutter = new ErrorMutter();
+    $errorMutter = new ErrorMutter("twitter");
     $errorMutter->addMessage("検索結果".count($mutters)."件");
     $mutters['-1'] = $errorMutter;
 }
