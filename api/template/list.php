@@ -49,7 +49,7 @@ if (contains($domain, 'twitter')) {
 	$twitter_oldest_id = $twitter_result['oldest_id'];
 }
 $mutters = array_unique($response['mutters'] , SORT_REGULAR);
-usort($mutters, "sort_mutter_by_time");
+usort($mutters, "sort_mutter");
 
 // テンプレートを表示する
 $hs = ($hs=='true') ? true : false;

@@ -107,6 +107,10 @@ function getMutter() {
 			console.log(response);
 //			console.log(response['mutters']);
 
+			if(response['mutters']['-1'] !== undefined) {
+				$("#bottom_message").html(response['mutters']['-1']);
+			}
+			
 			if(params['pawoo_oldest_id'] !== undefined) {
 				params['pawoo_oldest_id'] = response['pawoo_oldest_id'];
 				console.log('pawoo_oldest_id:'+response['pawoo_oldest_id']);
@@ -159,22 +163,31 @@ function getMutter() {
 					$("#bottom_message").html("最後まで来ました");
 					wait = true;
 				} else {
-					for (var i = 0; i < mutters_num; i++) {
-						tmp = response['mutters'][keys[i]];
-						
-						if(!mutterIds.includes(keys[i])) {
-							mutterIds.push(keys[i]);
-							mutterQueue.push(tmp);
+					for(key in response['mutters']) {
+						if(!mutterIds.includes(key)) {
+							mutterIds.push(key);
+							mutterQueue.push(response['mutters'][key]);
 						} else {
 							console.log('ちょうふく');
 						}
-	//					console.log(keys[i]);
+					}
+					
+//					for (var i = 0; i < mutters_num; i++) {
+//						tmp = response['mutters'][keys[i]];
+//						
+//						if(!mutterIds.includes(keys[i])) {
+//							mutterIds.push(keys[i]);
+//							mutterQueue.push(tmp);
+//						} else {
+//							console.log('ちょうふく');
+//						}
+//						console.log(tmp);
 	//					if(hist.indexOf(keys[i])==-1) {
 	//						hist.push(keys[i]);
 	//					} else {
 	//						console.log('ちょうふく');
 	//					}
-					}
+//					}
 					
 					console.log("取得できました");
 					wait = false;

@@ -45,7 +45,7 @@ if(contains($domain, 'pawoo') && ($pawoo_oldest_id!=-1)) {
             break;
         
         $pawoo_oldest = $response['oldest_mutter'];
-        //         usort($pawoos, "sort_mutter_by_time");
+        //         usort($pawoos, "sort_mutter");
         //         myVarDump(array_last($pawoos));
         
         $tmp_mutters = array_merge($tmp_mutters, $response['mutters']);
@@ -106,7 +106,7 @@ $mutters = array_merge($mutters, $tmp_mutters);
 // myVarDump(json_decode($response, true));
 // myVarDump(json_last_error());
 $mutters = array_unique($mutters, SORT_REGULAR);
-usort($mutters, "sort_mutter_by_time");
+usort($mutters, "sort_mutter");
 
 // テンプレートを表示する
 $hs = ($hs=='true') ? true : false;

@@ -57,7 +57,7 @@ if (contains($domain, 'twitter')) {
 }
 
 $mutters = array_unique($response['mutters'] , SORT_REGULAR);
-usort($mutters, "sort_mutter_by_time");
+usort($mutters, "sort_mutter");
 
 // テンプレートを表示する
 $hs = ($hs=='true') ? true : false;

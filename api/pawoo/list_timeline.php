@@ -72,7 +72,7 @@ foreach ($ids as $id) {
     }
 }
 
-usort($oldests, "sort_mutter_by_time");
+usort($oldests, "sort_mutter");
 
 $response['oldest_mutter'] = $oldests[count($oldests)-1];
 

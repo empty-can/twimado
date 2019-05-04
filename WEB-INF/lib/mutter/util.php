@@ -28,12 +28,12 @@ function date4timeline(int $date) {
     return $result;
 }
 
-function sort_mutter_by_time(array $a, array $b)
+function sort_mutter(array $a, array $b)
 {
-    if ($a['time'] == $b['time']) {
+    if ($a['sortValue'] == $b['sortValue']) {
         return 0;
     }
-    return ($a['time'] > $b['time']) ? -1 : 1;
+    return ($a['sortValue'] > $b['sortValue']) ? -1 : 1;
 }
 
 function isImg(string $url) {

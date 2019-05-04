@@ -54,7 +54,7 @@ if (contains($domain, 'twitter')) {
 // myVarDump(json_encode($response, true));
 // myVarDump(json_last_error());
 $mutters = array_unique($response['mutters'] , SORT_REGULAR);
-usort($mutters, "sort_mutter_by_time");
+usort($mutters, "sort_mutter");
 
 // テンプレートを表示する
 $hs = ($hs == 'true') ? true : false;

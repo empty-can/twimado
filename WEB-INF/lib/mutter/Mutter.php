@@ -50,4 +50,6 @@ interface Mutter {
     public function isFavorited();
     
     public function isRetweeted();
+    
+    public function getSortValue();
 }

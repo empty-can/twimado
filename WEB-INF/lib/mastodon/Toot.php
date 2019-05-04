@@ -10,6 +10,7 @@ class Toot extends StandardMutter implements Mutter {
         $this->id = $toot->id;
         $this->time = strtotime($toot->created_at);
         $this->date = $this->date();
+        $this->sortValue = $toot->created_at;
 
         // リツイートだった場合、ツイートID以外の情報をリツイート元に差し替える処理を入れる
         if (isset($toot->reblog)) {
