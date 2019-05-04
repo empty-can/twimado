@@ -7,6 +7,7 @@ $id = getPostParam('id', '');
 $target_id = getPostParam('target_id', '');
 $limit = getPostParam('limit', MastodonTootsLimit);
 $max_id = getPostParam('max_id', '');
+$mo = getPostParam('mo', 'true');
 
 if(!empty($account)) {
     $pair = get_access_tokens($account, 'pawoo');
@@ -21,7 +22,7 @@ $api = "api/v1/accounts/$target_id/statuses";
 
 $params = array(
     "limit" => ($limit>MastodonTootsLimit) ? MastodonTootsLimit : $limit
-    , "only_media" => true
+    , "only_media" => ($mo=='true') ? true : false
 );
 
 if(!empty($max_id)) {
@@ -53,8 +54,11 @@ if(empty($toots)) {
         $oldest = $tmp;
         $originalId = $tmp->originalId();
         
-        if ($tmp->hasMedia() && !isset($mutters[$originalId]))
+        if($mo=='false') {
             $mutters[$originalId] = $tmp;
+        } else if ($tmp->hasMedia() && !isset($mutters[$originalId])) {
+            $mutters[$originalId] = $tmp;
+        }
     }
     
     $response = array();

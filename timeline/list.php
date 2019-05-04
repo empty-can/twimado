@@ -6,10 +6,12 @@ $api = AppURL . '/api/template/list.php';
 $param = new Parameters();
 $param->constructFromGetParameters();
 
-$param->setInitialValue('domain', 'twitterpawoo');
 $param->setInitialValue('hs', getSessionParam('hs', 'true'));
-$param->setInitialValue('count', '20');
 $param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
+$param->setInitialValue('mo', getSessionParam('mo', 'true'));
+
+$param->setInitialValue('domain', 'twitterpawoo');
+$param->setInitialValue('count', '20');
 
 $name = $param->getValue('name');
 
@@ -20,8 +22,9 @@ $param->setParam('twitter_id', TwitterAccountID);
 $tmp = getRequest($api, $param->parameters);
 
 // myVarDump($tmp);
+$response = my_json_decode($tmp);
 
-$response = json_decode($tmp);
+// myVarDump($response);
 
 if(empty($response)) {
     echo "APIからのデータ取得に失敗しました。";
@@ -32,8 +35,12 @@ if(empty($response)) {
 $param->unset('count');
 
 // レスポンスから取得したデータをセット
-$param->setParam('pawoo_oldest_id', $response->pawoo_oldest_id);
-$param->setParam('twitter_oldest_id', $response->twitter_oldest_id);
+if(isset($response->pawoo_oldest_id)) {
+    $param->setParam('pawoo_oldest_id', $response->pawoo_oldest_id);
+}
+if(isset($response->twitter_oldest_id)) {
+    $param->setParam('twitter_oldest_id', $response->twitter_oldest_id);
+}
 
 // assignメソッドを使ってテンプレートに渡す値を設定
 $smarty->assign("title", "マイリスト：$name");

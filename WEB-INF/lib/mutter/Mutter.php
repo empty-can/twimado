@@ -23,6 +23,8 @@ interface Mutter {
     
     public function date();
     
+    public function domain();
+    
     public function originalDate();
     
     public function id();
@@ -44,4 +46,8 @@ interface Mutter {
     public function mutterURL();
     
     public function convertArray();
+    
+    public function isFavorited();
+    
+    public function isRetweeted();
 }

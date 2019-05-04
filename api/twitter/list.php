@@ -8,6 +8,7 @@ $id = getPostParam('id', '');
 $list_id = getPostParam('list_id', TwitterList);
 $count = getPostParam('count', '200');
 $max_id = getPostParam('max_id', '');
+$mo = getPostParam('mo', 'true');
 
 if(!empty($account)) {
     $pair = get_access_tokens($account, 'twitter');
@@ -22,13 +23,21 @@ if(!empty($account)) {
     $access_token_secret = TwitterAccessTokenSecret;
 }
 
-if(empty($list_id)) {
-    echo "No list id specified.";
+$response = array();
+$response['mutters'] = array();
+$response['oldest_mutter'] = new EmptyMutter();
+
+if (empty($list_id)) {
+    $errorMutter = new ErrorMutter();
+    $errorMutter->addMessage("No list id specified.");
+    $response['mutters'][] = obj_to_array($errorMutter);
+    echo json_encode($response);
     exit();
 }
+
 $params = array(
     "list_id" => $list_id,
-    "count" => 200
+    "count" => $count
 );
 
 if(!empty($max_id)) {
@@ -39,9 +48,17 @@ ob_start();
 
 $tweets = getTwitterConnection($access_token, $access_token_secret)->get($api, $params);
 
-
 $mutters = array();
-$oldest = "";
+$oldest = new EmptyMutter();
+
+if(isset($tweets->error)) {
+    $errorMutter = new ErrorMutter();
+    $errorMutter->addError($tweets->error);
+    $response['mutters'][] = obj_to_array($errorMutter);
+    echo json_encode($response);
+    exit();
+}
+
 $i = (int)0;
 
 foreach ($tweets as $tweet) {
@@ -50,23 +67,38 @@ foreach ($tweets as $tweet) {
     $oldest = $tmp;
     $originalId = $tmp->originalId();
     
-    if ($tmp->hasMedia() && !isset($mutters[$originalId]))
+    if($mo=='false') {
         $mutters[$originalId] = $tmp;
-        
+    } else if ($tmp->hasMedia() && !isset($mutters[$originalId])) {
+        $mutters[$originalId] = $tmp;
+    }
+    
     $i++;
     
     if($i>$count) break;
 }
-    
 
-// var_dump($mutters);
+if(count($mutters)==0) {
+    $errorMutter = new ErrorMutter();
+    $errorMutter->addMessage("検索結果".count($mutters)."件");
+    $mutters['-1'] = obj_to_array($errorMutter);
+}
 
-$response = array();
+
 $response['mutters'] = $mutters;
 $response['oldest_mutter'] = $oldest;
 
 $response['error'] = ob_get_contents();
 ob_end_clean();
+
+// $response = array();
+// $response['mutters'] = array();
+// $errorMutter = new ErrorMutter();
+// $errorMutter->addMessage("Test.");
+// $response['mutters'][] = obj_to_array($errorMutter);
+// $response['error'] = ob_get_contents();
+// echo json_encode($response);
+// exit();
 
 // myVarDump($response['error']);
 // $response['error'] = json_encode($_POST);

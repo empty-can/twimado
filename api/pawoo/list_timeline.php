@@ -6,6 +6,7 @@ $id = getPostParam('id', '');
 $list_id = getPostParam('list_id', '');
 $limit = getPostParam('limit', 40);
 $max_id = getPostParam('max_id', '');
+$mo = getPostParam('mo', 'true');
 
 if(!empty($account)) {
     $pair = get_access_tokens($account, 'pawoo');
@@ -21,7 +22,7 @@ if ($limit > 40)
 
 $params = array(
     "limit" => $limit,
-    "only_media" => true
+    , "only_media" => ($mo=='true') ? true : false
 );
 
 if (! empty($max_id)) {
@@ -58,8 +59,11 @@ foreach ($ids as $id) {
             $oldest = $tmp;
             $originalId = $tmp->originalId();
 
-            if ($tmp->hasMedia() && ! isset($mutters[$originalId]))
+            if($mo=='false') {
                 $mutters[$originalId] = $tmp;
+            } else if ($tmp->hasMedia() && ! isset($mutters[$originalId])) {
+                $mutters[$originalId] = $tmp;
+            }
         }
 
         $oldests[] = obj_to_array($oldest);

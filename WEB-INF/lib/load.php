@@ -8,5 +8,6 @@ require_once("twitter/load.php");
 require_once("js/util.php");
 require_once("db/db.php");
 require_once("db/dao.php");
+require_once("template/load.php");
 require_once("util.php");
 require_once("loadServiceAccount.php");

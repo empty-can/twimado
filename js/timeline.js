@@ -199,7 +199,6 @@ function switchShowTweet() {
 		showRT = true;
 		$("#toggleRetweet").css("opacity", "1.0");
 	}
-	
 }
 
 function showReTweet() {
@@ -292,4 +291,48 @@ function showMyList() {
 }
 function hideMyList() {
 	$('#mylist').css('right','-340px');
+}
+
+function fav(self, target_id, domain, method) {
+	url = 'https://www.suki.pics/api/post/fav.php?id='+target_id+'&domain='+domain+'&method='+method;
+	toggle(self, url, domain, method, '#fav_icon_'+target_id, '#fav_count_'+target_id, '#fav_'+target_id, '💓', '♡', 'favon', 'favoff');
+}
+
+function rt(self, target_id, domain, method) {
+	url = 'https://www.suki.pics/api/post/rt.php?id='+target_id+'&domain='+domain+'&method='+method;
+	toggle(self, url, domain, method, '#rt_icon_'+target_id, '#rt_count_'+target_id, '#rt_'+target_id, '🔂', '🔁', 'rton', 'rtoff');
+}
+
+function toggle(self, target_url, domain, method, icon_id, counter_id,toggle_id, on_char, off_char, on_class, off_class) {
+
+	$.ajax({
+		url : target_url,
+		type : "GET",
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log("ajax通信に失敗しました");
+			console.log(XMLHttpRequest);
+			console.log(textStatus);
+			console.log(errorThrown);
+			
+			console.log("ajax通信に失敗しました\r\ntextStatus:"+textStatus+"\r\nerrorThrown:"+errorThrown+"\r\nXMLHttpRequest:"+XMLHttpRequest);
+		},
+		success : function(response) {
+			console.log("ajax通信に成功しました");
+			console.log(response);
+			target_count = parseInt($(counter_id).html(), 10);
+			if($(toggle_id).val()=='on') {
+				$(toggle_id).val('off');
+				self.innerHTML=off_char;
+				$(counter_id).html(target_count - 1);
+				$(icon_id).removeClass(on_class);
+				$(icon_id).addClass(off_class);
+			} else if($(toggle_id).val()=='off') {
+				$(toggle_id).val('on');
+				self.innerHTML=on_char;
+				$(counter_id).html(target_count + 1);
+				$(icon_id).removeClass(off_class);
+				$(icon_id).addClass(on_class);
+			}
+		}
+	});
 }

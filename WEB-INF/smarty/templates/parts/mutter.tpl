@@ -83,14 +83,39 @@
 			    	{$mutter.text}
 	    		</div>
 	    	<div class="mutter_menu" style="display:flex;justify-content:space-around;align-items:center;widht:100%;height:32px;">
-	    		<div onclick="confirm('RT機能は未実装です');">&#x1f501;{$mutter.reCount}</div>
-	    		<div onclick="confirm('お気に入り機能は未実装です');">&#x2661;{$mutter.favCount}</div>
+	    		<div>
+	    			{if $mutter.retweeted}
+	    			<span id="rt_icon_{$mutter.id}" class="rtoff" onclick="rt(this,'{$mutter.id}','{$mutter.domain}','undo');">
+	    				&#x1f502;
+	    			</span>
+	    			<input type="hidden" id="rt_{$mutter.id}" value="on">
+	    			{else}
+	    			<span id="rt_icon_{$mutter.id}" class="rton" onclick="rt(this,'{$mutter.id}','{$mutter.domain}','do');">
+	    				&#x1f501;
+	    			</span>
+	    			<input type="hidden" id="rt_{$mutter.id}" value="off">
+	    			{/if}
+	    			<span id="rt_count_{$mutter.id}">{$mutter.reCount}</span>
+	    		</div>
+	    		<div>
+	    			{if $mutter.favorited}
+	    			<span id="fav_icon_{$mutter.id}" class="favoff" onclick="fav(this,'{$mutter.id}','{$mutter.domain}','undo');">
+	    				&#x1f493;
+	    			</span>
+	    			<input type="hidden" id="fav_{$mutter.id}" value="on">
+	    			{else}
+	    			<span id="fav_icon_{$mutter.id}" class="favon" onclick="fav(this,'{$mutter.id}','{$mutter.domain}','do');">
+	    				&#x2661;
+	    			</span>
+	    			<input type="hidden" id="fav_{$mutter.id}" value="off">
+	    			{/if}
+	    			<span id="fav_count_{$mutter.id}">{$mutter.favCount}</span>
+	    		</div>
 	    		<!-- div onclick="showMyList();">&#x2b50;</div>
 	    		<div onclick="confirm('しおり機能は未実装です');">&#x1f516;</div -->
 	    	</div>
 	    	</div>
 	    	<div class="clear"></div>
 	    </div>
-	    <br>
 		<hr>
     </div>

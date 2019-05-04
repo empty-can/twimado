@@ -4,15 +4,12 @@ require_once ("init.php");
 $param = new Parameters();
 $param->constructFromPostParameters();
 
-$param->setInitialValue('hs', 'true');
-$param->setInitialValue('thumb', 'true');
+$param->setInitialValue('hs', getSessionParam('hs', 'true'));
+$param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
 
 $domain = $param->putValue('domain');
 $thumb = $param->putValue('thumb');
 $hs = $param->putValue('hs');
-
-$mutters = array();
-$tmp_mutters = array();
 
 $response = array();
 $response['mutters'] = array();
@@ -30,35 +27,13 @@ if (contains($domain, 'pawoo')) {
     $pawoo_param->moveValue('count', 'limit');
     $pawoo_param->moveValue('pawoo_oldest_id', 'max_id');
 
-    do {
-        $tmp = getRequest($api, $pawoo_param->parameters);
-        $tmp_response = json_decode($tmp, true);
-
-        if (! is_array($response))
-            break;
-
-        $pawoo_oldest = $tmp_response['oldest_mutter'];
-
-        $tmp_mutters = array_merge($tmp_mutters, $tmp_response['mutters']);
-        
-        if (isset($pawoo_oldest['id']))
-            $pawoo_oldest_id = $pawoo_oldest['id'];
-        else
-            $pawoo_oldest_id = - 1;
-        
-        $pawoo_param->setParam('pawoo_oldest_id', $pawoo_oldest_id);
-    } while (count($tmp_mutters) < 1 && $pawoo_oldest_id > 0);
+    $pawoo_result = getMutters($api, $pawoo_param->parameters, $pawoo_oldest_id);
     
-    if($pawoo_oldest_id == $param->getValue('pawoo_oldest_id'))
-        $pawoo_oldest_id = - 1;
+	$response['mutters']  = array_merge($response['mutters'] , $pawoo_result['mutters']);
+	$pawoo_oldest_id = $pawoo_result['oldest_id'];
 }
 
-$mutters = array_merge($mutters, $tmp_mutters);
-// $tmp_mutters = array();
-
-// myVarDump(json_decode($response, true));
-// myVarDump(json_last_error());
-$mutters = array_unique($mutters, SORT_REGULAR);
+$mutters = array_unique($response['mutters'] , SORT_REGULAR);
 usort($mutters, "sort_mutter_by_time");
 
 // テンプレートを表示する

@@ -6,4 +6,7 @@ require_once("Account.php");
 require_once("StandardAccount.php");
 require_once("StandardMutter.php");
 require_once("AccessToken.php");
+require_once("ErrorMutter.php");
+require_once("EmptyMutter.php");
+require_once("EmptyAccount.php");
 require_once("util.php");

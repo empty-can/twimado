@@ -6,10 +6,12 @@ $api = AppURL . '/api/template/home_timeline.php';
 $param = new Parameters();
 $param->constructFromGetParameters();
 
-$param->setInitialValue('domain', 'twitterpawoo');
 $param->setInitialValue('hs', getSessionParam('hs', 'true'));
-$param->setInitialValue('count', '20');
 $param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
+$param->setInitialValue('mo', getSessionParam('mo', 'true'));
+
+$param->setInitialValue('domain', 'twitterpawoo');
+$param->setInitialValue('count', '20');
 
 $param->setParam('account', Account);
 $param->setParam('pawoo_id', PawooAccountID);
@@ -17,8 +19,7 @@ $param->setParam('twitter_id', TwitterAccountID);
 
 // TLを取得
 $tmp = getRequest($api, $param->parameters);
-$response = json_decode($tmp);
-
+$response = my_json_decode($tmp);
 
 if(empty($response)) {
     echo "APIからのデータ取得に失敗しました。";

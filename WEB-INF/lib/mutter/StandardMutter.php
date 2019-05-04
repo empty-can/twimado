@@ -5,15 +5,16 @@ abstract class StandardMutter implements Mutter {
     
     public $id = "-1";
     public $isRe = false;
-    public $date = null;
-    public $time = "-1";
+    public $date = "0";
+    public $time = "0";
     public $text = "初期値";
     
     public $account = null;
     public $retweeter = null;
     
-    public $originalId = null;
-    public $originalTime = null;
+    public $originalId = -1;
+    public $originalTime = "0";
+    public $originalDate = "0";
     
     public $comCount = "-1";
     public $favCount = "-1";
@@ -30,6 +31,22 @@ abstract class StandardMutter implements Mutter {
     public $domain = "初期値";
     public $mutterBase = "初期値";
     public $mutterURL = "初期値";
+    
+    public $favorited = false;
+    public $retweeted = false;
+    
+    
+    public function domain() {
+        return $this->domain;
+    }
+    
+    public function isFavorited() {
+        return $this->favorited;
+    }
+    
+    public function isRetweeted() {
+        return $this->retweeted;
+    }
     
     public function hasMedia() {
         return !empty($this->media);
@@ -72,7 +89,7 @@ abstract class StandardMutter implements Mutter {
     }
     
     public function originalDate() {
-        return $this->originalTime;
+        return $this->originalDate;
     }
     
     public function id() {

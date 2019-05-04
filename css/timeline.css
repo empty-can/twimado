@@ -27,6 +27,7 @@
 	color: red;
 	background-color: azure;
 	color: gray;
+	padding: 0vw 2vw;
 }
 
 .tweet_media {
@@ -191,4 +192,15 @@
   transition: left .5s, right .5s; /* アニメーション */
   background-color: rgba(173, 216, 230, .9);
   overflow: auto;
+}
+
+.rton {
+	font-weight: bold;
+	text-shadow: 0 0 0 green;
+}
+.rtoff {
+}
+.favon {
+}
+.favoff {
 }

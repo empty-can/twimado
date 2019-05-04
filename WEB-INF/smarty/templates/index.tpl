@@ -3,7 +3,7 @@
 	<div>
 {if !empty($account)}
 		<div>
-			<h4 id="title" style="width: 100%; text-align: left;">ログイン中:{$account}</h4>
+			<h4 id="title" style="width: 100%; text-align: left;">{$account} さん</h4>
 		</div>
 {/if}
 		<div class="flx">
@@ -53,6 +53,15 @@
 		</div>
 		<div class="flx jcfe">
 			<div>
+		{if $mo=='true'}
+					<input type="checkbox" name="mo" value="false" onchange="toggleParam('mo');" checked>
+		{else}
+			 		<input type="checkbox" name="mo" value="false" onchange="toggleParam('mo');">
+		{/if}
+			画像のみ
+			</div>
+			&nbsp; 
+			<div>
 		{if $hs=='true'}
 					<input type="checkbox" name="hs" value="false" onchange="toggleParam('hs');" checked>
 		{else}
@@ -65,7 +74,7 @@
 		{if $thumb=='false'}
 				<input type="checkbox" name="thumb" value="false" onchange="toggleParam('thumb');" checked>
 		{else}
-				<input type="checkbox" name="thumb" value="false"　onchange="toggleParam('thumb');">
+				<input type="checkbox" name="thumb" value="false" onchange="toggleParam('thumb');">
 		{/if}高画質
 			&nbsp; 
 			</div>
@@ -173,7 +182,7 @@
   {if $pawooLogin}
 <div class="icon">
 	<div class="img circle">
-		<a href="{$AppURL}/timeline/home.php?domain=twitterpawoo" target="{$target}">
+		<a href="{$AppURL}/timeline/home.php?domain=pawoo" target="{$target}">
 			<img src="https://static-s.aa-cdn.net/img/ios/1229070679/a551f2dfa37f77de3618b058dcd90b0e?v=1">
 		</a>
 	</div>

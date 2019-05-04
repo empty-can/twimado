@@ -38,6 +38,9 @@ class Tweet extends StandardMutter implements Mutter {
         $this->favCount = $tweet->favorite_count;
         $this->reCount = $tweet->retweet_count;
         
+        $this->favorited = $tweet->favorited;
+        $this->retweeted = $tweet->retweeted;
+        
         $this->sensitive = (isset($tweet->possibly_sensitive)) ? $tweet->possibly_sensitive : true;
         
         // メディアURLを取得

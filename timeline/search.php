@@ -3,14 +3,15 @@ require_once ("init.php");
 
 $api = AppURL . '/api/template/search.php';
 
-
 $param = new Parameters();
 $param->constructFromGetParameters();
 
-$param->setInitialValue('domain', 'twitterpawoo');
 $param->setInitialValue('hs', getSessionParam('hs', 'true'));
-$param->setInitialValue('count', '20');
 $param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
+$param->setInitialValue('mo', getSessionParam('mo', 'true'));
+
+$param->setInitialValue('domain', 'twitterpawoo');
+$param->setInitialValue('count', '20');
 
 $q = $param->getValue('q');
 

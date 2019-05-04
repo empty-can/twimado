@@ -1,32 +1,39 @@
 <?php
 require_once ("init.php");
 
+$mo = getSessionParam('mo', 'true');
+$smarty->assign("mo", $mo);
+
 $hs = getSessionParam('hs', 'true');
 $smarty->assign("hs", $hs);
 
 $thumb = getSessionParam('thumb', 'true');
 setGetParam('thumb', $thumb);
 $smarty->assign("thumb", $thumb);
-// echo getSessionParam("message", "");
-
-$woeid = "1118370"; // Tokyo
-$api = 'trends/place';
-
-$target = "_blank";
-
-$params = array(
-    "id" => $woeid
-);
-
-// myVarDump($_SESSION, true);
 
 $account = getSessionParam('account', "");
 $twitterLoginAccount = getSessionParam('twitterLoginAccount', "");
 $pawooLoginAccount = getSessionParam('pawooLoginAccount', "");
 
-$trends = getTwitterConnection()->get($api, $params);
 
-// $userInfo = getSessionParam("twitter_user_info", "");
+$connection = getTwitterConnection();
+
+$keyword = 'Kagawa';
+$trends = $connection->get('geo/search', ['query' => $keyword]);
+if(isset($trends->errors)) {
+    $connection = getTwitterConnection(TwitterAccessToken,TwitterAccessTokenSecret);
+    $trends = $connection->get('geo/search', ['query' => $keyword]);
+}
+
+$idokeido = $trends->result->places[0]->centroid;
+
+$params = array(
+    "lat" => $idokeido[1]
+    , "long" => $idokeido[0]
+);
+
+$woeid = $connection->get('trends/closest', $params)[0]->woeid;
+$trends = $connection->get('trends/place', ['id'=>$woeid]);
 
 $twitterLogin = !empty($twitterLoginAccount);
 $twitterList = isset($twitterLoginAccount["twitter_mylists"]) ? $twitterLoginAccount["twitter_mylists"] : "";

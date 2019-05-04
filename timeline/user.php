@@ -6,10 +6,12 @@ $api = AppURL . '/api/template/user_timeline.php';
 $param = new Parameters();
 $param->constructFromGetParameters();
 
-$param->setInitialValue('domain', 'twitterpawoo');
 $param->setInitialValue('hs', getSessionParam('hs', 'true'));
-$param->setInitialValue('count', '20');
 $param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
+$param->setInitialValue('mo', getSessionParam('mo', 'true'));
+
+$param->setInitialValue('domain', 'twitterpawoo');
+$param->setInitialValue('count', '20');
 
 $domain = $param->getValue('domain');
 $target_id = $param->getValue('target_id');

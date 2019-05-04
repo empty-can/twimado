@@ -82,6 +82,9 @@ if (isset($pawooLoginAccount['id']))
 else
     define("PawooAccountID", "");
 
+$target = "_blank";
+
+$target = "_blank";
 /* Smartyのロード */
 $smarty = new Smarty();
 $smarty->assign("app_url", AppURL);

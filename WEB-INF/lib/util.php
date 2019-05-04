@@ -89,7 +89,7 @@ function get_suffix(string $filename) {
  * @return mixed
  */
 function obj_to_array($object) {
-    return json_decode(json_encode($object), true);
+    return my_json_decode(json_encode($object), true);
 }
 
 /**
@@ -345,4 +345,23 @@ function logout() {
     
     //セッションを破棄する
     session_destroy();
+}
+
+function my_json_decode(string $json, $assoc=false) {
+	$result = json_decode($json, $assoc);
+	
+	if($result==NULL) {
+		$constants = get_defined_constants(true);
+		$json_errors = array();
+		foreach ($constants["json"] as $name => $value) {
+		    if (!strncmp($name, "JSON_ERROR_", 11)) {
+		        $json_errors[$value] = $name;
+		    }
+		}
+		echo "JSON Decode Error: ".$json_errors[json_last_error()].":error code:".json_last_error();
+		myVarDump($json);
+	} else {
+		return  $result;
+	}
+	
 }

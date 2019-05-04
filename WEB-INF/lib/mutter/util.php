@@ -21,6 +21,8 @@ function date4timeline(int $date) {
         $result = floor($diff/86400)."日前";
     } else {
         $result = date("Y/m/d", $date);
+        if(!$result)
+            $result = "不明";
     }
     
     return $result;
