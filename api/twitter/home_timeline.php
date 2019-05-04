@@ -43,7 +43,7 @@ if(isset($tweets->error)) {
     $errorMutter = new ErrorMutter();
     $errorMutter->addError($tweets->error);
     $response['mutters'][] = $errorMutter;
-    json_encode($response);
+    echo json_encode($response);
     exit();
 }
 

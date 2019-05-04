@@ -22,6 +22,10 @@ if(!empty($account)) {
     $access_token_secret = TwitterAccessTokenSecret;
 }
 
+$response = array();
+$response['mutters'] = array();
+$response['oldest_mutter'] = new EmptyMutter();
+
 $params = array(
     "q" => $q
     , "count" => 100
@@ -37,6 +41,14 @@ if(!empty($q)) {
     $tweets = getTwitterConnection($access_token, $access_token_secret)->get($api, $params);
 } else {
     $tweets = array();
+}
+
+if(isset($tweets->error)) {
+    $errorMutter = new ErrorMutter();
+    $errorMutter->addError($tweets->error);
+    $response['mutters'][] = $errorMutter;
+    echo json_encode($response);
+    exit();
 }
 
 $mutters = array();
@@ -63,6 +75,12 @@ if(isset($tweets->statuses)) {
         
         if($i>$count) break;
     }
+}
+
+if(count($mutters)==0) {
+    $errorMutter = new ErrorMutter();
+    $errorMutter->addMessage("検索結果".count($mutters)."件");
+    $mutters['-1'] = $errorMutter;
 }
 
 $response = array();

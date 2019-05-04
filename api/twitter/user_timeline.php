@@ -22,6 +22,10 @@ if(!empty($account)) {
     $access_token_secret = TwitterAccessTokenSecret;
 }
 
+$response = array();
+$response['mutters'] = array();
+$response['oldest_mutter'] = new EmptyMutter();
+
 $params = array(
     "user_id" => $user_id,
     "count" => $count
@@ -34,6 +38,14 @@ if(!empty($max_id)) {
 ob_start();
 
 $tweets = getTwitterConnection($access_token, $access_token_secret)->get($api, $params);
+
+if(isset($tweets->error)) {
+    $errorMutter = new ErrorMutter();
+    $errorMutter->addError($tweets->error);
+    $response['mutters'][] = $errorMutter;
+    echo json_encode($response);
+    exit();
+}
 
 $mutters = array();
 $oldest = "";
@@ -51,6 +63,12 @@ foreach ($tweets as $tweet) {
     $i++;
     
     if($i>$count) break;
+}
+
+if(count($mutters)==0) {
+    $errorMutter = new ErrorMutter();
+    $errorMutter->addMessage("検索結果".count($mutters)."件");
+    $mutters['-1'] = $errorMutter;
 }
 
 $response = array();
