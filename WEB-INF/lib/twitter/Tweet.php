@@ -35,8 +35,8 @@ class Tweet extends StandardMutter implements Mutter {
         $this->account = new TwitterAccount($tweet->user);
         
         $this->comCount = "";
-        $this->favCount = $tweet->favorite_count;
-        $this->reCount = $tweet->retweet_count;
+        $this->favCount = ceilNum($tweet->favorite_count);
+        $this->reCount = ceilNum($tweet->retweet_count);
         
         $this->favorited = $tweet->favorited;
         $this->retweeted = $tweet->retweeted;

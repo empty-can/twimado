@@ -1,6 +1,13 @@
 <?php
 require_once ("init.php");
 
+function ceilNum($target) {
+    if(((int)$target)>10000)
+        return round(((int)$target)/10000,1)."万";
+    else
+        return $target;
+}
+
 /**
  * 暗号化されたキーを復元する
  * 

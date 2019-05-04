@@ -328,22 +328,29 @@ function toggle(self, target_url, domain, icon_id, counter_id,toggle_id, on_char
 			
 			if(response==false) {
 				alert('操作が失敗しました。');
-				break;
-			}
-			
-			target_count = parseInt($(counter_id).html(), 10);
-			if($(toggle_id).val()=='on') {
-				$(toggle_id).val('off');
-				self.innerHTML=off_char;
-				$(counter_id).html(target_count - 1);
-				$(icon_id).removeClass(on_class);
-				$(icon_id).addClass(off_class);
-			} else if($(toggle_id).val()=='off') {
-				$(toggle_id).val('on');
-				self.innerHTML=on_char;
-				$(counter_id).html(target_count + 1);
-				$(icon_id).removeClass(off_class);
-				$(icon_id).addClass(on_class);
+			} else {
+				if(!isNaN($(counter_id).html()))
+					target_count = parseInt($(counter_id).html(), 10);
+				else
+					target_count = $(counter_id).html();
+				
+				if($(toggle_id).val()=='on') {
+					$(toggle_id).val('off');
+					self.innerHTML=off_char;
+					$(icon_id).removeClass(on_class);
+					$(icon_id).addClass(off_class);
+
+					if(!isNaN(target_count))
+						$(counter_id).html(target_count - 1);
+				} else if($(toggle_id).val()=='off') {
+					$(toggle_id).val('on');
+					self.innerHTML=on_char;
+					$(icon_id).removeClass(off_class);
+					$(icon_id).addClass(on_class);
+					
+					if(!isNaN(target_count))
+						$(counter_id).html(target_count + 1);
+				}
 			}
 		}
 	});

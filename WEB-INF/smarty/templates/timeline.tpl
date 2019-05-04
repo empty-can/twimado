@@ -9,8 +9,8 @@
 <div id="top_menu">
 	<div id="timeline_menu">
 		<div id="home"><a href="/"><img src="{$app_url}/imgs/home_64.svg"></a></div>
-		<div onclick="switchShowTweet();"><img id="toggleRetweet" src="{$app_url}/imgs/retwieet.svg"></div>
-		<div onclick="switchScroll();">
+		<div onclick="switchShowTweet();" ontouch="switchShowTweet();"><img id="toggleRetweet" src="{$app_url}/imgs/retwieet.svg"></div>
+		<div onclick="switchScroll();" ontouch="switchScroll();">
 			<img id="horizontal" style="display:none;" src="{$app_url}/imgs/yoko.svg">
 			<img id="vertical" src="{$app_url}/imgs/tate.svg">
 		</div>

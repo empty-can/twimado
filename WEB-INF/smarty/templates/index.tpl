@@ -203,18 +203,23 @@
 <h1>公開リスト</h1>
 <div class="flex_parent">
 	<div class="lists">
-		<a href="{$AppURL}/timeline/list.php?domain=twitter&twitter_list=1120163652441481217&name=マンガ家" target="{$target}">
-			マンガ家
+		<a href="{$AppURL}/timeline/list.php?domain=twitter&twitter_list=1120163652441481217&name=マンガ" target="{$target}">
+			マンガ
 		</a>
 	</div>
 	<div class="lists">
-		<a href="{$AppURL}/timeline/list.php?domain=twitter&list_id=1120163800961826816&name=イラストレーター" target="{$target}">
+		<a href="{$AppURL}/timeline/list.php?domain=twitter&twitter_list=1121617657004879872&name=マンガ🔞" target="{$target}">
+			マンガ🔞
+		</a>
+	</div>
+	<div class="lists">
+		<a href="{$AppURL}/timeline/list.php?domain=twitter&list_id=1120163800961826816&name=イラスト" target="{$target}">
 			イラストレーター
 		</a>
 	</div>
 	<div class="lists">
-		<a href="{$AppURL}/timeline/list.php?domain=twitter&twitter_list=1120165702248198144&name=おもしろ系" target="{$target}">
-			おもしろ系
+		<a href="{$AppURL}/timeline/list.php?domain=twitter&list_id=1121619183270187009&name=イラスト🔞" target="{$target}">
+			イラストレーター🔞
 		</a>
 	</div>
 </div>
