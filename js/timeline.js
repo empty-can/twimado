@@ -108,6 +108,7 @@ function getMutter() {
 //			console.log(response['mutters']);
 
 			if(response['mutters']['-1'] !== undefined) {
+				console.log('-1'+response['mutters']['-1']);
 				$("#bottom_message").html(response['mutters']['-1']);
 			}
 			

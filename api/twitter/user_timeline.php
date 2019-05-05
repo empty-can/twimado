@@ -69,7 +69,7 @@ foreach ($tweets as $tweet) {
     if($i>$count) break;
 }
 
-if(count($mutters)==0) {
+if($max_id == $oldest->id) {
     $errorMutter = new ErrorMutter("twitter");
     $errorMutter->addMessage("検索結果".count($mutters)."件");
     $mutters['-1'] = $errorMutter;

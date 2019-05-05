@@ -207,11 +207,11 @@
 			マンガ
 		</a>
 	</div>
-	<div class="lists">
+	<!-- div class="lists">
 		<a href="{$AppURL}/timeline/list.php?domain=twitter&twitter_list=1121617657004879872&name=マンガ🔞" target="{$target}">
 			マンガ🔞
 		</a>
-	</div>
+	</div -->
 	<div class="lists">
 		<a href="{$AppURL}/timeline/list.php?domain=twitter&list_id=1120163800961826816&name=イラスト" target="{$target}">
 			イラストレーター
