@@ -17,5 +17,9 @@ class Media {
     public function getTumb() {
         return $this->thumb;
     }
+    
+    public function hasMedia() {
+        return !empty($this->url);
+    }
 }
 

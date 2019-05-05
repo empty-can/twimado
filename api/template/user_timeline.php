@@ -27,7 +27,6 @@ if (contains($domain, 'pawoo')) {
     $pawoo_param = clone $param;
     $pawoo_param->moveValue('pawoo_id', 'id');
     $pawoo_param->setInitialValue('count', "40");
-    $pawoo_param->moveValue('count', 'limit');
     $pawoo_param->moveValue('pawoo_oldest_id', 'max_id');
     
     $pawoo_result = getMutters($api, $pawoo_param->parameters, $pawoo_oldest_id);

@@ -1,75 +1,97 @@
 <?php
 require_once ("init.php");
 
-$account = getPostParam('account', '');
-$id = getPostParam('id', '');
-$limit = getPostParam('limit', MastodonTootsLimit);
-$max_id = getPostParam('oldest_id', '');
-$mo = getPostParam('mo', 'true');
+$api = "api/v1/timelines/home"; // アクセスするAPI
 
-if(!empty($account)) {
-    $pair = get_access_tokens($account, 'pawoo');
-    $access_token = $pair['access_token'];
-} else if(!empty($id)){
-    $access_token = getPassengerTokens($id, 'pawoo')['access_token'];
-} else {
-    echo "error";
-    exit();
-}
+/*------------ パラメータの取得設定 ------------*/
+$param = new Parameters();
+$param->constructFromPostParameters();
+$param->required = array();
+$param->optional = ["max_id", "since_id", "limit"];
 
+$min_count = $param->putValue('count');
+$param->setParam('limit', '40');
 
-$api = "api/v1/timelines/home";
+$account = $param->putValue('account');
+$passenger_id = $param->putValue('id');
+$media_only = $param->putValue('mo');
+/*-----------------------------------------*/
 
-if($limit>MastodonTootsLimit)
-    $limit=MastodonTootsLimit;
-
-$params = array(
-    "limit" => $limit
-    , "only_media" => ($mo=='true') ? true : false
-);
-
-if(!empty($max_id)) {
-    $params['max_id'] = $max_id;
-}
-
+// 標準出力の監視開始
 ob_start();
 
-$connection = getMastodonConnection(PawooDomain, $access_token);
-// myVarDump($connection);
-$toots = $connection->executeGetAPI($api.'?'.http_build_query($params));
-// myVarDump($toots);
-// var_dump($toots);
+// var_dump($min_count);
+// goto end;
 
-$mutters = array();
+// パラメータのチェック
+$validated = $param->validate();
 
-$oldest = "";
-
-$response = array();
-
-if(empty($toots)) {
-    $response['mutters'] = array();
-    $response['oldest_mutter'] = null;
-} else {
-    foreach ($toots as $toot) {
-        $tmp = new Pawoo($toot);
-        
-//         myVarDump($tmp);
-        
-        $oldest = $tmp;
-        $originalId = $tmp->originalId();
-        
-        if($mo=='false') {
-            $mutters[$originalId] = $tmp;
-        } else if ($tmp->hasMedia() && !isset($mutters[$originalId])) {
-            $mutters[$originalId] = $tmp;
-        }
-    }
-    
-    $response['mutters'] = $mutters;
-    $response['oldest_mutter'] = $oldest;
+if(!empty($validated)) {
+    echo $validated;
+    goto end;
 }
 
-$response['error'] = ob_get_contents();
+// アクセストークンの取得
+$tokens = getPawooTokens($account, $passenger_id, false);
+
+if($tokens->isEmpty()) {
+    echo "認証情報が取得できませんでした。";
+    goto end;
+}
+
+// APIアクセス
+$toots = getMastodonConnection(PawooDomain, $tokens->token)
+            ->executeGetAPI($api.'?'.http_build_query($param->parameters));
+
+// 検索結果数の確認
+if(empty($toots)) {
+    echo "該当トゥートが0件でした。";
+    goto end;
+}
+
+/*------------　API実行結果のインスタンス化　------------*/
+$mutters = array();
+$oldest = new EmptyMutter();
+$i = (int)0;
+
+foreach ($toots as $toot) {
+    $tmp = new Pawoo($toot);
+    
+    $oldest = $tmp;
+    $originalId = $tmp->originalId();
+    
+    if($media_only=='false') {
+        $mutters[$originalId] = $tmp;
+        $i++;
+    } else if ($tmp->hasMedia() && !isset($mutters[$originalId])) {
+        $mutters[$originalId] = $tmp;
+        $i++;
+    }
+    
+    if($i>$min_count)
+        break;
+}
+/*-------------------------------------------------*/
+
+
+// 新しいトゥートが取得できているかどうかのチェック
+if($param->getValue('max_id') === $oldest->id) {
+    echo "最後のトゥートまで到達しました。";
+    goto end;
+}
+
+/*-------------------- 出力処理 --------------------*/
+end:
+
+$stdout = ob_get_contents();
 ob_end_clean();
 
-echo json_encode($response);
+if(!empty($stdout)) {
+    //     $stdout .= "<br>\r\n実行API：".$api;
+    $response = gerErrorResponse("pawoo", $stdout);
+    echo json_encode($response);
+} else {
+    $response = getResponse($mutters, $oldest);
+    echo json_encode($response);
+}
+/*-------------------------------------------------*/

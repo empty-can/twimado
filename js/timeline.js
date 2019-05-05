@@ -338,7 +338,7 @@ function toggle(self, target_url, domain, icon_id, counter_id,toggle_id, on_char
 		},
 		success : function(response) {
 			console.log("ajax通信に成功しました");
-			console.log(response);
+//			console.log(response);
 			
 			if(response==false) {
 				alert('操作が失敗しました。');

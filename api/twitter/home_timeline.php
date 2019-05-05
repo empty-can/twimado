@@ -65,11 +65,13 @@ foreach ($tweets as $tweet) {
     
     if($media_only=='false') {
         $mutters[$originalId] = $tmp;
+        $i++;
     } else if ($tmp->hasMedia() && !isset($mutters[$originalId])) {
         $mutters[$originalId] = $tmp;
+        $i++;
     }
     
-    if($i++>$min_count)
+    if($i>$min_count)
         break;
 }
 /*-------------------------------------------------*/

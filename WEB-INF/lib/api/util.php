@@ -28,6 +28,20 @@ function getTwitterTokens(string $account, string $passenger_id, bool $enable_ap
     return $tokens;
 }
 
+function getPawooTokens(string $account, string $passenger_id, bool $enable_app_token=true) {
+    $tokens = new Tokens();
+    
+    if(!empty($account)) {
+        $result = get_access_tokens($account, 'pawoo');
+        $tokens->token = $result['access_token'];
+    } else if(!empty($passenger_id)) {
+        $result = getPassengerTokens($passenger_id, 'pawoo');
+        $tokens->token = $result['access_token'];
+    }
+    
+    return $tokens;
+}
+
 /**
  * エラーレスポンスを生成
  *
