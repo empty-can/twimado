@@ -6,6 +6,10 @@
   -webkit-overflow-scrolling: touch;
 }
 
+#bottom {
+	width: 80vw;
+}
+
 a {
 	text-decoration: none;
 }
