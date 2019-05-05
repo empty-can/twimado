@@ -27,14 +27,6 @@ $response = array();
 $response['mutters'] = array();
 $response['oldest_mutter'] = new EmptyMutter("twitter");
 
-if (empty($list_id)) {
-    $errorMutter = new ErrorMutter("twitter");
-    $errorMutter->addMessage("No list id specified.");
-    $response['mutters'][] = obj_to_array($errorMutter);
-    echo json_encode($response);
-    exit();
-}
-
 $params = array(
     "list_id" => $list_id,
     "count" => $count
@@ -46,19 +38,24 @@ if(!empty($max_id)) {
 
 ob_start();
 
+if (empty($list_id)) {
+    echo "リストIDが指定されていません。";
+    goto end;
+}
+
 $tweets = getTwitterConnection($access_token, $access_token_secret)->get($api, $params);
+
+if (isset($tweets->errors)) {
+    echo "APIの実行に失敗しました。";
+    foreach ($tweets->errors as $error) {
+        echo "<br>\r\nエラーコード：".$error->code;
+        echo "<br>\r\nメッセージ：".$error->message;
+    }
+    goto end;
+}
 
 $mutters = array();
 $oldest = new EmptyMutter();
-
-if(isset($tweets->error)) {
-    $errorMutter = new ErrorMutter("twitter");
-    $errorMutter->addError($tweets->error);
-    $response['mutters'][] = obj_to_array($errorMutter);
-    echo json_encode($response);
-    exit();
-}
-
 $i = (int)0;
 
 foreach ($tweets as $tweet) {
@@ -79,19 +76,26 @@ foreach ($tweets as $tweet) {
 }
 
 if($max_id == $oldest->id) {
-    $errorMutter = new ErrorMutter("twitter");
-    $errorMutter->addMessage("検索結果".count($mutters)."件");
-    $mutters['-1'] = obj_to_array($errorMutter);
+    echo "最後のツイートまで到達しました。";
+    goto end;
 }
-
-
-$response['mutters'] = $mutters;
-$response['oldest_mutter'] = $oldest;
-
-$response['error'] = ob_get_contents();
-ob_end_clean();
 
 // myVarDump($response['error']);
 // $response['error'] = json_encode($_POST);
 
-echo json_encode($response);
+end:
+
+$stdout = ob_get_contents();
+ob_end_clean();
+
+if(!empty($stdout)) {
+    $errorMutter = new ErrorMutter("twitter");
+    $errorMutter->addMessage($stdout);
+    $response['mutters']['-1'] = obj_to_array($errorMutter);
+    echo json_encode($response);
+    exit();
+} else {
+    $response['mutters'] = $mutters;
+    $response['oldest_mutter'] = $oldest;
+    echo json_encode($response);
+}

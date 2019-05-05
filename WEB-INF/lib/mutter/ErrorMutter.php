@@ -18,6 +18,8 @@ class ErrorMutter extends StandardMutter {
         $this->text = "";
         $this->account = new EmptyAccount();
         $this->retweeter = new EmptyAccount();
+        $this->originalTime = time();
+        $this->originalDate = time();
     }
     
     public function addMessage(string $message) {
