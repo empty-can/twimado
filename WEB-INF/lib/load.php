@@ -11,3 +11,4 @@ require_once("db/dao.php");
 require_once("template/load.php");
 require_once("util.php");
 require_once("loadServiceAccount.php");
+require_once("api/util.php");

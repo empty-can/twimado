@@ -1,50 +1,47 @@
 <?php
 require_once ("init.php");
 
-$api = 'lists/statuses';
+$api = 'lists/statuses'; // アクセスするAPI
 
-$account = getPostParam('account', '');
-$id = getPostParam('id', '');
-$list_id = getPostParam('list_id', TwitterList);
-$count = getPostParam('count', '200');
-$max_id = getPostParam('max_id', '');
-$mo = getPostParam('mo', 'true');
+/*------------ パラメータの取得設定 ------------*/
+$param = new Parameters();
+$param->constructFromPostParameters();
+$param->required = ["list_id"];
+$param->optional = ["since_id", "max_id", "count"];
 
-if(!empty($account)) {
-    $pair = get_access_tokens($account, 'twitter');
-    $access_token = $pair['access_token'];
-    $access_token_secret = $pair['access_token_secret'];
-} else if(!empty($id)){
-    $tokens = getPassengerTokens($id, 'twitter');
-    $access_token = $tokens['access_token'];
-    $access_token_secret = $tokens['access_token_secret'];
-} else {
-    $access_token = TwitterAccessToken;
-    $access_token_secret = TwitterAccessTokenSecret;
-}
+$min_count = $param->putValue('count');
+$param->setParam('count', '200');
 
-$response = array();
-$response['mutters'] = array();
-$response['oldest_mutter'] = new EmptyMutter("twitter");
+$account = $param->putValue('account');
+$passenger_id = $param->putValue('id');
+$media_only = $param->putValue('mo');
+/*-----------------------------------------*/
 
-$params = array(
-    "list_id" => $list_id,
-    "count" => $count
-);
 
-if(!empty($max_id)) {
-    $params['max_id'] = $max_id;
-}
-
+// 標準出力の監視開始
 ob_start();
 
-if (empty($list_id)) {
-    echo "リストIDが指定されていません。";
+// パラメータのチェック
+$validated = $param->validate();
+
+if(!empty($validated)) {
+    echo $validated;
     goto end;
 }
 
-$tweets = getTwitterConnection($access_token, $access_token_secret)->get($api, $params);
+// アクセストークンの取得
+$tokens = getTwitterTokens($account, $passenger_id, true);
 
+if($tokens->isEmpty()) {
+    echo "認証情報が取得できませんでした。";
+    goto end;
+}
+
+// APIアクセス
+$tweets = getTwitterConnection($tokens->token, $tokens->secret)
+                ->get($api, $param->parameters);
+    
+// APIアクセスのエラー確認
 if (isset($tweets->errors)) {
     echo "APIの実行に失敗しました。";
     foreach ($tweets->errors as $error) {
@@ -54,6 +51,7 @@ if (isset($tweets->errors)) {
     goto end;
 }
 
+/*------------　API実行結果のインスタンス化　------------*/
 $mutters = array();
 $oldest = new EmptyMutter();
 $i = (int)0;
@@ -64,38 +62,36 @@ foreach ($tweets as $tweet) {
     $oldest = $tmp;
     $originalId = $tmp->originalId();
     
-    if($mo=='false') {
+    if($media_only=='false') {
         $mutters[$originalId] = $tmp;
     } else if ($tmp->hasMedia() && !isset($mutters[$originalId])) {
         $mutters[$originalId] = $tmp;
     }
     
-    $i++;
-    
-    if($i>$count) break;
+    if($i++>$min_count)
+        break;
 }
+/*-------------------------------------------------*/
 
-if($max_id == $oldest->id) {
+// 新しいツイートが取得できているかどうかのチェック
+if($param->getValue('max_id') === $oldest->id) {
     echo "最後のツイートまで到達しました。";
     goto end;
 }
 
-// myVarDump($response['error']);
-// $response['error'] = json_encode($_POST);
 
+/*-------------------- 出力処理 --------------------*/
 end:
 
 $stdout = ob_get_contents();
 ob_end_clean();
 
 if(!empty($stdout)) {
-    $errorMutter = new ErrorMutter("twitter");
-    $errorMutter->addMessage($stdout);
-    $response['mutters']['-1'] = obj_to_array($errorMutter);
+//     $stdout .= "<br>\r\n実行API：".$api;
+    $response = gerErrorResponse("twitter", $stdout);
     echo json_encode($response);
-    exit();
 } else {
-    $response['mutters'] = $mutters;
-    $response['oldest_mutter'] = $oldest;
+    $response = getResponse($mutters, $oldest);
     echo json_encode($response);
 }
+/*-------------------------------------------------*/

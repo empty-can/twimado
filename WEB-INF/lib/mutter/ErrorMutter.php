@@ -23,7 +23,7 @@ class ErrorMutter extends StandardMutter {
     }
     
     public function addMessage(string $message) {
-        $this->text = "メッセージ：".$this->text.$message;
+        $this->text = $this->text.$message."<br>\r\n";
     }
     
     public function addError(object $error) {

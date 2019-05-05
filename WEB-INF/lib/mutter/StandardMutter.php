@@ -134,6 +134,10 @@ abstract class StandardMutter implements Mutter {
         return obj_to_array($this);
     }
     
+    public function toArray() {
+        return obj_to_array($this);
+    }
+    
     public function getSortValue() {
         return $this->sortValue;
     }

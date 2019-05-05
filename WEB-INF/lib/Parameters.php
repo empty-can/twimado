@@ -3,6 +3,8 @@ require_once ("init.php");
 
 class Parameters {
     public $parameters = array();
+    public $required = array();
+    public $optional = array();
     
     public function constructFromGetParameters() {
         $this->parameters = $_GET;
@@ -49,5 +51,33 @@ class Parameters {
         }
         
         return "";
+    }
+    
+    /**
+     * APIに渡す前に実行するバリデーション
+     * 
+     * @return string
+     */
+    public function validate(bool $delete_unknown_param=true) {
+        $result = "";
+        $keys = array_keys($this->parameters);
+        
+        foreach($this->required as $key) {
+            if(!in_array($key, $keys)) {
+                $result .= "必須パラメータ $key が設定されていません。<br>\r\n";
+            }
+        }
+        
+        foreach($keys as $key) {
+            if(!in_array($key, $this->required) && !in_array($key, $this->optional)) {
+                if($delete_unknown_param) {
+                    // ToDo：不要なパラメータを削除する処理
+                } else {
+                    $result .= "不要なパラメータ $key が設定されています。<br>\r\n";
+                }
+            }
+        }
+        
+        return $result;
     }
 }

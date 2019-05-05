@@ -12,8 +12,9 @@ $param->setInitialValue('mo', getSessionParam('mo', 'true'));
 
 $param->setInitialValue('domain', 'twitterpawoo');
 $param->setInitialValue('count', '20');
+// $param->setInitialValue('test2', '20');
 
-$name = $param->getValue('name');
+$name = $param->putValue('name');
 
 $param->setParam('account', Account);
 $param->setParam('pawoo_id', PawooAccountID);
@@ -43,7 +44,7 @@ if(isset($response->twitter_oldest_id)) {
 }
 
 // assignメソッドを使ってテンプレートに渡す値を設定
-$smarty->assign("title", "マイリスト：$name");
+$smarty->assign("title", "リスト：$name");
 
 $csss=array();
 $csss[] = "timeline";

@@ -133,7 +133,7 @@ function getRequest(string $url, array $params = array()) {
         )
     );
     
-//     myVarDump($context);
+//    myVarDump($url."?".$context["http"]["content"]);
 
     return file_get_contents($url, false, stream_context_create($context));
 }

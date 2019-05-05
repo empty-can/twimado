@@ -26,6 +26,9 @@ define("Passphrase", $ini_array["passphrase"]);
 define("EncMethod", $ini_array["enc_method"]);
 define("AsyncCount", $ini_array["async_count"]);
 
+define("Twitter", "twitter.com");
+define("Pawoo", "pawoo.net");
+
 /* ライブラリのロード */
 $lib_path = $ini_array["lib_path"];
 require_once($ini_array["smarty_class_path"]."/Smarty.class.php"); // Smartyライブラリをロード

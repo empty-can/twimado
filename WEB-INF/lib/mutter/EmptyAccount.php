@@ -4,7 +4,7 @@ require_once ("init.php");
 class EmptyAccount {
     
     public $id = "-1";
-    public $displayName = "管理者からのお知らせ";
+    public $displayName = "エラー通知";
     public $accountName = "Suki Pic";
     public $profileImage = AppURL."/favicon.png";
     public $followingCount = -1;
