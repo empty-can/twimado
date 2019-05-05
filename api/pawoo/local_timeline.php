@@ -9,8 +9,9 @@ $param->constructFromPostParameters();
 $param->required = array();
 $param->optional = ["local", "only_media", "max_id", "since_id", "limit"];
 
+$param->copyValue('count', 'limit');
 $min_count = $param->putValue('count');
-$param->setParam('limit', '40');
+$param->setInitialValue('limit', '40');
 $param->setParam('local', 'true');
 $param->moveValue('mo', 'only_media');
 

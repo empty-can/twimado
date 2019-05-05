@@ -9,8 +9,8 @@ $param->constructFromPostParameters();
 $param->required = ["q"];
 $param->optional = ["since_id", "max_id", "count", "until", "locale", "result_type"];
 
-$min_count = $param->putValue('count');
-$param->setParam('count', '200');
+$param->setInitialValue('count', '200');
+$min_count = $param->getValue('count');
 
 $param->setParam('locale', 'ja');
 $param->setParam('result_type', 'mixed');

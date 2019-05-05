@@ -9,8 +9,8 @@ $param->constructFromPostParameters();
 $param->required = array();
 $param->optional = ["since_id", "max_id", "count"];
 
-$min_count = $param->putValue('count');
-$param->setParam('count', '200');
+$param->setInitialValue('count', '200');
+$min_count = $param->getValue('count');
 
 $account = $param->putValue('account');
 $passenger_id = $param->putValue('id');

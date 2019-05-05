@@ -35,6 +35,12 @@ class Parameters {
         }
     }
     
+    public function copyValue(string $from_key, string $to_key) {
+        if(isset($this->parameters[$from_key])) {
+            $this->parameters[$to_key] = $this->parameters[$from_key];
+        }
+    }
+    
     public function putValue(string $key) {
         if(isset($this->parameters[$key])) {
             $result = $this->parameters[$key];

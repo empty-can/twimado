@@ -10,8 +10,8 @@ $param->required = ["user_id"];
 $param->optional = ["since_id", "max_id", "count"];
 
 $param->moveValue("target_id", "user_id");
-$min_count = $param->putValue('count');
-$param->setParam('count', '200');
+$param->setInitialValue('count', '200');
+$min_count = $param->getValue('count');
 
 $account = $param->putValue('account');
 $passenger_id = $param->putValue('id');
