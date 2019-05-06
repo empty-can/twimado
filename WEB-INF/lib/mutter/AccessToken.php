@@ -9,4 +9,8 @@ class AccessToken {
         $this->access_token = $token;
         $this->access_token_secret = $secret;
     }
+    
+    public function isEmpty() {
+        return empty($this->access_token) && empty($this->access_token_secret);
+    }
 }

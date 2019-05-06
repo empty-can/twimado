@@ -4,6 +4,7 @@ require_once ("init.php");
 $hs = getPostParam('hs', 'true');
 $count = getPostParam('count', '20');
 $thumb = getPostParam('thumb', 'true');
+$mo = getPostParam('mo', 'true');
 
 $csss=array();
 $csss[] = "timeline";
@@ -17,6 +18,7 @@ $embedded_js_params_string = [
     "hs" => $hs
     ,"thumb" => $thumb
     ,"count" => $count
+    ,"mo" => $mo
 ];
 
 $embedded_js_params_int = [

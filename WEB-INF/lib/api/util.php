@@ -11,7 +11,7 @@ require_once("init.php");
  */
 function getTwitterTokens(string $account, string $passenger_id, bool $enable_app_token=true) {
     $tokens = new Tokens();
-    
+//     myVarDump($passenger_id);
     if(!empty($account)) {
         $result = get_access_tokens($account, 'twitter');
         $tokens->token = $result['access_token'];
@@ -38,6 +38,7 @@ function getPawooTokens(string $account, string $passenger_id, bool $enable_app_
         $result = getPassengerTokens($passenger_id, 'pawoo');
         $tokens->token = $result['access_token'];
     }
+    
     
     return $tokens;
 }

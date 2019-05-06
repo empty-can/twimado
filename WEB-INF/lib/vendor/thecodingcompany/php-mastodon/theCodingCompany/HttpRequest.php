@@ -166,11 +166,11 @@ final class HttpRequest
          */
         $response = @file_get_contents($url, null, $context);
         
-//         myVarDump($http_response_header);
         //If we have an error or not
         if ($response === FALSE) {
-            $error = "<pre>" . print_r(error_get_last(), true) . "</pre>";
-            $error .= "<pre>" . print_r($response, true) . "</pre>";
+            $error = array();
+            $error['error_get_last'] = error_get_last();
+            $error['response'] = $response;
             
             if(self::$debug){ print_r($error); }
             return $error;

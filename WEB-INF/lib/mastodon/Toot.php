@@ -45,7 +45,7 @@ class Toot extends StandardMutter implements Mutter {
             $this->reCount++;
         }
         
-        $this->sensitive = $toot->sensitive;
+        $this->sensitive = (isset($toot->sensitive)) ? $toot->sensitive : false;
         
         // メディアURLを取得
         if(isset($toot->media_attachments)) {

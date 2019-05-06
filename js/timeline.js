@@ -319,6 +319,9 @@ function rt(self, target_id, domain, method) {
 
 function toggle(self, target_url, domain, icon_id, counter_id,toggle_id, on_char, off_char, on_class, off_class) {
 	
+	if(domain=='pawoo' && !confirm('Pawoo はサービスの制約上、本アプリで操作のキャンセルを行えません。\r\n操作を実行しますか？'))
+		return;
+	
 	if($(toggle_id).val()=='on') {
 		target_url = target_url+'&method=undo';
 	} else if($(toggle_id).val()=='off') {
@@ -328,6 +331,7 @@ function toggle(self, target_url, domain, icon_id, counter_id,toggle_id, on_char
 	$.ajax({
 		url : target_url,
 		type : "GET",
+		dataType:"json",
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log("ajax通信に失敗しました");
 			console.log(XMLHttpRequest);
@@ -338,10 +342,13 @@ function toggle(self, target_url, domain, icon_id, counter_id,toggle_id, on_char
 		},
 		success : function(response) {
 			console.log("ajax通信に成功しました");
-//			console.log(response);
-			
+			console.log(response);
+			console.log(response['error']);
+
 			if(response==false) {
 				alert('操作が失敗しました。');
+			} else if(response['error']!=undefined) {
+				alert(response['error']);
 			} else {
 				if(!isNaN($(counter_id).html()))
 					target_count = parseInt($(counter_id).html(), 10);
