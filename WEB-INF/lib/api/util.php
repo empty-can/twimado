@@ -9,7 +9,7 @@ require_once("init.php");
  * @param bool $enable_app_token
  * @return string[]|AccessToken
  */
-function getTwitterTokens(string $account, string $passenger_id, bool $enable_app_token=true) {
+function getTwitterTokens(string $account="", string $passenger_id="", bool $enable_app_token=true) {
     $tokens = new Tokens();
 //     myVarDump($passenger_id);
     if(!empty($account)) {

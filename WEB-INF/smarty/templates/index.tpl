@@ -39,17 +39,25 @@
 				<button type="submit" name="button" value="register">登録</button>
 			    &nbsp; 
 			</form>
-			<span style="color:red;">{$message}</span>
 		</div>
 {/if}
 {if ($twitterLogin || $pawooLogin)}
 		<div>
 			<a style="display:block;" href="{$AppURL}/auth/logout.php">
-				<img src="{$AppURL}/imgs/exit.svg" style="background-color: lightgray; width: 30px; padding: 2px;">
+				<img src="{$AppURL}/imgs/logout.svg" style="background-color: lightgray; width: 30px; padding: 2px;" alt="ログアウト">
+			</a>
+		</div>
+{/if}
+{if !empty($account)}
+		&nbsp;
+		<div>
+			<a style="display:block;" href="{$AppURL}/auth/exit.php" onclick="return confirm('アプリからアカウント情報を削除しますか？');">
+				<img src="{$AppURL}/imgs/exit.svg" style="background-color: lightgray; width: 30px; padding: 2px;" alt="退会">
 			</a>
 		</div>
 {/if}
 		</div>
+			<span style="color:red;">{$message}</span>
 		</div>
 		<div class="flx jcfe">
 			<div>
@@ -241,7 +249,7 @@
 <div class="trend_parent">
     {foreach from=$trends[0]->trends item=word}
 <div class="trend">
-<a href="{$AppURL}/timeline/search.php?domain=twitter&q={$word->query}&hs=false&thumb=true" target="{$target}">{$word->name}</a>
+<a href="{$AppURL}/timeline/search.php?domain=twitter&q={$word->query}" target="{$target}">{$word->name}</a>
 </div>
 	{/foreach}
 </div>

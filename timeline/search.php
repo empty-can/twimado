@@ -11,7 +11,7 @@ $param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
 $param->setInitialValue('mo', getSessionParam('mo', 'true'));
 
 $param->setInitialValue('domain', 'twitterpawoo');
-$param->setInitialValue('count', '5');
+$param->setInitialValue('count', '20');
 
 $q = $param->getValue('q');
 

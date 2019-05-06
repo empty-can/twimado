@@ -1,5 +1,20 @@
 <?php
 
+function delete_account(string $account_id) {
+    $results = false;
+    
+    if(!empty($account_id)) {
+        $mydb = new MyDB();
+        $account_id = $mydb->escape($account_id);
+        
+        $sql = "DELETE FROM tamikusa WHERE id = '$account_id'";
+        $results = $mydb->query($sql);
+        $mydb->close();
+    }
+    
+    return $results;
+}
+
 /**
  * サービスを登録する
  * 

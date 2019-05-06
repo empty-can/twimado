@@ -18,12 +18,8 @@ $pawooLoginAccount = getSessionParam('pawooLoginAccount', "");
 
 $connection = getTwitterConnection();
 
-$keyword = 'Kagawa';
+$keyword = 'Tokyo';
 $trends = $connection->get('geo/search', ['query' => $keyword]);
-if(isset($trends->errors)) {
-    $connection = getTwitterConnection(TwitterAccessToken,TwitterAccessTokenSecret);
-    $trends = $connection->get('geo/search', ['query' => $keyword]);
-}
 
 $idokeido = $trends->result->places[0]->centroid;
 
@@ -63,6 +59,7 @@ $smarty->assign("target", $target);
 $smarty->assign("trends", $trends);
 $smarty->assign("lists", $twitterList);
 $smarty->assign("message", getSessionParam("message", ""));
+setSessionParam("message", "");
 
 // テンプレートを表示する
 $smarty->display("index.tpl");
