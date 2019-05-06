@@ -20,7 +20,8 @@ body {
 	width: 100vw;
 	min-width: 256px;
 	max-width: 800px;
-	margin: 120px auto 0 auto;
+	padding-left: 5vw;
+	margin: 100px auto 5vh auto;
 	background-color: azure;
 	color: #5e5e5e; /* コンテンツ部分の背景 */
 }
@@ -28,8 +29,8 @@ body {
 h1 {
   width: 100%;
   max-width: 90vw;
+  margin: 2vh 0 2vh 0;
   font-size: large;
-  margin: 2vh auto 2vh auto;
   border-bottom: solid 3px darkblue; /* <h1>の下線色 */
 }
 h2 {
@@ -87,6 +88,8 @@ h2 {
 .flex_parent{
 	display: flex;
 	flex-wrap: wrap;
+	width:100%;
+	max-width:90vw;
 	justify-content: center;
 }
 .icon {
@@ -127,7 +130,6 @@ h2 {
 .trend_parent {
 	width:100%;
 	max-width: 90vw;
-	margin: auto;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: flex-start;
