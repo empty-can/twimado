@@ -3,6 +3,16 @@ require_once ("init.php");
 
 $account = getSessionParam("account","");
 
+$twitterLoginAccount = getSessionParam("twitterLoginAccount", "");
+if(!empty($twitterLoginAccount)) {
+    delete_passenger($twitterLoginAccount['id'], 'twitter');
+}
+
+$pawooLoginAccount = getSessionParam("pawooLoginAccount", "");
+if(!empty($pawooLoginAccount)) {
+    delete_passenger($pawooLoginAccount['id'], 'pawoo');
+}
+
 if(!empty($account)) {
     delete_account($account);
 }

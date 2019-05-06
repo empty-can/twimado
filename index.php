@@ -28,8 +28,12 @@ $params = array(
     , "long" => $idokeido[0]
 );
 
-$woeid = $connection->get('trends/closest', $params)[0]->woeid;
-$trends = $connection->get('trends/place', ['id'=>$woeid]);
+$closest = $connection->get('trends/closest', $params);
+
+if(isset($closest[0]) && isset($closest[0]->woeid)) {
+    $woeid = $connection->get('trends/closest', $params)[0]->woeid;
+    $trends = $connection->get('trends/place', ['id'=>$woeid]);
+}
 
 $twitterLogin = !empty($twitterLoginAccount);
 $twitterList = isset($twitterLoginAccount["twitter_mylists"]) ? $twitterLoginAccount["twitter_mylists"] : "";

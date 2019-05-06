@@ -1,5 +1,21 @@
 <?php
 
+function delete_passenger(string $account_id, string $service_name) {
+    $results = false;
+    
+    if(!empty($account_id)) {
+        $mydb = new MyDB();
+        $account_id = $mydb->escape($account_id);
+        $service_name = $mydb->escape($service_name);
+        
+        $sql = "DELETE FROM passenger WHERE id = '$account_id' AND service_name = '$service_name'";
+        $results = $mydb->query($sql);
+        $mydb->close();
+    }
+    
+    return $results;
+}
+
 function delete_account(string $account_id) {
     $results = false;
     

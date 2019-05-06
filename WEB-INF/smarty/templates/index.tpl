@@ -48,7 +48,7 @@
 			</a>
 		</div>
 {/if}
-{if !empty($account)}
+{if $twitterLogin || $pawooLogin || !empty($account)}
 		&nbsp;
 		<div>
 			<a style="display:block;" href="{$AppURL}/auth/exit.php" onclick="return confirm('アプリからアカウント情報を削除しますか？');">
