@@ -6,12 +6,12 @@ body {
 #menu {
 	background-color: #434343; /* ヘッダメニューの背景 */
 	color: lightgray; /* ヘッダメニューの文字色 */
-	padding: 2vw;
+	padding: 5px;
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100vw;
-	height: 80px;
+	height: 96px;
 	transition: .4s ease-in-out;
 	font-size: small;
 }
@@ -20,7 +20,7 @@ body {
 	width: 100vw;
 	min-width: 256px;
 	max-width: 800px;
-	margin: 90px auto 0 auto;
+	margin: 120px auto 0 auto;
 	background-color: azure;
 	color: #5e5e5e; /* コンテンツ部分の背景 */
 }
@@ -58,6 +58,8 @@ h2 {
 .lists {
 	display: block;
 	color: white;
+	flex-grow: 1;
+	text-align: center;
 	background-color: royalblue; /* 公開リストの背景色 */
 	border: solid 1px navy; /* 公開リストの線の色 */
 	border-radius: 5px;
@@ -71,6 +73,8 @@ h2 {
 	background-color: royalblue; /* Twitterトレンドの背景色 */
 	border: solid 1px navy; /* Twitterトレンドの線の色 */
 	border-radius: 5px;
+	flex-grow: 1;
+	text-align: center;
 	margin: 2px;
 	padding: 1px 5px;
 }
@@ -109,22 +113,6 @@ h2 {
 
 .icon .img a:active {
   box-shadow: 0 5px 0 rgba(255,255,255,0.2), 0 5px 5px rgba(0, 0, 0, 0.19);
-}
-
-.flx {
-	display: flex;
-}
-.jcc {
-	justify-content: center;
-}
-.jcsb {
-	justify-content: space-between;
-}
-.jcfe {
-	justify-content: flex-end;
-}
-.aic {
-	align-items: center;
 }
 
 .icon .img a img {

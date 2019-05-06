@@ -29,10 +29,11 @@ $params = array(
 );
 
 $closest = $connection->get('trends/closest', $params);
-
-if(isset($closest[0]) && isset($closest[0]->woeid)) {
+if(!isset($closest->errors) && isset($closest[0]) && isset($closest[0]->woeid)) {
     $woeid = $connection->get('trends/closest', $params)[0]->woeid;
     $trends = $connection->get('trends/place', ['id'=>$woeid]);
+} else {
+    $trends = array();
 }
 
 $twitterLogin = !empty($twitterLoginAccount);

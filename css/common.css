@@ -6,6 +6,77 @@
   -webkit-overflow-scrolling: touch;
 }
 
+/* flex-box 関係*/
+.flx {
+	display: flex;
+}
+
+/* flex-direction */
+.fdrr {
+	flex-direction: row-reverse;
+}
+.fdc {
+	flex-direction: column;
+}
+.fdcr {
+	flex-direction: column-reverse;
+}
+
+/* flex-wrap */
+.fww {
+	flex-wrap: wrap;
+}
+.fwr {
+	flex-wrap: wrap-reverse;
+}
+
+/* justify-content */
+.jcfe {
+	justify-content: flex-end;
+}
+.jcc {
+	justify-content: center;
+}
+.jcsb {
+	justify-content: space-between;
+}
+.jcsa {
+	justify-content: space-around;
+}
+
+/* justify-content */
+.aic {
+	align-items: center;
+}
+.aifs {
+	align-items: flex-start;
+}
+.aife {
+	align-items: flex-end;
+}
+.aib {
+	align-items: baseline;
+}
+
+/* align-content */
+.acfs {
+	align-content: flex-start;
+}
+.acfe {
+	align-content: flex-end;
+}
+.acc {
+	align-content: center;
+}
+.acsb {
+	align-content: space-between;
+}
+.acsa {
+	align-content: space-around;
+}
+
+
+
 #bottom {
 	width: 80vw;
 }

@@ -1,99 +1,98 @@
 {include file='parts/header.tpl'}
-<div id="menu" class="flx jcc jcsb aic">
-	<div>
+<div id="menu">
+	<div class="flx jcsb" style="width:95vw; margin:auto;">
+		<div id="left_pain">
 {if !empty($account)}
-		<div>
-			<h4 id="title" style="width: 100%; text-align: left;">{$account} さん</h4>
-		</div>
-{/if}
-		<div class="flx">
-	{if $twitterLogin}
-			<div style="margin-right: 1vw;">
-				 <a href="https://twitter.com/" target="{$target}"
-					alt="Twitter:{$twitterLoginAccount.name}@{$twitterLoginAccount.screen_name}">
-					<img src="{$twitterLoginAccount.profile_image_url_https}"
-					style="width: 24px;" class="circle">
-				</a>
+			<div id="login_account" style="margin: 3px 3px 0px 0px">
+				<h4 id="title" style="width: 100%; text-align: left;">{$account} さん</h4>
 			</div>
+{/if}
+			<div id="login_icon" class="flx" style="margin: 3px 3px 0px 0px">
+	{if $twitterLogin}
+				<div style="margin-right: 3px;">
+					 <a href="https://twitter.com/" target="{$target}"
+						alt="Twitter:{$twitterLoginAccount.name}@{$twitterLoginAccount.screen_name}">
+						<img src="{$twitterLoginAccount.profile_image_url_https}"
+						style="width: 24px;" class="circle">
+					</a>
+				</div>
 	{/if}
 	{if $pawooLogin}
-			<div style="margin-right: 1vw;">
-				 <a href="https://pawoo.net/" target="{$target}"
-					alt="Pawoo:{$pawooLoginAccount.display_name}@{$pawooLoginAccount.username}">
-					<img src="{$pawooLoginAccount.avatar_static}" style="width: 24px;"
-					class="circle">
-				</a>
-			</div>
+				<div style="margin-right: 3px;">
+					 <a href="https://pawoo.net/" target="{$target}"
+						alt="Pawoo:{$pawooLoginAccount.display_name}@{$pawooLoginAccount.username}">
+						<img src="{$pawooLoginAccount.avatar_static}" style="width: 24px;"
+						class="circle">
+					</a>
+				</div>
 	{/if}
+			</div>
 		</div>
-	</div>
-	<div>
-		<div style="margin-bottom: 10px;">
-		<div class="flx jcfe">
+		<div id="right_pain">
+			<div id="login_menu" class="flx jcfe" style="margin: 3px 3px 0px 0px">
 {if empty($account)}
-		<div>
-			<form action="/auth/" method="post">
-				<input type="text" name="account" size="12" maxlength="64" placeholder="アカウント名" value="{$account}" />
-				<input type="password" size="12" name="password" maxlength="64" placeholder="パスワード" />
-				<button type="submit" name="button" value="login">ログイン</button>
-				<button type="submit" name="button" value="register">登録</button>
-			    &nbsp; 
-			</form>
-		</div>
+				<div id="login_form" style="margin: 3px 3px 0px 0px">
+					<form action="/auth/" method="post">
+						<input type="text" name="account" size="12" maxlength="64" placeholder="アカウント名" value="{$account}" />
+						<input type="password" size="12" name="password" maxlength="64" placeholder="パスワード" />
+						<button type="submit" name="button" value="login">ログイン</button>
+						<button type="submit" name="button" value="register">登録</button>
+					</form>
+				</div>
 {/if}
+			</div>
+			<div id="logout_menu" class="flx jcfe" style="margin: 3px 3px 0px 0px">
 {if ($twitterLogin || $pawooLogin)}
-		<div>
-			<a style="display:block;" href="{$AppURL}/auth/logout.php">
-				<img src="{$AppURL}/imgs/logout.svg" style="background-color: lightgray; width: 30px; padding: 2px;" alt="ログアウト">
-			</a>
-		</div>
+				<div>
+					<a style="display:block;" href="{$AppURL}/auth/logout.php">
+						<img src="{$AppURL}/imgs/logout.svg" style="background-color: lightgray; width: 30px; padding: 2px;" alt="ログアウト">
+					</a>
+				</div>
 {/if}
 {if $twitterLogin || $pawooLogin || !empty($account)}
-		&nbsp;
-		<div>
-			<a style="display:block;" href="{$AppURL}/auth/exit.php" onclick="return confirm('アプリからアカウント情報を削除しますか？');">
-				<img src="{$AppURL}/imgs/exit.svg" style="background-color: lightgray; width: 30px; padding: 2px;" alt="退会">
-			</a>
-		</div>
+					&nbsp;
+				<div>
+					<a style="display:block;" href="{$AppURL}/auth/exit.php" onclick="return confirm('アプリからアカウント情報を削除しますか？');">
+						<img src="{$AppURL}/imgs/exit.svg" style="background-color: lightgray; width: 30px; padding: 2px;" alt="退会">
+					</a>
+				</div>
 {/if}
-		</div>
-			<span style="color:red;">{$message}</span>
-		</div>
-		<div class="flx jcfe">
-			<div>
-		{if $mo=='true'}
+			</div>
+			<div id="ckeck_box" class="flx" style="margin: 3px 3px 0px 0px">
+				<div>
+			{if $mo=='true'}
 					<input type="checkbox" name="mo" value="false" onchange="toggleParam('mo');" checked>
-		{else}
-			 		<input type="checkbox" name="mo" value="false" onchange="toggleParam('mo');">
-		{/if}
-			画像のみ
-			</div>
-			&nbsp; 
-			<div>
-		{if $hs=='true'}
+			{else}
+		 			<input type="checkbox" name="mo" value="false" onchange="toggleParam('mo');">
+			{/if}
+				画像のみ
+				</div>
+				&nbsp; 
+				<div>
+			{if $hs=='true'}
 					<input type="checkbox" name="hs" value="false" onchange="toggleParam('hs');" checked>
-		{else}
-			 		<input type="checkbox" name="hs" value="false" onchange="toggleParam('hs');">
-		{/if}
-			セーフサーチ
-			</div>
-			&nbsp; 
-			<div>
-		{if $thumb=='false'}
-				<input type="checkbox" name="thumb" value="false" onchange="toggleParam('thumb');" checked>
-		{else}
-				<input type="checkbox" name="thumb" value="false" onchange="toggleParam('thumb');">
-		{/if}高画質
-			&nbsp; 
+			{else}
+					<input type="checkbox" name="hs" value="false" onchange="toggleParam('hs');">
+			{/if}
+				セーフサーチ
+				</div>
+				&nbsp; 
+				<div>
+			{if $thumb=='false'}
+					<input type="checkbox" name="thumb" value="false" onchange="toggleParam('thumb');" checked>
+			{else}
+					<input type="checkbox" name="thumb" value="false" onchange="toggleParam('thumb');">
+			{/if}高画質
+				&nbsp; 
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
-
-
-
 <div id="content">
+	<div id="message" style="text-align: center;">
+		<span style="color:red;">{$message}</span>
+	</div>
 <h1>検索</h1>
 <div class="flex_parent">
     {foreach from=$searchList item=list}
