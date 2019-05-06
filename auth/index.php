@@ -1,5 +1,7 @@
 <?php
 
+exit();
+
 $_SESSION = array();
 
 require_once ("init.php");

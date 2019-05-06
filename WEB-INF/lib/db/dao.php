@@ -32,7 +32,7 @@ function register_pairing(string $account_id, string $service_name, array $servi
         
         $sql = "INSERT INTO tamikusa_pairing"
             ." (tamikusa_id, service_name, service_account_id, service_user_name, service_display_name, access_token, access_token_secret, enc_key)"
-            ." VALUES ('$account_id', '$service_name', '$service_account_id', '$service_user_name', '$service_display_name', '$access_token', '$access_token_secret', '$enc_key')";
+                ." VALUES ('$account_id', '$service_name', '$service_account_id', '$service_user_name', '$service_display_name', '$access_token', '$access_token_secret', '$enc_key')";
     
         $results = $mydb->query($sql);
     } 
@@ -160,8 +160,8 @@ function register_account(string $account_id, string $password, string $enc_key)
     $password = $mydb->escape($password);
     $enc_key = $mydb->escape($enc_key);
     
-    $sql = "INSERT INTO tamikusa (id, rand, password, enc_key)"
-        ." VALUES ('$account_id', '$rand', '$password', '$enc_key')";
+    $sql = "INSERT INTO tamikusa (id, rand, password, enc_key, create_date)"
+        ." VALUES ('$account_id', '$rand', '$password', '$enc_key', '".date('Y-m-d H:i:s')."')";
     
     $results = $mydb->query($sql);
 
@@ -234,13 +234,13 @@ function setPassengerTokens($account_id, $service_name, $account_name, $display_
     $results = $mydb->select("SELECT COUNT(id) AS count FROM passenger WHERE id = '".$id."'");
     
     if($results[0]['count']==0) {
-        $query = "INSERT INTO passenger (id, service_name, name, display_name, access_token, access_token_secret, enc_key)"
-            ." VALUES ('$id', '$service_name', '$name', '$display_name', '$at', '$ats', '$enc_key');";
+        $query = "INSERT INTO passenger (id, service_name, name, display_name, access_token, access_token_secret, enc_key, create_date)"
+            ." VALUES ('$id', '$service_name', '$name', '$display_name', '$at', '$ats', '$enc_key', '".date('Y-m-d H:i:s')."');";
             
         $results = $mydb->insert($query);
     } else {
         $query = "UPDATE passenger"
-            ." SET access_token='$at', access_token_secret='$ats', name='$name', display_name='$display_name', enc_key='$enc_key'"
+            ." SET access_token='$at', access_token_secret='$ats', name='$name', display_name='$display_name', enc_key='$enc_key', create_date='".date('Y-m-d H:i:s')."'"
                 ." WHERE id = '$id' AND service_name = '$service_name'";
         
             $results = $mydb->select($query);
