@@ -56,11 +56,17 @@ $mutters = array();
 $oldest = new EmptyMutter();
 $i = (int)0;
 
+$pawoo_skip_list = getSessionParam("pawoo_skip_list", array());
+
 foreach ($toots as $toot) {
     $tmp = new Pawoo($toot);
     
     $oldest = $tmp;
     $originalId = $tmp->originalId();
+    
+    if(in_array($tmp->account()->id(), $pawoo_skip_list)) {
+        continue;
+    }
     
     if($media_only=='false') {
         $mutters[$originalId] = $tmp;

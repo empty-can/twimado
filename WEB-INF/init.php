@@ -80,18 +80,22 @@ else
     define("TwitterAccountID", "");
 
 $pawooLoginAccount = getSessionParam('pawooLoginAccount', '');
-if (isset($pawooLoginAccount['id']))
+if (isset($pawooLoginAccount['id'])) {
     define("PawooAccountID", $pawooLoginAccount['id']);
-else
+} else {
     define("PawooAccountID", "");
+}
 
-$target = "_blank";
+$pawoo_skip_list = explode(',', $ini_array["pawoo_skip_list"]);
+setSessionParam("pawoo_skip_list", $pawoo_skip_list);
 
-$target = "_blank";
+
 /* Smartyのロード */
 $smarty = new Smarty();
 $smarty->assign("app_url", AppURL);
 $smarty->assign("app_context", AppContext);
+$target = "_blank";
+$smarty->assign("target", $target);
 
 // テンプレートディレクトリとコンパイルディレクトリを読み込む
 $smarty->template_dir = $ini_array["template_dir"];

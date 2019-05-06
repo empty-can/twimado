@@ -11,18 +11,14 @@ use theCodingCompany\Mastodon;
  * @return theCodingCompany\Mastodon
  */
 function getMastodonConnection(string $mastodon_domain, string $user_token = "") {
-    $twitterAccessToken = getSessionParam('pawooAccessToken', "");
+    $pawooAccessToken = getSessionParam('pawooAccessToken', "");
     
     if (empty($user_token)) {
-        if (!empty($twitterAccessToken) && isset($twitterAccessToken->access_token)) {
-            $user_token = $twitterAccessToken->access_token;
+        if (!empty($pawooAccessToken) && isset($pawooAccessToken->access_token)) {
+            $user_token = $pawooAccessToken->access_token;
         } else {
-            $user_token = TwitterAccessToken;
+            $user_token = PawooAccessToken;
         }
-    }
-    
-    if (empty($user_token)) {
-        $user_token = getSessionParam("pawoo_access_token", PawooAccessToken);
     }
     
     $connection = new Mastodon($mastodon_domain);

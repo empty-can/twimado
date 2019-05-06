@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * アプリ連携情報を削除
+ * 
+ * @param string $account_id
+ * @param string $service_name
+ * @return boolean|mysqli_result
+ */
 function delete_passenger(string $account_id, string $service_name) {
     $results = false;
     
@@ -16,6 +23,12 @@ function delete_passenger(string $account_id, string $service_name) {
     return $results;
 }
 
+/**
+ * アプリのアカウント情報を削除
+ * 
+ * @param string $account_id
+ * @return boolean|mysqli_result
+ */
 function delete_account(string $account_id) {
     $results = false;
     
@@ -316,4 +329,33 @@ function addUsers($account_name, $password)
     $mydb->close();
     
     return $results;
+}
+
+/**
+ * 引数をキーワードに地域を特定しトレンドを取得する
+ * 
+ * @param string $place_keyword
+ * @return array|object
+ */
+function getTrendByWords(string $place_keyword) {
+    $trend_words = $trends = array();
+    
+    $connection = getTwitterConnection();
+    
+    $trends = $connection->get('geo/search', ['query' => $place_keyword]);
+    
+    $idokeido = $trends->result->places[0]->centroid;
+    
+    $params = array(
+        "lat" => $idokeido[1]
+        , "long" => $idokeido[0]
+    );
+    
+    $closest = $connection->get('trends/closest', $params);
+    if(!isset($closest->errors) && isset($closest[0]) && isset($closest[0]->woeid)) {
+        $woeid = $connection->get('trends/closest', $params)[0]->woeid;
+        $trend_words = $connection->get('trends/place', ['id'=>$woeid]);
+    }
+    
+    return $trend_words;
 }

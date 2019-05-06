@@ -74,7 +74,7 @@
 			{else}
 					<input type="checkbox" name="hs" value="false" onchange="toggleParam('hs');">
 			{/if}
-				セーフサーチ
+				セーフフィルタ
 				</div>
 				&nbsp; 
 				<div>
@@ -231,6 +231,30 @@
 	</div>
 </div>
 
+{if !empty($twitterMyFriends) && !isset($twitterMyFriends->errors)}
+<h1>Twitter フォロー一覧</h1>
+<div class="flx fww jcfs aifs">
+    {foreach from=$twitterMyFriends item=friend}
+	<div class="friends">
+		<a href="{$AppURL}/timeline/user.php?domain=twitter&target_id={$friend->id}" target="{$target}">
+			{$friend->name}
+		</a>
+	</div>
+	{/foreach}
+</div>
+{/if}
+{if !empty($pawooMyFriends)}
+<h1>Pawoo フォロー一覧</h1>
+<div class="flx fww jcfs aifs">
+    {foreach from=$pawooMyFriends item=friend}
+	<div class="friends">
+		<a href="{$AppURL}/timeline/user.php?domain=pawoo&target_id={$friend.id}" target="{$target}">
+			{$friend.display_name}
+		</a>
+	</div>
+	{/foreach}
+</div>
+{/if}
 {if !empty($lists) && !isset($lists->errors)}
 <h1>Twitter マイリスト</h1>
 <div class="flex_parent">
@@ -243,7 +267,7 @@
 	{/foreach}
 </div>
 {/if}
-<br>
+{if !empty($trends) && isset($trends[0]->trends)}
 <h1>Twitterトレンド</h1>
 <div class="trend_parent">
     {foreach from=$trends[0]->trends item=word}
@@ -252,5 +276,6 @@
 </div>
 	{/foreach}
 </div>
+{/if}
 </div>
 {include file='parts/footer.tpl'}

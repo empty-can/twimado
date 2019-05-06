@@ -320,6 +320,40 @@ function setGlobalParam($key, $value)
 }
 
 /**
+ * 配列のキーを存在チェックして取得
+ *
+ * @param array $target
+ * @param string $key
+ * @param string $default
+ * @return object
+ */
+function getArrayParam(array $target, string $key, $default = "") {
+    if(!is_array($target)) {
+        return $default;
+    } else if (isset($target[$key])) {
+        return $target[$key];
+    } else {
+        return $default;
+    }
+}
+
+/**
+ * オブジェクトのプロパティを存在チェックして取得
+ *
+ * @param array $target
+ * @param string $key
+ * @param string $default
+ * @return object
+ */
+function getObjectProps($target, string $key, $default = "") {
+    if (isset($target->$key)) {
+        return $target->$key;
+    } else {
+        return $default;
+    }
+}
+
+/**
  * var_dumpを見やすく出力
  *
  * @param mixed $object
@@ -371,4 +405,43 @@ function my_json_decode(string $json, $assoc=false) {
 		return  $result;
 	}
 	
+}
+
+/**
+ *
+ * @param object $a
+ * @param object $b
+ * @return number
+ */
+function sort_twitter_account_by_name($a, $b) {
+    if ($a->name == $b->name) {
+        return 0;
+    }
+    return ($a->name > $b->name) ? -1 : 1;
+}
+
+/**
+ *
+ * @param object $a
+ * @param object $b
+ * @return number
+ */
+function sort_pawoo_account_by_followers_count($a, $b) {
+    if (((int)$a['followers_count']) == ((int)$b['followers_count'])) {
+        return 0;
+    }
+    return (((int)$a['followers_count']) > ((int)$b['followers_count'])) ? -1 : 1;
+}
+
+/**
+ *
+ * @param object $a
+ * @param object $b
+ * @return number
+ */
+function sort_twitter_account_by_followers_count($a, $b) {
+    if (((int)$a->followers_count) == ((int)$b->followers_count)) {
+        return 0;
+    }
+    return (((int)$a->followers_count) > ((int)$b->followers_count)) ? -1 : 1;
 }
