@@ -94,6 +94,9 @@
 		<span style="color:red;">{$message}</span>
 	</div>
 <h1>検索</h1>
+よく検索されるキーワードの検索タイムラインです。
+<br>
+<br>
 <div class="flex_parent">
     {foreach from=$searchList item=list}
 <div class="icon">
@@ -107,6 +110,10 @@
     {/foreach}
 </div>
 <h2>検索ボックス</h2>
+好きなキーワードで検索できます。
+
+<br>
+<br>
 <div style="width:100%;margin:auto;">
 		<form target="_blank" style="width:100%;padding:0px;"
 			action="{$AppURL}/timeline/search.php" method="GET">
@@ -138,6 +145,9 @@
 
 {if !($twitterLogin && $pawooLogin)}
 <h1>アプリ連携</h1>
+アプリと連携して、自分のホームタイムラインやフォロワーへアクセスしてみましょう。
+<br>
+<br>
 <div class="flex_parent">
 <div class="icon">
 {if !$twitterLogin}
@@ -164,6 +174,9 @@
 
 
 <h1>タイムライン</h1>
+閲覧可能なタイムラインを表示しています。
+<br>
+<br>
 <div class="flex_parent">
   {if $twitterLogin && $pawooLogin}
 <div class="icon">
@@ -208,15 +221,18 @@
 
 
 <h1>公開リスト</h1>
+本アプリがお勧めするクリエイターを集めたリストです。
+<br>
+<br>
 <div class="flex_parent">
 	<div class="lists">
 		<a href="{$AppURL}/timeline/list.php?domain=twitter&list_id=1120163652441481217&name=マンガ" target="{$target}">
-			マンガ
+			マンガ家
 		</a>
 	</div>
 	<!-- div class="lists">
 		<a href="{$AppURL}/timeline/list.php?domain=twitter&list_id=1121617657004879872&name=マンガ🔞" target="{$target}">
-			マンガ🔞
+			マンガ家🔞
 		</a>
 	</div -->
 	<div class="lists">
@@ -245,6 +261,8 @@
 {/if}
 {if !empty($pawooMyFriends)}
 <h1>Pawoo フォロー一覧</h1>
+<br>
+<br>
 <div class="flx fww jcfs aifs">
     {foreach from=$pawooMyFriends item=friend}
 	<div class="friends">
