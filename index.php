@@ -35,20 +35,20 @@ if($twitterLogin) {
             usort($twitterMyFriends, "sort_twitter_account_by_followers_count");
             $twitterLoginAccount["twitter_my_friends"] = $twitterMyFriends;
         }
+        
+        setSessionParam('twitterLoginAccount', $twitterLoginAccount);
     }
-    
-    setSessionParam('twitterLoginAccount', $twitterLoginAccount);
     
     // マイリストの取得
-    $twitterList = getArrayParam($twitterLoginAccount, "twitter_mylists", array());
+    $twitterMyList = getArrayParam($twitterLoginAccount, "twitter_mylists", array());
     
-    if(empty($twitterList)) {
+    if(empty($twitterMyList)) {
         $params = ["user_id" => getArrayParam($twitterLoginAccount, "id")];
-        $twitterList = getTwitterConnection()->get('lists/list', $params);
-        $twitterLoginAccount["twitter_mylists"] = $twitterList;
+        $twitterMyList = getTwitterConnection()->get('lists/list', $params);
+        $twitterLoginAccount["twitter_mylists"] = $twitterMyList;
+        
+        setSessionParam('twitterLoginAccount', $twitterLoginAccount);
     }
-    
-    setSessionParam('twitterLoginAccount', $twitterLoginAccount);
 }
 
 
@@ -73,6 +73,20 @@ if($pawooLogin) {
             usort($pawooMyFriends, "sort_pawoo_account_by_followers_count");
             $pawooLoginAccount["pawoo_my_friends"] = $pawooMyFriends;
         }
+        
+        setSessionParam('pawooLoginAccount', $pawooLoginAccount);
+    }
+    
+    // マイリストの取得
+    $pawooMyLists = getArrayParam($pawooLoginAccount, "pawoo_mylists", array());
+    
+    if(empty($pawooMyLists)) {
+        $params = [];
+        $pawooMyLists = getMastodonConnection(PawooDomain, $access_token)
+                    ->executeGetAPI("/api/v1/lists", $params);
+        $pawooLoginAccount["pawoo_mylists"] = $pawooMyLists;
+        
+        setSessionParam('pawooLoginAccount', $pawooLoginAccount);
     }
 }
 
@@ -94,7 +108,8 @@ $smarty->assign("twitterLoginAccount", $twitterLoginAccount);
 $smarty->assign("twitterLogin", $twitterLogin);
 $smarty->assign("pawooLogin", $pawooLogin);
 $smarty->assign("trends", $trends);
-$smarty->assign("lists", $twitterList);
+$smarty->assign("twitterMyLists", $twitterMyList);
+$smarty->assign("pawooMyLists", $pawooMyLists);
 $smarty->assign("twitterMyFriends", $twitterMyFriends);
 $smarty->assign("pawooMyFriends", $pawooMyFriends);
 $smarty->assign("message", getSessionParam("message", ""));

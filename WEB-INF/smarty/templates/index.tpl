@@ -91,7 +91,9 @@
 </div>
 <div id="content">
 	<div id="message" style="text-align: center;">
-		<span style="color:red;">{$message}</span>
+		<span style="color:red;">{$message}</span><br>
+		<span>Twitter と Pawoo の TL を<br>同じ画面で見られるアプリです。</span>
+
 	</div>
 <h1>検索</h1>
 よく検索されるキーワードの検索タイムラインです。
@@ -156,7 +158,7 @@
 			<img src="{$AppURL}/imgs/auth_twitter.png">
 		</a>
 	</div>
-	<div class="description">Twitterと連携</div>
+	<div class="description">Twitterと</div>
 {/if}
 </div>
 <div class="icon">
@@ -166,7 +168,7 @@
 			<img src="https://static-s.aa-cdn.net/img/ios/1229070679/a551f2dfa37f77de3618b058dcd90b0e?v=1">
 		</a>
 	</div>
-	<div class="description">Pawooと連携</div>
+	<div class="description">Pawooと</div>
 {/if}
 </div>
 </div>
@@ -246,7 +248,6 @@
 		</a>
 	</div>
 </div>
-
 {if !empty($twitterMyFriends) && !isset($twitterMyFriends->errors)}
 <h1>Twitter フォロー一覧</h1>
 <div class="flx fww jcfs aifs">
@@ -261,8 +262,6 @@
 {/if}
 {if !empty($pawooMyFriends)}
 <h1>Pawoo フォロー一覧</h1>
-<br>
-<br>
 <div class="flx fww jcfs aifs">
     {foreach from=$pawooMyFriends item=friend}
 	<div class="friends">
@@ -273,13 +272,25 @@
 	{/foreach}
 </div>
 {/if}
-{if !empty($lists) && !isset($lists->errors)}
+{if !empty($twitterMyLists) && !isset($twitterMyLists->errors)}
 <h1>Twitter マイリスト</h1>
 <div class="flex_parent">
-    {foreach from=$lists item=list}
+    {foreach from=$twitterMyLists item=list}
 	<div class="lists">
 		<a href="{$AppURL}/timeline/list.php?domain=twitter&list_id={$list->id}&name={$list->name}" target="{$target}">
 			{$list->name}
+		</a>
+	</div>
+	{/foreach}
+</div>
+{/if}
+{if !empty($pawooMyLists)}
+<h1>Pawoo マイリスト</h1>
+<div class="flex_parent">
+    {foreach from=$pawooMyLists item=list}
+	<div class="lists">
+		<a href="{$AppURL}/timeline/list.php?domain=pawoo&list_id={$list.id}&name={$list.title}" target="{$target}">
+			{$list.title}
 		</a>
 	</div>
 	{/foreach}
