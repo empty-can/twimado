@@ -51,6 +51,13 @@ if (isset($tweets->errors)) {
     goto end;
 }
 
+// 検索結果数の確認
+if(empty($tweets)) {
+    echo "該当ツイートが0件でした。";
+    echo var_dump($param->parameters);
+    goto end;
+}
+
 /*------------　API実行結果のインスタンス化　------------*/
 $mutters = array();
 $oldest = new EmptyMutter();
@@ -76,7 +83,7 @@ foreach ($tweets as $tweet) {
 /*-------------------------------------------------*/
 
 // 新しいツイートが取得できているかどうかのチェック
-if($param->getValue('max_id') === $oldest->id) {
+if($param->getValue('max_id') === $oldest->originalId) {
     echo "最後のツイートまで到達しました。";
     goto end;
 }

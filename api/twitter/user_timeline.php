@@ -53,6 +53,12 @@ if (isset($tweets->errors)) {
     goto end;
 }
 
+// 検索結果数の確認
+if(empty($tweets)) {
+    echo "該当ツイートが0件でした。";
+    goto end;
+}
+
 /*------------　API実行結果のインスタンス化　------------*/
 $mutters = array();
 $oldest = new EmptyMutter();
