@@ -168,13 +168,13 @@ function exist_pair(string $account_id, string $service_name, string $service_ac
  * @return boolean
  */
 function login(string $account_id, string $password) {
+    $result = "";
+    
     $mydb = new MyDB();
     
     $id = $mydb->escape($account_id);
     
     $results = $mydb->select("SELECT * FROM tamikusa WHERE id = '$id'");
-    
-    $mydb->close();
     
     $decrypted_pass = "";
     
@@ -183,10 +183,17 @@ function login(string $account_id, string $password) {
         
         $decrypted_pass = decrypt($result['password'], $result['enc_key']);
         
-        return ($decrypted_pass==$password) ? $result['rand'] : "";
+        $result = ($decrypted_pass==$password) ? $result['rand'] : "";
     }
     
-    return false;
+    if(!empty($result)) {
+        $results = $mydb->query("UPDATE tamikusa SET last_login_date='".date('Y-m-d H:i:s')."'"
+                ." WHERE id = '$id'");
+    }
+    
+    $mydb->close();
+    
+    return $result;
 }
 
 /**
@@ -278,13 +285,13 @@ function setPassengerTokens($account_id, $service_name, $account_name, $display_
     $results = $mydb->select("SELECT COUNT(id) AS count FROM passenger WHERE id = '".$id."'");
     
     if($results[0]['count']==0) {
-        $query = "INSERT INTO passenger (id, service_name, name, display_name, access_token, access_token_secret, enc_key, create_date)"
-            ." VALUES ('$id', '$service_name', '$name', '$display_name', '$at', '$ats', '$enc_key', '".date('Y-m-d H:i:s')."');";
+        $query = "INSERT INTO passenger (id, service_name, name, display_name, access_token, access_token_secret, enc_key, create_date, last_login_date)"
+            ." VALUES ('$id', '$service_name', '$name', '$display_name', '$at', '$ats', '$enc_key', '".date('Y-m-d H:i:s')."'), '".date('Y-m-d H:i:s')."');";
             
         $results = $mydb->insert($query);
     } else {
         $query = "UPDATE passenger"
-            ." SET access_token='$at', access_token_secret='$ats', name='$name', display_name='$display_name', enc_key='$enc_key', create_date='".date('Y-m-d H:i:s')."'"
+            ." SET access_token='$at', access_token_secret='$ats', name='$name', display_name='$display_name', enc_key='$enc_key', last_login_date='".date('Y-m-d H:i:s')."'"
                 ." WHERE id = '$id' AND service_name = '$service_name'";
         
             $results = $mydb->select($query);

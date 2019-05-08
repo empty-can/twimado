@@ -37,6 +37,8 @@ function getPawooTokens(string $account, string $passenger_id, bool $enable_app_
     } else if(!empty($passenger_id)) {
         $result = getPassengerTokens($passenger_id, 'pawoo');
         $tokens->token = $result['access_token'];
+    } else if($enable_app_token){
+        $tokens->token = PawooAccessToken;
     }
     
     
