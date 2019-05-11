@@ -55,7 +55,7 @@ function encrypt(string $target, string $base64_enc_key="") {
 function searchTag(string $text, string $target="_blank") {
     $pattern = '([#＃][^』」】 \r\n]+)';
     $replacement = '<a href="'.AppURL.'/timeline/search.php?q=\1" target="$target">\1</a>';
-    return str_replace('=#', '=%23', mb_ereg_replace($pattern, $replacement, $text));
+    return str_replace('=[#]+', '=%23', mb_ereg_replace($pattern, $replacement, $text));
 }
 
 /**

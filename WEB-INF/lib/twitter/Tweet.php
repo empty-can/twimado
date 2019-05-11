@@ -70,4 +70,8 @@ class Tweet extends StandardMutter implements Mutter {
             }
         }
     }
+    
+    public function extractGoods() {
+    }
+
 }

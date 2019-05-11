@@ -153,7 +153,10 @@
 
 .text{
 	width: 100%;
+	height: auto;
+	max-height: 7.5em;
 	overflow-x: hidden;
+	oveflow-y: auto;
 }
 
 #bottom {
@@ -203,4 +206,15 @@
 .favon {
 }
 .favoff {
+}
+
+.goods {
+  background-color: white;
+  padding: 0em 1em 0em 1em;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  max-height: 3em;
+  overflow: auto;
 }

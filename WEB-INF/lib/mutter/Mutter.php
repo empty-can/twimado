@@ -52,4 +52,8 @@ interface Mutter {
     public function isRetweeted();
     
     public function getSortValue();
+    
+    public function extractGoods();
+    
+    public function getGoods();
 }

@@ -286,7 +286,7 @@ function setPassengerTokens($account_id, $service_name, $account_name, $display_
     
     if($results[0]['count']==0) {
         $query = "INSERT INTO passenger (id, service_name, name, display_name, access_token, access_token_secret, enc_key, create_date, last_login_date)"
-            ." VALUES ('$id', '$service_name', '$name', '$display_name', '$at', '$ats', '$enc_key', '".date('Y-m-d H:i:s')."'), '".date('Y-m-d H:i:s')."');";
+            ." VALUES ('$id', '$service_name', '$name', '$display_name', '$at', '$ats', '$enc_key', '".date('Y-m-d H:i:s')."', '".date('Y-m-d H:i:s')."');";
             
         $results = $mydb->insert($query);
     } else {

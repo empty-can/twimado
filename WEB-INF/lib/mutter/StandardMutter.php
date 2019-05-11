@@ -35,6 +35,8 @@ abstract class StandardMutter implements Mutter {
     public $favorited = false;
     public $retweeted = false;
     
+    public $goods = array();
+    
     public $sortValue = "0";
     
     
@@ -138,7 +140,14 @@ abstract class StandardMutter implements Mutter {
         return obj_to_array($this);
     }
     
+    public function extractGoods() {
+    }
+    
     public function getSortValue() {
         return $this->sortValue;
+    }
+    
+    public function getGoods() {
+        return $this->goods;
     }
 }

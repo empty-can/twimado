@@ -64,4 +64,8 @@ class Toot extends StandardMutter implements Mutter {
             }
         }
     }
+    
+    public function extractGoods() {
+    }
+
 }

@@ -25,4 +25,6 @@
   <input type="button" onclick="hideMyList()" value="登録">
 </form>
 </div>
+<div id="goods" class="goods">
+</div>
 {include file='parts/footer.tpl'}
