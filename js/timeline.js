@@ -319,8 +319,8 @@ function rt(self, target_id, domain, method) {
 
 function toggle(self, target_url, domain, icon_id, counter_id,toggle_id, on_char, off_char, on_class, off_class) {
 	
-	if(domain=='pawoo' && !confirm('Pawoo はサービスの制約上、本アプリで操作のキャンセルを行えません。\r\n操作を実行しますか？'))
-		return;
+//	if(domain=='pawoo' && !confirm('Pawoo はサービスの制約上、本アプリで操作のキャンセルを行えません。\r\n操作を実行しますか？'))
+//		return;
 	
 	if($(toggle_id).val()=='on') {
 		target_url = target_url+'&method=undo';
