@@ -15,3 +15,4 @@ $searchList[] = ['link'=>AppURL.'/timeline/search.php?q=%23モバマス', 'desc'
 $searchList[] = ['link'=>AppURL.'/timeline/search.php?q=%23ガルパン', 'desc'=>'#ガルパン', 'img'=> 'https://tapittalk.com/wp-content/uploads/2018/07/2e80ac5f08bcaa44e6c040fbd1b14e6e.jpg'];
 $searchList[] = ['link'=>AppURL.'/timeline/search.php?domain=twitter&q=%23世界遺産', 'desc'=>'#世界遺産', 'img'=> 'https://pbs.twimg.com/media/BpGxb55IAAAtgcL?format=jpg&name=small'];
 $searchList[] = ['link'=>AppURL.'/timeline/search.php?q=%23ネコ', 'desc'=>'#ネコ', 'img'=> 'https://pbs.twimg.com/media/CfAjaJDUMAE1PHI?format=jpg&name=small'];
+$searchList[] = ['link'=>AppURL.'/timeline/search.php?domain=twitter&q=%23photography', 'desc'=>'#photography', 'img'=> './imgs/photo.png'];

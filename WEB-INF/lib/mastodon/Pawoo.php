@@ -16,6 +16,7 @@ class Pawoo extends Toot {
         
         $this->cutMediaURL();
         $this->lineTagLinks();
+        $this->rewriteTagLinks();
         $this->trimText();
 
         // pixivカードがあれば取得
@@ -32,22 +33,20 @@ class Pawoo extends Toot {
         }
     }
     
-    public function extractGoods() {
-        $this->goods[] = $this->text;
-    }
+//     protected function extractGoods() {
+//         $this->goods[] = $this->text;
+//     }
     
-    private function cutMediaURL() {
+    protected function cutMediaURL() {
         $match = array();
-        $pattern = '(https?://pawoo\.net/media/[-_.!~*\'()a-zA-Z0-9;/?:@&=+$,%#]+)';
+        $pattern = '(https?://pawoo.net/media/[-_.!~*\'()a-zA-Z0-9;/?:@&=+$,%#]+)';
         preg_match_all($pattern, $this->text, $match, PREG_SET_ORDER);
         foreach ($match as $token) {
             $this->text = mb_ereg_replace('<a href="'.preg_quote($token[0]).'".*?</a>', "", $this->text);
         }
     }
     
-//     var_dump($token[0]);
-//     echo "<br>";
-    private function lineTagLinks() {
+    protected function lineTagLinks() {
         $match = array();
         $pattern = '(<a href="http[s]?://pawoo.net/tags/.*?<br />)';
         preg_match_all($pattern, $this->text, $match, PREG_SET_ORDER);
@@ -55,8 +54,14 @@ class Pawoo extends Toot {
             $this->text = mb_ereg_replace(preg_quote($token[0]), mb_ereg_replace("<br />", " ", $token[0]), $this->text);
         }
     }
-
-    private function trimText() {
-        $this->text = trim($this->text);
+    
+    protected function rewriteTagLinks() {
+        $pattern = '|<a href="http[s]?://pawoo.net/tags/|';
+        $replacement = '<a href="https://www.suki.pics/timeline/search.php?q=';
+        $this->text = preg_replace($pattern, $replacement, $this->text);
+        
+        $pattern = '|rel="tag"|';
+        $replacement = 'rel="tag" target="_blank"';
+        $this->text = preg_replace($pattern, $replacement, $this->text);
     }
 }

@@ -150,4 +150,8 @@ abstract class StandardMutter implements Mutter {
     public function getGoods() {
         return $this->goods;
     }
+    
+    protected function trimText() {
+        $this->text = trim($this->text);
+    }
 }

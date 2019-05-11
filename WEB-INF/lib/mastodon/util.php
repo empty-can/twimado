@@ -2,7 +2,6 @@
 require_once ("init.php");
 use theCodingCompany\Mastodon;
 
-
 /**
  * Mastodon のコネクションを取得するための共通関数
  * 
