@@ -64,7 +64,9 @@ $embedded_js_int = array_merge($embedded_js_int, array());
 $smarty->assign("embedded_js_params", build_embededd_js_params($embedded_js_params_string, $embedded_js_params_int));
 $smarty->assign("embedded_js", build_embededd_js($embedded_js_string, $embedded_js_int));
 
-$smarty->assign("mutters", $response->mutters);
+$smarty->assign("embedded_mutters", build_embededd_mutters(obj_to_array($response->mutters)));
+
+$smarty->assign("mutters", array());
 
 // テンプレートを表示する
 $smarty->display("timeline.tpl");

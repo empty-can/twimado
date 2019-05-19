@@ -66,3 +66,24 @@ function build_embededd_js_params(array $js_string_params, array $js_int_params)
     
     return $result;
 }
+
+/**
+ * mutterをjsに変換
+ * 
+ * @param array $mutters
+ * @return string
+ */
+function build_embededd_mutters(array $mutters) {
+    $mutterIds = "";
+    $mutterQueue = "";
+    
+    foreach(array_keys($mutters) as $mutters_key) {
+        $mutterIds .= '"'.$mutters_key.'"'.",\r\n";
+        $mutterQueue .= "'".preg_replace("/'/", '&#39;', preg_replace("/[\r\n]+/", '', $mutters[$mutters_key]))."',\r\n";
+    }
+    
+    $mutterIds = preg_replace("/,\r\n$/", "", $mutterIds);
+    $mutterQueue = preg_replace("/,\r\n$/", "", $mutterQueue);
+    
+    return "var mutterIds = [".$mutterIds."];\r\nvar mutterQueue = [".$mutterQueue."];\r\n";
+}

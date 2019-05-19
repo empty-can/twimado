@@ -1,5 +1,5 @@
-var mutterQueue = [];	// APIから取得したツイート情報を一旦バッファする変数
-var mutterIds = [];		// APIから取得したツイートのID一覧
+//var mutterQueue = [];	// APIから取得したツイート情報を一旦バッファする変数
+//var mutterIds = [];		// APIから取得したツイートのID一覧
 var hist = new Array(0);
 var wait = false;
 var wait_time = 1000;
@@ -165,6 +165,7 @@ function getMutter() {
 					wait = true;
 				} else {
 					for(key in response['mutters']) {
+//						console.log(mutterIds);
 						if(!mutterIds.includes(key)) {
 							mutterIds.push(key);
 							mutterQueue.push(response['mutters'][key]);

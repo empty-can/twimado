@@ -62,7 +62,9 @@ foreach ($toots as $toot) {
     $oldest = $tmp;
     $originalId = $tmp->originalId();
     
-    if($media_only=='false') {
+    if(isset($mutters[$originalId])) {
+        continue;
+    } else if($media_only=='false') {
         $mutters[$originalId] = $tmp;
         $i++;
     } else if ($tmp->hasMedia() && !isset($mutters[$originalId])) {

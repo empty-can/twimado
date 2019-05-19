@@ -40,6 +40,9 @@
 	{if isset($embedded_js_params)}
 	{$embedded_js_params}
 	{/if}
+	{if isset($embedded_mutters)}
+	{$embedded_mutters}
+	{/if}
 	</script>
 	
   

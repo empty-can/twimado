@@ -73,13 +73,13 @@
 	    				({date4timeline($mutter.date)})<br>
 	    			{/if}
 	    			</div>
-	    			<!--
-	    			{$mutter.id}<br>
-	    			{$mutter.originalId}
-	    			 -->
 	    			<div class="clear"></div>
 	    		</div>
 	    		<div class="text">
+	    			<!--
+	    			{$mutter.id}<br>
+	    			{$mutter.originalId}<br>
+	    			 -->
 			    	{$mutter.text}
 	    		</div>
 	    	<div class="mutter_menu" style="display:flex;justify-content:space-around;align-items:center;widht:100%;height:32px;">

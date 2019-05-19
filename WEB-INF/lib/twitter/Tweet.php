@@ -15,6 +15,7 @@ class Tweet extends StandardMutter implements Mutter {
         $this->time = strtotime($tweet->created_at);
         $this->sortValue = $this->time;
         $this->date = $this->date();
+        $this->originalId = $tweet->id;
         
         // リツイートだった場合、ツイートID以外の情報をリツイート元に差し替える
         if(isset($tweet->retweeted_status)) {
