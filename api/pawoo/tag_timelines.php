@@ -11,13 +11,14 @@ $param->copyValue('count', 'limit');
 $min_count = $param->putValue('count');
 $param->setInitialValue('limit', '40');
 $param->setParam('local', 'true');
-$param->moveValue('mo', 'only_media');
+// $param->moveValue('mo', 'only_media');
 
 $account = $param->putValue('account');
 $passenger_id = $param->putValue('id');
 $hashtag = $param->putValue('tag');
 
-$media_only = $param->getValue('only_media');
+// $media_only = $param->getValue('only_media');
+$media_only = $param->getValue('mo');
 /*-----------------------------------------*/
 
 // 標準出力の監視開始

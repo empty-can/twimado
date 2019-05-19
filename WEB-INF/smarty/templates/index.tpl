@@ -92,93 +92,36 @@
 <div id="content">
 	<div id="message" style="text-align: center;">
 		<span style="color:red;">{$message}</span><br>
-		<span>Twitter と Pawoo の TL を<br>同じ画面で見られるアプリです。</span>
+		<span>イラスト・動画特化のTwitter他ビューアサイト</span>
 
 	</div>
-<h1>検索</h1>
-よく検索されるキーワードの検索タイムラインです。
-<br>
-<br>
-<div class="flex_parent">
-    {foreach from=$searchList item=list}
-<div class="icon">
-	<div class="img circle">
-		<a href="{$list.link}" target="{$target}">
-			<img src="{$list.img}">
-		</a>
-	</div>
-	<div class="description">{$list.desc}</div>
-</div>
-    {/foreach}
-</div>
-<h2>検索ボックス</h2>
-好きなキーワードで検索できます。
 
-<br>
-<br>
-<div style="width:100%;margin:auto;">
-		<form target="_blank" style="width:100%;padding:0px;"
-			action="{$AppURL}/timeline/search.php" method="GET">
-			<div class="msr_text_05">
-				<label></label>
-				<input id="q" type="text" name="q" value="" placeholder="検索キーワード:例 FGO" style="display:block;width:100%;max-width:256px;margin:auto;">
-			</div>
-			<div class="form_parts">
-    			<div>
-    				<input type="radio" name="domain" value="twitter">Twitter 
-    			</div>
-    			　
-    			<div>
-    				<input type="radio" name="domain" value="pawoo">Pawoo
-    			</div>
-    			　
-    			<div>
-    				<input type="radio" name="domain" value="twitterpawoo" checked>両方
-    			</div>
-    		</div>
-			<div class="form_parts">
-				<button type="submit" >キーワード</button>
-				&nbsp; 
-				<button type="submit" onclick="getElementById('q').value='#'+getElementById('q').value">ハッシュタグ</button>
-			</div>
-		</form>
-	</div>
-
-
-{if !($twitterLogin && $pawooLogin)}
+{if !$twitterLogin && !$pawooLogin}
 <h1>アプリ連携</h1>
-アプリと連携して、自分のホームタイムラインやフォロワーへアクセスしてみましょう。
-<br>
-<br>
 <div class="flex_parent">
-<div class="icon">
+	<div class="icon">
 {if !$twitterLogin}
-	<div class="img circle">
-		<a href="{$AppURL}/auth/auth_twitter.php">
-			<img src="{$AppURL}/imgs/auth_twitter.png">
-		</a>
-	</div>
-	<div class="description">Twitterと</div>
+		<div class="img circle">
+			<a href="{$AppURL}/auth/auth_twitter.php">
+				<img src="{$AppURL}/imgs/auth_twitter.png">
+			</a>
+		</div>
+		<div class="description">Twitterと</div>
 {/if}
-</div>
-<div class="icon">
+	</div>
+	<div class="icon">
 {if !$pawooLogin}
-	<div class="img circle">
-		<a href="{$AppURL}/auth/auth_pawoo.php">
-			<img src="https://static-s.aa-cdn.net/img/ios/1229070679/a551f2dfa37f77de3618b058dcd90b0e?v=1">
-		</a>
+		<div class="img circle">
+			<a href="{$AppURL}/auth/auth_pawoo.php">
+				<img src="https://static-s.aa-cdn.net/img/ios/1229070679/a551f2dfa37f77de3618b058dcd90b0e?v=1">
+			</a>
+		</div>
+		<div class="description">Pawooと</div>
+{/if}
 	</div>
-	<div class="description">Pawooと</div>
-{/if}
 </div>
-</div>
-{/if}
-
-
+{else}
 <h1>タイムライン</h1>
-閲覧可能なタイムラインを表示しています。
-<br>
-<br>
 <div class="flex_parent">
   {if $twitterLogin && $pawooLogin}
 <div class="icon">
@@ -210,7 +153,6 @@
 	</div>
 	<div class="description">ホームTL</div>
 </div>
-  {/if}
 <div class="icon">
 	<div class="img circle">
 		<a href="{$AppURL}/timeline/local.php?domain=pawoo" target="{$target}">
@@ -219,7 +161,87 @@
 	</div>
 	<div class="description">ローカルTL</div>
 </div>
+  {/if}
 </div>
+{/if}
+
+<h1>検索ボックス</h1>
+好きなキーワードで検索できます。
+<br>
+<br>
+<div style="width: 100%; margin: auto;">
+	<form target="_blank" style="width: 100%; padding: 0px;"
+		action="{$AppURL}/timeline/search.php" method="GET">
+		<div class="msr_text_05">
+			<label></label> <input id="q" type="text" name="q" value=""
+				placeholder="検索キーワード:例 FGO"
+				style="display: block; width: 100%; max-width: 256px; margin: auto;">
+		</div>
+		<div class="form_parts">
+			<div>
+				<input type="radio" name="domain" value="twitter">Twitter
+			</div>
+
+			<div>
+				<input type="radio" name="domain" value="pawoo">Pawoo
+			</div>
+
+			<div>
+				<input type="radio" name="domain" value="twitterpawoo" checked>両方
+			</div>
+		</div>
+		<div class="form_parts">
+			<button type="submit">キーワード</button>
+			&nbsp;
+			<button type="submit"
+				onclick="getElementById('q').value='#'+getElementById('q').value">ハッシュタグ</button>
+		</div>
+	</form>
+</div>
+
+<h2>検索タイムラインサンプル</h2>
+よく検索されるキーワードの検索タイムラインです。
+<br>
+<br>
+<div class="flex_parent">
+    {foreach from=$searchList item=list}
+<div class="icon">
+	<div class="img circle">
+		<a href="{$list.link}" target="{$target}">
+			<img src="{$list.img}">
+		</a>
+	</div>
+	<div class="description">{$list.desc}</div>
+</div>
+    {/foreach}
+</div>
+
+
+{if (!$twitterLogin && $pawooLogin) || ($twitterLogin && !$pawooLogin)}
+<h1>アプリ連携</h1>
+<div class="flex_parent">
+	<div class="icon">
+{if !$twitterLogin}
+		<div class="img circle">
+			<a href="{$AppURL}/auth/auth_twitter.php">
+				<img src="{$AppURL}/imgs/auth_twitter.png">
+			</a>
+		</div>
+		<div class="description">Twitterと</div>
+{/if}
+	</div>
+	<div class="icon">
+{if !$pawooLogin}
+		<div class="img circle">
+			<a href="{$AppURL}/auth/auth_pawoo.php">
+				<img src="https://static-s.aa-cdn.net/img/ios/1229070679/a551f2dfa37f77de3618b058dcd90b0e?v=1">
+			</a>
+		</div>
+		<div class="description">Pawooと</div>
+{/if}
+	</div>
+</div>
+{/if}
 
 
 <h1>公開リスト</h1>

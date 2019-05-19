@@ -1,11 +1,12 @@
 body {
-	background-color: azure; /* ページ全体の背景 */
+	background-color: #d5d5d5; /* ページ全体の背景 */
  	font-size: 0.8em;
+ 	padding: 0vh 10vw;
 }
 
 #menu {
-	background-color: #434343; /* ヘッダメニューの背景 */
-	color: lightgray; /* ヘッダメニューの文字色 */
+	background-color: #96858f; /* ヘッダメニューの背景 */
+	color: whitesmoke; /* ヘッダメニューの文字色 */
 	padding: 5px;
 	position: fixed;
 	top: 0;
@@ -14,16 +15,17 @@ body {
 	height: 96px;
 	transition: .4s ease-in-out;
 	font-size: small;
+	z-index: 100;
 }
 
 #content {
-	width: 100vw;
-	min-width: 256px;
-	max-width: 800px;
-	padding-left: 5vw;
+	/* width: 100vw; */
+	/* min-width: 256px; */
+	max-width: 640px;
+	/* padding-left: 5vw; */
 	margin: 100px auto 5vh auto;
-	background-color: azure;
-	color: #5e5e5e; /* コンテンツ部分の背景 */
+	background-color: #d5d5d5;
+  	color: #5e5e5e; /* コンテンツ部分の背景 */
 }
 
 h1 {
@@ -31,14 +33,14 @@ h1 {
   max-width: 90vw;
   margin: 2vh 0 2vh 0;
   font-size: large;
-  border-bottom: solid 3px darkblue; /* <h1>の下線色 */
+  border-bottom: solid 3px whitesmoke; /* <h1>の下線色 */
 }
 h2 {
   width: 100%;
   max-width: 90vw;
   font-size: small;
   margin: 2vh auto 2vh auto;
-  border-bottom: solid 1px gray; /* <h2>の下線色 */
+  border-bottom: solid 1px whitesmoke; /* <h2>の下線色 */
 }
 
 .icon .img a {
@@ -51,7 +53,7 @@ h2 {
 	max-height:90px;
 	margin: auto;
 	border-radius: 10px;
-	background-color: lightskyblue; /* アイコンの背景色 */
+	background-color: #9099a2; /* アイコンの背景色 */
 	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2); /* アイコンの影 */
 }
 
@@ -77,8 +79,8 @@ h2 {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	background-color: royalblue; /* 公開リストの背景色 */
-	border: solid 1px navy; /* 公開リストの線の色 */
+	background-color: #6d7993; /* 公開リストの背景色 */
+	/*border: solid 1px navy;  公開リストの線の色 */
 	border-radius: 5px;
 	flex-grow: 1;
 	text-align: center;
@@ -93,8 +95,8 @@ h2 {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	background-color: royalblue; /* Twitterトレンドの背景色 */
-	border: solid 1px navy; /* Twitterトレンドの線の色 */
+	background-color: #6d7993; /* Twitterトレンドの背景色 */
+	/*border: solid 1px navy;  Twitterトレンドの線の色 */
 	border-radius: 5px;
 	flex-grow: 1;
 	text-align: center;

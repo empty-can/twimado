@@ -4,6 +4,8 @@ require_once ("init.php");
 $param = new Parameters();
 $param->constructFromGetParameters();
 
+ob_start();
+
 $domain = $param->putValue('domain');
 $method = $param->putValue('method');
 $id = $param->getValue('id');
@@ -15,8 +17,9 @@ $response = array();
 if (contains($domain, 'pawoo')) {
     // アクセストークンの取得
     $tokens = getSessionParam('pawooAccessToken', "");
-    if (! isset($tokens) || $tokens->isEmpty()) {
-        $response['error'] = "認証情報が取得できませんでした。\r\n操作にはログインまたはPawooとの連携が必要です。";
+    
+    if (!isset($tokens) || empty($tokens) || $tokens->isEmpty()) {
+        $response['error'] = "この操作にはPawooとの連携が必要です。";
         goto end;
     }
 
@@ -48,8 +51,8 @@ if (contains($domain, 'twitter')) {
     // アクセストークンの取得
     $tokens = getSessionParam('twitterAccessToken', "");
     
-    if($tokens->isEmpty()) {
-        $response['error'] = "認証情報が取得できませんでした。\r\n操作にはログインまたはTwitterとの連携が必要です。";
+    if (!isset($tokens) || empty($tokens) || $tokens->isEmpty()) {
+        $response['error'] = "この操作にはTwitterとの連携が必要です。";
         goto end;
     }
     
@@ -80,9 +83,15 @@ if (contains($domain, 'twitter')) {
 /*-------------------- 出力処理 --------------------*/
 end:
 
+$stdout = ob_get_contents();
+ob_end_clean();
+
 if(!empty($response['error'])) {
     echo json_encode($response);
-} else {
+} else if(!empty($result)) {
     echo json_encode($result);
+} else {
+    $response['error'] = $stdout;
+    echo json_encode($response);
 }
 /*-------------------------------------------------*/

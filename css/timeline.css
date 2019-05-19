@@ -1,3 +1,7 @@
+body {
+    background-color: #d5d5d5;
+    font-size: 0.8em;
+}
 
 #title {
 	margin-top: 50px;
@@ -134,12 +138,10 @@
 	max-width: 70%;
 }
 .account .date {
-	background-color: white;
 	font-size: small;
 	max-width: 30%;
 }
 .account .rt {
-	background-color: white;
 	font-size: 12px;
 }
 .account .rt img {
@@ -169,13 +171,17 @@
 	align-items: center;
 	width: 100vw;
 	max-width: 1024px;
-	background-color: skyblue;
+	background-color: #96858f;
+    color: whitesmoke;
 	height: 46px;
 	padding-bottom: 0px;
+	/*
 	box-shadow: 0px 5px 5px rgba(255, 255, 255, 1);
+	*/
 	margin: auto;
 }
 #timeline_menu div {
+	background-color: lightgray;
 	width: 34px;
 	height: 34px;
 }

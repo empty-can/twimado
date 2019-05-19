@@ -17,8 +17,8 @@ if (contains($domain, 'pawoo')) {
     // アクセストークンの取得
     $tokens = getSessionParam('pawooAccessToken', "");
     
-    if(!isset($tokens) || $tokens->isEmpty()) {
-        $response['error'] = "認証情報が取得できませんでした。\r\n操作にはログインまたはPawooとの連携が必要です。";
+    if (!isset($tokens) || empty($tokens) || $tokens->isEmpty()) {
+        $response['error'] = "この操作にはPawooとの連携が必要です。";
         goto end;
     }
     
@@ -50,8 +50,8 @@ if (contains($domain, 'twitter')) {
     // アクセストークンの取得
     $tokens = getSessionParam('twitterAccessToken', "");
     
-    if($tokens->isEmpty()) {
-        $response['error'] = "認証情報が取得できませんでした。\r\n操作にはログインまたはTwitterとの連携が必要です。";
+    if (!isset($tokens) || empty($tokens) || $tokens->isEmpty()) {
+        $response['error'] = "この操作にはTwitterとの連携が必要です。";
         goto end;
     }
     
