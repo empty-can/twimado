@@ -4,11 +4,13 @@ require_once ("init.php");
 class Parameters {
     public $parameters = array();
     public $required = array();
+    public $alternate= array();
     public $optional = array();
     
     public function constructFromGetParameters() {
         $this->parameters = $_GET;
     }
+    
     public function constructFromPostParameters() {
         $this->parameters = $_POST;
     }
@@ -60,6 +62,16 @@ class Parameters {
     }
     
     /**
+     * 
+     * @param string $a
+     * @param string $b
+     */
+    public function setAlternate(string $a, string $b) {
+        $this->alternate[$a] = $b;
+        $this->alternate[$b] = $a;
+    }
+    
+    /**
      * APIに渡す前に実行するバリデーション
      * 
      * @return string
@@ -69,7 +81,9 @@ class Parameters {
         $keys = array_keys($this->parameters);
         
         foreach($this->required as $key) {
-            if(!in_array($key, $keys)) {
+            if(!in_array($key, $keys)
+                && !(isset($this->alternate[$key]) && in_array($this->alternate[$key],$keys))
+                ) {
                 $result .= "必須パラメータ $key が設定されていません。<br>\r\n";
             }
         }

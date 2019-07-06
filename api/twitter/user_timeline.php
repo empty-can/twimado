@@ -7,9 +7,16 @@ $api = 'statuses/user_timeline';  // アクセスするAPI
 $param = new Parameters();
 $param->constructFromPostParameters();
 $param->required = ["user_id"];
+$param->setAlternate("user_id", "screen_name");
 $param->optional = ["since_id", "max_id", "count"];
 
-$param->moveValue("target_id", "user_id");
+$target_id = $param->getValue('target_id');
+if(is_numeric($target_id)) {
+    $param->moveValue("target_id", "user_id");
+} else {
+    $param->moveValue("target_id", "screen_name");
+}
+
 $param->setInitialValue('count', '200');
 $min_count = $param->getValue('count');
 

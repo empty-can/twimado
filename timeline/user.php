@@ -5,6 +5,7 @@ $api = AppURL . '/api/template/user_timeline.php';
 
 $param = new Parameters();
 $param->constructFromGetParameters();
+$param->setAlternate("user_id", "screen_name");
 
 $param->setInitialValue('hs', getSessionParam('hs', 'true'));
 $param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
@@ -25,9 +26,17 @@ if(empty($domain)) {
     echo "ドメインの指定がありません。";
     exit();
 } else if(contains($domain, "twitter")) {
-    $params = array(
-        "user_id" => $target_id
-    );
+    $target_id = $param->getValue('target_id');
+    if(is_numeric($target_id)) {
+        $params = array(
+            "user_id" => $target_id
+        );
+    } else {
+        $params = array(
+            "screen_name" => $target_id
+        );
+    }
+    
     $account = getTwitterConnection()->get("users/show", $params);
     $title = $account->name;
 } else if(contains($domain, "pawoo")) {
