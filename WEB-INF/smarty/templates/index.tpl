@@ -32,7 +32,7 @@
 			<div id="login_menu" class="flx jcfe" style="margin: 3px 3px 0px 0px">
 {if empty($account)}
 				<div id="login_form" style="margin: 3px 3px 0px 0px">
-					<form action="/auth/" method="post">
+					<form action="{$AppURL}/auth/" method="post">
 						<input type="text" name="account" size="12" maxlength="64" placeholder="アカウント名" value="{$account}" />
 						<input type="password" size="12" name="password" maxlength="64" placeholder="パスワード" />
 						<button type="submit" name="button" value="login">ログイン</button>

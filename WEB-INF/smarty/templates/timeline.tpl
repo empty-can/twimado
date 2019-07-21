@@ -8,11 +8,11 @@
 <div id="bottom_message" style="text-align: center;"></div>
 <div id="top_menu">
 	<div id="timeline_menu">
-		<div id="home"><a href="/"><img src="{$app_url}/imgs/home_64.svg"></a></div>
-		<div onclick="switchShowTweet();" ontouch="switchShowTweet();"><img id="toggleRetweet" src="{$app_url}/imgs/retwieet.svg"></div>
+		<div id="home"><a href="{$AppURL}/"><img src="{$app_url}/imgs/home_64.svg"></a></div>
+		<div onclick="switchShowTweet();" ontouch="switchShowTweet();"><img id="toggleRetweet" src="{$AppURL}/imgs/retwieet.svg"></div>
 		<div onclick="switchScroll();" ontouch="switchScroll();">
-			<img id="horizontal" style="display:none;" src="{$app_url}/imgs/yoko.svg">
-			<img id="vertical" src="{$app_url}/imgs/tate.svg">
+			<img id="horizontal" style="display:none;" src="{$AppURL}/imgs/yoko.svg">
+			<img id="vertical" src="{$AppURL}/imgs/tate.svg">
 		</div>
 	</div>
 </div>
