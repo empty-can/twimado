@@ -10,7 +10,7 @@ function ceilNum($target) {
 
 /**
  * 暗号化されたキーを復元する
- * 
+ *
  * @param string $base64_encrypted
  * @param string $base64_enc_key
  * @return string
@@ -19,23 +19,23 @@ function decrypt(string $base64_encrypted, string $base64_enc_key) {
     $encrypted = base64_decode($base64_encrypted);
     $iv = base64_decode($base64_enc_key);
     $options = OPENSSL_RAW_DATA;
-    
+
     $decrypted = openssl_decrypt($encrypted, EncMethod, Passphrase, $options, $iv);
-    
+
     return $decrypted;
 }
 
 /**
  * 対象文字列を暗号化する
- * 
+ *
  * @param string $target
  * @param string $base64_enc_key    他で作った暗号化キーを使いまわしたい場合指定する
  * @return string[]
  */
 function encrypt(string $target, string $base64_enc_key="") {
-    
+
     $result = array();
-    
+
     if(empty($base64_enc_key)) {
         $iv_size = openssl_cipher_iv_length(EncMethod);
         $iv = openssl_random_pseudo_bytes($iv_size);
@@ -44,11 +44,11 @@ function encrypt(string $target, string $base64_enc_key="") {
         $iv = base64_decode($base64_enc_key);
         $result['key'] = $base64_enc_key;
     }
-    
+
     $options = OPENSSL_RAW_DATA;
-    
+
     $result['data'] = base64_encode(openssl_encrypt($target, EncMethod, Passphrase, $options, $iv));
-    
+
     return $result;
 }
 
@@ -60,7 +60,7 @@ function searchTag(string $text, string $target="_blank") {
 
 /**
  * 文字列内のhttp文字列を<a>タグに。
- * 
+ *
  * @param string $target
  * @return string
  */
@@ -101,7 +101,7 @@ function obj_to_array($object) {
 
 /**
  * 配列の最後の要素を取得する関数
- * 
+ *
  * @param array $array
  * @return mixed
  */
@@ -118,13 +118,13 @@ function array_last(array $array) {
 function getRequest(string $url, array $params = array()) {
 //     $params["mySessionID"] = session_id();
     $data = http_build_query($params, '', '&');
-    
+
     // header
     $header = array(
         "Content-Type: application/x-www-form-urlencoded",
         "Content-Length: ".strlen($data)
     );
-    
+
     $context = array(
         "http" => array(
             "method"  => "POST",
@@ -132,8 +132,8 @@ function getRequest(string $url, array $params = array()) {
             "content" => $data
         )
     );
-    
-//    myVarDump($url."?".$context["http"]["content"]);
+
+//     myVarDump($url."?".$context["http"]["content"]);
 
     return file_get_contents($url, false, stream_context_create($context));
 }
@@ -145,9 +145,9 @@ function getRequest(string $url, array $params = array()) {
  * @return string
  */
 function postRequest(string $url, array $params = array()) {
-    
+
     $data = http_build_query($params, '', '&');
-    
+
     $options = array(
         'http' => array(
             'method' => 'POST',
@@ -156,9 +156,9 @@ function postRequest(string $url, array $params = array()) {
             'content' => $data
         )
     );
-    
+
     $context = stream_context_create($options);
-    
+
     return file_get_contents($url, false, $context);
 }
 
@@ -265,9 +265,17 @@ function getServerParam($key, $default = "")
  * @param string $key
  * @param string $value
  */
-function setSessionParam($key, $value)
+function setSessionParam($key, $value, $override=true)
 {
-    $_SESSION[$key] = $value;
+    if($override) {
+        $_SESSION[$key] = $value;
+    } else if(!$override) {
+        if(!isset($_SESSION[$key])) {
+            $_SESSION[$key] = $value;
+        } else {
+            ;
+        }
+    }
 }
 
 /**
@@ -372,10 +380,10 @@ function myVarDump($object, bool $comment=false) {
 }
 
 function logout() {
-    
+
     //セッション変数を全て解除
     $_SESSION = array();
-    
+
     //セッションクッキーの削除
     if (isset($_COOKIE["PHPSESSID"])) {
         setcookie("PHPSESSID", '', time() - 1800, '/');
@@ -383,14 +391,14 @@ function logout() {
     if (isset($_COOKIE["login_cookie_id"])) {
         setcookie("login_cookie_id", '', time() - 1800, '/twimado/', 'www.suki.pics', false, false);
     }
-    
+
     //セッションを破棄する
     session_destroy();
 }
 
 function my_json_decode(string $json, $assoc=false) {
 	$result = json_decode($json, $assoc);
-	
+
 	if($result==NULL) {
 		$constants = get_defined_constants(true);
 		$json_errors = array();
@@ -404,7 +412,7 @@ function my_json_decode(string $json, $assoc=false) {
 	} else {
 		return  $result;
 	}
-	
+
 }
 
 /**
