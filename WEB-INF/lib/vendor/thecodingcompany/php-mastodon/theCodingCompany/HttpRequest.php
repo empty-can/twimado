@@ -1,12 +1,12 @@
 <?php
 /**
  * Intellectual Property of #Mastodon
- * 
+ *
  * @copyright (c) 2017, #Mastodon
  * @author V.A. (Victor) Angelier <victor@thecodingcompany.se>
  * @version 1.0
  * @license http://www.apache.org/licenses/GPL-compatibility.html GPL
- * 
+ *
  */
 namespace theCodingCompany;
 
@@ -17,7 +17,7 @@ final class HttpRequest
 {
     /**
      * Holds our base path. In most cases this is just /, but it can be /api for example
-     * @var type 
+     * @var type
      */
     private static $base_path = "/";
 
@@ -26,16 +26,16 @@ final class HttpRequest
      * @var string
      */
     private static $base_url = "";
-    
+
     /**
      * Holds our instance
-     * @var type 
+     * @var type
      */
     private static $instance = array();
-    
+
     /**
      * Enable debugging
-     * @var type 
+     * @var type
      */
     public static $debug = false;
 
@@ -44,13 +44,13 @@ final class HttpRequest
      * @param string $base_url Base url like http://api.website.com without leading /
      * @param string $base_path Base path like, / or /api
      */
-    protected function __construct($base_url = "", $base_path = "/") {            
+    protected function __construct($base_url = "", $base_path = "/") {
         self::$base_path = $base_path;
         self::$base_url = $base_url;
     }
     protected function __clone(){}
     protected function __wakeup(){}
-    
+
     /**
      * Singleton design pattern
      * @param type $base_url The full FQDN url. http://api.domainname.com
@@ -75,8 +75,8 @@ final class HttpRequest
         //Sen the request and return response
         $post_data = json_encode($parameters);
         return self::http_request(
-            "POST", 
-            self::$base_url.self::$base_path.$path, 
+            "POST",
+            self::$base_url.self::$base_path.$path,
             $headers,
             $post_data
         );
@@ -90,10 +90,10 @@ final class HttpRequest
      */
     public function Get($path = "", $parameters = array(), $headers = array()){
         //Sen the request and return response
-        
+
         return self::http_request(
-            "GET", 
-            self::$base_url.self::$base_path.$path, 
+            "GET",
+            self::$base_url.self::$base_path.$path,
             $headers,
             $parameters
         );
@@ -124,9 +124,9 @@ final class HttpRequest
                 'ciphers' => 'HIGH'
             )
         );
-        
+
         //Check if we have parameters to post
-        if (count($parameters) > 0 && is_array($parameters)) {
+        if (!empty($parameters) > 0 && is_array($parameters)) {
             $content = "";
             foreach($parameters as $k => $v) {
                 $content .= "&".urlencode($k)."=" . urlencode($v);
@@ -165,21 +165,21 @@ final class HttpRequest
          * @version 1.1 Updated method
          */
         $response = @file_get_contents($url, null, $context);
-        
+
         //If we have an error or not
         if ($response === FALSE) {
             $error = array();
             $error['error_get_last'] = error_get_last();
             $error['response'] = $response;
-            
+
             if(self::$debug){ print_r($error); }
             return $error;
         }
         else{
-            
+
             //Debug the response/url
             self::debug_response($url, $context);
-            
+
             if (($json = \json_decode($response, true)) !== NULL) {
                 return $json;
             }
@@ -188,7 +188,7 @@ final class HttpRequest
             }
         }
     }
-    
+
     /**
      * Debug method for response analyzing
      * @param type $url
