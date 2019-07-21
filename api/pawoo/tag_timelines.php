@@ -54,21 +54,21 @@ if(empty($toots)) {
 
 /*------------　API実行結果のインスタンス化　------------*/
 $mutters = array();
-$oldest = new EmptyMutter();
+$oldest = new EmptyMutter("pawoo");
 $i = (int)0;
 
 $pawoo_skip_list = getSessionParam("pawoo_skip_list", array());
 
 foreach ($toots as $toot) {
     $tmp = new Pawoo($toot);
-    
+
     $oldest = $tmp;
     $originalId = $tmp->originalId();
-    
+
     if(in_array($tmp->account()->id(), $pawoo_skip_list)) {
         continue;
     }
-    
+
     if(isset($mutters[$originalId])) {
         continue;
     } else if($media_only=='false') {
@@ -78,7 +78,7 @@ foreach ($toots as $toot) {
         $mutters[$originalId] = $tmp;
         $i++;
     }
-    
+
     if($i>$min_count)
         break;
 }
@@ -105,4 +105,4 @@ if(!empty($stdout)) {
     $response = getResponse($mutters, $oldest);
     echo json_encode($response);
 }
-/*-------------------------------------------------*/  
+/*-------------------------------------------------*/

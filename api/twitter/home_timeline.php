@@ -60,15 +60,15 @@ if(empty($tweets)) {
 
 /*------------　API実行結果のインスタンス化　------------*/
 $mutters = array();
-$oldest = new EmptyMutter();
+$oldest = new EmptyMutter("twitter");
 $i = (int)0;
 
 foreach ($tweets as $tweet) {
     $tmp = new Tweet($tweet);
-    
+
     $oldest = $tmp;
     $originalId = $tmp->originalId();
-    
+
     if(isset($mutters[$originalId])) {
         continue;
     } else if($media_only=='false') {
@@ -78,7 +78,7 @@ foreach ($tweets as $tweet) {
         $mutters[$originalId] = $tmp;
         $i++;
     }
-    
+
     if($i>$min_count)
         break;
 }
