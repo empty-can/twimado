@@ -9,5 +9,5 @@ session_start();
 
 setSessionParam("message", "正常にログアウトしました。");
 
-header('Location: /');
+header('Location: '.AppURL);
 exit();

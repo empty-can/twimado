@@ -25,5 +25,5 @@ session_start();
 
 setSessionParam("message", "アカウント情報を削除しました。");
 
-header('Location: /');
+header('Location: '.AppURL);
 exit();

@@ -20,7 +20,7 @@ if($logout=="logout") {
 // 送信されたアカウントデータチェック
 } else if(!empty($button) && (empty($account) || empty($password))) {
         $message = "アカウントとパスワードは両方入力してください。";
-       
+
 // ログイン処理
 } else if($button=="login") {
     if (!exist_account($account)) {
@@ -58,14 +58,14 @@ if($logout=="logout") {
 // その他
 } else if(!empty($button)){
     $message = "不正なリクエストです。";
-    
-    header('Location: /');
+
+    header('Location: '.AppURL);
     exit();
 } else {
     $message = "不正なリクエストです。";
     $message = "";
-    
-    header('Location: /');
+
+    header('Location: '.AppURL);
     exit();
 }
 
@@ -75,14 +75,14 @@ if($logined) {
     setSessionParam("account", $account);
     setSessionParam("account_rand", $rand);
     $all_pairs = select_all_pairs($account);
-    
+
     // ペアリング情報から各サービスのアカウント情報を取得
     foreach ($all_pairs as $pair) {
         loadAccountInfo($pair);
     }
 }
 
-header('Location: /');
+header('Location: '.AppURL);
 exit();
 
 // myVarDump($all_pairs);
