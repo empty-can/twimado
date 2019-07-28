@@ -1,6 +1,6 @@
 <?php
-if(empty($_SERVER["HTTPS"])) {
-    header('Location: https://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+if(!empty($_SERVER["HTTPS"])) {
+    header('Location: http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
     exit();
 }
 
@@ -105,3 +105,8 @@ $smarty->assign("mylists", getSessionParam("twitter_mylists", array()));
 
 include('searchList.php');
 $smarty->assign("searchList", $searchList);
+
+$twitterMyList = array();
+$pawooMyLists = array();
+$twitterMyFriends = array();
+$pawooMyFriends = array();

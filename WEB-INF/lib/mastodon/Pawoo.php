@@ -57,7 +57,7 @@ class Pawoo extends Toot {
     
     protected function rewriteTagLinks() {
         $pattern = '|<a href="http[s]?://pawoo.net/tags/|';
-        $replacement = '<a href="https://www.suki.pics/timeline/search.php?q=';
+        $replacement = '<a href="'.AppURL.'/timeline/search.php?q=';
         $this->text = preg_replace($pattern, $replacement, $this->text);
         
         $pattern = '|rel="tag"|';

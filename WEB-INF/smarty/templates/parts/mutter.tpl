@@ -1,5 +1,9 @@
-{if $mutter.isRe && ($mutter.account.id != $mutter.retweeter.id)}
- 	<div class="mutter retweet">
+{if $mutter.isRe}
+	{if ($mutter.account.id == $mutter.retweeter.id)}
+	 	<div class="mutter retweet owner">
+	{else}
+ 		<div class="mutter retweet">
+	{/if}
 {else}
  	<div class="mutter">
 {/if}
@@ -52,7 +56,7 @@
 	    		<img src="{$mutter.account.profileImage}" style="width:32px">
 	    		<a href="{$mutter.mutterURL}" target="_blank"><img src="{$mutter.providerIcon}" style="width:32px"></a>
 	    	</div>
-	    	
+
 	    	<div class="profile left">
 	    		<div class="account">
 	    			<div class="name">

@@ -309,12 +309,12 @@ function hideMyList() {
 }
 
 function fav(self, target_id, domain, method) {
-	url = 'https://www.suki.pics/api/post/fav.php?id='+target_id+'&domain='+domain;
+	url = 'http://www.suki.pics/api/post/fav.php?id='+target_id+'&domain='+domain;
 	toggle(self, url, domain, '#fav_icon_'+target_id, '#fav_count_'+target_id, '#fav_'+target_id, '💓', '♡', 'favon', 'favoff');
 }
 
 function rt(self, target_id, domain, method) {
-	url = 'https://www.suki.pics/api/post/rt.php?id='+target_id+'&domain='+domain;
+	url = 'http://www.suki.pics/api/post/rt.php?id='+target_id+'&domain='+domain;
 	toggle(self, url, domain, '#rt_icon_'+target_id, '#rt_count_'+target_id, '#rt_'+target_id, '🔂', '🔁', 'rton', 'rtoff');
 }
 

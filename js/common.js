@@ -12,7 +12,7 @@ $(window).on('load', function() {
 function toggleParam(key) {
 
 	$.ajax({
-		url : 'https://www.suki.pics/api/toggleParam.php?key='+encodeURI(key),
+		url : 'http://www.suki.pics/api/toggleParam.php?key='+encodeURI(key),
 		type : "GET",
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log("ajax通信に失敗しました");
