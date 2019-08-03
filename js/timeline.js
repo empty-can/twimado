@@ -10,15 +10,15 @@ var index = 0;
 
 /**
  * 画面の下まで来たらツイートを表示する関数
- * 
+ *
  * @returns
  */
 setInterval( function() {
 	var bottom = document.getElementById("bottom");
-	
+
 	if(bottom != null) {
 		var rect =bottom.getBoundingClientRect().top;
-		
+
 		if(window_height*4>rect) {
 			console.log('in');
 
@@ -29,13 +29,13 @@ setInterval( function() {
 				$('#timeline').append(mutterQueue.shift());
 
 				console.log(mutterQueue.length);
-				
+
 				if(mutterQueue.length <= 0)
 					getMutter();
 			}
-			
+
 //			console.log(mutterQueueLength);
-			
+
 //			console.log(showRT);
 
 			if(!showRT) {
@@ -50,11 +50,11 @@ setInterval( function() {
 
 /**
  * 投稿を取得する関数（Ajax）
- * 
+ *
  * @returns
  */
 function getMutter() {
-	
+
 	if(wait==true)
 		return;
 
@@ -69,20 +69,20 @@ function getMutter() {
 	}
 
 	// confirm(bodyData);
-	
+
 	//if(ids!==undefined) {
 	//	id = ids[index++]
 	//	url += 'id='+id
-		
+
 	//	if(index>=ids.length)
 	//		index=0;
 	//} else {
 	//	url = url.slice( 0, -1) ;
 	//}
-	
-	
+
+
 	console.log(url);
-	
+
 	$("#bottom_message").html('<br><img src="/imgs/reload.svg" width="48px">');
 
 	wait = true;
@@ -96,9 +96,9 @@ function getMutter() {
 			console.log(XMLHttpRequest);
 			console.log(textStatus);
 			console.log(errorThrown);
-			
+
 			alert("ajax通信に失敗しました\r\ntextStatus:"+textStatus+"\r\nerrorThrown:"+errorThrown+"\r\nXMLHttpRequest:"+XMLHttpRequest);
-			
+
 			bottom.innerHTML = '';
 			wait = true;
 		},
@@ -111,31 +111,31 @@ function getMutter() {
 				console.log('-1'+response['mutters']['-1']);
 				$("#bottom_message").html(response['mutters']['-1']);
 			}
-			
+
 			if(params['pawoo_oldest_id'] !== undefined) {
 				params['pawoo_oldest_id'] = response['pawoo_oldest_id'];
 				console.log('pawoo_oldest_id:'+response['pawoo_oldest_id']);
 			}
-			
+
 			if(params['twitter_oldest_id'] !== undefined) {
 				params['twitter_oldest_id'] = response['twitter_oldest_id'];
 				console.log('twitter_oldest_id:'+response['twitter_oldest_id']);
 			}
-			
+
 			if(params['oldest_id'] !== undefined) {
 				params['oldest_id'] = response['oldest_id'];
 				console.log('oldest_id:'+response['oldest_id']);
 			}
 
 			console.log('error:'+response['error']);
-			
+
 			if(response['error'] !== undefined && response['error'] != '') {
 				$("#bottom_message").html("エラーが発生しました");
 				wait = true;
 				return;
 			}
 //			$('#timeline').after('<p>'+response['max_id']+'</p>');
-			
+
 			mutters_num = Object.keys(response['mutters']).length;
 
 			if(isEnd(params['pawoo_oldest_id']) && isEnd(params['twitter_oldest_id']) && isEnd(params['oldest_id'])) {
@@ -144,14 +144,14 @@ function getMutter() {
 //				console.log("最後まで来ました");
 //				wait = true;
 				$("#bottom_message").html("最後まで来ました");
-				
+
 				wait = true;
 			} else {
 
 //				var timeline = response['timeline'];
 //				var tweetNum = timeline.length;
 				keys = Object.keys(response['mutters']);
-				
+
 				keys.sort(function(a,b){
 					if( a > b ) return -1;
 					if( a < b ) return 1;
@@ -173,10 +173,10 @@ function getMutter() {
 							console.log('ちょうふく');
 						}
 					}
-					
+
 //					for (var i = 0; i < mutters_num; i++) {
 //						tmp = response['mutters'][keys[i]];
-//						
+//
 //						if(!mutterIds.includes(keys[i])) {
 //							mutterIds.push(keys[i]);
 //							mutterQueue.push(tmp);
@@ -190,7 +190,7 @@ function getMutter() {
 	//						console.log('ちょうふく');
 	//					}
 //					}
-					
+
 					console.log("取得できました");
 					wait = false;
 				}
@@ -201,7 +201,7 @@ function getMutter() {
 
 /**
  * リツイートの表示非表示を切り替える
- * 
+ *
  * @returns
  */
 function switchShowTweet() {
@@ -217,7 +217,7 @@ function switchShowTweet() {
 }
 
 function showReTweet() {
-	var all_retweets = document.getElementsByClassName('retweet');
+	var all_retweets = $('.retweet').not('.recent');
 
 	for (var i = 0; i < all_retweets.length; i++) {
 		var tmp = all_retweets[i];
@@ -226,7 +226,7 @@ function showReTweet() {
 }
 
 function hideReTweet() {
-	var all_retweets = document.getElementsByClassName('retweet');
+	var all_retweets = $('.retweet').not('.recent');
 
 	for (var i = 0; i < all_retweets.length; i++) {
 		var tmp = all_retweets[i];
@@ -236,24 +236,24 @@ function hideReTweet() {
 
 /**
  * ツイートの横スクロールとかを切り替える
- * 
+ *
  * @returns
  */
 function switchScroll() {
 	if(horizontalScroll) {
 		switch2Vertical();
 		horizontalScroll = false;
-		
+
 		$('#horizontal').css('display','block');
 		$('#vertical').css('display','none');
 	} else {
 		switch2Horizontal();
 		horizontalScroll = true;
-		
+
 		$('#vertical').css('display','block');
 		$('#horizontal').css('display','none');
 	}
-	
+
 }
 
 function switch2Horizontal() {
@@ -292,7 +292,7 @@ function switch2Vertical() {
 	var all_img_wrapper = $('.img_wrapper');
 	all_img_wrapper.removeClass('img_wrapper');
 	all_img_wrapper.addClass('img_wrapper_vertical');
-	
+
 	$('.scroll').css('display','none');
 }
 
@@ -319,16 +319,16 @@ function rt(self, target_id, domain, method) {
 }
 
 function toggle(self, target_url, domain, icon_id, counter_id,toggle_id, on_char, off_char, on_class, off_class) {
-	
+
 //	if(domain=='pawoo' && !confirm('Pawoo はサービスの制約上、本アプリで操作のキャンセルを行えません。\r\n操作を実行しますか？'))
 //		return;
-	
+
 	if($(toggle_id).val()=='on') {
 		target_url = target_url+'&method=undo';
 	} else if($(toggle_id).val()=='off') {
 		target_url = target_url+'&method=do';
 	}
-	
+
 	$.ajax({
 		url : target_url,
 		type : "GET",
@@ -338,7 +338,7 @@ function toggle(self, target_url, domain, icon_id, counter_id,toggle_id, on_char
 			console.log(XMLHttpRequest);
 			console.log(textStatus);
 			console.log(errorThrown);
-			
+
 			console.log("ajax通信に失敗しました\r\ntextStatus:"+textStatus+"\r\nerrorThrown:"+errorThrown+"\r\nXMLHttpRequest:"+XMLHttpRequest);
 		},
 		success : function(response) {
@@ -355,7 +355,7 @@ function toggle(self, target_url, domain, icon_id, counter_id,toggle_id, on_char
 					target_count = parseInt($(counter_id).html(), 10);
 				else
 					target_count = $(counter_id).html();
-				
+
 				if($(toggle_id).val()=='on') {
 					$(toggle_id).val('off');
 					self.innerHTML=off_char;
@@ -369,7 +369,7 @@ function toggle(self, target_url, domain, icon_id, counter_id,toggle_id, on_char
 					self.innerHTML=on_char;
 					$(icon_id).removeClass(off_class);
 					$(icon_id).addClass(on_class);
-					
+
 					if(!isNaN(target_count))
 						$(counter_id).html(target_count + 1);
 				}

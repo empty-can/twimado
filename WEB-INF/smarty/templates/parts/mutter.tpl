@@ -1,6 +1,10 @@
 {if $mutter.isRe}
-	{if ($mutter.account.id == $mutter.retweeter.id)}
-	 	<div class="mutter retweet owner">
+	{if (($mutter.account.id == $mutter.retweeter.id))}
+		{if ((($mutter.time-$mutter.originalDate)/86400)<1.0)}
+		 	<div class="mutter retweet owner recent">
+		{else}
+		 	<div class="mutter retweet owner">
+		{/if}
 	{else}
  		<div class="mutter retweet">
 	{/if}
