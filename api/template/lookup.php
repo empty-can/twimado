@@ -42,7 +42,7 @@ if (contains($domain, 'twitter')) {
     if(!empty($ids)) {
         $twitter_param->setParam('ids', $ids);
 
-        $twitter_result = getMutters($api, $twitter_param->parameters, $twitter_oldest_id);
+        $twitter_result = getMutters($api, $twitter_param->parameters, $max_id);
         $twitter_oldest_id = $twitter_result['oldest_id'];
     }
 
