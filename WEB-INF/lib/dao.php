@@ -1,20 +1,21 @@
 <?php
 
-function getMutterIds(string $account_id="", string $max_id="", int $limit=100) {
+function getMutterIds(string $account_id="", string $max_id=null, int $limit=100) {
     $results = "";
 
     if(!empty($account_id)) {
         $mydb = new MyDB();
         $account_id = $mydb->escape($account_id);
 
-        $sql = "SELECT id FROM mutter WHERE user_id = '$account_id' ORDER BY id DESC";
+        $sql = "SELECT id FROM mutter WHERE user_id = '$account_id'";
 
         if(!empty($max_id)) {
             $sql .= " AND id < $max_id";
+        } else {
+//             myVarDump($max_id);
         }
 
-        $sql .= " LIMIT $limit";
-//         myVarDump($sql);
+        $sql .= " ORDER BY id DESC LIMIT $limit";
 
         $rows = $mydb->select($sql);
 

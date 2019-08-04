@@ -31,11 +31,11 @@ if (contains($domain, 'twitter')) {
     $twitter_param->setInitialValue('count', '100');
     $twitter_param->moveValue('twitter_oldest_id', 'max_id');
 
-    $twitter_oldest_id = $twitter_param->getValue('twitter_oldest_id');
+    $max_id = $twitter_param->getValue('max_id');
     $target_id = $twitter_param->getValue('target_id', "");
     $count = $twitter_param->getValue('count', '100');
 
-    $ids = getMutterIds($target_id, $twitter_oldest_id, $count);
+    $ids = getMutterIds($target_id, $max_id, $count);
 
     $twitter_result = array();
 
