@@ -62,20 +62,23 @@ if(empty($tweets)) {
 $mutters = array();
 $oldest = new EmptyMutter("twitter");
 $i = (int)0;
+$originalId = PHP_INT_MAX;
 
 foreach ($tweets as $tweet) {
     $tmp = new Tweet($tweet);
 
-    $oldest = $tmp;
-    $originalId = $tmp->originalId();
+    if($originalId > $tmp->originalId()) {
+        $originalId = $tmp->originalId();
+        $oldest = $tmp;
+    }
 
-    if(isset($mutters[$originalId])) {
+    if(isset($mutters[$tmp->originalId])) {
         continue;
     } else if($media_only=='false') {
-        $mutters[$originalId] = $tmp;
+        $mutters[$tmp->originalId] = $tmp;
         $i++;
-    } else if ($tmp->hasMedia() && !isset($mutters[$originalId])) {
-        $mutters[$originalId] = $tmp;
+    } else if ($tmp->hasMedia() && !isset($mutters[$tmp->originalId])) {
+        $mutters[$tmp->originalId] = $tmp;
         $i++;
     }
 
@@ -87,6 +90,9 @@ foreach ($tweets as $tweet) {
 // 新しいツイートが取得できているかどうかのチェック
 if($param->getValue('max_id') === $oldest->originalId) {
     echo "最後のツイートまで到達しました。";
+    goto end;
+} else if($originalId == PHP_INT_MAX) {
+    echo "ツイートがありませんでした。";
     goto end;
 }
 
@@ -100,9 +106,10 @@ ob_end_clean();
 if(!empty($stdout)) {
 //     $stdout .= "<br>\r\n実行API：".$api;
     $response = gerErrorResponse("twitter", $stdout);
-    echo json_encode($response);
 } else {
     $response = getResponse($mutters, $oldest);
-    echo json_encode($response);
+    $response['twitter_oldest_id'] = $originalId;
 }
+
+echo json_encode($response);
 /*-------------------------------------------------*/

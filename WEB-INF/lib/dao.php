@@ -10,17 +10,20 @@ function getMutterIds(string $account_id="", string $max_id=null, int $limit=100
         $sql = "SELECT id FROM mutter WHERE user_id = '$account_id'";
 
         if(!empty($max_id)) {
-            $sql .= " AND id < $max_id";
+            $sql .= " AND id <= $max_id";
         } else {
-//             myVarDump($max_id);
         }
 
         $sql .= " ORDER BY id DESC LIMIT $limit";
 
         $rows = $mydb->select($sql);
 
+        $i=0;
         foreach ($rows as $row) {
             $results .= $row["id"].",";
+
+            if($i++>=$limit)
+                break;
         }
 
         $mydb->close();

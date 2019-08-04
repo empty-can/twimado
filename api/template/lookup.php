@@ -1,6 +1,7 @@
 <?php
 require_once ("init.php");
 
+
 $param = new Parameters();
 $param->constructFromPostParameters();
 
@@ -15,6 +16,7 @@ $mutters = array();
 
 $response = array();
 $response['mutters'] = array();
+$response['debug'] = array();
 
 ob_start();
 
@@ -28,25 +30,25 @@ if (contains($domain, 'twitter')) {
 
     $twitter_param = clone $param;
 
-    $twitter_param->setInitialValue('count', '100');
-    $twitter_param->moveValue('twitter_oldest_id', 'max_id');
+    $twitter_param->setInitialValue('count', '5');
 
-    $max_id = $twitter_param->getValue('max_id');
+    $twitter_oldest_id = $twitter_param->getValue('twitter_oldest_id');
     $target_id = $twitter_param->getValue('target_id', "");
-    $count = $twitter_param->getValue('count', '100');
+    $count = $twitter_param->getValue('count', '5');
 
-    $ids = getMutterIds($target_id, $max_id, $count);
-
-    $twitter_result = array();
+    $ids = getMutterIds($target_id, $twitter_oldest_id, $count);
 
     if(!empty($ids)) {
         $twitter_param->setParam('ids', $ids);
+        $twitter_param->moveValue('twitter_oldest_id', 'max_id');
 
-        $twitter_result = getMutters($api, $twitter_param->parameters, $max_id);
+        $twitter_result = getMutters($api, $twitter_param->parameters, $twitter_oldest_id);
+
         $twitter_oldest_id = $twitter_result['oldest_id'];
+        $response['mutters']  = array_merge($response['mutters'], $twitter_result['mutters']);
     }
 
-	$response['mutters']  = array_merge($response['mutters'] , $twitter_result['mutters']);
+    $response['twitter_oldest_id'] = isset($twitter_oldest_id) ? $twitter_oldest_id : "";
 }
 $mutters = array_unique($response['mutters'] , SORT_REGULAR);
 usort($mutters, "sort_mutter");
@@ -63,11 +65,12 @@ foreach ($mutters as $mutter) {
     $html = $smarty->fetch("parts/mutter.tpl");
     $response['mutters'][$mutter['originalId']] = $html;
 }
+end:
+
+$stdout = ob_get_contents();
 ob_end_clean();
 
-$response['twitter_oldest_id'] = isset($twitter_oldest_id) ? $twitter_oldest_id : "";
+$response['error'] = $stdout;
 
-// myVarDump($response['mutters']);
-// echo json_encode($response);
-
+// echo json_encode(gerErrorResponse("twitter", $response));
 echo json_encode($response);

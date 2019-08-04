@@ -30,7 +30,7 @@ function getMutters(string $api, array $parameters, $original_oldest_id) {
 
         $result['mutters'] = array_merge($result['mutters'], $response['mutters']);
 
-        if (isset($response['oldest_mutter']) && isset($response['oldest_mutter']['originalId']))
+        if (isset($response['oldest_mutter']) && isset($response['oldest_mutter']['id']))
         	$oldest_id = $response['oldest_mutter']['id'];
         else
             $oldest_id = - 1;

@@ -59,7 +59,7 @@ if(!empty($submit_data)) {
 </head>
 <body>
 	<form action="./edit_json.php" method="POST">
-		<textarea name="jsons" rows="25" cols="200"><?php echo $submit_data;?></textarea>
+		<textarea name="jsons" rows="25" cols="200"><?php // echo $submit_data;?></textarea>
   		<button name="submit" value="true">送信</button>
 	</form>
 </body>

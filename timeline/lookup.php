@@ -11,14 +11,13 @@ $param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
 $param->setInitialValue('mo', getSessionParam('mo', 'true'));
 
 $param->setInitialValue('domain', 'twitterpawoo');
-$param->setInitialValue('count', '10');
+$param->setInitialValue('count', '5');
 
 $param->setParam('account', Account);
 $param->setParam('pawoo_id', PawooAccountID);
 $param->setParam('twitter_id', TwitterAccountID);
 
 $tmp = getRequest($api, $param->parameters);
-
 $response = my_json_decode($tmp);
 
 if(empty($response)) {
@@ -29,7 +28,6 @@ if(empty($response)) {
 // 不要になったcountを削除
 $param->unset('count');
 
-// myVarDump($response);
 // レスポンスから取得したデータをセット
 if(isset($response->pawoo_oldest_id)) {
     $param->setParam('pawoo_oldest_id', $response->pawoo_oldest_id);

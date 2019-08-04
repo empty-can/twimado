@@ -167,10 +167,11 @@ function getMutter() {
 					for(key in response['mutters']) {
 //						console.log(mutterIds);
 						if(!mutterIds.includes(key)) {
+							console.log(key);
 							mutterIds.push(key);
 							mutterQueue.push(response['mutters'][key]);
 						} else {
-							console.log('ちょうふく');
+							console.log('ちょうふく：'+key);
 						}
 					}
 

@@ -11,13 +11,13 @@ class MyDB {
     private $dbname = DbName;
 
     private $dbo;
-    
+
     public static function getResult($result) {
         $rows = array();
         while($row = $result->fetch_array(MYSQLI_ASSOC)) {
             $rows[] = $row;
         }
-        
+
         return $rows;
     }
 
@@ -25,12 +25,12 @@ class MyDB {
     function insert($query) {
         $result = $this->dbo->query($query);
 
-        if (!$result) {
+        if (!$result && (strpos("Duplicate entry", $this->dbo->error) === 0)) {
             echo $query;
-            printf("Errormessage: %s\n", $this->dbo->error);
+            printf("Error Message: %s\n", $this->dbo->error);
             exit();
         }
-        
+
         return $result;
     }
 
