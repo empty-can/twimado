@@ -48,7 +48,7 @@ if(isset($response->twitter_oldest_id)) {
 }
 
 // assignメソッドを使ってテンプレートに渡す値を設定
-$smarty->assign("title", "lookup");
+$smarty->assign("title", getGetParam('name', "")." さんのlookup");
 
 $csss=array();
 $csss[] = "timeline";

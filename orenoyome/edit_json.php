@@ -13,6 +13,10 @@ if(!empty($submit_data)) {
 
     foreach ($jsons as $json) {
         $decoded_json = json_decode($json);
+
+        if(!empty($decoded_json->retweet_id) || !empty($decoded_json->rt_user))
+            continue;
+
 //         var_dump($decoded_json);
         $tweet_id = $mydb->escape($decoded_json->tweet_id);
         $user_id = $mydb->escape($decoded_json->user_id);
@@ -22,6 +26,8 @@ if(!empty($submit_data)) {
             $created_at = str_replace('/', '-', $decoded_json->created_at_date);
         } else if(!empty($decoded_json->created_at)) {
             $created_at = date("Y-m-d H:i:s", $decoded_json->created_at);
+        } else if(!empty($decoded_json->time)) {
+            $created_at = date("Y-m-d H:i:s", strtotime($decoded_json->time));
         }
 //         var_dump($created_at);
 

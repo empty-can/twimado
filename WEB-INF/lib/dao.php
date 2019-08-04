@@ -23,6 +23,10 @@ function getMutterIds(string $account_id="", string $max_id="", int $limit=100) 
         }
 
         $mydb->close();
+
+        if(!empty($results)) {
+            $results = substr($results, 0, -1);
+        }
     }
 
     return $results;
