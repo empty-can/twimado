@@ -3,10 +3,6 @@ require_once ("init.php");
 
 $api = AppURL . '/api/template/lookup.php';
 
-$user_id = getGetParam('target_id', "");
-
-$twitter_oldest_id = getPostParam('target_id', "");
-
 $param = new Parameters();
 $param->constructFromGetParameters();
 
@@ -21,13 +17,8 @@ $param->setParam('account', Account);
 $param->setParam('pawoo_id', PawooAccountID);
 $param->setParam('twitter_id', TwitterAccountID);
 
-$ids = getMutterIds($user_id, $twitter_oldest_id);
-
-$param->setParam('ids', $ids);
-
 $tmp = getRequest($api, $param->parameters);
 
-// myVarDump($tmp);
 $response = my_json_decode($tmp);
 
 if(empty($response)) {

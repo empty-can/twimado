@@ -7,7 +7,7 @@ if(empty($users)) {
     $user_ids = "";
     $mydb = new MyDB();
 
-    $sql = "SELECT DISTINCT user_id FROM mutter";
+    $sql = "SELECT DISTINCT user_id FROM mutter ORDER BY user_id ASC";
 
     $results = $mydb->select($sql);
 
@@ -79,7 +79,7 @@ if(!empty($user_ids)) {
 <?php
 foreach ($users as $user) {
     ?>
-	<a href="http://www.suki.pics/timeline/lookup.php?target_id=<?php echo $user->id;?>&name=<?php echo $user->name;?>">
+	<a href="http://www.suki.pics/timeline/lookup.php?target_id=<?php echo $user->id;?>&name=<?php echo $user->name;?>" target="_blank">
 		<img alt="<?php echo $user->name;?>" src="<?php echo $user->profile_image_url_https;?>">
 		<?php echo $user->name;?>@<?php echo $user->screen_name;?>
 	</a>

@@ -25,15 +25,28 @@ if (contains($domain, 'pawoo')) {
 // 自分のイラストリストTL取得
 if (contains($domain, 'twitter')) {
     $api = AppURL . '/api/twitter/lookup.php';
-    $twitter_oldest_id = $param->getValue('twitter_oldest_id');
 
     $twitter_param = clone $param;
-    $twitter_param->setInitialValue('count', '200');
+
+    $twitter_param->setInitialValue('count', '100');
     $twitter_param->moveValue('twitter_oldest_id', 'max_id');
 
-    $twitter_result = getMutters($api, $twitter_param->parameters, $twitter_oldest_id);
+    $twitter_oldest_id = $twitter_param->getValue('twitter_oldest_id');
+    $target_id = $twitter_param->getValue('target_id', "");
+    $count = $twitter_param->getValue('count', '100');
+
+    $ids = getMutterIds($target_id, $twitter_oldest_id, $count);
+
+    $twitter_result = array();
+
+    if(!empty($ids)) {
+        $twitter_param->setParam('ids', $ids);
+
+        $twitter_result = getMutters($api, $twitter_param->parameters, $twitter_oldest_id);
+        $twitter_oldest_id = $twitter_result['oldest_id'];
+    }
+
 	$response['mutters']  = array_merge($response['mutters'] , $twitter_result['mutters']);
-	$twitter_oldest_id = $twitter_result['oldest_id'];
 }
 $mutters = array_unique($response['mutters'] , SORT_REGULAR);
 usort($mutters, "sort_mutter");

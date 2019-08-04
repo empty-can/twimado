@@ -7,7 +7,7 @@ function getMutterIds(string $account_id="", string $max_id="", int $limit=100) 
         $mydb = new MyDB();
         $account_id = $mydb->escape($account_id);
 
-        $sql = "SELECT id FROM mutter WHERE user_id = '$account_id' ORDER BY created_at DESC";
+        $sql = "SELECT id FROM mutter WHERE user_id = '$account_id' ORDER BY id DESC";
 
         if(!empty($max_id)) {
             $sql .= " AND id < $max_id";

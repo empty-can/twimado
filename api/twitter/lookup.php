@@ -6,7 +6,7 @@ $api = 'statuses/lookup'; // アクセスするAPI
 /*------------ パラメータの取得設定 ------------*/
 $param = new Parameters();
 $param->constructFromPostParameters();
-$param->required = ["id"];
+$param->required = ["ids"];
 
 $param->setInitialValue('count', '200');
 $min_count = $param->getValue('count');
@@ -14,7 +14,6 @@ $min_count = $param->getValue('count');
 $account = $param->putValue('account');
 $passenger_id = $param->putValue('id');
 $media_only = $param->putValue('mo');
-$param->moveValue('ids', 'id');
 /*-----------------------------------------*/
 
 // 標準出力の監視開始
@@ -35,6 +34,8 @@ if($tokens->isEmpty()) {
     echo "認証情報が取得できませんでした。";
     goto end;
 }
+
+$param->moveValue('ids', 'id');
 
 // APIアクセス
 $tweets = getTwitterConnection($tokens->token, $tokens->secret)
