@@ -8,7 +8,7 @@ require_once ("init.php");
 function date4timeline(int $date) {
     $diff = time() - $date;
     $result = "";
-    
+
     if($diff<60) {
         $result = "１分以内";
     } else if($diff<3600) {
@@ -24,7 +24,7 @@ function date4timeline(int $date) {
         if(!$result)
             $result = "不明";
     }
-    
+
     return $result;
 }
 
@@ -34,6 +34,14 @@ function sort_mutter(array $a, array $b)
         return 0;
     }
     return ($a['sortValue'] > $b['sortValue']) ? -1 : 1;
+}
+
+function sort_mutter_asc(array $a, array $b)
+{
+    if ($a['sortValue'] == $b['sortValue']) {
+        return 0;
+    }
+    return ($a['sortValue'] < $b['sortValue']) ? -1 : 1;
 }
 
 function isImg(string $url) {
@@ -50,13 +58,13 @@ function isObject(string $url) {
 
 /**
  * URLが指すメディアのタイプを返す
- * 
+ *
  * @param string $url
  * @return string
  */
 function getMediaType(string $url) {
     $type = "";
-    
+
     if(contains($url, "png")) {
         $type = "img";
     } else if(contains($url, "jpg")) {
@@ -74,19 +82,19 @@ function getMediaType(string $url) {
     } else {
         $type = "obj";
     }
-    
+
     return $type;
 }
 
 /**
  * URLの拡張子に従ってタグを生成。
- * 
+ *
  * @param string $url
  */
 // function generateMediaLinkTag(string $url) {
 //     $result = "";
 //     $type = "";
-    
+
 //     if(contains($url, "png")) {
 //         $type = "img";
 //     } else if(contains($url, "jpg")) {
@@ -104,7 +112,7 @@ function getMediaType(string $url) {
 //     } else {
 //         $type = "obj";
 //     }
-    
+
 //     if ($type=="img"){
 //         $result = '<img src="'.$url.'" />';
 //     } else if ($type=="video"){
@@ -112,6 +120,6 @@ function getMediaType(string $url) {
 //     } else if ($type=="obj"){
 //         $result = '<object data="'.$url.'" type="image/png"></object>';
 //     }
-    
-//     return $result;    
+
+//     return $result;
 // }

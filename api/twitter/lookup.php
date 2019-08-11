@@ -61,8 +61,10 @@ if(empty($tweets)) {
 /*------------　API実行結果のインスタンス化　------------*/
 $mutters = array();
 $oldest = new EmptyMutter("twitter");
+$latest = null;
 $i = (int)0;
 $originalId = PHP_INT_MAX;
+$latestId = 1;
 
 foreach ($tweets as $tweet) {
     $tmp = new Tweet($tweet);
@@ -70,6 +72,11 @@ foreach ($tweets as $tweet) {
     if($originalId > $tmp->originalId()) {
         $originalId = $tmp->originalId();
         $oldest = $tmp;
+    }
+
+    if($tmp->originalId() > $latestId) {
+        $latestId = $tmp->originalId();
+        $latest = $tmp;
     }
 
     if(isset($mutters[$tmp->originalId])) {
@@ -101,13 +108,14 @@ if($param->getValue('max_id') === $oldest->originalId) {
 end:
 
 $stdout = ob_get_contents();
+$stdout = "";
 ob_end_clean();
 
 if(!empty($stdout)) {
 //     $stdout .= "<br>\r\n実行API：".$api;
     $response = gerErrorResponse("twitter", $stdout);
 } else {
-    $response = getResponse($mutters, $oldest);
+    $response = getResponse($mutters, $oldest, $latest);
     $response['twitter_oldest_id'] = $originalId;
 }
 

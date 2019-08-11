@@ -187,8 +187,8 @@ ul, ol {
   border-radius: 15px 0px 0px 15px;/*�����̊p�ۂ�*/
 }
 
-.trend li:before{ 
-  display:inline-block; 
+.trend li:before{
+  display:inline-block;
   vertical-align: middle;
   /*�ȉ����ۂ���*/
   content:'';
@@ -211,8 +211,8 @@ ul, ol {
   border-radius: 15px 0px 0px 15px;/*�����̊p�ۂ�*/
 }
 
-.mylist li:before{ 
-  display:inline-block; 
+.mylist li:before{
+  display:inline-block;
   vertical-align: middle;
   /*�ȉ����ۂ���*/
   content:'';

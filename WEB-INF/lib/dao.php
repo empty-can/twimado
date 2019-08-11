@@ -1,5 +1,100 @@
 <?php
 
+function getMatomeInfo(string $matome_id="") {
+    $results = "";
+
+    $mydb = new MyDB();
+    $matome_id = $mydb->escape($matome_id);
+
+    $sql = "SELECT * FROM matome WHERE id = '$matome_id';";
+
+    $results = $mydb->select($sql)[0];
+
+    $mydb->close();
+
+    return $results;
+}
+
+function getMatomeInfoByUserId(string $user_id="", string $user_domain="") {
+    $results = "";
+
+    if (!empty($user_id) && !empty($user_domain)) {
+        $mydb = new MyDB();
+        $user_id = $mydb->escape($user_id);
+        $user_domain = $mydb->escape($user_domain);
+
+        $sql = "SELECT id, title FROM matome WHERE user_id = $user_id AND user_domain = '$user_domain';";
+
+        $results = $mydb->select($sql);
+
+        $mydb->close();
+    }
+
+    return $results;
+}
+
+function getMatomeIds(string $matome_id="", string $mutter_id="", int $asc=0, int $limit=100) {
+    $results = "";
+
+    if (!empty($matome_id)) {
+
+        $mydb = new MyDB();
+        $matome_id = $mydb->escape($matome_id);
+
+        $sql = "SELECT mutter.id FROM matome, mvsm, mutter WHERE matome.id = $matome_id AND matome.id = mvsm.matome_id" . " AND mutter.id = mvsm.mutter_id AND mutter.domain = mvsm.mutter_domain";
+
+        if(empty($mutter_id)) {
+            if($asc==0) {
+                $sql .= " ORDER BY id DESC";
+            } else {
+                $sql .= " ORDER BY id ASC";
+            }
+        } else {
+            if($asc==0) {
+                $sql .= " AND mutter.id < $mutter_id ORDER BY id DESC";
+            } else {
+                $sql .= " AND mutter.id > $mutter_id ORDER BY id ASC";
+            }
+        }
+
+        $sql .= " LIMIT $limit";
+
+        $rows = $mydb->select($sql);
+
+        foreach ($rows as $row) {
+            $results .= $row["id"].",";
+        }
+
+        $mydb->close();
+
+        if(!empty($results)) {
+            $results = substr($results, 0, -1);
+        }
+    }
+
+    return $results;
+}
+
+function getMatomeList(string $user_id="", string $domain="") {
+    $results = "";
+
+    $mydb = new MyDB();
+    $user_id = $mydb->escape($user_id);
+    $domain = $mydb->escape($domain);
+
+    if(!empty($user_id)) {
+        $sql = "SELECT * FROM matome WHERE user_id = '$user_id' AND domain = '$domain';";
+    } else {
+        $sql = "SELECT * FROM matome;";
+    }
+
+    $results = $mydb->select($sql);
+
+    $mydb->close();
+
+    return $results;
+}
+
 function getMutterIds(string $account_id="", string $max_id=null, int $limit=100) {
     $results = "";
 

@@ -54,7 +54,7 @@ body {
 .media_box_vertical{
     width: 98vw;
 	height: auto;
-	
+
 	margin: 1vh 1vw auto auto;
 }
 
@@ -75,19 +75,19 @@ body {
 
 .img_wrapper {
 	display: block;
-	
+
 	width: auto;
 	height: auto;
 	max-width: 96vw;
 	max-height: 90vh;
 	border: solid 1px lightgray;
-	
+
 	margin: 0 0 0 0.5vh;
 }
 
 .img_wrapper_vertical {
 	display: block;
-	
+
 	width: auto;
 	height: auto;
 	max-width: 96vw;
@@ -164,7 +164,7 @@ body {
 #bottom {
 	margin: auto auto 25vh auto;
 }
-	
+
 #timeline_menu {
 	display: flex;
 	justify-content: space-around;
@@ -203,6 +203,24 @@ body {
   overflow: auto;
 }
 
+#operation {
+  position: fixed;
+  bottom: 0;
+  right: -340px; /* メニューのwidth + padding */
+  width: 40vwpx; /* メニューのwidth */
+  height: 100%;
+  padding: 20px;
+  transition: left .5s, right .5s; /* アニメーション */
+  background-color: rgba(173, 216, 230, .9);
+  overflow: auto;
+}
+
+#operation.after {
+  position: fixed;
+  bottom: 0;
+  right: 0; /* メニューのwidth + padding */
+}
+
 .rton {
 	font-weight: bold;
 	text-shadow: 0 0 0 green;
@@ -223,4 +241,19 @@ body {
   height: auto;
   max-height: 3em;
   overflow: auto;
+}
+
+#affiliate {
+	background-color:azure;
+	position:fixed;
+	bottom:0px;
+	width:100%;
+	padding-top:1vh;
+	z-index:100;
+}
+
+.amazlet-box{
+	margin-bottom: 0px;
+	width: 50%;
+	margin: auto;
 }

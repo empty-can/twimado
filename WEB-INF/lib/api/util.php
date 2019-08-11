@@ -24,13 +24,13 @@ function getTwitterTokens(string $account="", string $passenger_id="", bool $ena
         $tokens->token = TwitterAccessToken;
         $tokens->secret = TwitterAccessTokenSecret;
     }
-    
+
     return $tokens;
 }
 
 function getPawooTokens(string $account, string $passenger_id, bool $enable_app_token=true) {
     $tokens = new Tokens();
-    
+
     if(!empty($account)) {
         $result = get_access_tokens($account, 'pawoo');
         $tokens->token = $result['access_token'];
@@ -40,8 +40,8 @@ function getPawooTokens(string $account, string $passenger_id, bool $enable_app_
     } else if($enable_app_token){
         $tokens->token = PawooAccessToken;
     }
-    
-    
+
+
     return $tokens;
 }
 
@@ -55,44 +55,45 @@ function getPawooTokens(string $account, string $passenger_id, bool $enable_app_
 function gerErrorResponse(string $errorDomain, string $errorMessage) {
     $errorMutter = new ErrorMutter("$errorDomain");
     $errorMutter->addMessage($errorMessage);
-    
+
     $response = array();
     $response['oldest_mutter'] = new EmptyMutter("twitter");
-    
+
     $response['mutters'] = array();
     $response['mutters']['-1'] = obj_to_array($errorMutter);
-    
+
     return $response;
 }
 
 /**
  * 正常レスポンスを生成
- * 
+ *
  * @param array $mutters
  * @param Mutter $oldest
  * @return array
  */
-function getResponse(array $mutters, Mutter $oldest) {
+function getResponse(array $mutters, Mutter $oldest=null, Mutter $latest=null) {
     $response = array();
     $response['mutters'] = $mutters;
     $response['oldest_mutter'] = $oldest;
+    $response['latest_mutter'] = $latest;
     return $response;
 }
 
 /**
  * アクセストークンを格納するクラス
- * 
+ *
  * @author Administrator
  *
  */
 class Tokens {
     public $token = "";
     public $secret = "";
-    
+
     public function toString() {
         return "{token:".$this->token.",secret:".$this->secret."}";
     }
-    
+
     public function isEmpty() {
         return (empty($this->token) && empty($this->secret));
     }
