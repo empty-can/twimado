@@ -61,7 +61,6 @@ $smarty->assign("jss", $jss);
 $embedded_js_params_string = $param->parameters;
 
 $embedded_js_params_int = [
-    "count" => AsyncCount
 ];
 
 $embedded_js_string = [

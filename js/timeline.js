@@ -122,6 +122,11 @@ function getMutter() {
 				console.log('twitter_oldest_id:'+response['twitter_oldest_id']);
 			}
 
+			if(params['twitter_latest_id'] !== undefined) {
+				params['twitter_latest_id'] = response['twitter_latest_id'];
+				console.log('twitter_latest_id:'+response['twitter_latest_id']);
+			}
+
 			if(params['oldest_id'] !== undefined) {
 				params['oldest_id'] = response['oldest_id'];
 				console.log('oldest_id:'+response['oldest_id']);

@@ -43,7 +43,7 @@ if (contains($domain, 'twitter')) {
     } else {
         $ids = getMatomeIds($matome_id, $twitter_oldest_id, $asc, $count);
     }
-
+//     echo $ids;
     if(!empty($ids)) {
         $twitter_param->setParam('ids', $ids);
         $twitter_param->moveValue('twitter_oldest_id', 'max_id');
@@ -53,9 +53,7 @@ if (contains($domain, 'twitter')) {
         $twitter_oldest_id = $twitter_result['oldest_id'];
         $twitter_latest_id = $twitter_result['latest_id'];
         $response['mutters']  = array_merge($response['mutters'], $twitter_result['mutters']);
-    }
 
-    if(!empty($ids)) {
         $ids = explode(',', $ids);
         if($asc==1) {
             $response['twitter_oldest_id'] = $ids[0];
@@ -68,6 +66,10 @@ if (contains($domain, 'twitter')) {
         $response['twitter_oldest_id'] = -1;
         $response['twitter_latest_id'] = -1;
     }
+//     echo "<br>\r\n";
+//     echo $response['twitter_oldest_id'];
+//     echo "<br>\r\n";
+//     echo $response['twitter_latest_id'];
 }
 $mutters = array_unique($response['mutters'] , SORT_REGULAR);
 

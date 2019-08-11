@@ -59,6 +59,8 @@ function getMatomeIds(string $matome_id="", string $mutter_id="", int $asc=0, in
 
         $sql .= " LIMIT $limit";
 
+//         echo $sql;
+
         $rows = $mydb->select($sql);
 
         foreach ($rows as $row) {
