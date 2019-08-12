@@ -27,7 +27,9 @@ if (isset($_FILES['file_upload'])) {
         $jsons = explode("\n", $jsons);
 
         foreach ($jsons as $json) {
-            regMutter($json, $creators, $mydb);
+            if(!empty($json)) {
+                regMutter($json, $creators, $mydb);
+            }
         }
 
         echo 'アップロード完了';
@@ -97,8 +99,10 @@ function regMutter($json = null, array $creators = array(), $mydb = null) {
     $sql = "INSERT INTO mutter (id, domain, user_id, created_at) VALUE ($tweet_id, 'twitter', $user_id, '$created_at')";
     // myVarDump($sql);
     $results = $mydb->insert($sql);
-    var_dump($results);
+//     var_dump($results);
     echo " ";
+
+    return;
 }
 ?>
 <html>

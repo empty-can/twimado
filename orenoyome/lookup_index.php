@@ -20,8 +20,6 @@ if(empty($users)) {
     if(!empty($user_ids)) {
         $user_ids = substr($user_ids, 0, -1);
     }
-
-    myVarDump($user_ids);
 }
 
 if(!empty($user_ids)) {
