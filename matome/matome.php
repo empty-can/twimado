@@ -47,7 +47,7 @@ if(isset($response->twitter_latest_id)) {
 }
 
 // assignメソッドを使ってテンプレートに渡す値を設定
-$smarty->assign("title", " さんのまとめ用ページ");
+$smarty->assign("title", $param->getValue('name')." さんのまとめ用ページ");
 $smarty->assign("matomeInfo", $matomeInfo);
 
 $csss=array();

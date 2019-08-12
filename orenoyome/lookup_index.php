@@ -91,6 +91,10 @@ foreach ($users as $user) {
 		<img alt="<?php echo $user->name;?>" src="<?php echo $user->profile_image_url_https;?>">
 		<?php echo $user->name;?>@<?php echo $user->screen_name;?>
 	</a>
+	　
+	<a href="http://www.suki.pics/matome/matome.php?target_id=<?php echo $user->id;?>&name=<?php echo $user->name;?>&target_domain=twitter" target="_blank">
+		まとめ用ページ
+	</a>
 	<br>
 	<?php echo $user->description;?>
 	<hr>
