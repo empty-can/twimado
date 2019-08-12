@@ -30,7 +30,7 @@
 <div id="affiliate">
 {$matomeInfo.affiliate}
 </div>
-<div id="matomeList" class="none" style="width:100%;padding:1vw;position:fixed; bottom:50vh;background-color:azure;">
+<div id="matomeList" class="none" style="width:100%;padding:1vw;position:fixed; bottom:25vh;background-color:azure;">
 <form id="regMatome" action="/api/matomeAPI.php" method="GET" style="font-size:large;text-align:right;">
 {foreach from=$matomeList item=matome}
 	{$matome['title']}<input type="checkbox" name="matomeList[]" value="{$matome['id']}"><br>　
