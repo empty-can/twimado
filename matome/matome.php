@@ -1,7 +1,7 @@
 <?php
 require_once ("init.php");
 
-$api = AppURL . '/api/template/lookup.php';
+$api = AppURL . '/api/template/matome_lookup.php';
 
 $param = new Parameters();
 $param->constructFromGetParameters();
@@ -76,25 +76,10 @@ $smarty->assign("embedded_js", build_embededd_js($embedded_js_string, $embedded_
 
 $smarty->assign("embedded_mutters", build_embededd_mutters(obj_to_array($response->mutters)));
 
+$matomeList = getMatomeInfoByUserId($target_id, 'twitter');
+$smarty->assign("matomeList", $matomeList);
+
 $smarty->assign("mutters", array());
 
 // テンプレートを表示する
 $smarty->display("matome_timeline.tpl");
-
-/**
- *
- * @param array $matomeInfo
- */
-function matomeInfoToString(array $matomeInfo) {
-    $result = "";
-
-    foreach ($matomeInfo as $value) {
-        $result .= "'".$value['id']."':'".$value['title']."', ";
-    }
-
-    if(!empty($result)) {
-        $result = substr($result, 0, -1);
-    }
-
-    return $result;
-}

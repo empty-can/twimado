@@ -5,21 +5,38 @@ $submit_data = getPostParam('jsons', '');
 
 if(!empty($submit_data)) {
     $mydb = new MyDB();
+    $creators = array();
 
-//     $results = $mydb->query("DELETE FROM mutter");
+    $results = $mydb->select("SELECT * FROM creator;");
+
+    foreach ($results as $row) {
+        if(isset($creators[$row['screen_name']])) {
+            $creators[$row['screen_name']] = $row['id'];
+        }
+    }
+
+    // $results = $mydb->query("DELETE FROM mutter");
 
     $jsons = str_replace(array("\r\n","\r","\n"), "\n", $submit_data);
     $jsons = explode("\n", $jsons);
 
     foreach ($jsons as $json) {
+
+//         myVarDump($json);
         $decoded_json = json_decode($json);
+//         myVarDump($decoded_json);
 
         if(!empty($decoded_json->retweet_id) || !empty($decoded_json->rt_user))
             continue;
 
 //         var_dump($decoded_json);
-        $tweet_id = $mydb->escape($decoded_json->tweet_id);
-        $user_id = $mydb->escape($decoded_json->user_id);
+        $tweet_id = $mydb->escape($decoded_json->id);
+
+        if(!isset($creators[$mydb->escape($decoded_json->screen_name)])) {
+            continue;
+        }
+
+        $user_id = $creators[$mydb->escape($decoded_json->screen_name)];
 //         var_dump($decoded_json);
 
         if(!empty($decoded_json->created_at_date)) {
@@ -31,11 +48,13 @@ if(!empty($submit_data)) {
         }
 //         var_dump($created_at);
 
-        $sql = "INSERT INTO mutter (id, domain, user_id, created_at) VALUE ($tweet_id, 'twitter', '$user_id', '$created_at')";
+        $sql = "INSERT INTO mutter (id, domain, user_id, created_at) VALUE ($tweet_id, 'twitter', $user_id, '$created_at')";
+//         myVarDump($sql);
         $results = $mydb->insert($sql);
+        var_dump($results);
+        echo " ";
     }
 
-    var_dump($results);
 
     $mydb->close();
 }
@@ -59,7 +78,7 @@ if(!empty($submit_data)) {
 </head>
 <body>
 	<form action="./edit_json.php" method="POST">
-		<textarea name="jsons" rows="25" cols="200"><?php // echo $submit_data;?></textarea>
+		<textarea name="jsons" rows="25" cols="200"><?php echo $submit_data;?></textarea>
   		<button name="submit" value="true">送信</button>
 	</form>
 </body>

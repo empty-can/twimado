@@ -76,6 +76,10 @@ $smarty->assign("embedded_js", build_embededd_js($embedded_js_string, $embedded_
 
 $smarty->assign("embedded_mutters", build_embededd_mutters(obj_to_array($response->mutters)));
 
+$matomeList = array();
+$matomeList[0] = getMatomeInfo($matome_id);
+$smarty->assign("matomeList", $matomeList);
+
 $smarty->assign("mutters", array());
 
 // テンプレートを表示する

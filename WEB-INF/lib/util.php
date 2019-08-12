@@ -1,7 +1,31 @@
 <?php
 require_once ("init.php");
 
-function ceilNum($target) {
+
+/**
+ *
+ * @param array $matomeInfo
+ */
+function matomeInfoToString(array $matomeInfo) {
+    $result = "";
+
+    foreach ($matomeInfo as $value) {
+        $result .= "'".$value['id']."':'".$value['title']."', ";
+    }
+
+    if(!empty($result)) {
+        $result = substr($result, 0, -1);
+    }
+
+    return $result;
+}
+
+/**
+ *
+ * @param $target
+ * @return string
+ */
+function ceilNum(string $target) {
     if(((int)$target)>10000)
         return round(((int)$target)/10000,1)."万";
     else

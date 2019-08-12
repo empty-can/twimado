@@ -80,10 +80,19 @@
 		height: 32px;
 	}
 
+	#affiliate {
+		max-height: 15vh;
+		font-size: x-small;
+	}
 
 	.amazlet-box{
 		margin-bottom: 0px;
 		width: 100%;
 		margin: auto;
+	}
+
+	.amazlet-image a img {
+		width: auto;
+		max-height: 12vh;
 	}
 }

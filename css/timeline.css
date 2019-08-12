@@ -244,7 +244,7 @@ body {
 }
 
 #affiliate {
-	background-color:azure;
+	background-color:#dfdfdf;
 	position:fixed;
 	bottom:0px;
 	width:100%;
@@ -256,4 +256,5 @@ body {
 	margin-bottom: 0px;
 	width: 50%;
 	margin: auto;
+	padding: 0 1vw 0 1vw;
 }

@@ -50,6 +50,14 @@ if(!empty($user_ids)) {
         }
     }
 
+    foreach ($users as $user) {
+        $count = existCreator($user->id_str, 'twitter');
+
+        if($count==0) {
+            insertCreator($user->id_str, 'twitter', $user->screen_name, $user->name);
+        }
+    }
+
     // 検索結果数の確認
     if (empty($users)) {
         echo "該当が0件でした。";

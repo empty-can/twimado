@@ -1,5 +1,76 @@
 <?php
 
+function insertCreator(string $user_id, string $domain, string $screen_name, string $name) {
+    $results = "";
+
+    $mydb = new MyDB();
+    $user_id = $mydb->escape($user_id);
+    $domain = $mydb->escape($domain);
+    $screen_name = $mydb->escape($screen_name);
+    $name = $mydb->escape($name);
+
+    $sql = "INSERT INTO creator (`id`, `domain`, `screen_name`, `name`) VALUES ($user_id, '$domain', '$screen_name', '$name');";
+
+    $results = $mydb->insert($sql);
+
+    $mydb->close();
+
+    return $results[0]['count(id)'];
+
+}
+
+function existCreator(string $user_id, string $domain) {
+    $results = "";
+
+    $mydb = new MyDB();
+    $user_id = $mydb->escape($user_id);
+    $domain = $mydb->escape($domain);
+
+    $sql = "SELECT count(id) FROM creator WHERE id=$user_id AND domain='$domain';";
+
+    $results = $mydb->select($sql);
+
+    $mydb->close();
+
+    return $results[0]['count(id)'];
+
+}
+
+function regMatome(string $mutter_id="", string $domain="", string $matome_id="") {
+    $results = "";
+
+    $mydb = new MyDB();
+    $mutter_id = $mydb->escape($mutter_id);
+    $domain = $mydb->escape($domain);
+    $matome_id = $mydb->escape($matome_id);
+
+    $sql = "INSERT INTO mvsm (`mutter_id`, `mutter_domain`, `matome_id`) VALUES ($mutter_id, '$domain', $matome_id);";
+    //     myVarDump($sql);
+    $results = $mydb->insert($sql);
+
+    $mydb->close();
+
+    return $results;
+}
+
+function delMatome(string $mutter_id="", string $domain="", string $matome_id="") {
+    $results = "";
+
+    $mydb = new MyDB();
+    $mutter_id = $mydb->escape($mutter_id);
+    $domain = $mydb->escape($domain);
+    $matome_id = $mydb->escape($matome_id);
+
+    $sql = "DELETE FROM mvsm WHERE `mutter_id`=$mutter_id AND `mutter_domain`='$domain' AND `matome_id`=$matome_id;";
+    //     myVarDump($sql);
+
+    $results = $mydb->query($sql);
+
+    $mydb->close();
+
+    return $results;
+}
+
 function getMatomeInfo(string $matome_id="") {
     $results = "";
 

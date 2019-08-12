@@ -6,6 +6,14 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.display {
+	display: block;
+}
+
+.none {
+	display: none;
+}
+
 /* flex-box 関係*/
 .flx {
 	display: flex;

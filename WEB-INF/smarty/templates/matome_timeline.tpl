@@ -30,4 +30,84 @@
 <div id="affiliate">
 {$matomeInfo.affiliate}
 </div>
+<div id="matomeList" class="none" style="width:100%;padding:1vw;position:fixed; bottom:50vh;background-color:azure;">
+<form id="regMatome" action="/api/matomeAPI.php" method="GET" style="font-size:large;text-align:right;">
+{foreach from=$matomeList item=matome}
+	{$matome['title']}<input type="checkbox" name="matomeList[]" value="{$matome['id']}"><br>　
+{/foreach}
+<input id="tweet_id" type="hidden" name="tweet_id" value="">
+<input id="domain" type="hidden" name="domain" value="">
+<input id="action" type="hidden" name="action" value="">
+<input type="button" value="キャンセル" onclick="hideMatomeList();">
+<input type="button" name="button" value="削除" onclick="confirm('削除してよいですか？');delMatome();hideMatomeList();">
+<input type="button" name="button" value="登録" onclick="regMatome();hideMatomeList();">
+</form>
+<script>
+function showMatomeList(tweet_id, domain) {
+	$('#matomeList').removeClass('none');
+	$('#matomeList').addClass('display');
+	$('#tweet_id').val(tweet_id);
+	$('#domain').val(domain);
+}
+
+function hideMatomeList() {
+	$('#matomeList').removeClass('display');
+	$('#matomeList').addClass('none');
+	$('#tweet_id').val('');
+	$('#domain').val('');
+	$('#action').val('');
+}
+
+function regMatome() {
+	$('#action').val('reg');
+	$form = $('#regMatome');
+
+    $.ajax({
+        url: $form.attr('action'),
+        type: $form.attr('method'),
+        data: $form.serialize(),
+
+        complete: function(xhr, textStatus) {
+        },
+
+        success: function(result, textStatus, xhr) {
+        	console.log(result);
+			hideMatomeList();
+            console.log('OK');
+        },
+
+        error: function(xhr, textStatus, error) {
+            console.log('NG...');
+        }
+    });
+}
+
+function delMatome() {
+	$('#action').val('del');
+	$form = $('#regMatome');
+	var tweet_id = $('#tweet_id').val();
+
+    $.ajax({
+        url: $form.attr('action'),
+        type: $form.attr('method'),
+        data: $form.serialize(),
+
+        complete: function(xhr, textStatus) {
+        },
+
+        success: function(result, textStatus, xhr) {
+        	console.log(result);
+			hideMatomeList();
+        	console.log('#mutter'+tweet_id);
+			$('#mutter'+tweet_id).remove();
+            console.log('OK');
+        },
+
+        error: function(xhr, textStatus, error) {
+            console.log('NG...');
+        }
+    });
+}
+</script>
+</div>
 {include file='parts/footer.tpl'}
