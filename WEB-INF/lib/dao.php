@@ -36,6 +36,20 @@ function existCreator(string $user_id, string $domain) {
 
 }
 
+function getAllCreators() {
+
+    $mydb = new MyDB();
+
+    $sql = "SELECT * FROM creator;";
+
+    $results = $mydb->select($sql);
+
+    $mydb->close();
+
+    return $results;
+
+}
+
 function regMatome(string $mutter_id="", string $domain="", string $matome_id="") {
     $results = "";
 
@@ -156,9 +170,9 @@ function getMatomeList(string $user_id="", string $domain="") {
     $domain = $mydb->escape($domain);
 
     if(!empty($user_id)) {
-        $sql = "SELECT * FROM matome WHERE user_id = '$user_id' AND domain = '$domain';";
+        $sql = "SELECT `id`, `title`, `description`, `user_id`, `user_domain`, count(`id`) AS total FROM matome, mvsm WHERE user_id = '$user_id' AND domain = '$domain' AND mvsm.matome_id = id GROUP BY id ORDER BY `user_id`;";
     } else {
-        $sql = "SELECT * FROM matome;";
+        $sql = "SELECT `id`, `title`, `description`, `user_id`, `user_domain`, count(`id`) AS total FROM matome, mvsm WHERE mvsm.matome_id = id GROUP BY id ORDER BY `user_id`;";
     }
 
     $results = $mydb->select($sql);

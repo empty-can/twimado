@@ -17,13 +17,23 @@ $param->setParam('pawoo_id', PawooAccountID);
 $target_id = $param->getValue('target_id', '');
 
 $matomeList = getMatomeList($target_id);
+$creatorList = getAllCreators();
+$creators = array();
 
-// myVarDump($matomeList);
+foreach ($creatorList as $creator) {
+    $creators[$creator['id']]['user_info'] = $creator;
+}
+
+foreach ($matomeList as $matome) {
+    $creators[$matome['user_id']]['matome'][] = $matome;
+}
+
+// myVarDump($creators);
 
 // assignメソッドを使ってテンプレートに渡す値を設定
 $smarty->assign("title", "まとめトップ");
 
-$smarty->assign("matomeList", $matomeList);
+$smarty->assign("matomeInfo", $creators);
 $csss=["top"];
 $smarty->assign("csss", $csss);
 

@@ -9,13 +9,11 @@ $domain = $param->parameters['domain'];
 $action = $param->parameters['action'];
 // myVarDump($param->parameters);
 
-if($action=='reg') {
-if(!empty($param->parameters['matomeList']) && !empty($param->parameters['tweet_id'])) {
-    foreach ($param->parameters['matomeList'] as $matome) {
-        $result = regMatome($tweet_id, $domain, $matome);
+if ($action == 'reg') {
+    if (! empty($param->parameters['matome']) && ! empty($param->parameters['tweet_id'])) {
+        $result = regMatome($tweet_id, $domain, $param->parameters['matome']);
     }
-}
-} else if($action=='del') {
+} else if ($action == 'del') {
     foreach ($param->parameters['matomeList'] as $matome) {
         $result = delMatome($tweet_id, $domain, $matome);
     }
