@@ -10,7 +10,7 @@ if(!empty($submit_data)) {
     $results = $mydb->select("SELECT * FROM creator;");
 
     foreach ($results as $row) {
-        if(isset($creators[$row['screen_name']])) {
+        if(!isset($creators[$row['screen_name']])) {
             $creators[$row['screen_name']] = $row['id'];
         }
     }
@@ -24,6 +24,15 @@ if(!empty($submit_data)) {
 
 //         myVarDump($json);
         $decoded_json = json_decode($json);
+
+        if(!isset($creators[$decoded_json->screen_name])) {
+            $params = [
+                "screen_name" => $decoded_json->screen_name
+            ];
+            $profile = getTwitterConnection()->get('users/show', $params);
+
+            insertCreator($profile->id_str, 'twitter', $profile->screen_name, $profile->name);
+        }
 //         myVarDump($decoded_json);
 
         if(!empty($decoded_json->retweet_id) || !empty($decoded_json->rt_user))
