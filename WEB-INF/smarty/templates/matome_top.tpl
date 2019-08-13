@@ -5,7 +5,7 @@
 	    <div style="background-color:#cfcfcf;flex-basis:100%;">
 			{if ($i != $creator['user_id']['id'])}
 				<a href="/matome/matome.php?target_id={$creator['user_id']}&name={$creator['name']}&target_domain=twitter" target="_blank">
-					<img alt={$creator['description']}"
+					<img alt="{$creator['description']}"
 						src="{$creator['profile_image_url']}">
 				{$i = $info['user_info']['id']}
 				{$creator['name']}@{$info['user_info']['screen_name']}<br>

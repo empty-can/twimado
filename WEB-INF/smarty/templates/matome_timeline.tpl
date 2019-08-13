@@ -33,18 +33,20 @@
 <div id="matomeList" class="none" style="width:100%;padding:1vw;position:fixed; bottom:25vh;background-color:azure;">
 <form id="regMatome" action="/api/matomeAPI.php" method="GET" style="font-size:large;text-align:right;">
 {foreach from=$matomeList item=matome}
-	{$matome['title']}<input type="radio" name="matome" value="{$matome['id']}"><br>　
+	{$matome['title']}<input type="radio" name="matome" value="{$matome['id']}">
+	<br>
+	<br>
 {/foreach}
 <input id="tweet_id" type="hidden" name="tweet_id" value="">
 <input id="domain" type="hidden" name="domain" value="">
 <input id="action" type="hidden" name="action" value="">
-<input type="button" value="キャンセル" onclick="hideMatomeList();">
+<input type="button" value="キャンセル" onclick="hideMatomeList();">　
 <input type="button" name="button" value="削除" onclick="if(!confirm('削除してよいですか？')) {
 	return false;
 } else {
 	delMatome();
 	hideMatomeList();
-}">
+}">　
 <input type="button" name="button" value="登録" onclick="regMatome();hideMatomeList();">
 </form>
 <script>

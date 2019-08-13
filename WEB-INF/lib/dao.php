@@ -181,8 +181,8 @@ function getMatomeList(string $user_id="", string $domain="") {
 
     $results = $mydb->select($sql);
 
-    var_dump($sql);
-//     $mydb->close();
+//     var_dump($sql);
+    $mydb->close();
 
     return (empty($results)) ? array() : $results;
 }
