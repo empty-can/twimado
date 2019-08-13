@@ -78,10 +78,10 @@ if(!empty($user_ids)) {
 <link rel="icon" href="http://www.suki.pics/favicon.ico" type="image/vnd.microsoft.icon">
 <link rel="apple-touch-icon" href="http://www.suki.pics/favicon.ico" type="image/vnd.microsoft.icon">
 <title>lookupトップページ</title>
-<link rel="stylesheet" type="text/css" href="http://www.suki.pics/css/common.css?2019-08-04_14:04:14" />
-<link rel="stylesheet" type="text/css" href="http://www.suki.pics/css/top.css?2019-08-04_14:04:14" />
-<link rel="stylesheet" type="text/css" href="http://www.suki.pics/css/top_m.css?2019-08-04_14:04:14" />
-<link rel="stylesheet" type="text/css" href="http://www.suki.pics/css/top_pc.css?2019-08-04_14:04:14" />
+<link rel="stylesheet" type="text/css" href="http://www.suki.pics/css/common.css?2019-08-08_14:04:14" />
+<link rel="stylesheet" type="text/css" href="http://www.suki.pics/css/top.css?2019-08-08_14:04:14" />
+<link rel="stylesheet" type="text/css" href="http://www.suki.pics/css/top_m.css?2019-08-08_14:04:14" />
+<link rel="stylesheet" type="text/css" href="http://www.suki.pics/css/top_pc.css?2019-08-08_14:04:14" />
 </head>
 <body>
 <?php

@@ -39,7 +39,12 @@
 <input id="domain" type="hidden" name="domain" value="">
 <input id="action" type="hidden" name="action" value="">
 <input type="button" value="キャンセル" onclick="hideMatomeList();">
-<input type="button" name="button" value="削除" onclick="confirm('削除してよいですか？');delMatome();hideMatomeList();">
+<input type="button" name="button" value="削除" onclick="if(!confirm('削除してよいですか？')) {
+	return false;
+} else {
+	delMatome();
+	hideMatomeList();
+}">
 <input type="button" name="button" value="登録" onclick="regMatome();hideMatomeList();">
 </form>
 <script>
@@ -107,6 +112,15 @@ function delMatome() {
             console.log('NG...');
         }
     });
+}
+
+// a指定したツイッターIDから始まるTLにジャンプ（暫定実装）
+function shiori(twitter_id) {
+	var query = '{$smarty.server.REQUEST_URI}';
+	query = query.replace(/&twitter_oldest_id=[0-9]*/, '');
+	query = query.replace(/&twitter_latest_id=[0-9]*/, '');
+	query += '&twitter_oldest_id='+twitter_id+'&twitter_latest_id='+twitter_id;
+	open( query, '_blank' ) ;
 }
 </script>
 </div>

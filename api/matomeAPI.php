@@ -7,14 +7,14 @@ $param->constructFromGetParameters();
 $tweet_id = $param->parameters['tweet_id'];
 $domain = $param->parameters['domain'];
 $action = $param->parameters['action'];
-// myVarDump($param->parameters);
+$matome = $param->parameters['matome'];
 
 if ($action == 'reg') {
-    if (! empty($param->parameters['matome']) && ! empty($param->parameters['tweet_id'])) {
-        $result = regMatome($tweet_id, $domain, $param->parameters['matome']);
+    if (!empty($matome) && !empty($tweet_id)) {
+        $result = regMatome($tweet_id, $domain, $matome);
     }
 } else if ($action == 'del') {
-    foreach ($param->parameters['matomeList'] as $matome) {
+    if (!empty($matome) && !empty($tweet_id)) {
         $result = delMatome($tweet_id, $domain, $matome);
     }
 }

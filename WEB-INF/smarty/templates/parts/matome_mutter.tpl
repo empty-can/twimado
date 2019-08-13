@@ -9,7 +9,7 @@
  		<div class="mutter retweet">
 	{/if}
 {else}
- 	<div id="mutter{$mutter.id}" class="mutter" onclick="showMatomeList('{$mutter.id}', 'twitter');">
+ 	<div id="mutter{$mutter.id}" class="mutter">
 {/if}
 		{if $hs && $mutter.sensitive}
 		<div class="sensitive">
@@ -18,7 +18,7 @@
 		 	<br>
 		</div>
 		{else}
-		<div id="tweet_media{$mutter.id}" class="tweet_media">
+		<div id="tweet_media{$mutter.id}" class="tweet_media" onclick="showMatomeList('{$mutter.id}', 'twitter');">
 			<div class="media_box">
 				<div id="imgs_wrapper{$mutter.id}" class="imgs_wrapper">
 		{if $thumb}
@@ -119,8 +119,8 @@
 	    			{/if}
 	    			<span id="fav_count_{$mutter.id}">{$mutter.favCount}</span>
 	    		</div>
-	    		<!-- div onclick="showMyList();">&#x2b50;</div>
-	    		<div onclick="confirm('しおり機能は未実装です');">&#x1f516;</div -->
+	    		<!-- div onclick="showMyList();">&#x2b50;</div -->
+	    		<div onclick="shiori('{$mutter.id}');">&#x1f516;</div>
 	    	</div>
 	    	</div>
 	    	<div class="clear"></div>
