@@ -169,18 +169,20 @@ function getMatomeList(string $user_id="", string $domain="") {
     $user_id = $mydb->escape($user_id);
     $domain = $mydb->escape($domain);
 
-    $sql = "SELECT matome.id, `title`, `description`, `user_id`, `user_domain`, count(matome.id) AS total FROM matome, creator";
-    $sql .= " WHERE creator.id = user_id";
+    $sql = "SELECT matome.id AS matome_id, `title`, `description`, `user_id`, `user_domain`, total FROM matome, creator"
+            .", (SELECT matome_id, count(matome_id) AS total FROM mvsm GROUP BY matome_id) matome_count";
     if(!empty($user_id)) {
-        $sql .= " AND user_id = '$user_id' AND user_domain = '$domain' GROUP BY matome.id ORDER BY matome.id;";
+        $sql .= "   WHERE matome.user_id = '$user_id' AND user_domain = '$domain' AND matome.user_id = creator.id";
     } else {
-        $sql .= " GROUP BY matome.id ORDER BY matome.id;";
+        $sql .= "   WHERE matome.user_id = creator.id";
     }
+
+    $sql .= "  AND matome.id = matome_count.matome_id;";
 
     $results = $mydb->select($sql);
 
-//     var_dump($sql);
-    $mydb->close();
+    var_dump($sql);
+//     $mydb->close();
 
     return (empty($results)) ? array() : $results;
 }

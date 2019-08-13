@@ -55,7 +55,7 @@
 		{for $var=1 to count($mutter.media)}　◀{/for}
 		</div>
 		{/if}
-	    <div class="info">
+	    <div class="info" onclick="showMatomeList('{$mutter.id}', 'twitter');">
 	    	<div class="icon left">
 	    		<img src="{$mutter.account.profileImage}" style="width:32px">
 	    		<a href="{$mutter.mutterURL}" target="_blank"><img src="{$mutter.providerIcon}" style="width:32px"></a>
