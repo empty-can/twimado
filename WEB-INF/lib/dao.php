@@ -169,17 +169,20 @@ function getMatomeList(string $user_id="", string $domain="") {
     $user_id = $mydb->escape($user_id);
     $domain = $mydb->escape($domain);
 
+    $sql = "SELECT matome.id, `title`, `description`, `user_id`, `user_domain`, count(matome.id) AS total FROM matome, creator";
+    $sql .= " WHERE creator.id = user_id";
     if(!empty($user_id)) {
-        $sql = "SELECT `id`, `title`, `description`, `user_id`, `user_domain`, count(`id`) AS total FROM matome, mvsm WHERE user_id = '$user_id' AND domain = '$domain' AND mvsm.matome_id = id GROUP BY id ORDER BY `user_id`;";
+        $sql .= " AND user_id = '$user_id' AND user_domain = '$domain' GROUP BY matome.id ORDER BY matome.id;";
     } else {
-        $sql = "SELECT `id`, `title`, `description`, `user_id`, `user_domain`, count(`id`) AS total FROM matome, mvsm WHERE mvsm.matome_id = id GROUP BY id ORDER BY `user_id`;";
+        $sql .= " GROUP BY matome.id ORDER BY matome.id;";
     }
 
     $results = $mydb->select($sql);
 
+//     var_dump($sql);
     $mydb->close();
 
-    return $results;
+    return (empty($results)) ? array() : $results;
 }
 
 function getMutterIds(string $account_id="", string $max_id=null, int $limit=100) {

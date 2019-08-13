@@ -15,7 +15,7 @@ $param->setParam('account', Account);
 $param->setParam('pawoo_id', PawooAccountID);
 
 $target_id = $param->getValue('target_id', '');
-if (empty($users)) {
+// if (empty($users)) {
     $user_ids = "";
     $mydb = new MyDB();
 
@@ -32,7 +32,7 @@ if (empty($users)) {
     if (! empty($user_ids)) {
         $user_ids = substr($user_ids, 0, - 1);
     }
-}
+// }
 
 $api = 'users/lookup'; // アクセスするAPI
 
@@ -57,23 +57,22 @@ foreach ($users as $users) {
     $creators[$users->id_str]['name'] = $users->name;
     $creators[$users->id_str]['profile_image_url'] = $users->profile_image_url;
 }
-// myVarDump($creators);
 // myVarDump($users);
-$matomeList = getMatomeList($target_id);
 // myVarDump($matomeList);
 $creatorList = getAllCreators();
 
 foreach ($creatorList as $creator) {
-    $creators[$creator['id']]['user_id'] = $creator;
-//     var_dump($creator);
+    $creator_id = $creator['id'];
+    $creators[$creator_id]['user_id'] = $creator_id;
+//     var_dump($creator_id);
+    $matomeList = getMatomeList($creator_id, 'twitter');
+
+    foreach ($matomeList as $matome) {
+        $creators[$creator_id]['matome'][] = $matome;
+    }
+//     var_dump($matomeList);
 }
 // myVarDump($creators);
-
-foreach ($matomeList as $matome) {
-    $creators[$matome['user_id']]['matome'][] = $matome;
-}
-
-
 
 // assignメソッドを使ってテンプレートに渡す値を設定
 $smarty->assign("title", "まとめトップ");

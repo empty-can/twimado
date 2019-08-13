@@ -11,7 +11,7 @@
 				{$creator['descrption']}<br>
 			{/if}
 	    	{foreach from=$creator['matome'] item=matome}
-			　　　　<a href="/matome/timeline.php?matome_id={$matome['id']}" target="_blank">{$matome['title']}</a>（{$matome['total']}）<br>
+			　　　　<a href="/matome/timeline.php?matome_id={$matome['id']}" target="_blank">{$matome['title']}</a><!-- （{$matome['total']}）--><br>
 	   		{/foreach}<br>
 	    </div>
     {/foreach}
