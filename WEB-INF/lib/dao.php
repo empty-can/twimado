@@ -40,7 +40,7 @@ function getAllCreators() {
 
     $mydb = new MyDB();
 
-    $sql = "SELECT * FROM creator;";
+    $sql = "SELECT * FROM creator ORDER BY id;";
 
     $results = $mydb->select($sql);
 
@@ -85,13 +85,43 @@ function delMatome(string $mutter_id="", string $domain="", string $matome_id=""
     return $results;
 }
 
+function createMatome(string $creator_id="", string $creator_domain="", string $matome_name="") {
+    $results = "";
+
+    if(!empty($matome_name)) {
+        $mydb = new MyDB();
+
+        $creator_id = $mydb->escape($creator_id);
+        $creator_domain = $mydb->escape($creator_domain);
+        $matome_name = $mydb->escape($matome_name);
+
+        $sql = "SELECT max(id) AS max FROM matome";
+        $max = ((int)$mydb->select($sql)[0]['max'])+1;
+
+//         myVarDump($max);
+
+        $matome_name = $mydb->escape($matome_name);
+
+        $sql = "INSERT INTO matome (`id`, `title`, `description`, `user_id`, `user_domain`)"
+            ." VALUES ($max, '$matome_name', '$matome_name', $creator_id ,'$creator_domain')";
+
+//             myVarDump($sql);
+
+        $results = $mydb->insert($sql);
+
+        $mydb->close();
+    }
+
+    return $results;
+}
+
 function getMatomeInfo(string $matome_id="") {
     $results = "";
 
     $mydb = new MyDB();
     $matome_id = $mydb->escape($matome_id);
 
-    $sql = "SELECT * FROM matome WHERE id = '$matome_id';";
+    $sql = "SELECT `id`, `title`, `affiliate`, `description`, `user_id`, `user_domain`, count(*) AS total FROM matome WHERE id = '$matome_id' GROUP BY id ORDER BY total DESC;";
 
     $results = $mydb->select($sql)[0];
 
@@ -108,12 +138,25 @@ function getMatomeInfoByUserId(string $user_id="", string $user_domain="") {
         $user_id = $mydb->escape($user_id);
         $user_domain = $mydb->escape($user_domain);
 
-        $sql = "SELECT id, title FROM matome WHERE user_id = $user_id AND user_domain = '$user_domain';";
+        $sql = "SELECT temp_table.id AS id, `title`, `affiliate`, `description`, `user_id`, `user_domain`, count(*) AS total"
+                ." FROM"
+                ." (SELECT matome.id AS id, `title`, `affiliate`, `description`, `user_id`, `user_domain`"
+                ."  FROM matome WHERE user_id = $user_id"
+                ."  ) temp_table LEFT JOIN mvsm ON temp_table.id = mvsm.matome_id GROUP BY temp_table.id ORDER BY total;";
 
         $results = $mydb->select($sql);
 
         $mydb->close();
     }
+
+
+    $sql = "SELECT matome.id AS matome_id, `title`, `description`, `user_id`, `user_domain`, total FROM matome, creator"
+        .", (SELECT matome_id, count(matome_id) AS total FROM mvsm GROUP BY matome_id) matome_count";
+        if(!empty($user_id)) {
+            $sql .= "   WHERE matome.user_id = '$user_id' AND user_domain = '$domain' AND matome.user_id = creator.id";
+        } else {
+            $sql .= "   WHERE matome.user_id = creator.id";
+        }
 
     return $results;
 }

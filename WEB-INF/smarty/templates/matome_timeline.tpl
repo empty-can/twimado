@@ -16,7 +16,7 @@
 		</div>
 	</div>
 </div>
-<div id="operation" class="operation" style="">
+<div id="operation" class="operation" style="display:none;">
 <form>
 {foreach from=$matomeInfo item=info}
 	<input type="checkbox" name="matome[]" value="{$info['id']}">{$info['title']}<br>
@@ -35,11 +35,11 @@
 {foreach from=$matomeList item=matome}
 	{$matome['title']}<input type="radio" name="matome" value="{$matome['id']}">
 	<br>
-	<br>
 {/foreach}
 <input id="tweet_id" type="hidden" name="tweet_id" value="">
 <input id="domain" type="hidden" name="domain" value="">
 <input id="action" type="hidden" name="action" value="">
+<br>
 <input type="button" value="キャンセル" onclick="hideMatomeList();">　
 <input type="button" name="button" value="削除" onclick="if(!confirm('削除してよいですか？')) {
 	return false;

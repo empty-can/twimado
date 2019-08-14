@@ -95,6 +95,10 @@ foreach ($users as $user) {
 	<a href="http://www.suki.pics/matome/matome.php?target_id=<?php echo $user->id;?>&name=<?php echo $user->name;?>&target_domain=twitter" target="_blank">
 		まとめ用ページ
 	</a>
+	　
+	<a href="http://www.suki.pics/orenoyome/create_matome.php?target_id=<?php echo $user->id;?>&domain=twitter" target="_blank">
+		まとめを追加
+	</a>
 	<br>
 	<?php echo $user->description;?>
 	<hr>
