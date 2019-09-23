@@ -92,11 +92,11 @@ foreach ($users as $user) {
 		<?php echo $user->name;?>@<?php echo $user->screen_name;?>
 	</a>
 	　
-	<a href="http://www.suki.pics/matome/matome.php?target_id=<?php echo $user->id;?>&name=<?php echo $user->name;?>&target_domain=twitter" target="_blank">
+	<a href="http://www.suki.pics/matome/matome.php?target_id=<?php echo $user->id;?>&name=<?php echo $user->name;?>&target_domain=twitter&edit=true" target="_blank">
 		まとめ用ページ
 	</a>
 	　
-	<a href="http://www.suki.pics/orenoyome/create_matome.php?target_id=<?php echo $user->id;?>&domain=twitter" target="_blank">
+	<a href="http://www.suki.pics/orenoyome/create_matome.php?target_id=<?php echo $user->id;?>&domain=twitter&name=<?php echo $user->name;?>" target="_blank">
 		まとめを追加
 	</a>
 	<br>

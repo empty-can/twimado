@@ -3,13 +3,14 @@ require_once ("init.php");
 
 $target_id = getGetParam('target_id', '');
 $domain = getGetParam('domain', '');
+$name = getGetParam('name', '');
 $submit_data = getPostParam('matome_name', '');
 
 if(!empty($submit_data)) {
     if(createMatome($target_id, $domain, $submit_data)==1) {
-        echo $submit_data+" の登録に成功しました。";
+        echo "$name さんの $submit_data の登録に成功しました。";
     } else {
-        echo $submit_data+" の登録に失敗しました。";
+        echo "$name さんの  $submit_data の登録に失敗しました。";
     }
 }
 ?>
@@ -29,7 +30,7 @@ if(!empty($submit_data)) {
 <link rel="stylesheet" type="text/css" href="http://www.suki.pics/css/top_pc.css?2019-08-04_14:04:14" />
 </head>
 <body>
-	<form action="./create_matome.php?target_id=<?php echo $target_id;?>&domain=<?php echo $domain;?>" method="POST">
+	<form action="./create_matome.php?target_id=<?php echo $target_id;?>&name=<?php echo $name;?>&domain=<?php echo $domain;?>" method="POST">
 		<input type="text" name="matome_name" value="">
   		<button name="submit" value="true">送信</button>
 	</form>

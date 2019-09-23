@@ -13,6 +13,7 @@ $param->setInitialValue('mo', getSessionParam('mo', 'true'));
 
 $param->setInitialValue('domain', 'twitterpawoo');
 $param->setInitialValue('count', '5');
+$param->setInitialValue('edit', 'false');
 
 $param->setParam('account', Account);
 $param->setParam('pawoo_id', PawooAccountID);
@@ -20,6 +21,7 @@ $param->setParam('twitter_id', TwitterAccountID);
 
 $matome_id = $param->getValue('matome_id');
 $asc = $param->getValue('asc');
+$edit = $param->getValue('edit');
 
 $matomeInfo = getMatomeInfo($matome_id);
 
@@ -69,6 +71,7 @@ $embedded_js_string = [
 $embedded_js_int = [
     "count" => AsyncCount
     , "asc" => $asc
+    , "edit" => $edit
 ];
 
 $smarty->assign("embedded_js_params", build_embededd_js_params($embedded_js_params_string, $embedded_js_params_int));

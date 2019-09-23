@@ -1,3 +1,4 @@
+<hr>
 {if $mutter.isRe}
 	{if (($mutter.account.id == $mutter.retweeter.id))}
 		{if ((($mutter.time-$mutter.originalDate)/86400)<1.0)}
@@ -125,5 +126,9 @@
 	    	</div>
 	    	<div class="clear"></div>
 	    </div>
-		<hr>
+ 	<blockquote class="twitter-tweet" data-conversation="none" align="center" data-lang="ja">
+ 		<p lang="ja" dir="ltr">{$mutter.text}</p>
+ 		&mdash; {$mutter.account.displayName} (@{$mutter.account.accountName})
+ 		<a href="https://twitter.com/{$mutter.account.accountName}/status/{$mutter.id}?ref_src=twsrc%5Etfw">{date4timeline($mutter.originalDate)}</a>
+	</blockquote>
     </div>

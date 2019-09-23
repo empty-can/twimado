@@ -51,10 +51,13 @@
 </form>
 <script>
 function showMatomeList(tweet_id, domain) {
-	$('#matomeList').removeClass('none');
-	$('#matomeList').addClass('display');
-	$('#tweet_id').val(tweet_id);
-	$('#domain').val(domain);
+
+	if(edit==true) {
+		$('#matomeList').removeClass('none');
+		$('#matomeList').addClass('display');
+		$('#tweet_id').val(tweet_id);
+		$('#domain').val(domain);
+	}
 }
 
 function hideMatomeList() {

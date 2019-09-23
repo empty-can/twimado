@@ -9,6 +9,7 @@ $param->constructFromGetParameters();
 $param->setInitialValue('hs', getSessionParam('hs', 'true'));
 $param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
 $param->setInitialValue('mo', getSessionParam('mo', 'true'));
+$param->setInitialValue('edit', 'false');
 
 $param->setInitialValue('domain', 'twitterpawoo');
 $param->setInitialValue('count', '5');
@@ -24,6 +25,7 @@ $matomeInfo = getMatomeInfoByUserId($target_id, $target_domain);
 
 $tmp = getRequest($api, $param->parameters);
 $response = my_json_decode($tmp);
+$edit = $param->getValue('edit');
 
 // myVarDump($response);
 
@@ -52,6 +54,7 @@ $smarty->assign("matomeInfo", $matomeInfo);
 
 $csss=array();
 $csss[] = "timeline";
+$csss[] = "matome_timeline";
 $smarty->assign("csss", $csss);
 
 $jss=array();
@@ -69,6 +72,7 @@ $embedded_js_string = [
 $embedded_js_int = [
     "count" => AsyncCount
     ,"matome" => '{'.matomeInfoToString($matomeInfo).'}'
+    , "edit" => $edit
 ];
 
 $smarty->assign("embedded_js_params", build_embededd_js_params($embedded_js_params_string, $embedded_js_params_int));

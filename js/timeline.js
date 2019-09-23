@@ -26,7 +26,7 @@ setInterval( function() {
 				getMutter();
 
 			for(var i=0; mutterQueue.length>0 && i<count; i++) {
-				$('#timeline').append(mutterQueue.shift());
+				$('#timeline').append(mutterQueue.shift()+'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>');
 
 				console.log(mutterQueue.length);
 
