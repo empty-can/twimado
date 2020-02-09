@@ -1,5 +1,8 @@
 body {
-    background-color: #d5d5d5;
+/*
+*   background-color: #d5d5d5;
+*/
+    background-color: #ffff;
     font-size: 0.8em;
 }
 
@@ -9,6 +12,7 @@ body {
 
 .mutter {
     width: 98vw;
+    height: auto;
 	margin: auto;
 }
 
@@ -36,7 +40,7 @@ body {
 
 .tweet_media {
     width: 98vw;
-	max-height: 85vh;
+	max-height: 95vh;
 	margin: 1vh auto auto auto;
 }
 
@@ -166,12 +170,13 @@ body {
 }
 
 #timeline_menu {
-	display: flex;
+	/* display: flex; */
+	display: none;
 	justify-content: space-around;
 	align-items: center;
 	width: 100vw;
 	max-width: 1024px;
-	background-color: #96858f;
+	background-color: skyblue;
     color: whitesmoke;
 	height: 46px;
 	padding-bottom: 0px;
@@ -181,7 +186,7 @@ body {
 	margin: auto;
 }
 #timeline_menu div {
-	background-color: lightgray;
+	background-color: white;
 	width: 34px;
 	height: 34px;
 }
@@ -243,18 +248,87 @@ body {
   overflow: auto;
 }
 
-#affiliate {
-	background-color:#dfdfdf;
+#affi_bottom {
 	position:fixed;
 	bottom:0px;
 	width:100%;
+	text-align: right;
 	padding-top:1vh;
 	z-index:100;
 }
 
 .amazlet-box{
+	position: relative;
 	margin-bottom: 0px;
-	width: 50%;
 	margin: auto;
 	padding: 0 1vw 0 1vw;
+}
+
+.amazlet-info {
+	background-color:#ffffff;
+	width: calc(100% - 120px);
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+#affiliate {
+}
+
+
+/*ボタン装飾*/
+#affiliate label {
+    color: gray;
+	background-color:#efefef;
+    font-weight: bold;
+    padding: 16px;
+    margin: 0px;
+    cursor :pointer;
+}
+
+#affiliate label:before {
+	content: '';
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	background-image: url("/images/arrow_up.png");
+	background-size: contain;
+	vertical-align: middle;
+}
+
+/*チェックは見えなくする*/
+#affiliate input {
+    display: none;
+}
+
+/*中身を非表示にしておく*/
+#affiliate .hidden_show {
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: 0.8s;
+}
+
+/*クリックで中身表示*/
+#affiliate input:checked ~ .hidden_show {
+	background-color:#efefef;
+    padding: 10px 0;
+    height: auto;
+    opacity: 1;
+	overflow-x: auto;
+}
+
+#affiliate input:checked ~ #affiliate label:before {
+	content: '';
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	background-image: url("/images/arrow_down.png");
+	background-size: contain;
+	vertical-align: middle;
+}
+
+iframe {
+	display: block;
 }

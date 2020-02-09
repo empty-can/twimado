@@ -5,6 +5,8 @@ require_once ("init.php");
 $param = new Parameters();
 $param->constructFromPostParameters();
 
+// myVarDump($param);
+
 $param->setInitialValue('hs', 'true');
 $param->setInitialValue('thumb', 'true');
 
@@ -17,6 +19,7 @@ $mutters = array();
 $response = array();
 $response['mutters'] = array();
 $response['debug'] = array();
+$response['error'] = array();
 
 ob_start();
 
@@ -29,7 +32,8 @@ if (contains($domain, 'twitter')) {
     $api = AppURL . '/api/twitter/lookup.php';
 
     $twitter_param = clone $param;
-
+    
+    $twitter_param->moveValue('twitter_id', 'id');
     $twitter_param->setInitialValue('count', '5');
 
     $twitter_oldest_id = $twitter_param->getValue('twitter_oldest_id');
@@ -37,13 +41,12 @@ if (contains($domain, 'twitter')) {
     $matome_id = $twitter_param->getValue('matome_id', "");
     $asc = $twitter_param->getValue('asc', 1);
     $count = $twitter_param->getValue('count', '5');
-
-    if($asc==1) {
-        $ids = getMatomeIds($matome_id, $twitter_latest_id, $asc, $count);
-    } else {
+    if($asc==0) {
         $ids = getMatomeIds($matome_id, $twitter_oldest_id, $asc, $count);
+    } else {
+        $ids = getMatomeIds($matome_id, $twitter_latest_id, $asc, $count);
     }
-//     echo $ids;
+
     if(!empty($ids)) {
         $twitter_param->setParam('ids', $ids);
         $twitter_param->moveValue('twitter_oldest_id', 'max_id');
@@ -100,3 +103,4 @@ $response['error'] = $stdout;
 
 // echo json_encode(gerErrorResponse("twitter", $response));
 echo json_encode($response);
+// echo var_dump($response);

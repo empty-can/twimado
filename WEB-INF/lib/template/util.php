@@ -10,6 +10,7 @@ function getMutters(string $api, array $parameters, $original_oldest_id) {
 
 	do {
 	    $tmp = getRequest($api, $parameters);
+
 	    $response = my_json_decode($tmp, true);
 
 	    if (! is_array($response)) {

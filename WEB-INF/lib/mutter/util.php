@@ -20,7 +20,7 @@ function date4timeline(int $date) {
     } else if($diff<604800) {
         $result = floor($diff/86400)."日前";
     } else {
-        $result = date("Y/m/d", $date);
+        $result = date("Y/m/d H:i:s", $date);
         if(!$result)
             $result = "不明";
     }

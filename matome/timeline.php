@@ -20,15 +20,16 @@ $param->setParam('pawoo_id', PawooAccountID);
 $param->setParam('twitter_id', TwitterAccountID);
 
 $matome_id = $param->getValue('matome_id');
+$user_id = $param->getValue('user_id');
+$param->setParam(matome_id, $user_id.$matome_id);
 $asc = $param->getValue('asc');
 $edit = $param->getValue('edit');
 
-$matomeInfo = getMatomeInfo($matome_id);
+// myVarDump($param);
 
+$matomeInfo = getMatomeInfo($user_id.$matome_id);
 $tmp = getRequest($api, $param->parameters);
 $response = my_json_decode($tmp);
-
-// myVarDump($response);
 
 if(empty($response)) {
     echo "APIからのデータ取得に失敗しました。";
@@ -48,12 +49,14 @@ if(isset($response->twitter_latest_id)) {
     $param->setParam('twitter_latest_id', $response->twitter_latest_id);
 }
 
+// myVarDump($param->parameters);
+
 // assignメソッドを使ってテンプレートに渡す値を設定
 $smarty->assign("title", "まとめ：".$matomeInfo['title']);
 $smarty->assign("matomeInfo", $matomeInfo);
 
 $csss=array();
-$csss[] = "timeline";
+$csss[] = "matome/timeline";
 $smarty->assign("csss", $csss);
 
 $jss=array();
@@ -79,9 +82,13 @@ $smarty->assign("embedded_js", build_embededd_js($embedded_js_string, $embedded_
 
 $smarty->assign("embedded_mutters", build_embededd_mutters(obj_to_array($response->mutters)));
 
-$matomeList = array();
-$matomeList[0] = getMatomeInfo($matome_id);
+$matomeList = getMatomeInfoByUserId($user_id, 'twitter');
 $smarty->assign("matomeList", $matomeList);
+
+//$matomeList = array();
+//$matomeList[0] = getMatomeInfo($user_id.$matome_id);
+// myVarDump($matomeList[0]);
+//$smarty->assign("matomeList", $matomeList);
 
 $smarty->assign("mutters", array());
 

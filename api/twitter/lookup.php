@@ -17,7 +17,7 @@ $media_only = $param->putValue('mo');
 /*-----------------------------------------*/
 
 // 標準出力の監視開始
-ob_start();
+//ob_start();
 
 // パラメータのチェック
 $validated = $param->validate();

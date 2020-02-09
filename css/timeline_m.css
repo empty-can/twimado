@@ -1,6 +1,7 @@
 @media screen and (min-width: 0px) and (max-device-width:1024px) {
 	.mutter {
 		width: 100vw;
+		height: auto;
 		margin: auto;
 	}
 	.info {
@@ -81,8 +82,8 @@
 	}
 
 	#affiliate {
-		max-height: 15vh;
-		font-size: x-small;
+		max-width: 98vw;
+		margin: auto;
 	}
 
 	.amazlet-box{

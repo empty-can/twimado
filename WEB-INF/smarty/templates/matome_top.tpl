@@ -23,7 +23,12 @@
 		    	<tr>
 			    	<td colspan="2">
 				    	{foreach from=$creator['matome'] item=matome}
-						・<a href="/matome/timeline.php?matome_id={$matome['matome_id']}" target="_blank">{$matome['title']}</a>（{$matome['total']}）<br>
+						・{$matome['title']}
+						<br>
+						　<a href="/matome/timeline.php?user_id={$creator['user_id']}&matome_id={$matome['matome_id']}&asc=0&edit=1" target="_blank">最新から</a>
+						　<a href="/matome/timeline.php?user_id={$creator['user_id']}&matome_id={$matome['matome_id']}&asc=1&edit=1" target="_blank">最初から</a>
+						　（{$matome['total']}）
+						<br>
 				   		{/foreach}
 			    	</td>
 		    	</tr>

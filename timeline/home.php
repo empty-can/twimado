@@ -17,6 +17,7 @@ $param->setParam('account', Account);
 $param->setParam('pawoo_id', PawooAccountID);
 $param->setParam('twitter_id', TwitterAccountID);
 
+/**
 // TLを取得
 $tmp = getRequest($api, $param->parameters);
 $response = my_json_decode($tmp);
@@ -25,6 +26,8 @@ if(empty($response)) {
     echo "APIからのデータ取得に失敗しました。";
     exit();
 }
+
+**/
 
 // 不要になったcountを削除
 $param->unset('count');
@@ -64,7 +67,8 @@ $embedded_js_int = array_merge($embedded_js_int, array());
 $smarty->assign("embedded_js_params", build_embededd_js_params($embedded_js_params_string, $embedded_js_params_int));
 $smarty->assign("embedded_js", build_embededd_js($embedded_js_string, $embedded_js_int));
 
-$smarty->assign("embedded_mutters", build_embededd_mutters(obj_to_array($response->mutters)));
+// $smarty->assign("embedded_mutters", build_embededd_mutters(obj_to_array($response->mutters)));
+$smarty->assign("embedded_mutters", build_embededd_mutters(array()));
 
 $smarty->assign("mutters", array());
 

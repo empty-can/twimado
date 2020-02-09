@@ -1,3 +1,5 @@
 .info {
-	background-color: gold;
+	color: black;
+	border: groove 10px black;
+	background-color: yellow;
 }

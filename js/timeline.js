@@ -4,7 +4,7 @@ var hist = new Array(0);
 var wait = false;
 var wait_time = 1000;
 var showRT = true;
-var horizontalScroll = true;
+var horizontalScroll = false;
 var index = 0;
 
 
@@ -26,7 +26,7 @@ setInterval( function() {
 				getMutter();
 
 			for(var i=0; mutterQueue.length>0 && i<count; i++) {
-				$('#timeline').append(mutterQueue.shift()+'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>');
+				$('#timeline').append(mutterQueue.shift());//+'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>');
 
 				console.log(mutterQueue.length);
 
@@ -304,7 +304,7 @@ function switch2Vertical() {
 
 function isEnd(params) {
 	console.log(params);
-	return (params == undefined || params == -1)
+	return (params === null || params === undefined || params === -1 || params === "")
 }
 
 function showMyList() {
@@ -315,12 +315,14 @@ function hideMyList() {
 }
 
 function fav(self, target_id, domain, method) {
-	url = 'http://www.suki.pics/api/post/fav.php?id='+target_id+'&domain='+domain;
+	// return ;
+	url = '//www.suki.pics/api/post/fav.php?id='+target_id+'&domain='+domain;
 	toggle(self, url, domain, '#fav_icon_'+target_id, '#fav_count_'+target_id, '#fav_'+target_id, '💓', '♡', 'favon', 'favoff');
 }
 
 function rt(self, target_id, domain, method) {
-	url = 'http://www.suki.pics/api/post/rt.php?id='+target_id+'&domain='+domain;
+	// return ;
+	url = '//www.suki.pics/api/post/rt.php?id='+target_id+'&domain='+domain;
 	toggle(self, url, domain, '#rt_icon_'+target_id, '#rt_count_'+target_id, '#rt_'+target_id, '🔂', '🔁', 'rton', 'rtoff');
 }
 

@@ -1,5 +1,64 @@
 <?php
 
+function checkAndCreateCreator(string $user_id) {
+    $mydb = new MyDB();
+
+    $results = $mydb->select("SELECT id FROM creator WHERE id = $user_id;");
+
+    if(empty($results)){
+        $tokens = getTwitterTokens();
+
+        $api = "users/show";
+
+        // APIアクセス
+        $account = getTwitterConnection($tokens->token, $tokens->secret)
+        ->get($api, ['user_id' => $user_id]);
+
+        $date = date('Y-m-d H:i:s');
+
+        echo "new followee!\r\n$account->name@$account->screen_name\r\n";
+
+        $sql = "INSERT INTO creator (id, domain, screen_name, name) VALUES ('$user_id', 'twitter', '$account->screen_name', '$account->name');";
+        $sql = "INSERT INTO new_creator (id, domain, screen_name, name, follow_date) VALUES ('$user_id', 'twitter', '$account->screen_name', '$account->name', '$date');";
+        $results = $mydb->insert($sql);
+    }
+}
+
+/**
+ *
+ * @param string $creator_id
+ * @param string $domain
+ */
+function getLatestMutter(string $user_id, string $domain) {
+    $result = "";
+
+    $mydb = new MyDB();
+    $user_id = $mydb->escape($user_id);
+    $domain = $mydb->escape($domain);
+
+    $sql = "SELECT mutter.created_at AS created_at FROM creator, mutter"
+        ." WHERE mutter.user_id = creator.id AND mutter.domain = '".$domain."' AND creator.id = $user_id"
+        ." ORDER BY mutter.created_at DESC LIMIT 1;";
+
+    $results = $mydb->select($sql);
+
+    $mydb->close();
+
+    if (isset($results[0]) && $results[0]['created_at'] && ! empty($results[0]['created_at']))
+        $result = strtotime($results[0]['created_at']);
+    else
+        $result = 0;
+
+    return $result;
+}
+
+/**
+ *
+ * @param string $user_id
+ * @param string $domain
+ * @param string $screen_name
+ * @param string $name
+ */
 function insertCreator(string $user_id, string $domain, string $screen_name, string $name) {
     $results = "";
 
@@ -16,7 +75,6 @@ function insertCreator(string $user_id, string $domain, string $screen_name, str
     $mydb->close();
 
     return $results[0]['count(id)'];
-
 }
 
 function existCreator(string $user_id, string $domain) {
@@ -36,6 +94,45 @@ function existCreator(string $user_id, string $domain) {
 
 }
 
+/**
+ *
+ * @param string $id
+ * @param string $domain
+ * @param string $user_id
+ * @param int $time
+ */
+function addMatomeTimeline(string $id, string $domain, string $user_id, int $time) {
+
+    $mydb = new MyDB();
+
+    $results = $mydb->select("SELECT id FROM creator WHERE id = '$user_id';");
+
+    if(empty($results)){
+        $tokens = getTwitterTokens();
+
+        $api = "users/show";
+
+        // APIアクセス
+        $account = getTwitterConnection($tokens->token, $tokens->secret)
+        ->get($api, ['user_id' => $user_id]);
+
+//         myVarDump($account);
+
+        $user_id = $account->id_str;
+        $sql = "INSERT INTO creator (id, domain, screen_name, name) VALUES ('$user_id', 'twitter', '$account->screen_name', '$account->name');";
+        $results = $mydb->insert($sql);
+    }
+
+    $created_at = date('Y-m-d H:i:s', $time);
+//     echo "INSERT INTO mutter (id, domain, user_id, created_at) VALUES (''$id', '$domain', '$user_id', '$time');";
+    $results = $mydb->insert("INSERT INTO mutter (id, domain, user_id, created_at) VALUES ('$id', '$domain', '$user_id', '$created_at');");
+//     echo "INSERT INTO mutter (id, domain, user_id, created_at) VALUES ('$id', '$domain', '$user_id', '$created_at');";
+//     echo "\r\n";
+//     var_dump($results);
+
+    $mydb->close();
+}
+
 function getAllCreators() {
 
     $mydb = new MyDB();
@@ -50,24 +147,64 @@ function getAllCreators() {
 
 }
 
-function regMatome(string $mutter_id="", string $domain="", string $matome_id="") {
+function getTwitterCollection(string $user_id="", string $matome_id="") {
+    $results = "";
+
+    $mydb = new MyDB();
+    $matome_id = $mydb->escape($matome_id);
+
+    $sql = "SELECT collection_id, re_collection_id FROM matome WHERE user_id=$user_id AND id=$matome_id;";
+
+    $results = $mydb->select($sql);
+    $mydb->close();
+
+    return $results[0];
+}
+
+/**
+ *
+ * @param string $mutter_id
+ * @param string $domain
+ * @param string $user_id
+ * @param string $matome_id
+ * @return mysqli_result|boolean
+ */
+function regMatome(string $mutter_id="", string $domain="", string $user_id="", string $matome_id="") {
     $results = "";
 
     $mydb = new MyDB();
     $mutter_id = $mydb->escape($mutter_id);
     $domain = $mydb->escape($domain);
     $matome_id = $mydb->escape($matome_id);
+    $user_id = $mydb->escape($user_id);
 
-    $sql = "INSERT INTO mvsm (`mutter_id`, `mutter_domain`, `matome_id`) VALUES ($mutter_id, '$domain', $matome_id);";
-    //     myVarDump($sql);
+    $sql = "INSERT INTO mvsm (`mutter_id`, `mutter_domain`, `user_id`, user_domain, `matome_id`) VALUES ($mutter_id, '$domain', '$user_id', '$domain', $matome_id);";
+
     $results = $mydb->insert($sql);
 
+    if(!empty($results)) {
+        $sql = "SELECT mutter_id FROM mvsm WHERE user_id='$user_id' AND matome_id='$matome_id' ORDER BY mutter_id DESC LIMIT 1;";
+        $results = $mydb->select($sql);
+        $mutter_id = $results[0]['mutter_id'];
+
+        $sql = "UPDATE matome SET `latest_mutter_id`='$mutter_id' WHERE user_id='$user_id' AND id='$matome_id';";
+        $results = $mydb->query($sql);
+    }
+
     $mydb->close();
 
     return $results;
 }
 
-function delMatome(string $mutter_id="", string $domain="", string $matome_id="") {
+/**
+ *
+ * @param string $mutter_id
+ * @param string $domain
+ * @param string $user_id
+ * @param string $matome_id
+ * @return mysqli_result|boolean
+ */
+function delMatome(string $mutter_id="", string $domain="", string $user_id="", string $matome_id="") {
     $results = "";
 
     $mydb = new MyDB();
@@ -75,37 +212,54 @@ function delMatome(string $mutter_id="", string $domain="", string $matome_id=""
     $domain = $mydb->escape($domain);
     $matome_id = $mydb->escape($matome_id);
 
-    $sql = "DELETE FROM mvsm WHERE `mutter_id`=$mutter_id AND `mutter_domain`='$domain' AND `matome_id`=$matome_id;";
-    //     myVarDump($sql);
+    $sql = "DELETE FROM mvsm WHERE `mutter_id`=$mutter_id AND `mutter_domain`='$domain' AND `user_id`=$user_id AND `user_domain`='$domain' AND `matome_id`=$matome_id;";
+    // error_log("sql:$sql");
 
     $results = $mydb->query($sql);
+    
+    $sql = "SELECT mutter.id AS id FROM mvsm, mutter WHERE mvsm.mutter_id=mutter.id AND mvsm.mutter_domain=mutter.domain AND mvsm.user_id=$user_id AND mvsm.user_domain='$domain' AND mvsm.matome_id=$matome_id ORDER BY mutter.created_at DESC LIMIT 1";
+    $results = $mydb->select($sql);
+
+    $id = $results[0]['id'];
+    // error_log("sql:$sql");
+    // error_log("id:$id");
+    
+    $sql = "UPDATE matome SET latest_mutter_id=$id WHERE `user_id`=$user_id AND `user_domain`='$domain' AND `id`=$matome_id;";
+    // error_log("sql:$sql");
+    $mydb->query($sql);
+
+
 
     $mydb->close();
 
     return $results;
 }
 
-function createMatome(string $creator_id="", string $creator_domain="", string $matome_name="") {
+function createMatome(string $creator_id="", string $creator_domain="", string $matome_name="", string $matome_name_short="") {
     $results = "";
 
-    if(!empty($matome_name)) {
+    if(!empty($matome_name) && !empty($matome_name_short)) {
         $mydb = new MyDB();
 
         $creator_id = $mydb->escape($creator_id);
         $creator_domain = $mydb->escape($creator_domain);
         $matome_name = $mydb->escape($matome_name);
+        $matome_name_short = $mydb->escape($matome_name_short);
 
-        $sql = "SELECT max(id) AS max FROM matome";
+        $sql = "SELECT max(id) AS max FROM matome WHERE user_id='$creator_id'";
+
+        // error_log("sql:$sql");
+        
         $max = ((int)$mydb->select($sql)[0]['max'])+1;
-
-//         myVarDump($max);
+        
+        // error_log("max:$max");
 
         $matome_name = $mydb->escape($matome_name);
 
-        $sql = "INSERT INTO matome (`id`, `title`, `description`, `user_id`, `user_domain`)"
-            ." VALUES ($max, '$matome_name', '$matome_name', $creator_id ,'$creator_domain')";
+        $sql = "INSERT INTO matome (`id`, `title`, `title_short`, `description`, `user_id`, `user_domain`, `latest_mutter_id`)"
+            ." VALUES ($max, '$matome_name', '$matome_name_short', '$matome_name', $creator_id,'$creator_domain', 0)";
 
-//             myVarDump($sql);
+        // error_log("sql:$sql");
 
         $results = $mydb->insert($sql);
 
@@ -121,7 +275,7 @@ function getMatomeInfo(string $matome_id="") {
     $mydb = new MyDB();
     $matome_id = $mydb->escape($matome_id);
 
-    $sql = "SELECT `id`, `title`, `affiliate`, `description`, `user_id`, `user_domain`, count(*) AS total FROM matome WHERE id = '$matome_id' GROUP BY id ORDER BY total DESC;";
+    $sql = "SELECT matome.id AS `id`, `title`, `title_short`, `affiliate`, `description`, `user_id`, `user_domain`, `private`, `latest_mutter_id`, count(*) AS total FROM matome WHERE CONCAT(matome.user_id, matome.id) = '$matome_id' GROUP BY id ORDER BY total DESC;";
 
     $results = $mydb->select($sql)[0];
 
@@ -138,71 +292,56 @@ function getMatomeInfoByUserId(string $user_id="", string $user_domain="") {
         $user_id = $mydb->escape($user_id);
         $user_domain = $mydb->escape($user_domain);
 
-        $sql = "SELECT temp_table.id AS id, `title`, `affiliate`, `description`, `user_id`, `user_domain`, count(*) AS total"
+        $sql = "SELECT temp_table.id AS id, `title`, `title_short`, `affiliate`, `description`, temp_table.user_id AS user_id, temp_table.user_domain AS user_domain, temp_table.matome_id AS matome_id, count(*) AS total"
                 ." FROM"
-                ." (SELECT matome.id AS id, `title`, `affiliate`, `description`, `user_id`, `user_domain`"
+                ." (SELECT CONCAT(matome.user_id, matome.id) AS id, `title`, `title_short`, `affiliate`, `description`, `user_id`, `user_domain`, matome.id AS `matome_id`"
                 ."  FROM matome WHERE user_id = $user_id"
-                ."  ) temp_table LEFT JOIN mvsm ON temp_table.id = mvsm.matome_id GROUP BY temp_table.id ORDER BY total;";
+                ."  ) temp_table LEFT JOIN mvsm ON temp_table.id = CONCAT(mvsm.user_id, mvsm.matome_id) GROUP BY temp_table.id ORDER BY mvsm.matome_id;";
 
         $results = $mydb->select($sql);
 
         $mydb->close();
     }
 
-
-    $sql = "SELECT matome.id AS matome_id, `title`, `description`, `user_id`, `user_domain`, total FROM matome, creator"
-        .", (SELECT matome_id, count(matome_id) AS total FROM mvsm GROUP BY matome_id) matome_count";
-        if(!empty($user_id)) {
-            $sql .= "   WHERE matome.user_id = '$user_id' AND user_domain = '$domain' AND matome.user_id = creator.id";
-        } else {
-            $sql .= "   WHERE matome.user_id = creator.id";
-        }
-
     return $results;
 }
 
 function getMatomeIds(string $matome_id="", string $mutter_id="", int $asc=0, int $limit=100) {
-    $results = "";
+    $results = array();
 
     if (!empty($matome_id)) {
 
         $mydb = new MyDB();
         $matome_id = $mydb->escape($matome_id);
 
-        $sql = "SELECT mutter.id FROM matome, mvsm, mutter WHERE matome.id = $matome_id AND matome.id = mvsm.matome_id" . " AND mutter.id = mvsm.mutter_id AND mutter.domain = mvsm.mutter_domain";
+        $sql = "SELECT * FROM matome, mvsm, mutter WHERE CONCAT(mvsm.user_id, mvsm.matome_id) = '$matome_id' AND CONCAT(matome.user_id, matome.id) = '$matome_id' AND mutter.id = mvsm.mutter_id AND mutter.domain = mvsm.mutter_domain";
 
         if(empty($mutter_id)) {
             if($asc==0) {
-                $sql .= " ORDER BY id DESC";
+                $sql .= " ORDER BY created_at DESC";
             } else {
-                $sql .= " ORDER BY id ASC";
+                $sql .= " ORDER BY created_at ASC";
             }
         } else {
             if($asc==0) {
-                $sql .= " AND mutter.id < $mutter_id ORDER BY id DESC";
+                $sql .= " AND mutter.id < $mutter_id ORDER BY created_at DESC";
             } else {
-                $sql .= " AND mutter.id > $mutter_id ORDER BY id ASC";
+                $sql .= " AND mutter.id > $mutter_id ORDER BY created_at ASC";
             }
         }
 
         $sql .= " LIMIT $limit";
 
-//         echo $sql;
-
         $rows = $mydb->select($sql);
 
         foreach ($rows as $row) {
-            $results .= $row["id"].",";
+            $results[] = $row["mutter_id"];
         }
 
         $mydb->close();
-
-        if(!empty($results)) {
-            $results = substr($results, 0, -1);
-        }
     }
 
-    return $results;
+    return implode(',', $results);
 }
 
 function getMatomeList(string $user_id="", string $domain="") {
@@ -212,44 +351,65 @@ function getMatomeList(string $user_id="", string $domain="") {
     $user_id = $mydb->escape($user_id);
     $domain = $mydb->escape($domain);
 
-    $sql = "SELECT matome.id AS matome_id, `title`, `description`, `user_id`, `user_domain`, total FROM matome, creator"
-            .", (SELECT matome_id, count(matome_id) AS total FROM mvsm GROUP BY matome_id) matome_count";
+    $sql = "SELECT matome.id AS matome_id, `title`, `description`, matome.user_id AS `user_id`, `user_domain`, total FROM matome, creator"
+            .", (SELECT user_id, matome_id, count(matome_id) AS total FROM mvsm GROUP BY user_id, matome_id) matome_count";
+    $sql .= "   WHERE matome.user_id = creator.id AND matome.user_id = matome_count.user_id AND matome.id = matome_count.matome_id";
+
     if(!empty($user_id)) {
-        $sql .= "   WHERE matome.user_id = '$user_id' AND user_domain = '$domain' AND matome.user_id = creator.id";
-    } else {
-        $sql .= "   WHERE matome.user_id = creator.id";
+        $sql .= "   AND matome.user_id = '$user_id' AND user_domain = '$domain'";
     }
 
-    $sql .= "  AND matome.id = matome_count.matome_id;";
+    $sql .= ";";
+
+    // error_log("sql:$sql");
 
     $results = $mydb->select($sql);
 
-//     var_dump($sql);
     $mydb->close();
 
     return (empty($results)) ? array() : $results;
 }
 
-function getMutterIds(string $account_id="", string $max_id=null, int $limit=100) {
+/**
+ *
+ * @param string $account_id
+ * @param string $max_id
+ * @param int $limit
+ * @param int $asc
+ * @return string
+ */
+function getMutterIds(string $account_id="", string $mutter_id=null, int $limit=100, int $asc=1) {
     $results = "";
 
     if(!empty($account_id)) {
         $mydb = new MyDB();
         $account_id = $mydb->escape($account_id);
 
-        $sql = "SELECT id FROM mutter WHERE user_id = '$account_id'";
+        $sql = "SELECT id, created_at FROM mutter AS a WHERE a.user_id = '$account_id'";
 
-        if(!empty($max_id)) {
-            $sql .= " AND id <= $max_id";
+        if(empty($mutter_id)) {
+            if($asc==0) {
+                $sql .= " ORDER BY a.created_at DESC";
+            } else {
+                $sql .= " ORDER BY a.created_at ASC";
+            }
         } else {
+            if($asc==0) {
+                $sql .= " AND a.created_at <= (SELECT created_at FROM mutter AS b WHERE b.id = $mutter_id) ORDER BY created_at DESC";
+            } else {
+                $sql .= " AND a.created_at >= (SELECT created_at FROM mutter AS b WHERE b.id = $mutter_id) ORDER BY created_at ASC";
+            }
         }
 
-        $sql .= " ORDER BY id DESC LIMIT $limit";
+        $sql .= " LIMIT $limit;";
+
+        // error_log("sql:$sql");
 
         $rows = $mydb->select($sql);
 
         $i=0;
         foreach ($rows as $row) {
+        	// error_log("row:".implode($row,','));
             $results .= $row["id"].",";
 
             if($i++>=$limit)
@@ -612,10 +772,18 @@ function addUsers($account_name, $password)
  */
 function getTrendByWords(string $place_keyword) {
     $trend_words = $trends = array();
+    
+    $twitterLoginAccount = getSessionParam('twitterLoginAccount', "");
 
-    $connection = getTwitterConnection();
+    $tokens = getTwitterTokens("", $twitterLoginAccount['id'], false);
+
+    $connection = getTwitterConnection($tokens->token, $tokens->secret);
 
     $trends = $connection->get('geo/search', ['query' => $place_keyword]);
+
+    if(isset($trends->errors)) {
+        return $trends->errors;
+    }
 
     $idokeido = $trends->result->places[0]->centroid;
 

@@ -35,6 +35,9 @@ if(isset($response->pawoo_oldest_id)) {
 if(isset($response->twitter_oldest_id)) {
     $param->setParam('twitter_oldest_id', $response->twitter_oldest_id);
 }
+if(isset($response->twitter_latest_id)) {
+    $param->setParam('twitter_latest_id', $response->twitter_latest_id);
+}
 
 // assignメソッドを使ってテンプレートに渡す値を設定
 $smarty->assign("title", getGetParam('name', "")." さんのlookup");

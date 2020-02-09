@@ -6,6 +6,12 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.ellip {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
 .display {
 	display: block;
 }

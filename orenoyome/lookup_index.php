@@ -73,30 +73,30 @@ if(!empty($user_ids)) {
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<meta content="http://www.suki.pics/favicon.png" itemprop="image">
-<link rel="shortcut icon" href="http://www.suki.pics/favicon.ico" type="image/vnd.microsoft.icon">
-<link rel="icon" href="http://www.suki.pics/favicon.ico" type="image/vnd.microsoft.icon">
-<link rel="apple-touch-icon" href="http://www.suki.pics/favicon.ico" type="image/vnd.microsoft.icon">
+<meta content="//www.suki.pics/favicon.png" itemprop="image">
+<link rel="shortcut icon" href="//www.suki.pics/favicon.ico" type="image/vnd.microsoft.icon">
+<link rel="icon" href="//www.suki.pics/favicon.ico" type="image/vnd.microsoft.icon">
+<link rel="apple-touch-icon" href="//www.suki.pics/favicon.ico" type="image/vnd.microsoft.icon">
 <title>lookupトップページ</title>
-<link rel="stylesheet" type="text/css" href="http://www.suki.pics/css/common.css?2019-08-08_14:04:14" />
-<link rel="stylesheet" type="text/css" href="http://www.suki.pics/css/top.css?2019-08-08_14:04:14" />
-<link rel="stylesheet" type="text/css" href="http://www.suki.pics/css/top_m.css?2019-08-08_14:04:14" />
-<link rel="stylesheet" type="text/css" href="http://www.suki.pics/css/top_pc.css?2019-08-08_14:04:14" />
+<link rel="stylesheet" type="text/css" href="//www.suki.pics/css/common.css?2019-08-08_14:04:14" />
+<link rel="stylesheet" type="text/css" href="//www.suki.pics/css/top.css?2019-08-08_14:04:14" />
+<link rel="stylesheet" type="text/css" href="//www.suki.pics/css/top_m.css?2019-08-08_14:04:14" />
+<link rel="stylesheet" type="text/css" href="//www.suki.pics/css/top_pc.css?2019-08-08_14:04:14" />
 </head>
 <body>
 <?php
 foreach ($users as $user) {
     ?>
-	<a href="http://www.suki.pics/timeline/lookup.php?target_id=<?php echo $user->id;?>&name=<?php echo $user->name;?>" target="_blank">
+	<a href="//www.suki.pics/timeline/lookup.php?target_id=<?php echo $user->id;?>&name=<?php echo $user->name;?>" target="_blank">
 		<img alt="<?php echo $user->name;?>" src="<?php echo $user->profile_image_url_https;?>">
 		<?php echo $user->name;?>@<?php echo $user->screen_name;?>
 	</a>
 	　
-	<a href="http://www.suki.pics/matome/matome.php?target_id=<?php echo $user->id;?>&name=<?php echo $user->name;?>&target_domain=twitter&edit=true" target="_blank">
+	<a href="//www.suki.pics/matome/matome.php?target_id=<?php echo $user->id;?>&name=<?php echo $user->name;?>&target_domain=twitter&edit=true" target="_blank">
 		まとめ用ページ
 	</a>
 	　
-	<a href="http://www.suki.pics/orenoyome/create_matome.php?target_id=<?php echo $user->id;?>&domain=twitter&name=<?php echo $user->name;?>" target="_blank">
+	<a href="//www.suki.pics/orenoyome/create_matome.php?target_id=<?php echo $user->id;?>&domain=twitter&name=<?php echo $user->name;?>" target="_blank">
 		まとめを追加
 	</a>
 	<br>

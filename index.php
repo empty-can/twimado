@@ -1,7 +1,14 @@
 <?php
 require_once ("init.php");
 
-$mo = getSessionParam('mo', 'true');
+$fushianasan = getGetParam('fushianasan', 'false');
+
+$twitterLoginAccount = getSessionParam('twitterLoginAccount', "");
+$twitterLogin = !empty($twitterLoginAccount);
+
+// $mo = getSessionParam('mo', 'true');
+$mo = true;
+setSessionParam('mo', $mo);
 $hs = getSessionParam('hs', 'true');
 $thumb = getSessionParam('thumb', 'true');
 setGetParam('thumb', $thumb);
@@ -10,88 +17,29 @@ $smarty->assign("mo", $mo);
 $smarty->assign("hs", $hs);
 $smarty->assign("thumb", $thumb);
 
-$account = getSessionParam('account', "");
-$twitterLoginAccount = getSessionParam('twitterLoginAccount', "");
-$pawooLoginAccount = getSessionParam('pawooLoginAccount', "");
-
-$twitterLogin = !empty($twitterLoginAccount);
-
-// Twitter にログインしている場合の処理
 if($twitterLogin) {
-    //     $tokens = getSessionParam("twitterAccessToken", "");
-    
-    // フォローの取得
-    $twitterMyFriends = getArrayParam($twitterLoginAccount, "twitter_my_friends", array());
-    
-    if(empty($twitterMyFriends)) {
-        $params = [
-            "user_id" => getArrayParam($twitterLoginAccount, "id")
-            , "count" => "200"
-        ];
-        $result = getTwitterConnection()->get('friends/list', $params);
-        
-        if(isset($result->users)) {
-            $twitterMyFriends = $result->users;
-            usort($twitterMyFriends, "sort_twitter_account_by_followers_count");
-            $twitterLoginAccount["twitter_my_friends"] = $twitterMyFriends;
-        }
-        
-        setSessionParam('twitterLoginAccount', $twitterLoginAccount);
-    }
-    
-    // マイリストの取得
-    $twitterMyList = getArrayParam($twitterLoginAccount, "twitter_mylists", array());
-    
-    if(empty($twitterMyList)) {
-        $params = ["user_id" => getArrayParam($twitterLoginAccount, "id")];
-        $twitterMyList = getTwitterConnection()->get('lists/list', $params);
-        $twitterLoginAccount["twitter_mylists"] = $twitterMyList;
-        
-        setSessionParam('twitterLoginAccount', $twitterLoginAccount);
-    }
+
+	// トレンドを取得
+	$lastGetTrendTime = getSessionParam('lastGetTrendTime', '0');
+
+	$trends = getSessionParam('trends', array());
+
+	if(
+		($lastGetTrendTime + 60) < time()
+		|| empty($trends)
+		) {
+		$trends = getTrendByWords('Tokyo');
+		
+		if(isset($trends[0]) && !empty($trends[0]->message)) {
+			$message = $trends[0]->message;
+		} else {
+			setSessionParam('lastGetTrendTime', time());
+			setSessionParam('trends', $trends);
+		}
+	}
 }
 
 
-
-$pawooLogin = !empty($pawooLoginAccount);
-// Pawoo にログインしている場合の処理
-if($pawooLogin) {
-    $tokens = getSessionParam("pawooAccessToken", "");
-    $access_token = getObjectProps($tokens, "access_token");
-    
-    // フォローの取得
-    $pawooMyFriends = getArrayParam($pawooLoginAccount, "pawoo_my_friends", array());
-    
-    if(empty($pawooMyFriends)) {
-        $id = getArrayParam($pawooLoginAccount, "id");
-        
-        $params = ["limit" => "80"];
-        $pawooMyFriends = getMastodonConnection(PawooDomain, $access_token)
-                    ->executeGetAPI("/api/v1/accounts/$id/following", $params);
-        
-        if(!empty($pawooMyFriends)) {
-            usort($pawooMyFriends, "sort_pawoo_account_by_followers_count");
-            $pawooLoginAccount["pawoo_my_friends"] = $pawooMyFriends;
-        }
-        
-        setSessionParam('pawooLoginAccount', $pawooLoginAccount);
-    }
-    
-    // マイリストの取得
-    $pawooMyLists = getArrayParam($pawooLoginAccount, "pawoo_mylists", array());
-    
-    if(empty($pawooMyLists)) {
-        $params = [];
-        $pawooMyLists = getMastodonConnection(PawooDomain, $access_token)
-                    ->executeGetAPI("/api/v1/lists", $params);
-        $pawooLoginAccount["pawoo_mylists"] = $pawooMyLists;
-        
-        setSessionParam('pawooLoginAccount', $pawooLoginAccount);
-    }
-}
-
-// トレンドを取得
-$trends = getTrendByWords('Tokyo');
 
 $csss=["top"];
 $smarty->assign("csss", $csss);
@@ -112,7 +60,7 @@ $smarty->assign("twitterMyLists", $twitterMyList);
 $smarty->assign("pawooMyLists", $pawooMyLists);
 $smarty->assign("twitterMyFriends", $twitterMyFriends);
 $smarty->assign("pawooMyFriends", $pawooMyFriends);
-$smarty->assign("message", getSessionParam("message", ""));
+$smarty->assign("message", $message);
 setSessionParam("message", "");
 
 // テンプレートを表示する

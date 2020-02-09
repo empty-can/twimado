@@ -50,15 +50,15 @@ if(!empty($submit_data)) {
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<meta content="http://www.suki.pics/favicon.png" itemprop="image">
-<link rel="shortcut icon" href="http://www.suki.pics/favicon.ico" type="image/vnd.microsoft.icon">
-<link rel="icon" href="http://www.suki.pics/favicon.ico" type="image/vnd.microsoft.icon">
-<link rel="apple-touch-icon" href="http://www.suki.pics/favicon.ico" type="image/vnd.microsoft.icon">
+<meta content="//www.suki.pics/favicon.png" itemprop="image">
+<link rel="shortcut icon" href="//www.suki.pics/favicon.ico" type="image/vnd.microsoft.icon">
+<link rel="icon" href="//www.suki.pics/favicon.ico" type="image/vnd.microsoft.icon">
+<link rel="apple-touch-icon" href="//www.suki.pics/favicon.ico" type="image/vnd.microsoft.icon">
 <title>まとめ登録</title>
-<link rel="stylesheet" type="text/css" href="http://www.suki.pics/css/common.css?2019-08-04_14:04:14" />
-<link rel="stylesheet" type="text/css" href="http://www.suki.pics/css/top.css?2019-08-04_14:04:14" />
-<link rel="stylesheet" type="text/css" href="http://www.suki.pics/css/top_m.css?2019-08-04_14:04:14" />
-<link rel="stylesheet" type="text/css" href="http://www.suki.pics/css/top_pc.css?2019-08-04_14:04:14" />
+<link rel="stylesheet" type="text/css" href="//www.suki.pics/css/common.css?2019-08-04_14:04:14" />
+<link rel="stylesheet" type="text/css" href="//www.suki.pics/css/top.css?2019-08-04_14:04:14" />
+<link rel="stylesheet" type="text/css" href="//www.suki.pics/css/top_m.css?2019-08-04_14:04:14" />
+<link rel="stylesheet" type="text/css" href="//www.suki.pics/css/top_pc.css?2019-08-04_14:04:14" />
 </head>
 <body>
 	<form action="./regist_matome.php?target_matome=<?php echo $target_matome;?>&domain=<?php echo $domain;?>" method="POST">

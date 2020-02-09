@@ -1,9 +1,0 @@
-@media screen and (max-width:800px) {
-	.flex_parent{
-		display: flex;
-		flex-wrap: nowrap;
-		justify-content: flex-start;
-		width:100%;
-		overflow-x: auto;
-	}
-}

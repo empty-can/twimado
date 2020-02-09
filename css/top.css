@@ -1,5 +1,5 @@
 body {
-	background-color: #d5d5d5; /* ページ全体の背景 */
+	background-color: white; /* ページ全体の背景 */
  	font-size: 0.8em;
  	padding: 0vh 10vw;
 }
@@ -23,8 +23,8 @@ body {
 	/* min-width: 256px; */
 	max-width: 640px;
 	/* padding-left: 5vw; */
-	margin: 100px auto 5vh auto;
-	background-color: #d5d5d5;
+	margin: 0px auto 5vh auto;
+	background-color: white;
   	color: #5e5e5e; /* コンテンツ部分の背景 */
 }
 
@@ -33,14 +33,14 @@ h1 {
   max-width: 90vw;
   margin: 2vh 0 2vh 0;
   font-size: large;
-  border-bottom: solid 3px whitesmoke; /* <h1>の下線色 */
+  border-bottom: solid 3px skyblue; /* <h1>の下線色 */
 }
 h2 {
   width: 100%;
   max-width: 90vw;
   font-size: small;
   margin: 2vh auto 2vh auto;
-  border-bottom: solid 1px whitesmoke; /* <h2>の下線色 */
+  border-bottom: solid 1px skyblue; /* <h2>の下線色 */
 }
 
 .icon .img a {
@@ -90,13 +90,13 @@ h2 {
 
 .trend {
 	display: block;
-	color: white;
+	color: navy;
 	max-width: 48%;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	background-color: #6d7993; /* Twitterトレンドの背景色 */
-	/*border: solid 1px navy;  Twitterトレンドの線の色 */
+	background-color: lightcyan; /* Twitterトレンドの背景色 */
+	border: solid 1px royalblue;  /* Twitterトレンドの線の色 */
 	border-radius: 5px;
 	flex-grow: 1;
 	text-align: center;
@@ -494,10 +494,10 @@ h3:before {
 ////////////////////////////////////////////////////////////////////////
 
 /* Fonts */
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);
+@import url(fonts.googleapis.com/css?family=Open+Sans:400);
 
 /* fontawesome */
-@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+@import url(weloveiconfonts.com/api/?family=fontawesome);
 [class*="fontawesome-"]:before {
   font-family: 'FontAwesome', sans-serif;
 }

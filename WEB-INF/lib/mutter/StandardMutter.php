@@ -32,12 +32,14 @@ abstract class StandardMutter implements Mutter {
     public $mutterBase = "初期値";
     public $mutterURL = "初期値";
     
+    public $selfReply = false;
+    
     public $favorited = false;
     public $retweeted = false;
     
     public $goods = array();
     
-    public $sortValue = "0";
+    public $sortValue = 0;
     
     
     public function domain() {
@@ -126,6 +128,10 @@ abstract class StandardMutter implements Mutter {
     
     public function retweeter() {
         return $this->retweeter;
+    }
+    
+    public function selfReply() {
+        return $this->selfReply;
     }
     
     public function mutterURL() {

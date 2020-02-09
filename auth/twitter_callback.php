@@ -45,7 +45,11 @@ if($oauth_token_session == $oauth_token and $oauth_verifier){
         register_pairing($account_id, "twitter", $service_user_info);
     } else {
         setPassengerTokens($twitterAccount['id'], 'twitter', $twitterAccount['name'], $twitterAccount['screen_name'], $access_token['oauth_token'],  $access_token['oauth_token_secret']);
-    }
+    }    
+    
+    define("TwitterAccountID", $twitterAccount['id']);
+    define("TwitterOauthToken", $access_token['oauth_token']);
+    define("TwitterOauthTokenSecret", $access_token['oauth_token_secret']);
 
     $_SESSION['oauth_token'] = "";
     $_SESSION['oauth_token_secret'] = "";

@@ -20,6 +20,7 @@ $passenger_id = $param->putValue('id');
 $media_only = $param->putValue('mo');
 /*-----------------------------------------*/
 
+// $param->setParam('q', 'ん min_faves:10000 filter:twimg');
 
 // 標準出力の監視開始
 ob_start();
@@ -35,10 +36,10 @@ if(!empty($validated)) {
 // アクセストークンの取得
 $tokens = getTwitterTokens($account, $passenger_id, true);
 
-if($tokens->isEmpty()) {
-    echo "認証情報が取得できませんでした。";
-    goto end;
-}
+// if($tokens->isEmpty()) {
+//     echo "認証情報が取得できませんでした。";
+//     goto end;
+// }
 
 // APIアクセス
 $api_result = getTwitterConnection($tokens->token, $tokens->secret)

@@ -40,11 +40,6 @@ if(!empty($validated)) {
 // アクセストークンの取得
 $tokens = getTwitterTokens($account, $passenger_id, true);
 
-if($tokens->isEmpty()) {
-    echo "認証情報が取得できませんでした。";
-    goto end;
-}
-
 // APIアクセス
 $tweets = getTwitterConnection($tokens->token, $tokens->secret)
 ->get($api, $param->parameters);

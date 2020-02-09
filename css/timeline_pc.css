@@ -67,4 +67,9 @@
 		width: 100%;
 		margin:auto;
 	}
+
+	#affiliate {
+		max-width: 58vw;
+		margin: auto;
+	}
 }

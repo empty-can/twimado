@@ -1,7 +1,13 @@
 <?php
 require_once ("init.php");
 
-
+/**
+ *
+ * @param string $target
+ */
+function webPint(string $target) {
+    return htmlentities($target);
+}
 /**
  *
  * @param array $matomeInfo
@@ -156,9 +162,7 @@ function getRequest(string $url, array $params = array()) {
             "content" => $data
         )
     );
-
-//     myVarDump($url."?".$context["http"]["content"]);
-
+    // myVarDump($url.'?'.$data);
     return file_get_contents($url, false, stream_context_create($context));
 }
 
@@ -183,6 +187,7 @@ function postRequest(string $url, array $params = array()) {
 
     $context = stream_context_create($options);
 
+    //     myVarDump($url.'?'.$data);
     return file_get_contents($url, false, $context);
 }
 

@@ -12,7 +12,7 @@ $param->setInitialValue('mo', getSessionParam('mo', 'true'));
 $param->setInitialValue('edit', 'false');
 
 $param->setInitialValue('domain', 'twitterpawoo');
-$param->setInitialValue('count', '5');
+$param->setInitialValue('count', '20');
 
 $param->setParam('account', Account);
 $param->setParam('pawoo_id', PawooAccountID);
@@ -22,12 +22,11 @@ $target_id = $param->getValue('target_id');
 $target_domain = $param->getValue('target_domain');
 
 $matomeInfo = getMatomeInfoByUserId($target_id, $target_domain);
+// myVarDump($matomeInfo);
 
 $tmp = getRequest($api, $param->parameters);
 $response = my_json_decode($tmp);
 $edit = $param->getValue('edit');
-
-// myVarDump($response);
 
 if(empty($response)) {
     echo "APIからのデータ取得に失敗しました。";
@@ -84,6 +83,7 @@ $matomeList = getMatomeInfoByUserId($target_id, 'twitter');
 $smarty->assign("matomeList", $matomeList);
 
 $smarty->assign("mutters", array());
+
 
 // テンプレートを表示する
 $smarty->display("matome_timeline.tpl");

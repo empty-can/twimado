@@ -1,6 +1,11 @@
 <?php
-if(!empty($_SERVER["HTTPS"])) {
-    header('Location: http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+setcookie("SameSite", 'None', time()+60*60*24*30, '/matome/', 'www.suki.pics', true, false);
+if(empty($_SERVER["HTTPS"]) && !(isset($_SERVER["CLIENTNAME"]) && ($_SERVER["CLIENTNAME"]==="DESKTOP-8S9QC5O"))) {
+    header('Location: https://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+    exit();
+}
+
+if(strpos($_SERVER["REMOTE_ADDR"], '66.249') === 0) {
     exit();
 }
 
@@ -64,10 +69,9 @@ define("PawooAccessToken", $ini_array["pawoo_access_token"]);
 /* サイト情報の設定 */
 define("AppName", $ini_array["app_name"]);
 define("AppURL", $ini_array["protocol"].':'.$ini_array["app_url"]);
+
 define("AppContext", $ini_array["app_context"]);
 define("ErrorMessage", $ini_array["error_message"]);
-
-// myVarDump($_SESSION);
 
 define("TwitterList", $ini_array["twitter_list"]);
 
@@ -88,7 +92,6 @@ if (isset($pawooLoginAccount['id'])) {
 
 $pawoo_skip_list = explode(',', $ini_array["pawoo_skip_list"]);
 setSessionParam("pawoo_skip_list", $pawoo_skip_list);
-
 
 /* Smartyのロード */
 $smarty = new Smarty();

@@ -30,26 +30,26 @@
 <h3>連携できるアプリ</h3>
 <ul class="breadcrumb">
 {if empty($twitterLoginAccount)}
-  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  <li itemscope="itemscope" itemtype="//data-vocabulary.org/Breadcrumb">
   	<a href="{$AppURL}/auth/auth_twitter.php"><img src="{$AppURL}/imgs/link.svg" style="width:24px;"> Twitterと連携する</a>
   </li>
 {/if}
 {if empty($pawooLoginAccount)}
-  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  <li itemscope="itemscope" itemtype="//data-vocabulary.org/Breadcrumb">
   	<a href="{$AppURL}/auth/auth_pawoo.php"><img src="{$AppURL}/imgs/link.svg" style="width:24px;"> Pawooと連携する</a>
   </li>
 {/if}
 {if $login}
-  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  <li itemscope="itemscope" itemtype="//data-vocabulary.org/Breadcrumb">
   	<a href="{$AppURL}/auth/logout.php"><img src="{$AppURL}/imgs/exit.svg" style="width:24px;"> ログアウトする</a>
   </li>
-  <!-- li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  <!-- li itemscope="itemscope" itemtype="//data-vocabulary.org/Breadcrumb">
   	<a href="{$AppURL}/auth/logout.php"><img src="{$AppURL}/imgs/release.svg" style="width:24px;"> アプリと連携解除</a>
   </li -->
 {/if}
 </ul>
 <ul class="breadcrumb">
-  <li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+  <li itemscope="itemscope" itemtype="//data-vocabulary.org/Breadcrumb">
   	<a href="{$AppURL}"><img src="{$AppURL}/imgs/home_64.svg" style="width:24px;"> トップページへ</a>
   </li>
 </ul>

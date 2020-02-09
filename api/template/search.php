@@ -12,6 +12,12 @@ $thumb = $param->putValue('thumb');
 $hs = $param->putValue('hs');
 
 $q = urlencode($param->getValue('q'));
+$f = urlencode($param->getValue('f'));
+$searchType = urlencode($param->getValue('searchType'));
+
+if(!empty($f)) {
+    $q .= '%20filter:'.$f;
+}
 
 $response = array();
 $response['mutters'] = array();

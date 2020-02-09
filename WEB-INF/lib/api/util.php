@@ -1,5 +1,6 @@
 <?php
 require_once("init.php");
+use Abraham\TwitterOAuth\TwitterOAuth;
 
 /**
  * Twitter のアクセストークンを返却する
@@ -11,7 +12,6 @@ require_once("init.php");
  */
 function getTwitterTokens(string $account="", string $passenger_id="", bool $enable_app_token=true) {
     $tokens = new Tokens();
-//     myVarDump($passenger_id);
     if(!empty($account)) {
         $result = get_access_tokens($account, 'twitter');
         $tokens->token = $result['access_token'];
@@ -21,11 +21,50 @@ function getTwitterTokens(string $account="", string $passenger_id="", bool $ena
         $tokens->token = $result['access_token'];
         $tokens->secret = $result['access_token_secret'];
     } else if($enable_app_token){
-        $tokens->token = TwitterAccessToken;
-        $tokens->secret = TwitterAccessTokenSecret;
+//        $tokens->token = TwitterAccessToken;
+//        $tokens->secret = TwitterAccessTokenSecret;
+		$tokens->token = "";
+		$tokens->secret = "";
     }
 
     return $tokens;
+}
+
+function getTwitterApplicationBearerToken() {
+
+    $bearerToken = base64_encode(
+        rawurlencode(TwitterAppToken)
+        .':'.
+        rawurlencode(TwitterAppTokenSecret)
+    );
+
+    $params = array(
+        'grant_type' => 'client_credentials'
+    );
+
+    $headers = [
+        'Authorization: Basic '.$bearerToken,
+        'Content-type: application/x-www-form-urlencoded;charset=UTF-8',
+    ];
+
+    $curl = curl_init();
+
+    curl_setopt($curl, CURLOPT_URL, 'https://api.twitter.com/oauth2/token');
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($params));
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_HEADER, true);
+
+    $response = curl_exec($curl);
+    $info = curl_getinfo($curl);
+    $body = substr ($response, $info["header_size"]);
+
+    curl_close($curl);
+
+    return json_decode($body);
 }
 
 function getPawooTokens(string $account, string $passenger_id, bool $enable_app_token=true) {

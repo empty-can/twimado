@@ -56,4 +56,6 @@ interface Mutter {
     public function extractGoods();
     
     public function getGoods();
+    
+    public function selfReply();
 }

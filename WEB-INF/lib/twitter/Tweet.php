@@ -31,10 +31,14 @@ class Tweet extends StandardMutter implements Mutter {
         $this->originalTime = strtotime($tweet->created_at);
         $this->originalDate = strtotime($tweet->created_at);
         
-        $this->text = nl2br(searchTag(decorateLinkTag(mb_ereg_replace("http[s]?://t\.co/[a-zA-Z0-9]+", "", $tweet->text))));
+        // $this->text = nl2br(searchTag(decorateLinkTag(mb_ereg_replace("http[s]?://t\.co/[a-zA-Z0-9]+", "", $tweet->text))));
+        $this->text = nl2br(searchTag(decorateLinkTag($tweet->text)));
         $this->mutterURL = $this->mutterBase.$this->id;
         
         $this->account = new TwitterAccount($tweet->user);
+        
+        if($this->account->id()===$tweet->in_reply_to_user_id_str)
+            $this->selfReply = true;
         
         $this->comCount = "";
         $this->favCount = ceilNum($tweet->favorite_count);
@@ -63,9 +67,11 @@ class Tweet extends StandardMutter implements Mutter {
                         $this->media[] = $tmp;
                 } else {
                     $suffix = get_suffix($media->media_url);
-                    $thumbnail = str_replace('.'.$suffix, "?format=$suffix&name=small", $media->media_url_https);
+                    $rootPath = str_replace('.'.$suffix, "", $media->media_url_https);
+                    $thumbnail = $rootPath."?format=$suffix&name=small";
+                    $origninal = $rootPath."?format=$suffix&name=orig";
                     
-                    $this->media[] = new Media($media->media_url_https, $thumbnail);
+                    $this->media[] = new Media($origninal, $thumbnail);
                     $this->isImg = true;
                 }
             }
