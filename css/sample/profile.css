@@ -1,0 +1,168 @@
+#content {
+	width: 90vw;
+	margin: auto;
+}
+
+#profile_banner {
+	margin: auto;
+}
+
+#link {
+	overflow-x: auto;
+}
+
+#link div {
+	margin-left: 5vw;
+}
+
+.profile_banner {
+	width: 100%;
+	height: 25vh;
+	object-fit: cover;
+}
+
+.profile_image {
+	max-width: 25vw;
+	border-radius: 50%;
+	display:block;
+}
+
+#name {
+	font-size: large;
+	font-weight: bold;
+}
+
+#screen_name {
+	color: gray;
+}
+
+.site_icon {
+	height: 32px;
+	width: auto;
+}
+
+#profile {
+	padding-left:10px;
+}
+
+#pieces {
+	overflow-x: auto;
+}
+
+/*ボタン装飾*/
+.piece label {
+    color: gray;
+    font-weight: bold;
+    font-size: small;
+    cursor :pointer;
+}
+
+.matome_title {
+	font-size: large;
+}
+.matome_title:before {
+	content: "●";
+}
+
+.amazon:before {
+	content: '';
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	background-image: url("/imgs/store/amazon.png");
+	background-size: contain;
+	vertical-align: middle;
+}
+
+.dlsite:before {
+	content: '';
+	display: inline-block;
+	width: 64px;
+	height: 12px;
+	background-image: url("/imgs/store/logo-dlsite-r18.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	vertical-align: middle;
+}
+
+/*チェックは見えなくする*/
+.piece input {
+    display: none;
+}
+
+/*中身を非表示にしておく*/
+.piece .hidden_show {
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: 0.8s;
+}
+
+/*クリックで中身表示*/
+.piece input:checked ~ .hidden_show {
+    padding: 10px 0;
+    height: auto;
+    opacity: 1;
+	overflow-x: auto;
+}
+
+.series-latest{
+	height: 16px;
+}
+
+.series-first {
+	height: 12px;
+}
+
+.piece {
+	width: 256px;
+}
+
+.piece .thumb {
+	width: 256px;
+	height: 256px;
+	object-fit: cover;
+	object-position: 50% 0%;
+}
+
+.dlsite_piece {
+	width: 120px;
+	flex-basis: 120px;
+	margin:2px;
+	padding:5px;
+	border:solid 1px lightgray;
+	text-align:center;
+}
+
+.dlsite_piece .logo {
+	width:92px;
+	margin:auto;
+}
+
+.dlsite_piece .logo img {
+	width:90%;
+	height:auto;
+}
+
+.dlsite_piece .link {
+	width:100px;
+	margin:auto;
+}
+
+.dlsite_piece .link a {
+	display:block;
+	margin:5px auto;
+	width:100%;
+	color: blue;
+	font-size:small;
+}
+
+.dlsite_piece .link a img {
+	display:block;
+	width:100%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+

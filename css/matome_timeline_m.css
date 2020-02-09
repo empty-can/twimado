@@ -1,0 +1,104 @@
+@media screen and (min-width: 0px) and (max-device-width:1024px) {
+
+	#timeline {
+		width: 100vw;
+	}
+	
+	.mutter {
+		width: 100vw;
+		height: auto;
+		margin: auto;
+	}
+	.info {
+		width: 96vw;
+		margin: 0 2vw;
+	}
+
+	.tweet_media {
+		width: 99vw;
+	}
+
+	.tweet_media_vertical {
+		width: 99vw;
+	}
+
+	.media_box {
+		width: 99vw;
+		max-height: 90vh;
+		margin: 1vh 0px auto auto;
+	}
+
+	.media_box_vertical {
+		width: 99vw;
+		margin: 1vh 0px auto auto;
+	}
+
+	.imgs_wrapper {
+		max-width: 99vw;
+		max-height: 90vh;
+	}
+
+	.imgs_wrapper_vertical {
+		width: 99vw;
+	}
+
+	.img_wrapper {
+		max-width: 99vw;
+		max-height: 90vh;
+		margin: 0 auto auto auto;
+	}
+
+	.img_wrapper_vertical {
+		max-width: 99vw;
+		margin-bottom: 1vh;
+	}
+
+	.img_wrapper img, video, object {
+		display: block;
+		width: auto;
+		height: auto;
+		max-width: 99vw;
+		max-height: 85vh;
+	}
+	.img_wrapper_vertical img, video, object {
+		width: 99vw;
+	}
+
+	.text {
+		font-size: small;
+	}
+
+	#timeline_menu {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		width: 100vw;
+		height: 46px;
+		padding-bottom: 0px;
+	}
+	#timeline_menu div {
+		width: 34px;
+		height: 34px;
+	}
+
+	#timeline_menu div img {
+		width: 32px;
+		height: 32px;
+	}
+
+	#affiliate {
+		max-width: 98vw;
+		margin: auto;
+	}
+
+	.amazlet-box{
+		margin-bottom: 0px;
+		width: 100%;
+		margin: auto;
+	}
+
+	.amazlet-image a img {
+		width: auto;
+		max-height: 12vh;
+	}
+}

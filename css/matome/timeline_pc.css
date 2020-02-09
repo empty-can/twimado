@@ -1,0 +1,81 @@
+@media screen and (min-width:1024px) {
+	
+	.mutter {
+		width: auto;
+		max-width: 80vw;
+		overflow-y: hidden;
+		border: solid 1px black;
+	}
+	
+	.info {
+		max-width: 256px;
+		font-size:xx-small;
+		height: 8vh;
+		margin:0;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+	
+	.tweet_media {
+		width: 100%;
+		max-height: 50vh;
+	}
+	
+	.tweet_media_vertical{
+		width: 100%;
+		max-height: 50vh;
+	}
+	
+	.media_box {
+		width: 100%;
+		max-height: 50vh;
+	}
+
+	.media_box_vertical {
+		width: 100%;
+		max-height: 50vh;
+	}
+		
+	.imgs_wrapper {
+		max-width: 80vw;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-around;
+	}
+		
+	.imgs_wrapper_vertical {
+		max-width: 80vw;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-around;
+	}
+	
+	.img_wrapper {
+		max-width: 80vw;
+		max-height: 40vh;
+	}
+	
+	.img_wrapper_vertical {
+		max-width: 80vw;
+		max-height: 40vh;
+	}
+	
+	.img_wrapper img, video, object {
+		max-width: 18vw;
+		max-height: 30vh;
+	}
+	.img_wrapper_vertical img, video, object {
+		max-width: 18vw;
+		max-height: 30vh;
+		margin:0;
+	}
+	
+	.mutter_menu {
+		display: none;
+	}
+
+	#affiliate {
+		max-width: 58vw;
+		margin: auto;
+	}
+}
