@@ -11,7 +11,7 @@
 	<meta property="og:url" content="{$smarty.server.REQUEST_URI}" >
 	<meta name="twitter:site" content="Suki Pics" >
 	{if !empty($twitter_card)}
-	<meta name="twitter:card" content="summary" >
+	<meta name="twitter:card" content="summary_large_image" >
 	{/if}
 	{if !empty($og_image)}
 	<meta property="og:image" content="https://www.suki.pics//media/{$og_image}" >
