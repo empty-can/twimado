@@ -162,7 +162,8 @@ function getRequest(string $url, array $params = array()) {
             "content" => $data
         )
     );
-    // myVarDump($url.'?'.$data);
+//     echo '<a href="'.$url.'?'.$data.'" target="_blank">'.$url.'?'.$data.'</a>';
+//     exit();
     return file_get_contents($url, false, stream_context_create($context));
 }
 

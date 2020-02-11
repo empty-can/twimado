@@ -12,7 +12,7 @@ $param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
 $param->setInitialValue('mo', getSessionParam('mo', 'true'));
 
 $param->setInitialValue('domain', 'twitterpawoo');
-$param->setInitialValue('count', '20');
+$param->setInitialValue('count', '100');
 
 $domain = $param->getValue('domain');
 $target_id = $param->getValue('target_id');
@@ -36,7 +36,7 @@ if(empty($domain)) {
             "screen_name" => $target_id
         );
     }
-    
+
     $account = getTwitterConnection()->get("users/show", $params);
     $title = $account->name;
 } else if(contains($domain, "pawoo")) {
@@ -63,8 +63,10 @@ $param->unset('count');
 $param->setParam('pawoo_oldest_id', $response->pawoo_oldest_id);
 $param->setParam('twitter_oldest_id', $response->twitter_oldest_id);
 
+$image_url = getPageImages($target_id);
 // assignメソッドを使ってテンプレートに渡す値を設定
 $smarty->assign("title", $title." さんのタイムライン");
+$smarty->assign("twitter_card", "summary_large_image");
 
 $csss=array();
 $csss[] = "timeline";
@@ -85,6 +87,8 @@ $embedded_js_string = [
 $embedded_js_int = [
     "count" => AsyncCount
 ];
+
+$smarty->assign("og_image", $image_url);
 
 $smarty->assign("embedded_js_params", build_embededd_js_params($embedded_js_params_string, $embedded_js_params_int));
 $smarty->assign("embedded_js", build_embededd_js($embedded_js_string, $embedded_js_int));

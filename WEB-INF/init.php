@@ -27,6 +27,8 @@ define("DbName", $ini_array["db_name"]);
 define("DbAccount", $ini_array["db_account"]);
 define("DbPassword", $ini_array["db_password"]);
 
+define("MediaDir", 'C:\xampp\htdocs\sukipic\media');
+
 define("Passphrase", $ini_array["passphrase"]);
 define("EncMethod", $ini_array["enc_method"]);
 define("AsyncCount", $ini_array["async_count"]);

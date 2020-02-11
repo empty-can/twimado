@@ -20,6 +20,8 @@ $passenger_id = $param->putValue('id');
 $media_only = $param->putValue('mo');
 /*-----------------------------------------*/
 
+$query = preg_replace('/[\s]?filter:[a-z]+[\s]?/', '', urldecode($param->getValue('q')));
+
 // $param->setParam('q', 'ん min_faves:10000 filter:twimg');
 
 // 標準出力の監視開始
@@ -88,6 +90,14 @@ foreach ($tweets as $tweet) {
         break;
 }
 /*-------------------------------------------------*/
+
+usort($mutters, "sort_mutter_object");
+foreach ($mutters as $mutter) {
+    if($mutter->hasMedia() && !$mutter->sensitive() && !$mutter->isVideo()) {
+        setPageImages($query, $mutter->getRawURL());
+        break;
+    }
+}
 
 // 新しいツイートが取得できているかどうかのチェック
 if($param->getValue('max_id') === $oldest->id) {

@@ -5,6 +5,19 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
 	<meta name="robots" content="noindex,nofollow">
 
+	<meta property="og:title" content="{$title}" >
+	<meta property="og:site_name" content="Suki Pics" >
+	<meta property="og:description" content="Suki Pics：画像特化のTwitterビューア"" >
+	<meta property="og:url" content="{$smarty.server.REQUEST_URI}" >
+	<meta name="twitter:site" content="Suki Pics" >
+	{if !empty($twitter_card)}
+	<meta name="twitter:card" content="summary" >
+	{/if}
+	{if !empty($og_image)}
+	<meta property="og:image" content="https://www.suki.pics//media/{$og_image}" >
+	<meta property="twitter:image" content="https://www.suki.pics//media/{$og_image}" >
+	{/if}
+
 	<meta content="{AppURL}/favicon.png" itemprop="image">
 	<link rel="shortcut icon" href="{AppURL}/favicon.ico" type="image/vnd.microsoft.icon">
 	<link rel="icon" href="{AppURL}/favicon.ico" type="image/vnd.microsoft.icon">

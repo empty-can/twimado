@@ -37,7 +37,7 @@ $param->setParam('account', Account);
 $param->setParam('pawoo_id', PawooAccountID);
 $param->setParam('twitter_id', TwitterAccountID);
 
-/**
+
 $tmp = getRequest($api, $param->parameters);
 $response = json_decode($tmp);
 
@@ -49,7 +49,7 @@ if(empty($response)) {
 // レスポンスから取得したデータをセット
 $param->setParam('pawoo_oldest_id', $response->pawoo_oldest_id);
 $param->setParam('twitter_oldest_id', $response->twitter_oldest_id);
-
+/**
 **/
 
 // 不要になったcountを削除
@@ -58,8 +58,12 @@ $param->unset('count');
 $param->setInitialValue('pawoo_oldest_id', '');
 $param->setInitialValue('twitter_oldest_id', '');
 
+$query = urldecode(explode('%20filter', $q)[0]);
+
+$image_file_name = getPageImages($query);
+
 // assignメソッドを使ってテンプレートに渡す値を設定
-$smarty->assign("title", "検索：".urldecode(explode('%20filter', $q)[0]));
+$smarty->assign("title", "$query の検索結果");
 
 $csss=array();
 $csss[] = "timeline";
@@ -81,7 +85,8 @@ $embedded_js_int = [
     "count" => AsyncCount
 ];
 
-// myVarDump(obj_to_array($response->mutters));
+$smarty->assign("og_image", $image_file_name);
+$smarty->assign("twitter_card", "summary_large_image");
 
 $smarty->assign("embedded_js_params", build_embededd_js_params($embedded_js_params_string, $embedded_js_params_int));
 $smarty->assign("embedded_js", build_embededd_js($embedded_js_string, $embedded_js_int));

@@ -1,5 +1,72 @@
 <?php
 
+/**
+ *
+ * @param string $key
+ * @return $img_url
+ */
+function getPageImages(string $key) {
+    $mydb = new MyDB();
+    $key = $mydb->escape($key);
+    $img_url = "";
+
+    $results = $mydb->select("SELECT image_file_name FROM top_images WHERE image_key = '$key';");
+
+    if (!empty($results) && isset($results[0]) && !empty($results[0]['image_file_name'])) {
+        $img_url = $results[0]['image_file_name'];
+    }
+
+    return $img_url;
+}
+
+function isPageImages(string $key) {
+    $mydb = new MyDB();
+    $key = $mydb->escape($key);
+
+    $results = $mydb->select("SELECT count(image_key) FROM top_images WHERE image_key = '$key';");
+
+    return $results[0]["count(image_key)"];
+}
+
+/**
+ *
+ * @param string $key
+ * @param string $image_file_name
+ */
+function setPageImages(string $key, string $image_url) {
+    $mydb = new MyDB();
+    $key = $mydb->escape($key);
+    $image_url = $mydb->escape($image_url);
+    $twimg_url = 'https://pbs.twimg.com/media/';
+    $media_base = MediaDir;
+    $sql = "";
+    $image_file_name = "";
+
+    if (! empty($image_url)) {
+        $image = file_get_contents($image_url);
+        $image_file_name = explode($twimg_url, $image_url)[1];
+    }
+
+    $count = isPageImages($key);
+
+    if (empty($image_url)) {
+        // URLが空の場合は何もしない
+    } else if ($count == 0) {
+        file_put_contents($media_base . '/' . $image_file_name, $image);
+        $sql = "INSERT INTO top_images (image_key, image_file_name) VALUES ('$key', '$image_file_name');";
+        $mydb->query($sql);
+    } else {
+        $old_image_file_name = getPageImages($key);
+
+        if ($old_image_file_name !== $image_file_name)
+            unlink($media_base . '/' . $old_image_file_name);
+        $sql = "UPDATE top_images SET image_file_name = '$image_file_name' WHERE image_key = '$key';";
+        $mydb->query($sql);
+
+        file_put_contents($media_base . '/' . $image_file_name, $image);
+    }
+}
+
 function checkAndCreateCreator(string $user_id) {
     $mydb = new MyDB();
 
@@ -216,14 +283,14 @@ function delMatome(string $mutter_id="", string $domain="", string $user_id="", 
     // error_log("sql:$sql");
 
     $results = $mydb->query($sql);
-    
+
     $sql = "SELECT mutter.id AS id FROM mvsm, mutter WHERE mvsm.mutter_id=mutter.id AND mvsm.mutter_domain=mutter.domain AND mvsm.user_id=$user_id AND mvsm.user_domain='$domain' AND mvsm.matome_id=$matome_id ORDER BY mutter.created_at DESC LIMIT 1";
     $results = $mydb->select($sql);
 
     $id = $results[0]['id'];
     // error_log("sql:$sql");
     // error_log("id:$id");
-    
+
     $sql = "UPDATE matome SET latest_mutter_id=$id WHERE `user_id`=$user_id AND `user_domain`='$domain' AND `id`=$matome_id;";
     // error_log("sql:$sql");
     $mydb->query($sql);
@@ -249,9 +316,9 @@ function createMatome(string $creator_id="", string $creator_domain="", string $
         $sql = "SELECT max(id) AS max FROM matome WHERE user_id='$creator_id'";
 
         // error_log("sql:$sql");
-        
+
         $max = ((int)$mydb->select($sql)[0]['max'])+1;
-        
+
         // error_log("max:$max");
 
         $matome_name = $mydb->escape($matome_name);
@@ -772,7 +839,7 @@ function addUsers($account_name, $password)
  */
 function getTrendByWords(string $place_keyword) {
     $trend_words = $trends = array();
-    
+
     $twitterLoginAccount = getSessionParam('twitterLoginAccount', "");
 
     $tokens = getTwitterTokens("", $twitterLoginAccount['id'], false);

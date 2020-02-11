@@ -36,12 +36,36 @@ function sort_mutter(array $a, array $b)
     return ($a['sortValue'] > $b['sortValue']) ? -1 : 1;
 }
 
+function sort_mutter_object(object $a, object $b)
+{
+    if ($a->sortValue == $b->sortValue) {
+        return 0;
+    }
+    return ($a->sortValue > $b->sortValue) ? -1 : 1;
+}
+
+function sort_mutter_object_by_retweet_time(object $a, object $b)
+{
+    if ($a->sortValue == $b->sortValue) {
+        return 0;
+    }
+    return ($a->sortValue > $b->sortValue) ? -1 : 1;
+}
+
 function sort_mutter_asc(array $a, array $b)
 {
     if ($a['sortValue'] == $b['sortValue']) {
         return 0;
     }
     return ($a['sortValue'] < $b['sortValue']) ? -1 : 1;
+}
+
+function sort_mutter_object_asc(object $a, object $b)
+{
+    if ($a->sortValue == $b->sortValue) {
+        return 0;
+    }
+    return ($a->sortValue < $b->sortValue) ? -1 : 1;
 }
 
 function isImg(string $url) {

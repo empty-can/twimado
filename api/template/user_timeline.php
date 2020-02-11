@@ -12,7 +12,6 @@ $thumb = $param->putValue('thumb');
 $hs = $param->putValue('hs');
 
 $mutters = array();
-$tmp_mutters = array();
 
 $response = array();
 $response['mutters'] = array();
@@ -23,14 +22,14 @@ ob_start();
 if (contains($domain, 'pawoo')) {
     $api = AppURL . '/api/pawoo/user_timeline.php';
     $pawoo_oldest_id = $param->getValue('pawoo_oldest_id');
-    
+
     $pawoo_param = clone $param;
     $pawoo_param->moveValue('pawoo_id', 'id');
     $pawoo_param->setInitialValue('count', "40");
     $pawoo_param->moveValue('pawoo_oldest_id', 'max_id');
-    
+
     $pawoo_result = getMutters($api, $pawoo_param->parameters, $pawoo_oldest_id);
-    
+
 	$response['mutters']  = array_merge($response['mutters'] , $pawoo_result['mutters']);
 	$pawoo_oldest_id = $pawoo_result['oldest_id'];
 }
@@ -39,14 +38,14 @@ if (contains($domain, 'pawoo')) {
 if (contains($domain, 'twitter')) {
     $api = AppURL . '/api/twitter/user_timeline.php';
     $twitter_oldest_id = $param->getValue('twitter_oldest_id');
-    
+
     $twitter_param = clone $param;
     $twitter_param->moveValue('twitter_id', 'id');
     $twitter_param->setInitialValue('count', '200');
     $twitter_param->moveValue('twitter_oldest_id', 'max_id');
-    
+
     $twitter_result = getMutters($api, $twitter_param->parameters, $twitter_oldest_id);
-    
+
 	$response['mutters']  = array_merge($response['mutters'] , $twitter_result['mutters']);
 	$twitter_oldest_id = $twitter_result['oldest_id'];
 }
@@ -74,7 +73,7 @@ foreach ($mutters as $mutter) {
 $response['pawoo_oldest_id'] = isset($pawoo_oldest_id) ? $pawoo_oldest_id : "";
 $response['twitter_oldest_id'] = isset($twitter_oldest_id) ? $twitter_oldest_id : "";
 
-$response['error'] = ob_get_contents(); 
+$response['error'] = ob_get_contents();
 ob_end_clean();
 
 // myVarDump(json_encode($response));

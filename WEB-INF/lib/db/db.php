@@ -59,6 +59,9 @@ class MyDB {
      * 文字列以外はスルー
      */
     public function escape($param) {
+
+        $param = str_replace('#', '＃', $param);
+
         if (is_string($param))
             return $this->dbo->real_escape_string($param);
         else

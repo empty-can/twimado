@@ -25,7 +25,6 @@ $passenger_id = $param->putValue('id');
 $media_only = $param->putValue('mo');
 /*-----------------------------------------*/
 
-
 // 標準出力の監視開始
 ob_start();
 
@@ -87,6 +86,13 @@ foreach ($tweets as $tweet) {
 }
 /*-------------------------------------------------*/
 
+usort($mutters, "sort_mutter_object");
+foreach ($mutters as $mutter) {
+    if($mutter->selfTweet() && !$mutter->sensitive() && $mutter->hasMedia() && !$mutter->isVideo()) {
+        setPageImages($target_id, $mutter->getRawURL());
+        break;
+    }
+}
 
 // 新しいツイートが取得できているかどうかのチェック
 if($param->getValue('max_id') === $oldest->id) {

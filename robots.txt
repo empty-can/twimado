@@ -1,2 +1,34 @@
+; Twitter Bot
+User-agent: Twitterbot/1.0
+Allow: /
+
+; Facebook
+User-agent: facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)
+Allow: /
+
+; LINE
+User-agent: facebookexternalhit/1.1;line-poker/1.0
+Allow: /
+
+; iOSメッセージ
+User-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/601.2.4 (KHTML, like Gecko) Version/9.0.1 Safari/601.2.4 facebookexternalhit/1.1 Facebot Twitterbot/1.0
+Allow: /
+
+; Discord
+User-agent: Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)
+Allow: /
+
+; Skype
+User-agent: Mozilla/5.0 (Windows NT 6.1; WOW64) SkypeUriPreview Preview/0.5
+Allow: /
+
+; Slack
+User-agent: Slackbot-LinkExpanding 1.0 (+https://api.slack.com/robots)
+Allow: /
+
+; Plurk
+User-agent: Mozilla/5.0 (compatible; PlurkBot/1.0; +https://www.plurk.com/) Firefox/61.0
+Allow: /
+
 User-agent: *
 Disallow: /

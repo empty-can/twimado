@@ -29,18 +29,18 @@ ob_start();
 if (contains($domain, 'pawoo')) {
     $api = AppURL . '/api/pawoo/tag_timelines.php';
     $pawoo_oldest_id = $param->getValue('pawoo_oldest_id');
-    
+
     $pawoo_param = clone $param;
     $pawoo_param->moveValue('pawoo_id', 'id');
     $pawoo_param->setInitialValue('count', '80');
     $pawoo_param->moveValue('pawoo_oldest_id', 'max_id');
-    
+
     // Pawooはタグ検索APIを使うので先頭の#は削除する
     $pawoo_param->setParam('q', mb_ereg_replace('%23', '', $q));
     $pawoo_param->moveValue('q', 'tag');
-    
+
     $pawoo_result = getMutters($api, $pawoo_param->parameters, $pawoo_oldest_id);
-    
+
 	$response['mutters']  = array_merge($response['mutters'] , $pawoo_result['mutters']);
 	$pawoo_oldest_id = $pawoo_result['oldest_id'];
 }
@@ -49,14 +49,14 @@ if (contains($domain, 'pawoo')) {
 if (contains($domain, 'twitter')) {
     $api = AppURL . '/api/twitter/search.php';
     $twitter_oldest_id = $param->getValue('twitter_oldest_id');
-    
+
     $twitter_param = clone $param;
     $twitter_param->moveValue('twitter_id', 'id');
     $twitter_param->setInitialValue('count', '200');
     $twitter_param->moveValue('twitter_oldest_id', 'max_id');
-    
+
     $twitter_result = getMutters($api, $twitter_param->parameters, $twitter_oldest_id);
-    
+
 	$response['mutters']  = array_merge($response['mutters'] , $twitter_result['mutters']);
 	$twitter_oldest_id = $twitter_result['oldest_id'];
 }

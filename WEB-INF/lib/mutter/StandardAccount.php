@@ -10,6 +10,7 @@ abstract class StandardAccount implements Account {
     public $followingCount = -1;
     public $followersCount = -1;
 
+
     public function id() {
         return $this->id;
     }
