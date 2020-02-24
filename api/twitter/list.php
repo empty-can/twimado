@@ -5,7 +5,13 @@ $api = 'lists/statuses'; // アクセスするAPI
 
 /*------------ パラメータの取得設定 ------------*/
 $param = new Parameters();
-$param->constructFromPostParameters();
+
+if(isPost()) {
+	$param->constructFromPostParameters();
+} else {
+	$param->constructFromGetParameters();
+}
+
 $param->required = ["list_id"];
 $param->optional = ["since_id", "max_id", "count"];
 

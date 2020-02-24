@@ -5,7 +5,13 @@ $api = 'statuses/user_timeline';  // アクセスするAPI
 
 /*------------ パラメータの取得設定 ------------*/
 $param = new Parameters();
-$param->constructFromPostParameters();
+
+if(isPost()) {
+	$param->constructFromPostParameters();
+} else {
+	$param->constructFromGetParameters();
+}
+
 $param->required = ["user_id"];
 $param->setAlternate("user_id", "screen_name");
 $param->optional = ["since_id", "max_id", "count"];

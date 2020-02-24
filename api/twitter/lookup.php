@@ -5,7 +5,13 @@ $api = 'statuses/lookup'; // アクセスするAPI
 
 /*------------ パラメータの取得設定 ------------*/
 $param = new Parameters();
-$param->constructFromPostParameters();
+
+if(isPost()) {
+	$param->constructFromPostParameters();
+} else {
+	$param->constructFromGetParameters();
+}
+
 $param->required = ["ids"];
 
 $param->setInitialValue('count', '200');

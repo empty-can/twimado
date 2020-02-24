@@ -2,7 +2,12 @@
 require_once ("init.php");
 
 $param = new Parameters();
-$param->constructFromPostParameters();
+
+if(isPost()) {
+    $param->constructFromPostParameters();
+} else {
+    $param->constructFromGetParameters();
+}
 
 $param->setInitialValue('hs', 'true');
 $param->setInitialValue('thumb', 'true');

@@ -5,13 +5,20 @@ $api = 'search/tweets';  // アクセスするAPI
 
 /*------------ パラメータの取得設定 ------------*/
 $param = new Parameters();
-$param->constructFromPostParameters();
+
+if(isPost()) {
+	$param->constructFromPostParameters();
+} else {
+	$param->constructFromGetParameters();
+}
+
 $param->required = ["q"];
 $param->optional = ["since_id", "max_id", "count", "until", "locale", "result_type"];
 
-$param->setInitialValue('count', '200');
+$param->setInitialValue('count', '100');
 $min_count = $param->getValue('count');
 
+$param->setParam('raw', 'false');
 $param->setParam('locale', 'ja');
 $param->setParam('result_type', 'mixed');
 
@@ -46,6 +53,13 @@ $tokens = getTwitterTokens($account, $passenger_id, true);
 // APIアクセス
 $api_result = getTwitterConnection($tokens->token, $tokens->secret)
                 ->get($api, $param->parameters);
+
+if($param->getValue('json')=='true') {
+    ob_end_clean();
+    // echo json_encode($api_result);
+    echo json_encode($api_result, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit();
+}
 
 // APIアクセスのエラー確認
 if (isset($api_result->errors)) {
