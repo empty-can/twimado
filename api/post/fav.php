@@ -17,7 +17,7 @@ $response = array();
 if (contains($domain, 'pawoo')) {
     // アクセストークンの取得
     $tokens = getSessionParam('pawooAccessToken', "");
-    
+
     if (!isset($tokens) || empty($tokens) || $tokens->isEmpty()) {
         $response['error'] = "この操作にはPawooとの連携が必要です。";
         goto end;
@@ -33,7 +33,7 @@ if (contains($domain, 'pawoo')) {
         $connection = getMastodonConnection(PawooDomain, $tokens->access_token);
         $result = $connection->executePostAPI($api);
     }
-    
+
     if (empty($result) || !$result) {
         $response['error'] = "APIの実行に失敗しました。";
         goto end;
@@ -47,25 +47,25 @@ if (contains($domain, 'pawoo')) {
 
 // 自分のイラストリストTL取得
 if (contains($domain, 'twitter')) {
-    
+
     // アクセストークンの取得
     $tokens = getSessionParam('twitterAccessToken', "");
-    
+
     if (!isset($tokens) || empty($tokens) || $tokens->isEmpty()) {
-        $response['error'] = "この操作にはTwitterとの連携が必要です。";
+        $response['error'] = "いいねをするにはTwitterとのアプリ連携が必要です。トップページからTwitterでログインしてください。";
         goto end;
     }
-    
+
     if ($method == 'do') {
         $api = 'favorites/create';
     } else if ($method == 'undo') {
         $api = 'favorites/destroy';
     }
-    
+
     if(!empty($api)) {
         $result = getTwitterConnection($tokens->access_token, $tokens->access_token_secret)->post($api, $param->parameters);
     }
-    
+
     if(empty($result)) {
         $response['error'] = "APIの実行に失敗しました。";
         goto end;

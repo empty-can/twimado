@@ -15,6 +15,7 @@ class EmptyMutter extends StandardMutter {
             $this->providerIcon = 'https://pawoo.net/favicon.ico';
         }
         
+        $this->id = -1;
         $this->text = "ダミーツイートです";
         $this->account = new EmptyAccount();
         $this->retweeter = new EmptyAccount();

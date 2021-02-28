@@ -32,6 +32,7 @@ abstract class StandardMutter implements Mutter {
     public $mutterBase = "初期値";
     public $mutterURL = "初期値";
 
+    public $isReply = false;
     public $selfReply = false;
     public $selfTweet = false;
     public function isOriginal() {
@@ -132,6 +133,10 @@ abstract class StandardMutter implements Mutter {
 
     public function retweeter() {
         return $this->retweeter;
+    }
+
+    public function isReply() {
+        return $this->isReply;
     }
 
     public function selfReply() {

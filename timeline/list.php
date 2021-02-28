@@ -10,8 +10,8 @@ $param->setInitialValue('hs', getSessionParam('hs', 'true'));
 $param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
 $param->setInitialValue('mo', getSessionParam('mo', 'true'));
 
-$param->setInitialValue('domain', 'twitterpawoo');
-$param->setInitialValue('count', '20');
+$param->setInitialValue('domain', 'twitter');
+$param->setInitialValue('count', '200');
 // $param->setInitialValue('test2', '20');
 
 $name = $param->putValue('name');

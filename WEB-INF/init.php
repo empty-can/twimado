@@ -1,20 +1,34 @@
 <?php
-setcookie("SameSite", 'None', time()+60*60*24*30, '/matome/', 'www.suki.pics', true, false);
-if(empty($_SERVER["HTTPS"]) && !(isset($_SERVER["CLIENTNAME"]) && ($_SERVER["CLIENTNAME"]==="DESKTOP-8S9QC5O"))) {
-    header('Location: https://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
-    exit();
-}
-
-if(strpos($_SERVER["REMOTE_ADDR"], '66.249') === 0) {
-    exit();
-}
-
 $ini_array = parse_ini_file('/xampp/app/conf/sukipic.ini');
 
-if ($_SERVER['REMOTE_ADDR'] === $ini_array["admin_host"])
-    error_reporting(E_ALL);
-else
-    error_reporting(0);
+$black_list = array(
+);
+// mb_internal_encoding('SJIS');
+// mb_http_output('SJIS');
+// mb_http_input('SJIS');
+// mb_regex_encoding('SJIS');
+// var_dump($_SERVER);
+if(!isset($_SERVER["HTTPS"])) {
+    // ローカル実行
+} else if(isset($_SERVER["REMOTE_ADDR"]) && in_array($_SERVER["REMOTE_ADDR"], $black_list)) {
+    foreach($black_list as $list) {
+        if(strpos($_SERVER["REMOTE_ADDR"], $list)!==false) {
+            exit();
+        }
+    }
+    if (empty($_SERVER["HTTPS"]) && ! (isset($_SERVER["CLIENTNAME"]) && ($_SERVER["CLIENTNAME"] === "DESKTOP-8S9QC5O"))) {
+        header('Location: ' . $ini_array["protocol"] . '://' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+        exit();
+    }
+
+    if ($_SERVER['REMOTE_ADDR'] === $ini_array["admin_host"]) {
+        error_reporting(E_ALL);
+    } else {
+        error_reporting(0);
+    }
+}
+
+require_once "lib/vendor/autoload.php";
 
 ini_set( 'session.gc_maxlifetime', 604800 );
 ini_set( 'session.cookie_lifetime', 604800 );
@@ -32,7 +46,6 @@ define("MediaDir", 'C:\xampp\htdocs\sukipic\media');
 define("Passphrase", $ini_array["passphrase"]);
 define("EncMethod", $ini_array["enc_method"]);
 define("AsyncCount", $ini_array["async_count"]);
-
 define("Twitter", "twitter.com");
 define("Pawoo", "pawoo.net");
 
@@ -50,6 +63,16 @@ $sessionID = getPostParam("mySessionID",'');
 //     session_id($sessionID);
 // }
 session_start();
+
+$arr_cookie_options = array (
+    'expires' => time() + 60*60*24*30,
+    'path' => '/matome/',
+    'domain' => 'www.suki.pics', // leading dot for compatibility or use subdomain
+    'secure' => true,     // or false
+    'httponly' => false,    // or false
+    'samesite' => 'None' // None || Lax  || Strict
+);
+setcookie("SESSIONID", session_id(), $arr_cookie_options);
 
 /* ミニブログサーバの情報 */
 define("PawooDomain", $ini_array["pawoo_domain"]);
@@ -97,7 +120,7 @@ setSessionParam("pawoo_skip_list", $pawoo_skip_list);
 
 /* Smartyのロード */
 $smarty = new Smarty();
-$smarty->assign("app_url", AppURL);
+$smarty->assign("AppURL", AppURL);
 $smarty->assign("app_context", AppContext);
 $target = "_blank";
 $smarty->assign("target", $target);

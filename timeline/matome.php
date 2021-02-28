@@ -10,7 +10,7 @@ $param->setInitialValue('hs', getSessionParam('hs', 'true'));
 $param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
 $param->setInitialValue('mo', getSessionParam('mo', 'true'));
 
-$param->setInitialValue('domain', 'twitterpawoo');
+$param->setInitialValue('domain', 'twitter');
 $param->setInitialValue('count', '5');
 
 $param->setParam('account', Account);

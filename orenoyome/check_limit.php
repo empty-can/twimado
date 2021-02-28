@@ -1,10 +1,14 @@
 <?php
 require_once ("init.php");
 
-$account = Account;
+// myVarDump(TwitterAccountID);
+// myVarDump($_SESSION);
+// myVarDump($account);
 
 // アクセストークンの取得
-$tokens = getTwitterTokens($account, "", true);
+$tokens = getTwitterTokens(Account, (string)TwitterAccountID, true);
+
+// myVarDump($tokens);
 
 if ($tokens->isEmpty()) {
     echo "認証情報が取得できませんでした。";
@@ -34,7 +38,7 @@ if ($tokens->isEmpty()) {
     $api = 'application/rate_limit_status'; // アクセスするAPI
 
     $param = new Parameters();
-    $param->setParam('resources', 'application,statuses,search,users,account,collections,collections,friends,favorites,trends,geo');
+    $param->setParam('resources', 'application,statuses,search,lists,users,account,collections,collections,friends,favorites,trends,geo');
 
     // APIアクセス
     $result = getTwitterConnection($tokens->token, $tokens->secret)->get($api, $param->parameters);

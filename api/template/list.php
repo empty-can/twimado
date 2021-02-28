@@ -2,7 +2,12 @@
 require_once ("init.php");
 
 $param = new Parameters();
-$param->constructFromPostParameters();
+
+if(isPost()) {
+    $param->constructFromPostParameters();
+} else {
+    $param->constructFromGetParameters();
+}
 
 $param->setInitialValue('hs', 'true');
 $param->setInitialValue('thumb', 'true');
@@ -27,7 +32,7 @@ if (contains($domain, 'pawoo')) {
     $pawoo_param->moveValue('pawoo_id', 'id');
     $pawoo_param->setInitialValue('count', '40');
     $pawoo_param->moveValue('pawoo_oldest_id', 'max_id');
-    
+
     $pawoo_result = getMutters($api, $pawoo_param->parameters, $pawoo_oldest_id);
 	$response['mutters']  = array_merge($response['mutters'] , $pawoo_result['mutters']);
 	$pawoo_oldest_id = $pawoo_result['oldest_id'];
@@ -37,7 +42,7 @@ if (contains($domain, 'pawoo')) {
 if (contains($domain, 'twitter')) {
     $api = AppURL . '/api/twitter/list.php';
     $twitter_oldest_id = $param->getValue('twitter_oldest_id');
-    
+
     $twitter_param = clone $param;
     $twitter_param->moveValue('twitter_id', 'id');
     $twitter_param->setInitialValue('count', '200');

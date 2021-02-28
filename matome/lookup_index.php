@@ -4,67 +4,21 @@ require_once ("init.php");
 $users = getSessionParam('users');
 
 if(empty($users)) {
-    $user_ids = "";
     $mydb = new MyDB();
 
-    $sql = "SELECT DISTINCT user_id FROM mutter ORDER BY user_id ASC";
+    $sql = "SELECT c.id, c.domain, c.screen_name, c.name, c.profile_image, c.followers_count, n.follow_date, n.crawled FROM creator AS c, new_creator AS n WHERE c.id = n.id AND n.crawled=1 ORDER BY followers_count DESC";
 
-    $results = $mydb->select($sql);
-
-    foreach ($results as $row) {
-        $user_ids .= $row['user_id'].',';
-    }
+    $users = $mydb->select($sql);
+    
+    // myVarDump($users);
 
     $mydb->close();
-
-    if(!empty($user_ids)) {
-        $user_ids = substr($user_ids, 0, -1);
-    }
-}
-
-if(!empty($user_ids)) {
-    $api = 'users/lookup'; // アクセスするAPI
-
-    $param = new Parameters();
-    $param->setParam('user_id', $user_ids);
-
-    $account = Account;
-
-    // アクセストークンの取得
-    $tokens = getTwitterTokens($account, "", true);
-
-    if($tokens->isEmpty()) {
-        echo "認証情報が取得できませんでした。";
-    }
-
-    // APIアクセス
-    $users = getTwitterConnection($tokens->token, $tokens->secret)
-                    ->get($api, $param->parameters);
-
-        // APIアクセスのエラー確認
-    if (isset($users->errors)) {
-        echo "APIの実行に失敗しました。";
-        foreach ($users->errors as $error) {
-            echo "<br>\r\nエラーコード：" . $error->code;
-            echo "<br>\r\nメッセージ：" . $error->message;
-        }
-    }
-
-    foreach ($users as $user) {
-        $count = existCreator($user->id_str, 'twitter');
-
-        if($count==0) {
-            insertCreator($user->id_str, 'twitter', $user->screen_name, $user->name);
-        }
-    }
-
-    // 検索結果数の確認
-    if (empty($users)) {
-        echo "該当が0件でした。";
-        echo var_dump($param->parameters);
-    }
-
-    setServerParam('users', $users);
+//     echo '$user_names = array(<br>';
+//     foreach ($users as $user) {
+//         echo ', "'.$user['screen_name'].'"<br>';
+//     }
+//     echo ');<br>';
+//     exit();
 }
 
 ?>
@@ -87,42 +41,45 @@ if(!empty($user_ids)) {
 <div class="flx fww jcsa" style="margin: 5vh auto 5vh auto;">
 <?php
 foreach ($users as $user) {
+$user_name = preg_replace('/&＃/', '&#', $user['name']);
+// $user_name = $user['name'];
+// myVarDump($user_name);
     ?>
     <div style="width:256px; margin: 10px auto;">
     	<div class="flx fww jcsa aife">
     		<div style="width:50px;">
-    			<img alt="<?php echo htmlentities($user->name);?>" src="<?php echo $user->profile_image_url_https;?>">
+    			<img alt="<?php echo $user_name;?>" src="<?php echo $user['profile_image'];?>">
 			</div>
     		<div class="ellip" style="width:200px;vertical-align:bottom;">
-				<a href="//www.suki.pics/timeline/user.php?domain=twitter&target_id=<?php echo $user->id;?>&name=<?php echo htmlentities($user->name);?>" target="_blank">
-					<?php echo htmlentities($user->name);?>
+				<a href="//www.suki.pics/timeline/user.php?domain=twitter&target_id=<?php echo $user['id'];?>&name=<?php echo $user_name;?>" target="_blank">
+					<?php echo $user_name;?>
 					<br>
-					@<?php echo $user->screen_name;?>
+					@<?php echo $user['screen_name'];?>
 				</a>
 			</div>
 		</div>
 		<div style="margin: 10px auto;">
-    		<a href="//www.suki.pics/timeline/lookup.php?domain=twitter&target_id=<?php echo $user->id;?>&name=<?php echo htmlentities($user->name);?>&asc=0" target="_blank">
+    		<a href="//www.suki.pics/timeline/lookup.php?domain=twitter&target_id=<?php echo $user['id'];?>&name=<?php echo $user_name;?>&asc=0&hs=false&mo=false" target="_blank">
     			最新から
     		</a>
     		　
-    		<a href="//www.suki.pics/timeline/lookup.php?domain=twitter&target_id=<?php echo $user->id;?>&name=<?php echo htmlentities($user->name);?>&asc=1" target="_blank">
+    		<a href="//www.suki.pics/timeline/lookup.php?domain=twitter&target_id=<?php echo $user['id'];?>&name=<?php echo $user_name;?>&asc=1&hs=false&mo=false" target="_blank">
     			過去から
     		</a>
 		</div>
-		<a href="//www.suki.pics/matome/matome.php?domain=twitter&target_id=<?php echo $user->id;?>&name=<?php echo htmlentities($user->name);?>&target_domain=twitter&asc=0&edit=true" target="_blank">
+		<a href="//www.suki.pics/matome/matome.php?domain=twitter&target_id=<?php echo $user['id'];?>&name=<?php echo $user_name;?>&target_domain=twitter&asc=0&hs=false&edit=true" target="_blank">
 			まとめ用ページ（最新から）
 		</a>
 		<br>
-		<a href="//www.suki.pics/matome/matome.php?domain=twitter&target_id=<?php echo $user->id;?>&name=<?php echo htmlentities($user->name);?>&target_domain=twitter&asc=1&edit=true" target="_blank">
+		<a href="//www.suki.pics/matome/matome.php?domain=twitter&target_id=<?php echo $user['id'];?>&name=<?php echo $user_name;?>&target_domain=twitter&asc=1&hs=false&edit=true" target="_blank">
 			まとめ用ページ（過去から）
 		</a>
 		<br>
-		<a href="//www.suki.pics/orenoyome/create_matome.php?target_id=<?php echo $user->id;?>&domain=twitter&name=<?php echo htmlentities($user->name);?>" target="_blank">
+		<a href="//www.suki.pics/orenoyome/create_matome.php?target_id=<?php echo $user['id'];?>&domain=twitter&name=<?php echo $user_name;?>" target="_blank">
 			まとめを追加
 		</a>
 		<br>
-		<div style="max-height:64px;overflow:hidden;"><?php echo htmlentities($user->description); ?></div>
+		<!-- div style="max-height:64px;overflow:hidden;"><?php //echo htmlentities($user['description']); ?></div -->
 	</div>
     <?php
 }

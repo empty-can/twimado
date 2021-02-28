@@ -3,8 +3,12 @@ require_once ("init.php");
 
 
 $param = new Parameters();
-// $param->constructFromGetParameters();
-$param->constructFromPostParameters();
+
+if(isPost()) {
+    $param->constructFromPostParameters();
+} else {
+    $param->constructFromGetParameters();
+}
 
 $param->setInitialValue('hs', 'true');
 $param->setInitialValue('thumb', 'true');
@@ -41,7 +45,7 @@ if (contains($domain, 'twitter')) {
     $asc  = $twitter_param->getValue('asc', 1);
     $count = $twitter_param->getValue('count', '100');
 
-        // myVarDump($twitter_param);
+    // myVarDump($twitter_param);
 
     if($asc==1) {
         $ids = getMutterIds($target_id, $twitter_latest_id, $count, $asc);
@@ -49,7 +53,7 @@ if (contains($domain, 'twitter')) {
         $ids = getMutterIds($target_id, $twitter_oldest_id, $count, $asc);
     }
 
-    // error_log("ids:$ids");
+    error_log("ids:$ids");
 
     if(!empty($ids)) {
         $twitter_param->setParam('ids', $ids);
@@ -107,5 +111,5 @@ ob_end_clean();
 $response['error'] = $stdout;
 
 // echo json_encode(gerErrorResponse("twitter", $response));
-echo json_encode($response);
 // myVarDump($response);
+echo json_encode($response);

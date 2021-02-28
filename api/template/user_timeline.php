@@ -2,6 +2,7 @@
 require_once ("init.php");
 
 $param = new Parameters();
+// $param->constructFromGetParameters();
 $param->constructFromPostParameters();
 
 $param->setInitialValue('hs', 'true');

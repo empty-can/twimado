@@ -78,7 +78,11 @@ foreach ($tweets as $tweet) {
     $originalId = $tmp->originalId();
 
     if(isset($mutters[$originalId])) {
-        continue;
+        if($tmp->account()->id()==$mutters[$originalId]->account()->id()) {
+            $mutters[$originalId]=$tmp;
+        } else {
+            continue;
+        }
     } else if($media_only=='false') {
         $mutters[$originalId] = $tmp;
         $i++;

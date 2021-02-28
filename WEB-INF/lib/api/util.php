@@ -12,6 +12,7 @@ use Abraham\TwitterOAuth\TwitterOAuth;
  */
 function getTwitterTokens(string $account="", string $passenger_id="", bool $enable_app_token=true) {
     $tokens = new Tokens();
+
     if(!empty($account)) {
         $result = get_access_tokens($account, 'twitter');
         $tokens->token = $result['access_token'];
@@ -21,10 +22,10 @@ function getTwitterTokens(string $account="", string $passenger_id="", bool $ena
         $tokens->token = $result['access_token'];
         $tokens->secret = $result['access_token_secret'];
     } else if($enable_app_token){
-//        $tokens->token = TwitterAccessToken;
-//        $tokens->secret = TwitterAccessTokenSecret;
-		$tokens->token = "";
-		$tokens->secret = "";
+        $tokens->token = TwitterAccessToken;
+        $tokens->secret = TwitterAccessTokenSecret;
+//		$tokens->token = "";
+//		$tokens->secret = "";
     }
 
     return $tokens;
@@ -96,7 +97,7 @@ function gerErrorResponse(string $errorDomain, string $errorMessage) {
     $errorMutter->addMessage($errorMessage);
 
     $response = array();
-    $response['oldest_mutter'] = new EmptyMutter("twitter");
+    $response['oldest_mutter'] = $errorMutter;
 
     $response['mutters'] = array();
     $response['mutters']['-1'] = obj_to_array($errorMutter);

@@ -13,26 +13,26 @@ $response = array();
 
 // pawooのリブログ
 if (contains($domain, 'pawoo')) {
-    
+
     // アクセストークンの取得
     $tokens = getSessionParam('pawooAccessToken', "");
-    
+
     if (!isset($tokens) || empty($tokens) || $tokens->isEmpty()) {
         $response['error'] = "この操作にはPawooとの連携が必要です。";
         goto end;
     }
-    
+
     if ($method == 'do') {
         $api = "api/v1/statuses/$id/reblog";
     } else if ($method == 'undo') {
         $api = "api/v1/statuses/$id/unreblog";
     }
-    
+
     if(!empty($api)) {
         $connection = getMastodonConnection(PawooDomain, $tokens->access_token);
         $result = $connection->executePostAPI($api);
     }
-    
+
     if(empty($result)) {
         $response['error'] = "APIの実行に失敗しました。";
         goto end;
@@ -46,25 +46,25 @@ if (contains($domain, 'pawoo')) {
 
 // twitterのリツイート
 if (contains($domain, 'twitter')) {
-        
+
     // アクセストークンの取得
     $tokens = getSessionParam('twitterAccessToken', "");
-    
+
     if (!isset($tokens) || empty($tokens) || $tokens->isEmpty()) {
-        $response['error'] = "この操作にはTwitterとの連携が必要です。";
+        $response['error'] = "リツイートをするにはTwitterとのアプリ連携が必要です。トップページからTwitterでログインしてください。";
         goto end;
     }
-    
+
     if ($method == 'do') {
         $api = 'statuses/retweet/'.$id;
     } else if ($method == 'undo') {
         $api = 'statuses/retweet/'.$id;
     }
-    
+
     if(!empty($api)) {
         $result = getTwitterConnection($tokens->access_token, $tokens->access_token_secret)->post($api, $param->parameters);
     }
-    
+
     if(empty($result)) {
         $response['error'] = "APIの実行に失敗しました。";
         goto end;

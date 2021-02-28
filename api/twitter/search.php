@@ -13,9 +13,10 @@ if(isPost()) {
 }
 
 $param->required = ["q"];
-$param->optional = ["since_id", "max_id", "count", "until", "locale", "result_type"];
+$param->optional = ["since_id", "max_id", "count", "until", "locale", "result_type", "f"];
 
 $param->setInitialValue('count', '100');
+$param->setParam('count', '100');
 $min_count = $param->getValue('count');
 
 $param->setParam('raw', 'false');
@@ -25,11 +26,16 @@ $param->setParam('result_type', 'mixed');
 $account = $param->putValue('account');
 $passenger_id = $param->putValue('id');
 $media_only = $param->putValue('mo');
+$filter = $param->putValue('f');
 /*-----------------------------------------*/
 
-$query = preg_replace('/[\s]?filter:[a-z]+[\s]?/', '', urldecode($param->getValue('q')));
+$query = $param->getValue('q');
 
-// $param->setParam('q', 'ん min_faves:10000 filter:twimg');
+if(!empty($filter)) {
+    $q = $param->getValue('q');
+    $param->setParam('q', $q.' filter:'.$filter);
+}
+
 
 // 標準出力の監視開始
 ob_start();
@@ -45,12 +51,14 @@ if(!empty($validated)) {
 // アクセストークンの取得
 $tokens = getTwitterTokens($account, $passenger_id, true);
 
-// if($tokens->isEmpty()) {
-//     echo "認証情報が取得できませんでした。";
-//     goto end;
-// }
+if($tokens->isEmpty()) {
+    echo "認証情報が取得できませんでした。";
+    goto end;
+}
 
 // APIアクセス
+
+
 $api_result = getTwitterConnection($tokens->token, $tokens->secret)
                 ->get($api, $param->parameters);
 
@@ -81,7 +89,6 @@ $tweets = $api_result->statuses;
 
 /*------------　API実行結果のインスタンス化　------------*/
 $mutters = array();
-$oldest = new EmptyMutter("twitter");
 $i = (int)0;
 
 foreach ($tweets as $tweet) {
@@ -91,7 +98,11 @@ foreach ($tweets as $tweet) {
     $originalId = $tmp->originalId();
 
     if(isset($mutters[$originalId])) {
-        continue;
+        if($tmp->account()->id()==$mutters[$originalId]->account()->id()) {
+            $mutters[$originalId]=$tmp;
+        } else {
+            continue;
+        }
     } else if($media_only=='false') {
         $mutters[$originalId] = $tmp;
         $i++;
@@ -105,7 +116,9 @@ foreach ($tweets as $tweet) {
 }
 /*-------------------------------------------------*/
 
+
 usort($mutters, "sort_mutter_object");
+
 foreach ($mutters as $mutter) {
     if($mutter->hasMedia() && !$mutter->sensitive() && !$mutter->isVideo()) {
         setPageImages($query, $mutter->getRawURL());
@@ -118,7 +131,6 @@ if($param->getValue('max_id') === $oldest->id) {
     echo "最後のツイートまで到達しました。";
     goto end;
 }
-
 
 /*-------------------- 出力処理 --------------------*/
 end:

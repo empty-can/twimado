@@ -26,8 +26,9 @@ setInterval( function() {
 				getMutter();
 
 			for(var i=0; mutterQueue.length>0 && i<count; i++) {
-				$('#timeline').append(mutterQueue.shift());//+'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>');
-
+				var tmpMutter = mutterQueue.shift().replaceAll('&lt;script>', '<script>').replaceAll('&lt;/script>', '</script>').replaceAll('&#39;', '\'');
+				$('#timeline').append(tmpMutter); //+'<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>');
+				
 				console.log(mutterQueue.length);
 
 				if(mutterQueue.length <= 0)
@@ -135,7 +136,7 @@ function getMutter() {
 			console.log('error:'+response['error']);
 
 			if(response['error'] !== undefined && response['error'] != '') {
-				$("#bottom_message").html("エラーが発生しました");
+				$("#bottom_message").html("エラーが発生しました:"+response['error']);
 				wait = true;
 				return;
 			}
@@ -197,7 +198,7 @@ function getMutter() {
 	//					}
 //					}
 
-					console.log("取得できました");
+					console.log("取得できました:"+mutters_num);
 					wait = false;
 				}
 			}
@@ -223,7 +224,7 @@ function switchShowTweet() {
 }
 
 function showReTweet() {
-	var all_retweets = $('.retweet').not('.recent');
+	var all_retweets = $('.retweet').not('.owner');
 
 	for (var i = 0; i < all_retweets.length; i++) {
 		var tmp = all_retweets[i];
@@ -232,7 +233,7 @@ function showReTweet() {
 }
 
 function hideReTweet() {
-	var all_retweets = $('.retweet').not('.recent');
+	var all_retweets = $('.retweet').not('.owner');
 
 	for (var i = 0; i < all_retweets.length; i++) {
 		var tmp = all_retweets[i];
@@ -304,7 +305,8 @@ function switch2Vertical() {
 
 function isEnd(params) {
 	console.log(params);
-	return (params === null || params === undefined || params === -1 || params === "")
+	// return (params === null || params === undefined || params === -1 || params === "")
+	return (params === null || params === undefined || params === -1)
 }
 
 function showMyList() {
@@ -312,76 +314,4 @@ function showMyList() {
 }
 function hideMyList() {
 	$('#mylist').css('right','-340px');
-}
-
-function fav(self, target_id, domain, method) {
-	// return ;
-	url = '//www.suki.pics/api/post/fav.php?id='+target_id+'&domain='+domain;
-	toggle(self, url, domain, '#fav_icon_'+target_id, '#fav_count_'+target_id, '#fav_'+target_id, '💓', '♡', 'favon', 'favoff');
-}
-
-function rt(self, target_id, domain, method) {
-	// return ;
-	url = '//www.suki.pics/api/post/rt.php?id='+target_id+'&domain='+domain;
-	toggle(self, url, domain, '#rt_icon_'+target_id, '#rt_count_'+target_id, '#rt_'+target_id, '🔂', '🔁', 'rton', 'rtoff');
-}
-
-function toggle(self, target_url, domain, icon_id, counter_id,toggle_id, on_char, off_char, on_class, off_class) {
-
-//	if(domain=='pawoo' && !confirm('Pawoo はサービスの制約上、本アプリで操作のキャンセルを行えません。\r\n操作を実行しますか？'))
-//		return;
-
-	if($(toggle_id).val()=='on') {
-		target_url = target_url+'&method=undo';
-	} else if($(toggle_id).val()=='off') {
-		target_url = target_url+'&method=do';
-	}
-
-	$.ajax({
-		url : target_url,
-		type : "GET",
-		dataType:"json",
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log("ajax通信に失敗しました");
-			console.log(XMLHttpRequest);
-			console.log(textStatus);
-			console.log(errorThrown);
-
-			console.log("ajax通信に失敗しました\r\ntextStatus:"+textStatus+"\r\nerrorThrown:"+errorThrown+"\r\nXMLHttpRequest:"+XMLHttpRequest);
-		},
-		success : function(response) {
-			console.log("ajax通信に成功しました");
-			console.log(response);
-			console.log(response['error']);
-
-			if(response==false) {
-				alert('操作が失敗しました。');
-			} else if(response['error']!=undefined) {
-				alert(response['error']);
-			} else {
-				if(!isNaN($(counter_id).html()))
-					target_count = parseInt($(counter_id).html(), 10);
-				else
-					target_count = $(counter_id).html();
-
-				if($(toggle_id).val()=='on') {
-					$(toggle_id).val('off');
-					self.innerHTML=off_char;
-					$(icon_id).removeClass(on_class);
-					$(icon_id).addClass(off_class);
-
-					if(!isNaN(target_count))
-						$(counter_id).html(target_count - 1);
-				} else if($(toggle_id).val()=='off') {
-					$(toggle_id).val('on');
-					self.innerHTML=on_char;
-					$(icon_id).removeClass(off_class);
-					$(icon_id).addClass(on_class);
-
-					if(!isNaN(target_count))
-						$(counter_id).html(target_count + 1);
-				}
-			}
-		}
-	});
 }

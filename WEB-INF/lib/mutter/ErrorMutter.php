@@ -15,6 +15,7 @@ class ErrorMutter extends StandardMutter {
             $this->providerIcon = 'https://pawoo.net/favicon.ico';
         }
         
+        $this->id = -1;
         $this->text = "";
         $this->account = new EmptyAccount();
         $this->retweeter = new EmptyAccount();

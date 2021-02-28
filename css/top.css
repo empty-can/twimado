@@ -4,6 +4,169 @@ body {
  	padding: 0vh 10vw;
 }
 
+#ranking {
+	position: absolute;
+	left: 0;
+	width: 98vw;
+	margin: auto;
+	background-color: white;
+}
+
+@media screen and (max-width:512px) {
+	.tweet_box {
+		width: 340px;
+		max-height: 590px;
+		margin-bottom: 5px;
+		overflow: hidden;
+	}
+	.tweet_box .tweet {
+		border: 1px solid rgb(204, 214, 221);
+		margin: 10px 15px;
+		padding: 10px 15px;
+		border-radius: 15px;
+		max-height: 550px;
+	}
+	.tweet .media_box  {
+		width: 100%;
+		max-height: 450px;
+		overflow: scroll;
+	}
+	.popup-modal video {
+		max-width: 100%;
+		max-height: 80vh;
+		margin: auto;
+		display: block;
+		border: solid 10px gray;
+		border-radius: 10px;
+	}
+	.popup-modal img {
+		max-width: 100%;
+		max-height: 80vh;
+		margin: auto auto 10px auto;
+		display: block;
+		border: solid 1px gray;
+		border-radius: 10px;
+	}
+}
+@media screen and (min-width:513px) {
+	.tweet_box {
+		width: 280px;
+		height: 360px;
+		margin-bottom: 10px;
+		overflow: hidden;
+	}
+	.tweet_box .tweet {
+		border: 1px solid rgb(204, 214, 221);
+		margin: 10px 15px;
+		padding: 10px 15px;
+		border-radius: 15px;
+		height: 320px;
+	}
+	.tweet .media_box  {
+		width: 100%;
+		height: 220px;
+		overflow: hidden;
+	}
+	.popup-modal video {
+		max-width: 100%;
+		max-height: 80vh;
+		margin: auto;
+		display: block;
+		border: solid 2px gray;
+		border-radius: 5px;
+	}
+	.popup-modal img {
+		max-width: 100%;
+		max-height: 80vh;
+		margin: auto auto 2px auto;
+		display: block;
+		border: solid 1px gray;
+		border-radius: 5px;
+	}
+}
+
+iframe {
+	width: 100%;
+	height: 100%;
+}
+
+.tweet .text {
+	width: 100%;
+	height: 19px;
+	margin-bottom: 0.5em;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.tweet .media_box .media {
+	width: 100%;
+	margin: auto;
+	overflow: hidden;
+}
+
+.pfofile_image {
+	float: left;
+	width: 46px;
+	height: 46px;
+}
+
+.account_info {
+	width: 218px;
+	margin-left: 2px;
+	white-space: nowrap;
+}
+
+.account_icon {
+	float: left;
+	width: 24px;
+	margin-left: 2px;
+}
+
+.account_info .name {
+	float: left;
+	width: 145px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.display_name {
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+	width: 140px;
+	font-size: 14px;
+	color: rgb(20, 23, 26);
+	font-weight: bold;
+	line-height: 19px;
+}
+
+.account_name {
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+	width: 140px;
+	margin-left: 2px;
+	color: rgb(101, 119, 134);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 19px;
+}
+
+.pfofile_image a img {
+	width: 46px;
+	border-radius: 50%;
+}
+
+.account_icon a img {
+	width: 24px;
+	border-radius: 25%;
+}
+
+.mutter_menu {
+	width: 100%;
+	height: 1.5em;
+	margin: 10px 0px 2px 0px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
 #menu {
 	background-color: #96858f; /* ヘッダメニューの背景 */
 	color: whitesmoke; /* ヘッダメニューの文字色 */
@@ -18,10 +181,129 @@ body {
 	z-index: 100;
 }
 
+.gnav {
+    display: flex;
+    height: 2rem;
+    margin: 1vh auto;
+    width: 100%;
+}
+.gnav > li {/*親階層のみ幅を25%にする*/
+    width: 25%;
+}
+/*全てのリスト・リンク共通*/
+.gnav li {
+    list-style: none;
+    position: relative;
+}
+.gnav li a {
+    background: deepskyblue;
+    border-right: 1px solid #eee;
+    color: #fff;
+    display: block;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+}
+
+/*子階層以降共通*/
+.gnav li li {
+    height: 0;
+    overflow: hidden;
+    transition: .5s;
+}
+.gnav li li a {
+    border-top: 1px solid #eee;
+    border: solid 1px skyblue;
+    color:black;
+    background: azure;
+}
+.gnav li:hover > ul > li {
+    height: 2rem;
+    overflow: visible;
+    width: 200%;
+}
+
+.iine {
+	width: 20%;
+	border: solid 1px gray;
+	text-align: center;
+	font-size: 1em;
+	background-color:azure;
+	color:black;
+}
+.iine > li {/*親階層のみ幅を25%にする*/
+    width: 25%;
+}
+
+.iine li {
+    list-style: none;
+    position: relative;
+}
+.iine li {
+    height: 0;
+    overflow: hidden;
+    transition: .5s;
+}
+.iine li a {
+    background: azure;
+    color: black;
+    border: 1px solid gray;
+    display: block;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+}
+.iine div:hover > ul > li {
+    height: 2rem;
+    overflow: visible;
+    width: 200%;
+}
+
+.iine a {
+	color: inherit;
+}
+
+.iine ul {
+    height: 0;
+    transition: .5s;
+}
+
+.iine div:hover > ul > li {
+    height: 2rem;
+    overflow: visible;
+    width: 100%;
+}
+
+
+
+
+
+
+.twitter-login::before {
+	content: '';
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	background-image: url(/imgs/auth_twitter.png);
+	background-size: contain;
+	vertical-align: middle;
+}
+
+.twitter-login {
+	background-color:#00ACEE;
+	padding:5px;
+	border-radius:3px;
+	margin: 5px auto 5px auto;
+}
+
 #content {
 	/* width: 100vw; */
 	/* min-width: 256px; */
-	max-width: 640px;
+	max-width: 100%;
 	/* padding-left: 5vw; */
 	margin: 0px auto 5vh auto;
 	background-color: white;
@@ -31,16 +313,17 @@ body {
 h1 {
   width: 100%;
   max-width: 90vw;
-  margin: 2vh 0 2vh 0;
+  margin: auto;
   font-size: large;
-  border-bottom: solid 3px skyblue; /* <h1>の下線色 */
+  /*
+  * border-bottom: solid 3px skyblue;
+  */
 }
 h2 {
   width: 100%;
   max-width: 90vw;
   font-size: small;
   margin: 2vh auto 2vh auto;
-  border-bottom: solid 1px skyblue; /* <h2>の下線色 */
 }
 
 .icon .img a {

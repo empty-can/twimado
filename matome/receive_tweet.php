@@ -19,7 +19,7 @@ if($screen_name!="undefined") {
 
         $param->moveValue('ids', 'id');
         $api = "users/show";
-        
+
         // APIアクセス
         $account = getTwitterConnection($tokens->token, $tokens->secret)
                         ->get($api, ['screen_name' => $screen_name]);
@@ -33,9 +33,16 @@ if($screen_name!="undefined") {
     }
 
     if(!empty($user_id)) {
-        echo "INSERT INTO mutter (id, domain, user_id, created_at) VALUES (''$id', '$domain', '$user_id', '$time');";
-        $results = $mydb->insert("INSERT INTO mutter (id, domain, user_id, created_at) VALUES ('$id', '$domain', '$user_id', '$time');");
-        var_dump($results);
+        $result = $mydb->select("SELECT id FROM mutter WHERE id='$id'");
+
+        if(empty($result)) {
+            $sql = "INSERT INTO mutter (id, domain, user_id, created_at, media) VALUES ('$id', '$domain', '$user_id', '$time', 1);";
+
+            $results = $mydb->query($sql);
+            echo $sql;
+        } else {
+            echo "Already registered.";
+        }
     }
 
 

@@ -1,0 +1,8 @@
+PHP Notice:  Undefined property: stdClass::$screen_name in C:\xampp\htdocs\sukipic\WEB-INF\bat\count_followee.php on line 22
+PHP Notice:  Undefined property: stdClass::$name in C:\xampp\htdocs\sukipic\WEB-INF\bat\count_followee.php on line 22
+PHP Notice:  Undefined property: stdClass::$screen_name in C:\xampp\htdocs\sukipic\WEB-INF\bat\count_followee.php on line 22
+PHP Notice:  Undefined property: stdClass::$name in C:\xampp\htdocs\sukipic\WEB-INF\bat\count_followee.php on line 22
+PHP Notice:  Undefined property: stdClass::$screen_name in C:\xampp\htdocs\sukipic\WEB-INF\bat\count_followee.php on line 22
+PHP Notice:  Undefined property: stdClass::$name in C:\xampp\htdocs\sukipic\WEB-INF\bat\count_followee.php on line 22
+PHP Notice:  Undefined property: stdClass::$screen_name in C:\xampp\htdocs\sukipic\WEB-INF\bat\count_followee.php on line 22
+PHP Notice:  Undefined property: stdClass::$name in C:\xampp\htdocs\sukipic\WEB-INF\bat\count_followee.php on line 22

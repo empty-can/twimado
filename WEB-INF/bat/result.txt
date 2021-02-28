@@ -1,0 +1,9 @@
+
+Notice: Undefined index: REMOTE_ADDR in C:\xampp\htdocs\sukipic\WEB-INF\init.php on line 8
+
+Notice: Undefined index: REMOTE_ADDR in C:\xampp\htdocs\sukipic\WEB-INF\init.php on line 14
+followee_id:1269027794
+followee_id:2665441867
+followee_id:2378950532
+followee_id:280754816
+....................................................

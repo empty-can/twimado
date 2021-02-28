@@ -16,6 +16,7 @@ $param->required = ["list_id"];
 $param->optional = ["since_id", "max_id", "count"];
 
 $param->setInitialValue('count', '200');
+$param->setInitialValue('include_rts', 'false');
 $min_count = $param->getValue('count');
 
 $account = $param->putValue('account');

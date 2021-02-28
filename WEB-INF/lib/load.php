@@ -1,5 +1,4 @@
 <?php
-require_once("init.php");
 require_once("Parameters.php");
 require_once("connection/load.php");
 require_once("mutter/load.php");

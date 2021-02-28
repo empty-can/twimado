@@ -10,7 +10,7 @@ $param->setInitialValue('hs', getSessionParam('hs', 'true'));
 $param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
 $param->setInitialValue('mo', getSessionParam('mo', 'true'));
 
-$param->setInitialValue('domain', 'twitterpawoo');
+$param->setInitialValue('domain', 'twitter');
 $param->setInitialValue('count', '5');
 
 $param->setParam('account', Account);
@@ -62,12 +62,14 @@ $embedded_js_int = [
     "count" => AsyncCount
 ];
 
+$smarty->assign("title", AppName);
+$smarty->assign("AppURL", AppURL);
+
 $smarty->assign("embedded_js_params", build_embededd_js_params($embedded_js_params_string, $embedded_js_params_int));
 $smarty->assign("embedded_js", build_embededd_js($embedded_js_string, $embedded_js_int));
 
 $smarty->assign("embedded_mutters", build_embededd_mutters(obj_to_array($response->mutters)));
 
 $smarty->assign("mutters", array());
-
 // テンプレートを表示する
 $smarty->display("timeline.tpl");

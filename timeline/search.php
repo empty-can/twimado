@@ -10,60 +10,62 @@ $param->setInitialValue('hs', getSessionParam('hs', 'true'));
 $param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
 $param->setInitialValue('mo', getSessionParam('mo', 'true'));
 
-$param->setInitialValue('domain', 'twitterpawoo');
-$param->setInitialValue('count', '20');
+$param->setInitialValue('domain', 'twitter');
+$param->setInitialValue('count', '100');
 
 $q = mb_ereg_replace("[　]"," ", $param->getValue('q'));
-$f = $param->getValue('f');
 $searchType = $param->getValue('searchType');
 
-if($searchType=='hash') {
-	$q = '%23'.$q;
-} else if($searchType=='account') {
+if($searchType=='account') {
 	header('Location: /account.php?q='.$q);
     exit;
+} else if($searchType=='hash') {
+	$param->setParam('q', '#'.$q);
 }
 
-if(!empty($f)) {
-	$q .= "%20filter:$f";
-} else if($searchType=='account') {
-	header('Location: /account.php?q='.$q);
-    exit;
-}
-
-$param->setParam('q', $q);
-
-$param->setParam('account', Account);
-$param->setParam('pawoo_id', PawooAccountID);
-$param->setParam('twitter_id', TwitterAccountID);
-
-
-$tmp = getRequest($api, $param->parameters);
-$response = json_decode($tmp);
-
-if(empty($response)) {
-    echo "APIからのデータ取得に失敗しました。";
-    exit();
-}
-
-// レスポンスから取得したデータをセット
-$param->setParam('pawoo_oldest_id', $response->pawoo_oldest_id);
-$param->setParam('twitter_oldest_id', $response->twitter_oldest_id);
-/**
-**/
-
-// 不要になったcountを削除
-$param->unset('count');
-
-$param->setInitialValue('pawoo_oldest_id', '');
+// $param->setInitialValue('pawoo_oldest_id', '');
 $param->setInitialValue('twitter_oldest_id', '');
 
-$query = urldecode(explode('%20filter', $q)[0]);
+// $param->setParam('q', $q);
 
-$image_file_name = getPageImages($query);
+if(true) {
+// if(false) {
+
+    $param->setParam('account', Account);
+    $param->setParam('pawoo_id', PawooAccountID);
+    $param->setParam('twitter_id', TwitterAccountID);
+
+    $tmp = getRequest($api, $param->parameters);
+    $response = json_decode($tmp);
+
+    if(empty($response)) {
+        echo "APIからのデータ取得に失敗しました。";
+        exit();
+    }
+
+    // レスポンスから取得したデータをセット
+    // $param->setParam('pawoo_oldest_id', $response->pawoo_oldest_id);
+    $param->setParam('twitter_oldest_id', $response->twitter_oldest_id);
+    /**
+    **/
+
+    // 不要になったcountを削除
+    $param->unset('count');
+}
+
+if($searchType=='hash') {
+	$q = '#'.$q;
+}
+
+$image_file_name = getPageImages($q);
+
+$f = $param->getValue('f');
+if(!empty($f)) {
+	$q .= " filter:$f";
+}
 
 // assignメソッドを使ってテンプレートに渡す値を設定
-$smarty->assign("title", "$query の検索結果");
+$smarty->assign("title", "$q の検索結果");
 
 $csss=array();
 $csss[] = "timeline";
@@ -85,6 +87,7 @@ $embedded_js_int = [
     "count" => AsyncCount
 ];
 
+$smarty->assign("AppURL", AppURL);
 $smarty->assign("og_image", $image_file_name);
 $smarty->assign("twitter_card", "summary_large_image");
 

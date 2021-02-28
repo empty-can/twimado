@@ -12,7 +12,7 @@ $param->setInitialValue('mo', getSessionParam('mo', 'true'));
 $param->setInitialValue('edit', 'false');
 
 $param->setInitialValue('domain', 'twitterpawoo');
-$param->setInitialValue('count', '20');
+$param->setInitialValue('count', '100');
 
 $param->setParam('account', Account);
 $param->setParam('pawoo_id', PawooAccountID);
@@ -74,6 +74,7 @@ $embedded_js_int = [
     , "edit" => $edit
 ];
 
+$smarty->assign("AppURL", AppURL);
 $smarty->assign("embedded_js_params", build_embededd_js_params($embedded_js_params_string, $embedded_js_params_int));
 $smarty->assign("embedded_js", build_embededd_js($embedded_js_string, $embedded_js_int));
 

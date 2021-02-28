@@ -8,7 +8,7 @@
 			</a>
 		</span -->
 	</div>
-    <script src="{AppURL}/js/jquery-3.3.1.min.js"></script>
+    <!-- script src="{AppURL}/js/jquery-3.3.1.min.js"></script -->
     <script src="{AppURL}/js/common.js?{$smarty.now|date_format:'%Y-%m-%d_%H:%M:%S'}"></script>
 {foreach from=$jss item=js}
     <script src="{AppURL}/js/{$js}.js?{$smarty.now|date_format:'%Y-%m-%d_%H:%M:%S'}"></script>

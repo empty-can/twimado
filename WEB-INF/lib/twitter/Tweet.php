@@ -1,6 +1,9 @@
 <?php
 require_once ("init.php");
 
+use Jenssegers\ImageHash\ImageHash;
+use Jenssegers\ImageHash\Implementations\DifferenceHash;
+
 class Tweet extends StandardMutter implements Mutter {
 
     public $providerIcon = 'https://abs.twimg.com/responsive-web/web/icon-default.604e2486a34a2f6e1.png';
@@ -34,8 +37,8 @@ class Tweet extends StandardMutter implements Mutter {
         $this->originalTime = strtotime($tweet->created_at);
         $this->originalDate = strtotime($tweet->created_at);
 
-        // $this->text = nl2br(searchTag(decorateLinkTag(mb_ereg_replace("http[s]?://t\.co/[a-zA-Z0-9]+", "", $tweet->text))));
-        $this->text = nl2br(searchTag(decorateLinkTag($tweet->text)));
+        $this->text = nl2br(searchTag(decorateLinkTag(mb_ereg_replace("http[s]?://t\.co/[a-zA-Z0-9]+", "", $tweet->text))));
+        // $this->text = nl2br(searchTag(decorateLinkTag($tweet->text)));
         $this->mutterURL = $this->mutterBase.$this->id;
 
         $this->account = new TwitterAccount($tweet->user);
@@ -50,8 +53,9 @@ class Tweet extends StandardMutter implements Mutter {
         $this->favorited = $tweet->favorited;
         $this->retweeted = $tweet->retweeted;
 
-        $this->sensitive = (isset($tweet->possibly_sensitive)) ? $tweet->possibly_sensitive : false;
+        $this->isReply = $tweet->in_reply_to_status_id;
 
+        $this->sensitive = (isset($tweet->possibly_sensitive)) ? $tweet->possibly_sensitive : false;
         // メディアURLを取得
         if(isset($tweet->extended_entities) && isset($tweet->extended_entities->media)) {
             $this->mediaURLs = array();
@@ -79,8 +83,47 @@ class Tweet extends StandardMutter implements Mutter {
                 }
             }
         }
+//         if ((10000 < $tweet->favorite_count) && ($tweet->favorite_count < 200000) && ($this->isImg || $this->isVideo) && ! contains($this->text, "拡散")) {
+//             $isReply = (empty($tweet->in_reply_to_status_id)) ? 0 : 1;
+//             addMatomeTimeline($tweet->id, 'twitter', $this->account->id, strtotime($tweet->created_at), $tweet->favorite_count, $tweet->retweet_count, 1, $isReply);
+//         }
+        // myVarDump("id:".$tweet->id.", accountId:".$this->account->id.", time:".$this->time.", favorite_count:".$tweet->favorite_count.", retweet_count:".$tweet->retweet_count.", isReply:".$isReply);
+        updateMutter($tweet->id, "twitter", $tweet->favorite_count, $tweet->retweet_count);
     }
 
-    public function extractGoods() {
+    public function isNotMediaInfo() {
+        $result = false;
+
+        if(!$this->isImg)
+            return false;
+
+        foreach ($this->media as $medium) {
+            $url = $medium->thumb;
+            $result |= (isMediaInfo($url, $this->originalId, $this->domain)==0);
+        }
+
+        return $result;
+    }
+
+    public static function insertMediaTable(array $tweets) {
+        $mydb = new MyDB();
+        $hasher = new ImageHash(new DifferenceHash());
+        $sql = "";
+        $results = array();
+        foreach ($tweets as $tweet) {
+            $mutterId = $tweet->originalId;
+            $media = $tweet->media;
+
+            foreach ($media as $medium) {
+                $url = $mydb->escape($medium->thumb);
+                $hash = $hasher->hash($url)->toHex();
+                $sql .= "INSERT INTO media VALUES ('$url', $mutterId, 'twitter', '$hash');";
+                $results = $mydb->insert("INSERT INTO media VALUES ('$url', $mutterId, 'twitter', '$hash');");
+            }
+        }
+
+        $mydb->close();
+
+        return $results;
     }
 }

@@ -8,7 +8,7 @@
 <div id="bottom_message" style="text-align: center;"></div>
 <div id="top_menu">
 	<div id="timeline_menu">
-		<div id="home"><a href="{$AppURL}/"><img src="{$app_url}/imgs/home_64.svg"></a></div>
+		<div id="home"><a href="{$AppURL}/"><img src="{$AppURL}/imgs/home_64.svg"></a></div>
 		<div onclick="switchShowTweet();" ontouch="switchShowTweet();"><img id="toggleRetweet" src="{$AppURL}/imgs/retwieet.svg"></div>
 		<div onclick="switchScroll();" ontouch="switchScroll();">
 			<img id="horizontal" src="{$AppURL}/imgs/yoko.svg">
@@ -99,6 +99,9 @@ function regMatome() {
 
         success: function(result, textStatus, xhr) {
         	console.log(result);
+        	if(result.length>50) {
+            	alert('既に登録済みの画像の可能性があります。');
+        	}
 			hideMatomeList();
             console.log('OK');
         },

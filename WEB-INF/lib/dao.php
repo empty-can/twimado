@@ -1,5 +1,70 @@
 <?php
 
+
+function isSameMedia(string $matome_id, string $user_id, string $hash) {
+    $mydb = new MyDB();
+
+    $sql  = "SELECT mutter.id, media.url, mutter.created_at AS created_at, BIT_COUNT(CAST(CONV(media.hash, 16, 10) AS UNSIGNED) ^ CAST(CONV('$hash', 16, 10) AS UNSIGNED)) AS distance";
+    $sql .= " FROM media, matome, mvsm, mutter";
+    $sql .= " WHERE matome.user_id='$user_id' AND matome.id=$matome_id";
+    $sql .= " AND mvsm.mutter_id=mutter.id AND mvsm.mutter_domain=mutter.domain AND mvsm.matome_id=matome.id";
+    $sql .= " AND media.mutter_id=mutter.id AND media.mutter_domain=mutter.domain";
+    $sql .= " AND BIT_COUNT(CAST(CONV(media.hash, 16, 10) AS UNSIGNED) ^ CAST(CONV('$hash', 16, 10) AS UNSIGNED))<=5;";
+    // echo $sql."<br>";
+
+    $results = $mydb->select($sql);
+
+    $flag = false;
+
+    foreach ($results as $result) {
+    	if($result['distance']==0)
+    		$flag=true;
+
+        echo "ID:".$result['id']."<br>\r\n";
+        echo "Created At:".$result['created_at']."<br>\r\n";
+        echo 'DIST:<b style="color:read;">'.$result['distance']."</b><br>\r\n";
+        echo '<img style="display:block;width:100%;" src="'.$result['url'].'">'."\r\n";
+    }
+    $count = count($results);
+    $mydb->close();
+
+
+    return $flag;
+}
+
+/**
+ *
+ * @param string $key
+ * @return $img_url
+ */
+function isMediaInfo(string $url, string $mutterId, string $mutterDomain) {
+    $mydb = new MyDB();
+	$sql = "SELECT count(url) AS count FROM media WHERE url ='$url' AND mutter_id=$mutterId AND mutter_domain='$mutterDomain';";
+	// myVarDump($sql);
+    $results = $mydb->select($sql);
+	// myVarDump($results[0]['count']);
+
+    $mydb->close();
+
+    return $results[0]['count'];
+}
+
+/**
+ *
+ * @param string $key
+ * @return $img_url
+ */
+function insertMediaInfo(string $url, string $mutterId, string $mutterDomain, string $hash) {
+    $mydb = new MyDB();
+	$sql = "INSERT INTO media VALUES ('$url', $mutterId, '$mutterDomain', '$hash');";
+
+    $results = $mydb->insert($sql);
+
+    $mydb->close();
+
+    return $results;
+}
+
 /**
  *
  * @param string $key
@@ -24,7 +89,7 @@ function isPageImages(string $key) {
     $key = $mydb->escape($key);
 
     $results = $mydb->select("SELECT count(image_key) FROM top_images WHERE image_key = '$key';");
-
+    $mydb->close();
     return $results[0]["count(image_key)"];
 }
 
@@ -45,13 +110,13 @@ function setPageImages(string $key, string $image_url) {
     if (! empty($image_url)) {
         $image = file_get_contents($image_url);
         $image_file_name = explode($twimg_url, $image_url)[1];
+    } else {
+        return;
     }
 
     $count = isPageImages($key);
 
-    if (empty($image_url)) {
-        // URLが空の場合は何もしない
-    } else if ($count == 0) {
+    if ($count == 0) {
         file_put_contents($media_base . '/' . $image_file_name, $image);
         $sql = "INSERT INTO top_images (image_key, image_file_name) VALUES ('$key', '$image_file_name');";
         $mydb->query($sql);
@@ -65,17 +130,23 @@ function setPageImages(string $key, string $image_url) {
 
         file_put_contents($media_base . '/' . $image_file_name, $image);
     }
+
+    $mydb->close();
 }
 
 function checkAndCreateCreator(string $user_id) {
     $mydb = new MyDB();
 
-    $results = $mydb->select("SELECT id FROM creator WHERE id = $user_id;");
+//     $results = $mydb->select("SELECT id FROM creator WHERE id = $user_id;");
+    $results = $mydb->select("SELECT id FROM new_creator WHERE id = $user_id;");
+    $mydb->close();
 
     if(empty($results)){
         $tokens = getTwitterTokens();
 
         $api = "users/show";
+
+        retry_get_user_account:
 
         // APIアクセス
         $account = getTwitterConnection($tokens->token, $tokens->secret)
@@ -83,11 +154,28 @@ function checkAndCreateCreator(string $user_id) {
 
         $date = date('Y-m-d H:i:s');
 
+        if (isset($account->errors)) {
+            foreach($account->errors as $error) {
+                if($error->code == 50) {
+                    return;
+                }
+
+                echo "===============\r\n";
+                echo var_dump($error);
+                echo "\r\n===============\r\n";
+                sleep(930);
+                goto retry_get_user_account;
+            }
+        }
+
         echo "new followee!\r\n$account->name@$account->screen_name\r\n";
 
-        $sql = "INSERT INTO creator (id, domain, screen_name, name) VALUES ('$user_id', 'twitter', '$account->screen_name', '$account->name');";
-        $sql = "INSERT INTO new_creator (id, domain, screen_name, name, follow_date) VALUES ('$user_id', 'twitter', '$account->screen_name', '$account->name', '$date');";
+        insertCreator($user_id, 'twitter', $account->screen_name, $account->name, $account->profile_image_url_https, $account->followers_count);
+
+        $mydb = new MyDB();
+        $sql = "INSERT INTO new_creator (id, domain, screen_name, name, follow_date, crawled) VALUES ('$user_id', 'twitter', '$account->screen_name', '$account->name', '$date', 0);";
         $results = $mydb->insert($sql);
+        $mydb->close();
     }
 }
 
@@ -103,11 +191,12 @@ function getLatestMutter(string $user_id, string $domain) {
     $user_id = $mydb->escape($user_id);
     $domain = $mydb->escape($domain);
 
-    $sql = "SELECT mutter.created_at AS created_at FROM creator, mutter"
-        ." WHERE mutter.user_id = creator.id AND mutter.domain = '".$domain."' AND creator.id = $user_id"
+    $sql = "SELECT created_at AS created_at FROM mutter"
+        ." WHERE mutter.user_id = '$user_id' AND mutter.domain = '".$domain."'"
         ." ORDER BY mutter.created_at DESC LIMIT 1;";
-
-    $results = $mydb->select($sql);
+// echo "$sql\r\n";
+$results = $mydb->select($sql);
+// echo "$sql\r\n";
 
     $mydb->close();
 
@@ -125,8 +214,10 @@ function getLatestMutter(string $user_id, string $domain) {
  * @param string $domain
  * @param string $screen_name
  * @param string $name
+ * @param string $profile_image_url_https
+ * @param int $followers_count
  */
-function insertCreator(string $user_id, string $domain, string $screen_name, string $name) {
+function insertCreator(string $user_id, string $domain, string $screen_name, string $name, string $profile_image_url_https, int $followers_count) {
     $results = "";
 
     $mydb = new MyDB();
@@ -135,13 +226,45 @@ function insertCreator(string $user_id, string $domain, string $screen_name, str
     $screen_name = $mydb->escape($screen_name);
     $name = $mydb->escape($name);
 
-    $sql = "INSERT INTO creator (`id`, `domain`, `screen_name`, `name`) VALUES ($user_id, '$domain', '$screen_name', '$name');";
+    $sql = "INSERT INTO creator (`id`, `domain`, `screen_name`, `name`, `profile_image`, `followers_count`) "
+        ."VALUES ($user_id, '$domain', '$screen_name', '$name', '$profile_image_url_https', $followers_count);";
 
+        $results = $mydb->insert($sql);
+
+        $mydb->close();
+
+        return $results[0]['count(id)'];
+}
+
+/**
+ *
+ * @param string $user_id
+ * @param string $domain
+ * @param string $screen_name
+ * @param string $name
+ * @param string $profile_image_url_https
+ * @param int $followers_count
+ */
+function updateCreator(string $user_id, string $domain, string $screen_name, string $name, string $profile_image_url_https, int $followers_count) {
+    $results = "";
+
+    $mydb = new MyDB();
+    $user_id = $mydb->escape($user_id);
+    $domain = $mydb->escape($domain);
+    $screen_name = $mydb->escape($screen_name);
+    $name = $mydb->escape($name);
+
+    $sql = "UPDATE creator SET ";
+    $sql .= "screen_name='$screen_name', ";
+    $sql .= "name='$name', ";
+    $sql .= "profile_image='$profile_image_url_https', ";
+    $sql .= "followers_count=$followers_count ";
+    $sql .= "WHERE id='$user_id' AND domain='$domain';";
     $results = $mydb->insert($sql);
 
     $mydb->close();
 
-    return $results[0]['count(id)'];
+    return $results[0];
 }
 
 function existCreator(string $user_id, string $domain) {
@@ -161,17 +284,96 @@ function existCreator(string $user_id, string $domain) {
 
 }
 
+function updateMutter(string $id, string $domain, int $fav, int $rt) {
+    $mydb = new MyDB();
+    $sql = "UPDATE mutter SET fav = $fav, rt = $rt WHERE id='$id' AND domain='$domain';";
+    $results = $mydb->query($sql);
+    $mydb->close();
+
+    return $results;
+}
+
+
 /**
  *
  * @param string $id
  * @param string $domain
  * @param string $user_id
  * @param int $time
+ * @param int $fav
+ * @param int $rt
+ * @param int $is_reply
+ * @param int $possibly_sensitive
+ * @param array $tags
+ * @param object $urls
+ * @param object $extendedMedia
  */
-function addMatomeTimeline(string $id, string $domain, string $user_id, int $time) {
+function addTweet(string $id, string $domain, string $user_id
+    , int $time, int $fav, int $rt, int $is_reply = 0
+    , int $possibly_sensitive = 0
+    , array $tags = array(), array $urls = array(), array $extendedMedia = array())
+{
+    $mydb = new MyDB();
+    $urls = $mydb->escape(json_encode($urls));
+    $extendedMedia = $mydb->escape(json_encode($extendedMedia));
 
+    $created_at = date('Y-m-d H:i:s', $time);
+
+    $results = $mydb->select("SELECT id FROM mutter WHERE id = '$id';");
+
+    if (empty($results)) {
+        $sql = "INSERT INTO mutter ";
+        $sql .= "(id, domain, user_id, created_at, fav, rt, media, is_reply, possibly_sensitive, urls, extendedMedia, updated) ";
+        $sql .= "VALUES ('$id', '$domain', '$user_id', '$created_at', $fav, $rt, 1, $is_reply, $possibly_sensitive, '$urls', '$extendedMedia', 6);";
+//         echo "$sql\r\n";
+        $results = $mydb->insert($sql);
+
+        foreach ($tags as $tag) {
+            $tag = $mydb->escape($tag);
+            $sql = "INSERT INTO tags ";
+            $sql .= "(mutter_id, domain, tag, created_at, user_id) ";
+            $sql .= "VALUES ('$id', '$domain', '$tag', '$created_at', '$user_id');";
+
+            $results = $mydb->insert($sql);
+        }
+    } else {
+        $sql = "UPDATE mutter ";
+        $sql .= "SET fav = $fav, rt = $rt , body=NULL, updated=6 ";
+        $sql .= "WHERE id='$id' AND domain='$domain';";
+//         echo "$sql\r\n";
+        $results = $mydb->query($sql);
+
+        foreach ($tags as $tag) {
+            $tag = $mydb->escape($tag);
+
+            $sql = "INSERT INTO tags ";
+            $sql .= "(mutter_id, domain, tag, created_at, user_id) ";
+            $sql .= "VALUES ('$id', '$domain', '$tag', '$created_at', '$user_id');";
+
+            $results = $mydb->insert($sql);
+        }
+    }
+
+    $mydb->close();
+}
+
+/**
+ *
+ * @param string $id
+ * @param string $domain
+ * @param string $user_id
+ * @param int $time
+ * @param int $fav
+ * @param int $rt
+ */
+function addMatomeTimeline(string $id, string $domain, string $user_id, int $time, int $fav, int $rt, int $media, int $is_reply=0, int $possibly_sensitive=0, object $body=NULL) {
     $mydb = new MyDB();
 
+    if($body!=NULL) {
+        $body = "'".$mydb->escape(json_encode($body))."'";
+    }
+
+	/**
     $results = $mydb->select("SELECT id FROM creator WHERE id = '$user_id';");
 
     if(empty($results)){
@@ -183,21 +385,64 @@ function addMatomeTimeline(string $id, string $domain, string $user_id, int $tim
         $account = getTwitterConnection($tokens->token, $tokens->secret)
         ->get($api, ['user_id' => $user_id]);
 
-//         myVarDump($account);
+        //         myVarDump($account);
 
         $user_id = $account->id_str;
         $sql = "INSERT INTO creator (id, domain, screen_name, name) VALUES ('$user_id', 'twitter', '$account->screen_name', '$account->name');";
         $results = $mydb->insert($sql);
     }
+    **/
 
-    $created_at = date('Y-m-d H:i:s', $time);
-//     echo "INSERT INTO mutter (id, domain, user_id, created_at) VALUES (''$id', '$domain', '$user_id', '$time');";
-    $results = $mydb->insert("INSERT INTO mutter (id, domain, user_id, created_at) VALUES ('$id', '$domain', '$user_id', '$created_at');");
-//     echo "INSERT INTO mutter (id, domain, user_id, created_at) VALUES ('$id', '$domain', '$user_id', '$created_at');";
-//     echo "\r\n";
-//     var_dump($results);
+    $results = $mydb->select("SELECT id FROM mutter WHERE id = '$id';");
+
+    if(empty($results)){
+        $created_at = date('Y-m-d H:i:s', $time);
+        $sql = "INSERT INTO mutter (id, domain, user_id, created_at, fav, rt, media, is_reply, possibly_sensitive, body, updated) VALUES ('$id', '$domain', '$user_id', '$created_at', $fav, $rt, $media, $is_reply, $possibly_sensitive, $body, 2);";
+        //myVarDump($sql);
+        $results = $mydb->insert($sql);
+        // echo $sql."\r\n";
+        // var_dump($results);
+    } else {
+//         if($media==0) {
+//             $sql = "DELETE FROM mutter WHERE id='$id';";
+//         } else {
+            $sql = "UPDATE mutter SET fav = $fav, rt = $rt , media = $media, is_reply=$is_reply, possibly_sensitive=$possibly_sensitive, updated=2, body=$body WHERE id='$id' AND domain='$domain';";
+//         }
+
+//        myVarDump($sql);
+        $results = $mydb->query($sql);
+//         echo $sql."\r\n";
+        // var_dump($results);
+    }
+
 
     $mydb->close();
+}
+
+function getNewTweet(int $limit=100) {
+    $mydb = new MyDB();
+    $sql = "SELECT id FROM mutter ORDER BY created_at DESC LIMIT $limit;";
+    $results = $mydb->select($sql);
+
+    $mydb->close();
+
+    return $results;
+}
+
+function getFavRanking(string $fromday, string $today="") {
+    $mydb = new MyDB();
+
+    if(empty($today)) {
+        $sql = "SELECT id FROM mutter WHERE created_at > '$fromday' ORDER BY fav DESC LIMIT 100;";
+    } else {
+        $sql = "SELECT id FROM mutter WHERE created_at BETWEEN '$fromday' AND '$today' ORDER BY fav DESC LIMIT 100;";
+    }
+    // myVarDump($sql);
+    $results = $mydb->select($sql);
+
+    $mydb->close();
+
+    return $results;
 }
 
 function getAllCreators() {
@@ -445,7 +690,7 @@ function getMatomeList(string $user_id="", string $domain="") {
  * @param int $asc
  * @return string
  */
-function getMutterIds(string $account_id="", string $mutter_id=null, int $limit=100, int $asc=1) {
+function getMutterIds(string $account_id="", string $mutter_id=null, int $limit=100, int $asc=1, bool $media_only=true) {
     $results = "";
 
     if(!empty($account_id)) {
@@ -453,6 +698,10 @@ function getMutterIds(string $account_id="", string $mutter_id=null, int $limit=
         $account_id = $mydb->escape($account_id);
 
         $sql = "SELECT id, created_at FROM mutter AS a WHERE a.user_id = '$account_id'";
+
+        if($media_only) {
+            $sql .= " AND media=1";
+        }
 
         if(empty($mutter_id)) {
             if($asc==0) {

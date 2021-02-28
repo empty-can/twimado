@@ -12,7 +12,7 @@ $param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
 $param->setInitialValue('mo', getSessionParam('mo', 'true'));
 
 $param->setInitialValue('domain', 'twitterpawoo');
-$param->setInitialValue('count', '5');
+$param->setInitialValue('count', '25');
 $param->setInitialValue('edit', 'false');
 
 $param->setParam('account', Account);
@@ -36,7 +36,7 @@ if(empty($response)) {
     exit();
 }
 
-$param->setParam('count', '100');
+$param->setParam('count', '25');
 
 // レスポンスから取得したデータをセット
 if(isset($response->pawoo_oldest_id)) {

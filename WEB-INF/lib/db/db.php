@@ -76,12 +76,39 @@ class MyDB {
         $result = $this->dbo->query($query);
 
         if (!$result) {
-          echo $query;
-          printf("Errormessage: %s\n", $this->dbo->error);
-          exit();
+            echo $query;
+            printf("Errormessage: %s\n", $this->dbo->error);
+            exit();
         }
 
         return $result;
+    }
+
+    /**
+     * トランザクションの開始
+     *
+     * @return boolean
+     */
+    function begin_transaction() {
+        return $this->dbo->begin_transaction();
+    }
+
+    /**
+     * トランザクションのコミット
+     *
+     * @return boolean
+     */
+    function commit() {
+        return $this->dbo->commit();
+    }
+
+    /**
+     * トランザクションのロールバック
+     *
+     * @return boolean
+     */
+    function rollback() {
+        return $this->dbo->rollback();
     }
 
     /**

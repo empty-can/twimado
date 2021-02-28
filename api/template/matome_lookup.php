@@ -3,8 +3,12 @@ require_once ("init.php");
 
 
 $param = new Parameters();
-// $param->constructFromGetParameters();
-$param->constructFromPostParameters();
+
+if(isPost()) {
+    $param->constructFromPostParameters();
+} else {
+    $param->constructFromGetParameters();
+}
 
 $param->setInitialValue('hs', 'true');
 $param->setInitialValue('thumb', 'true');
@@ -32,9 +36,9 @@ if (contains($domain, 'twitter')) {
     $api = AppURL . '/api/twitter/lookup.php';
 
     $twitter_param = clone $param;
-    
+
     $twitter_param->moveValue('twitter_id', 'id');
-    $twitter_param->setInitialValue('count', '100');
+    $twitter_param->setInitialValue('count', '25');
 
     $twitter_oldest_id = $twitter_param->getValue('twitter_oldest_id');
     $twitter_latest_id = $twitter_param->getValue('twitter_latest_id');

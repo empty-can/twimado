@@ -1,6 +1,47 @@
 <?php
 require_once ("init.php");
 
+function isReliableBot() {
+	$ua = $_SERVER['HTTP_USER_AGENT'];
+
+	if(contains($ua,'Twitterbot'))
+		return true;
+	else if(contains($ua,'line-poker'))
+		return true;
+	else if(contains($ua,'Discordbot'))
+		return true;
+	else if(contains($ua,'SkypeUriPreview'))
+		return true;
+	else if(contains($ua,'Slackbot-LinkExpanding'))
+		return true;
+	else
+		return false;
+}
+
+/**
+ *
+ * リクエストが POST であれば true そうでなければ false
+ */
+function isPost()
+{
+    if ('POST' == getServerParam('REQUEST_METHOD', '')) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ *
+ * リクエストが GET であれば true そうでなければ false
+ */
+function isGet()
+{
+    if ('GET' == getServerParam('REQUEST_METHOD', '')) {
+        return true;
+    }
+    return false;
+}
+
 /**
  *
  * @param string $target
@@ -162,8 +203,8 @@ function getRequest(string $url, array $params = array()) {
             "content" => $data
         )
     );
-//     echo '<a href="'.$url.'?'.$data.'" target="_blank">'.$url.'?'.$data.'</a>';
-//     exit();
+    // echo '<a href="'.$url.'?'.$data.'" target="_blank">'.$url.'?'.$data.'</a>';
+    // exit();
     return file_get_contents($url, false, stream_context_create($context));
 }
 

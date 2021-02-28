@@ -10,6 +10,15 @@ body {
 	margin-top: 50px;
 }
 
+iframe {
+	width:512px;
+	overflow:auto;
+	max-width:100%;
+	max-height:100vh;
+	margin:auto;
+	display:block;
+}
+
 .mutter {
     width: 98vw;
     height: auto;
@@ -170,8 +179,10 @@ body {
 }
 
 #timeline_menu {
-	/* display: flex; */
-	display: none;
+	/* display: flex;
+	 *
+	 * display: none;
+	 */
 	justify-content: space-around;
 	align-items: center;
 	width: 100vw;

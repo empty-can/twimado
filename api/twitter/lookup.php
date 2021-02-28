@@ -14,7 +14,9 @@ if(isPost()) {
 
 $param->required = ["ids"];
 
-$param->setInitialValue('count', '200');
+$param->setInitialValue('count', '100');
+$param->setInitialValue('account', '');
+$param->setInitialValue('id', '');
 $min_count = $param->getValue('count');
 
 $account = $param->putValue('account');
@@ -35,6 +37,7 @@ if(!empty($validated)) {
 
 // アクセストークンの取得
 $tokens = getTwitterTokens($account, $passenger_id, true);
+
 
 if($tokens->isEmpty()) {
     echo "認証情報が取得できませんでした。";
@@ -71,6 +74,7 @@ $latest = null;
 $i = (int)0;
 $originalId = PHP_INT_MAX;
 $latestId = 1;
+// $new_media_tweets = array();
 
 foreach ($tweets as $tweet) {
     $tmp = new Tweet($tweet);
@@ -85,8 +89,16 @@ foreach ($tweets as $tweet) {
         $latest = $tmp;
     }
 
+//     if($tmp->isNotMediaInfo()) {
+//         $new_media_tweets[] = $tmp;
+//     }
+
     if(isset($mutters[$tmp->originalId])) {
-        continue;
+        if($tmp->account()->id()==$mutters[$originalId]->account()->id()) {
+            $mutters[$originalId]=$tmp;
+        } else {
+            continue;
+        }
     } else if($media_only=='false') {
         $mutters[$tmp->originalId] = $tmp;
         $i++;
@@ -99,6 +111,8 @@ foreach ($tweets as $tweet) {
         break;
 }
 /*-------------------------------------------------*/
+// myVarDump($mutters);
+// Tweet::insertMediaTable($new_media_tweets);
 
 // 新しいツイートが取得できているかどうかのチェック
 if($param->getValue('max_id') === $oldest->originalId) {
@@ -124,6 +138,6 @@ if(!empty($stdout)) {
     $response = getResponse($mutters, $oldest, $latest);
     $response['twitter_oldest_id'] = $originalId;
 }
-
+// myVarDump($response);
 echo json_encode($response);
 /*-------------------------------------------------*/

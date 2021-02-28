@@ -6,19 +6,17 @@ $api = AppURL . '/api/template/home_timeline.php';
 $param = new Parameters();
 $param->constructFromGetParameters();
 
-$param->setInitialValue('hs', getSessionParam('hs', 'true'));
+$param->setInitialValue('hs', false);
 $param->setInitialValue('thumb', getSessionParam('thumb', 'true'));
-$param->setInitialValue('mo', getSessionParam('mo', 'true'));
+$param->setInitialValue('mo', getSessionParam('mo', 'false'));
 
-$param->setInitialValue('domain', 'twitterpawoo');
-$param->setInitialValue('count', '20');
+$param->setInitialValue('domain', 'twitter');
+$param->setInitialValue('count', '200');
 
 $param->setParam('account', Account);
 $param->setParam('pawoo_id', PawooAccountID);
 $param->setParam('twitter_id', TwitterAccountID);
 
-/**
-// TLを取得
 $tmp = getRequest($api, $param->parameters);
 $response = my_json_decode($tmp);
 
@@ -27,16 +25,19 @@ if(empty($response)) {
     exit();
 }
 
-**/
-
 // 不要になったcountを削除
 $param->unset('count');
 
-
 // レスポンスから取得したデータをセット
-$param->setParam('pawoo_oldest_id', $response->pawoo_oldest_id);
-$param->setParam('twitter_oldest_id', $response->twitter_oldest_id);
-
+if(isset($response->pawoo_oldest_id)) {
+    $param->setParam('pawoo_oldest_id', $response->pawoo_oldest_id);
+}
+if(isset($response->twitter_oldest_id)) {
+    $param->setParam('twitter_oldest_id', $response->twitter_oldest_id);
+}
+if(isset($response->twitter_latest_id)) {
+    $param->setParam('twitter_latest_id', $response->twitter_latest_id);
+}
 
 // assignメソッドを使ってテンプレートに渡す値を設定
 $smarty->assign("title", "ホームタイムライン");
@@ -60,15 +61,11 @@ $embedded_js_string = [
 $embedded_js_int = [
     "count" => AsyncCount
 ];
-$embedded_js_params_int = array_merge($embedded_js_params_int, array());
-$embedded_js_string = array_merge($embedded_js_params_int, array("api" => $api));
-$embedded_js_int = array_merge($embedded_js_int, array());
 
 $smarty->assign("embedded_js_params", build_embededd_js_params($embedded_js_params_string, $embedded_js_params_int));
 $smarty->assign("embedded_js", build_embededd_js($embedded_js_string, $embedded_js_int));
 
-// $smarty->assign("embedded_mutters", build_embededd_mutters(obj_to_array($response->mutters)));
-$smarty->assign("embedded_mutters", build_embededd_mutters(array()));
+$smarty->assign("embedded_mutters", build_embededd_mutters(obj_to_array($response->mutters)));
 
 $smarty->assign("mutters", array());
 

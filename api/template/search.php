@@ -15,14 +15,7 @@ $param->setInitialValue('thumb', 'true');
 $domain = $param->putValue('domain');
 $thumb = $param->putValue('thumb');
 $hs = $param->putValue('hs');
-
-$q = urlencode($param->getValue('q'));
-$f = urlencode($param->getValue('f'));
-$searchType = urlencode($param->getValue('searchType'));
-
-if(!empty($f)) {
-    $q .= '%20filter:'.$f;
-}
+$q = $param->getValue('q');
 
 $response = array();
 $response['mutters'] = array();
@@ -57,9 +50,10 @@ if (contains($domain, 'twitter')) {
 
     $twitter_param = clone $param;
     $twitter_param->moveValue('twitter_id', 'id');
-    $twitter_param->setInitialValue('count', '200');
+    $twitter_param->setInitialValue('count', '100');
     $twitter_param->moveValue('twitter_oldest_id', 'max_id');
-
+// echo json_encode($twitter_param->parameters);
+// exit();
     $twitter_result = getMutters($api, $twitter_param->parameters, $twitter_oldest_id);
 
 	$response['mutters']  = array_merge($response['mutters'] , $twitter_result['mutters']);
